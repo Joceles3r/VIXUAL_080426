@@ -1,0 +1,159 @@
+/**
+ * VISUAL - Centralized API Error Handler
+ *
+ * Standardized error codes and response format for all API routes.
+ * Replaces ad-hoc error handling with consistent, debuggable error responses.
+ */
+
+import { NextResponse } from "next/server";
+
+// ── Error Codes ──
+
+export const ErrorCodes = {
+  // Auth / Access
+  ERR_UNAUTHORIZED: "ERR_UNAUTHORIZED",
+  ERR_FORBIDDEN: "ERR_FORBIDDEN",
+  ERR_USER_NOT_FOUND: "ERR_USER_NOT_FOUND",
+
+  // Input validation
+  ERR_INVALID_INPUT: "ERR_INVALID_INPUT",
+  ERR_MISSING_FIELD: "ERR_MISSING_FIELD",
+  ERR_INVALID_AMOUNT: "ERR_INVALID_AMOUNT",
+
+  // Payment / Stripe
+  ERR_PAYMENT_FAILED: "ERR_PAYMENT_FAILED",
+  ERR_PAYMENT_DUPLICATE: "ERR_PAYMENT_DUPLICATE",
+  ERR_STRIPE_WEBHOOK_INVALID: "ERR_STRIPE_WEBHOOK_INVALID",
+  ERR_STRIPE_CONNECT_REQUIRED: "ERR_STRIPE_CONNECT_REQUIRED",
+  ERR_STRIPE_ACCOUNT_MISSING: "ERR_STRIPE_ACCOUNT_MISSING",
+  ERR_STRIPE_ACCOUNT_NOT_VERIFIED: "ERR_STRIPE_ACCOUNT_NOT_VERIFIED",
+  ERR_STRIPE_TRANSFER_FAILED: "ERR_STRIPE_TRANSFER_FAILED",
+
+  // Bunny CDN
+  ERR_BUNNY_UPLOAD_FAILED: "ERR_BUNNY_UPLOAD_FAILED",
+  ERR_BUNNY_FILE_NOT_FOUND: "ERR_BUNNY_FILE_NOT_FOUND",
+
+  // Business rules
+  ERR_SELF_INVESTMENT: "ERR_SELF_INVESTMENT",
+  ERR_KYC_REQUIRED: "ERR_KYC_REQUIRED",
+  ERR_MINOR_RESTRICTED: "ERR_MINOR_RESTRICTED",
+  ERR_INSUFFICIENT_POINTS: "ERR_INSUFFICIENT_POINTS",
+  ERR_CONTENT_NOT_OPEN: "ERR_CONTENT_NOT_OPEN",
+  ERR_CONTENT_NOT_FOUND: "ERR_CONTENT_NOT_FOUND",
+  ERR_ROLE_REQUIRED: "ERR_ROLE_REQUIRED",
+  ERR_CESSION_CLOSED: "ERR_CESSION_CLOSED",
+
+  // Wallet / Financial
+  ERR_INSUFFICIENT_BALANCE: "ERR_INSUFFICIENT_BALANCE",
+  ERR_CAUTION_ALREADY_PAID: "ERR_CAUTION_ALREADY_PAID",
+  ERR_WALLET_NOT_FOUND: "ERR_WALLET_NOT_FOUND",
+  ERR_ACCOUNT_SUSPENDED: "ERR_ACCOUNT_SUSPENDED",
+
+  // VIXUpoints
+  ERR_VISUPOINTS_DAILY_CAP: "ERR_VISUPOINTS_DAILY_CAP",
+  ERR_VISUPOINTS_PROFILE_CAP: "ERR_VISUPOINTS_PROFILE_CAP",
+  ERR_VISUPOINTS_ABUSE_DETECTED: "ERR_VISUPOINTS_ABUSE_DETECTED",
+  ERR_VISUPOINTS_INVALID_ACTION: "ERR_VISUPOINTS_INVALID_ACTION",
+
+  // Payout
+  ERR_PAYOUT_INTEGRITY: "ERR_PAYOUT_INTEGRITY",
+  ERR_PAYOUT_NO_INVESTMENTS: "ERR_PAYOUT_NO_INVESTMENTS",
+  ERR_PAYOUT_ALREADY_DISTRIBUTED: "ERR_PAYOUT_ALREADY_DISTRIBUTED",
+  ERR_PAYOUT_BATCH_LOCKED: "ERR_PAYOUT_BATCH_LOCKED",
+  ERR_PAYOUT_NOT_BATCH_DAY: "ERR_PAYOUT_NOT_BATCH_DAY",
+
+  // Trust Score
+  ERR_TRUST_SCORE_LOW: "ERR_TRUST_SCORE_LOW",
+  ERR_TRUST_EVENT_INVALID: "ERR_TRUST_EVENT_INVALID",
+
+  // Minor restrictions
+  ERR_MINOR_NO_EURO: "ERR_MINOR_NO_EURO",
+  ERR_MINOR_GUARDIAN_REQUIRED: "ERR_MINOR_GUARDIAN_REQUIRED",
+  ERR_MINOR_GUARDIAN_EXPIRED: "ERR_MINOR_GUARDIAN_EXPIRED",
+  ERR_MINOR_WITHDRAW_BLOCKED: "ERR_MINOR_WITHDRAW_BLOCKED",
+
+  // Verified Creator
+  ERR_VERIFICATION_PENDING: "ERR_VERIFICATION_PENDING",
+  ERR_OWNERSHIP_REQUIRED: "ERR_OWNERSHIP_REQUIRED",
+
+  // Pseudonym / Identity
+  ERR_PSEUDONYM_TAKEN: "ERR_PSEUDONYM_TAKEN",
+  ERR_PSEUDONYM_INVALID: "ERR_PSEUDONYM_INVALID",
+
+  // Promotion
+  ERR_PROMO_COOLDOWN: "ERR_PROMO_COOLDOWN",
+  ERR_PROMO_LIMIT_REACHED: "ERR_PROMO_LIMIT_REACHED",
+
+  // Withdraw review
+  ERR_WITHDRAW_HOLD: "ERR_WITHDRAW_HOLD",
+  ERR_WITHDRAW_REVIEW_PENDING: "ERR_WITHDRAW_REVIEW_PENDING",
+  ERR_WITHDRAW_NOT_FOUND: "ERR_WITHDRAW_NOT_FOUND",
+
+  // Security / Identity / VPN Risk Gate
+  ERR_VPN_STEP_UP_REQUIRED: "ERR_VPN_STEP_UP_REQUIRED",
+  ERR_VERIFICATION_LEVEL_1_REQUIRED: "ERR_VERIFICATION_LEVEL_1_REQUIRED",
+  ERR_VERIFICATION_LEVEL_2_REQUIRED: "ERR_VERIFICATION_LEVEL_2_REQUIRED",
+  ERR_STEP_UP_EXPIRED: "ERR_STEP_UP_EXPIRED",
+  ERR_IP_RISK_DETECTED: "ERR_IP_RISK_DETECTED",
+  ERR_WITHDRAWAL_REVIEW_72H: "ERR_WITHDRAWAL_REVIEW_72H",
+
+  // Rate limiting
+  ERR_RATE_LIMITED: "ERR_RATE_LIMITED",
+
+  // Webhook
+  ERR_WEBHOOK_DUPLICATE: "ERR_WEBHOOK_DUPLICATE",
+  ERR_WEBHOOK_PROCESSING: "ERR_WEBHOOK_PROCESSING",
+
+  // Generic
+  ERR_INTERNAL: "ERR_INTERNAL",
+  ERR_DATABASE: "ERR_DATABASE",
+} as const;
+
+export type ErrorCode = (typeof ErrorCodes)[keyof typeof ErrorCodes];
+
+// ── Standard error response ──
+
+export interface ApiErrorResponse {
+  error: string;
+  code: ErrorCode;
+  details?: string;
+  timestamp: string;
+}
+
+/**
+ * Creates a standardized JSON error response.
+ */
+export function apiError(
+  code: ErrorCode,
+  message: string,
+  status: number,
+  details?: string
+): NextResponse<ApiErrorResponse> {
+  return NextResponse.json(
+    {
+      error: message,
+      code,
+      details,
+      timestamp: new Date().toISOString(),
+    },
+    { status }
+  );
+}
+
+/**
+ * Wraps an async route handler with consistent error catching.
+ * Catches unhandled errors and returns a standardized 500 response.
+ */
+export function withErrorHandler(
+  handler: (req: Request) => Promise<NextResponse>
+) {
+  return async (req: Request): Promise<NextResponse> => {
+    try {
+      return await handler(req);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Internal server error";
+      console.error(`[VISUAL API ERROR] ${message}`, error);
+      return apiError(ErrorCodes.ERR_INTERNAL, message, 500);
+    }
+  };
+}
