@@ -1,5 +1,5 @@
 /**
- * VISUAL - Batch Payout Module
+ * VISUAL - Batch Payout Module (Server-only)
  *
  * Orchestrates monthly batch payouts across all categories.
  * Flow: simulate -> review -> execute
@@ -10,6 +10,7 @@
  * 3. Aggregates simulations
  * 4. On execute: writes ledger entries + credits wallets
  */
+import "server-only";
 
 import { sql } from "@/lib/db";
 import { computePayoutAllocations } from "./payout-engine";

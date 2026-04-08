@@ -28,7 +28,7 @@ import {
   BadgesGrid,
   TrustScoreExplanation,
 } from "@/components/trust-score-display"
-import { type TrustScore, TRUST_BADGES, type BadgeType } from "@/lib/trust"
+import { type TrustScore, TRUST_BADGES, type BadgeType } from "@/lib/trust/types"
 
 // Mock data - En production, vient de la base de donnees
 const MOCK_TRUST_SCORE: TrustScore = {

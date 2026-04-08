@@ -1,6 +1,7 @@
 /**
- * VISUAL Trust Score -- Database Repository
+ * VISUAL Trust Score -- Database Repository (Server-only)
  */
+import "server-only";
 
 import { sql } from "@/lib/db";
 import type { TrustProfile, TrustEvent, TrustLevel } from "./types";

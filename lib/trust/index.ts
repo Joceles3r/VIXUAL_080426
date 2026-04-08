@@ -1,9 +1,12 @@
 /**
- * VIXUAL Trust System - Central Index
+ * VIXUAL Trust System - Central Index (Server-only)
  * 
  * Consolidation of trust-system.ts and lib/trust/* modules.
  * Import: import { ... } from "@/lib/trust"
+ * 
+ * NOTE: For client components, import types directly from "@/lib/trust/types"
  */
+import "server-only";
 
 // ── Types ──
 export {

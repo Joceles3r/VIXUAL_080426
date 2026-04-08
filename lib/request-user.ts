@@ -1,11 +1,12 @@
 /**
- * VIXUAL - Request User Helper
+ * VIXUAL - Request User Helper (Server-only)
  *
  * Extracts and validates user identity from request headers.
  * In production, this would validate a JWT or session token.
  * Currently reads from x-vixual-user-id / x-vixual-user-email headers
  * set by the auth context or middleware.
  */
+import "server-only";
 
 import { sql } from "@/lib/db";
 

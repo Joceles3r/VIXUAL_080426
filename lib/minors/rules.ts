@@ -1,5 +1,5 @@
 /**
- * VIXUAL Minors Module -- Rules
+ * VIXUAL Minors Module -- Rules (Server-only)
  *
  * Mineurs 16-17 ans:
  * - VIXUpoints ONLY (pas d'euros, pas de paiement hybride)
@@ -9,6 +9,7 @@
  * - Plafond VIXUpoints: 100/jour, 500/semaine, 10000 total
  * - Autorisation parentale requise et renouvelee tous les 12 mois
  */
+import "server-only";
 
 import { sql } from "@/lib/db";
 
