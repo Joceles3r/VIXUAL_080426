@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ReportButton } from "@/components/report-button"
-import { VisualSlogan } from "@/components/visual-slogan"
+import { VisualSlogan } from "@/components/vixual-slogan"
 import {
   ChevronDown,
   Eye,

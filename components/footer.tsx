@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { VisualSlogan } from "@/components/visual-slogan"
+import { VisualSlogan } from "@/components/vixual-slogan"
 import { Phone, Mail, MapPin, Users, MessageCircle, Lock, Heart } from "lucide-react"
 
 export function Footer() {
