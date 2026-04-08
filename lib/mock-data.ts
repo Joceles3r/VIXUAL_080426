@@ -25,7 +25,7 @@ export interface Content {
   totalVotes: number
   isFree: boolean
   category: string
-  goldPass?: boolean // Createur ayant le Gold Pass
+  hasTicketGoldActive?: boolean // Projet ayant un Ticket Gold actif
   duration?: string // Pour les videos et podcasts
   wordCount?: number // Pour les ecrits
   episodeCount?: number // Pour les podcasts
@@ -57,17 +57,17 @@ export interface Transaction {
   status: "completed" | "pending" | "failed"
 }
 
-// Gold Pass creators (source de vérité pour le statut Gold)
-export const GOLD_CREATORS_NAMES = [
+// Createurs verifies (source de verite pour le statut verifie)
+export const VERIFIED_CREATORS_NAMES = [
   "Marie Stellaire",
   "Karim Ondes",
   "Thomas Voix",
-  "Nora Mystère",
+  "Nora Mystere",
   "Hana Sound",
 ]
 
-export function isGoldCreator(creatorName: string): boolean {
-  return GOLD_CREATORS_NAMES.includes(creatorName)
+export function isVerifiedCreator(creatorName: string): boolean {
+  return VERIFIED_CREATORS_NAMES.includes(creatorName)
 }
 
 // Filtre les contenus des créateurs Gold
@@ -362,7 +362,7 @@ function generateEntries(
 }
 
 const VISITEUR_NAMES = ["Emma V.", "Hugo T.", "Clara M.", "Nathan S.", "Léa B.", "Théo R.", "Inès D.", "Lucas P.", "Manon G.", "Noah L.", "Jade K.", "Raphaël F.", "Camille S.", "Axel M.", "Zoé C.", "Arthur B.", "Louise N.", "Ethan J.", "Chloé W.", "Liam A.", "Alice H.", "Maxime T.", "Éva R.", "Tom D.", "Sarah P."]
-const PORTEUR_NAMES = ["Marie Stellaire", "Lucas Nature", "Sophie Drama", "Félix Cinéma", "Amina Vision", "Paul Réal", "Lina Studio", "Yann Film", "Eva Regard", "Marco Pixel", "Nadia Caméra", "Romain Scène", "Chloé Script", "Karim Prod", "Iris Lumière", "Léo Motion", "Hana Screen", "Dario Cut", "Mila Format", "Oscar Take", "Jade Shot", "Hugo Frame", "Alice Montage", "Noah Edit", "Sara Lens"]
+const PORTEUR_NAMES = ["Marie Stellaire", "Lucas Nature", "Sophie Drama", "Félix Cinéma", "Amina Vision", "Paul Réal", "Lina Studio", "Yann Film", "Eva Regard", "Marco Pixel", "Nadia Caméra", "Romain Scène", "Chloé Script", "Karim Prod", "Iris Lumière", "L��o Motion", "Hana Screen", "Dario Cut", "Mila Format", "Oscar Take", "Jade Shot", "Hugo Frame", "Alice Montage", "Noah Edit", "Sara Lens"]
 const INFOPORTEUR_NAMES = ["Pierre Michel", "Nora Mystère", "Claire Lettres", "André Plume", "Luna Pages", "Sami Texte", "Elsa Roman", "Marc Prose", "Julie Encre", "Youssef Chapitre", "Mina Verso", "Romain Ligne", "Élodie Style", "Tarik Récit", "Margot Fable", "Léon Essai", "Inès Poème", "David Mot", "Lana Conte", "Oscar Critique", "Jade Chronique", "Hugo Nouvelle", "Alice Saga", "Noah Tome", "Sara Verset"]
 const PODCASTEUR_NAMES = ["Karim Ondes", "Lina Audio", "Thomas Voix", "Mina Podcast", "Sami Micro", "Éva Studio", "Yann Écoute", "Hana Sound", "Marco Fréquence", "Nadia Canal", "Romain Épisode", "Chloé Wave", "Félix Bande", "Iris Talk", "Paul Émission", "Léo Direct", "Dario Cast", "Mila Capsule", "Oscar Pod", "Jade Stream", "Hugo Série", "Alice Show", "Noah Radio", "Sara Live", "Tom Replay"]
 

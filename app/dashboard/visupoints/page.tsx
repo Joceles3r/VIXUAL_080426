@@ -24,12 +24,12 @@ import {
 import {
   canWithdraw,
   canInvest,
-  canConvertVisupoints,
-  MINOR_VISUPOINTS_CAP,
+  canConvertVixupoints,
+  MINOR_VIXUPOINTS_CAP,
   engagementRedirectEngine,
   computeHybridPurchase,
   type EngagementRedirectResult,
-} from "@/lib/visupoints-engine"
+} from "@/lib/vixupoints-engine"
 
 // ─── Missions ───
 
@@ -299,14 +299,14 @@ export default function VisupointsPage() {
 
   // Restrictions
   const withdrawStatus = canWithdraw(userIsMinor, kycVerified)
-  const convertStatus = canConvertVisupoints(userIsMinor)
+  const convertStatus = canConvertVixupoints(userIsMinor)
   const conversion = convertVisupoints(currentPoints)
 
   // Engagement Redirect Engine
   const engagementRedirect = engagementRedirectEngine(userRole, currentPoints, userIsMinor)
 
   // Plafond et niveaux
-  const cap = userIsMinor ? MINOR_VISUPOINTS_CAP : (userRole === "visitor" ? 2500 : null)
+  const cap = userIsMinor ? MINOR_VIXUPOINTS_CAP : (userRole === "visitor" ? 2500 : null)
   const capProgress = cap ? Math.min((currentPoints / cap) * 100, 100) : null
 
   const currentLevel = LEVELS.find(

@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Check, Calendar, ShieldAlert } from "lucide-react"
 import { VisualSlogan } from "@/components/visual-slogan"
-import { isMinor, isEligibleForSignup, computeAge, MINOR_VISUPOINTS_CAP } from "@/lib/visupoints-engine"
+import { isMinor, isEligibleForSignup, computeAge, MINOR_VIXUPOINTS_CAP } from "@/lib/vixupoints-engine"
 import { ParentalConsentForm } from "@/components/parental-consent-form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -107,7 +107,7 @@ export default function SignupPage() {
             <span className="text-3xl font-black tracking-tight">
               <span className="text-red-500">V</span>
               <span className="text-amber-400">I</span>
-              <span className="text-emerald-400">S</span>
+              <span className="text-emerald-400">X</span>
               <span className="text-teal-400">U</span>
               <span className="text-sky-400">A</span>
               <span className="text-indigo-400">L</span>
@@ -214,7 +214,7 @@ export default function SignupPage() {
                   <div className="flex items-start gap-2 p-2.5 bg-amber-500/10 border border-amber-500/25 rounded-lg">
                     <ShieldAlert className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                     <p className="text-amber-400/90 text-xs leading-relaxed">
-                      {"Vous avez entre 16 et 17 ans. Votre compte sera soumis \u00e0 des restrictions : plafond de 10 000 VISUpoints (100\u20ac), aucun retrait ni investissement avant 18 ans. Une autorisation parentale sera demand\u00e9e."}
+                      {"Vous avez entre 16 et 17 ans. Votre compte sera soumis a des restrictions : plafond de 10 000 VIXUpoints (100EUR), aucun retrait ni investissement avant 18 ans. Une autorisation parentale sera demandee."}
                     </p>
                   </div>
                 )}

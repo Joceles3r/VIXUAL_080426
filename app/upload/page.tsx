@@ -123,7 +123,7 @@ export default function UploadVideoPage() {
                 Déposer une vidéo
               </h1>
               <p className="text-white/60">
-                Partagez votre création audiovisuelle avec la communauté VISUAL
+                Partagez votre creation audiovisuelle avec la communaute VIXUAL
               </p>
             </div>
 
@@ -138,7 +138,7 @@ export default function UploadVideoPage() {
                     <div className="flex-1">
                       <h3 className="text-white font-semibold mb-1">{"Caution requise"}</h3>
                       <p className="text-white/60 text-sm mb-4">
-                        {"Pour publier du contenu sur VISUAL, vous devez d'abord payer la caution créateur de "}
+                        {"Pour publier du contenu sur VIXUAL, vous devez d'abord payer la caution createur de "}
                         {CAUTION_EUR.creator}
                         {"€. Cette caution est remboursable en cas de résiliation de votre compte."}
                       </p>

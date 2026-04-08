@@ -46,7 +46,7 @@ export function CommunityCharter({ dismissible = true, compact = false }: Commun
           <div className="flex-1 min-w-0">
             <p className="text-emerald-400/90 text-xs font-medium mb-1">Charte communautaire</p>
             <p className="text-white/50 text-[10px] leading-relaxed">
-              {"Respect, courtoisie et bienveillance entre tous les utilisateurs de VISUAL. Z\u00e9ro tol\u00e9rance : racisme, homophobie, harc\u00e8lement."}
+              {"Respect, courtoisie et bienveillance entre tous les utilisateurs de VIXUAL. Zero tolerance : racisme, homophobie, harcelement."}
             </p>
           </div>
           {dismissible && (
@@ -69,7 +69,7 @@ export function CommunityCharter({ dismissible = true, compact = false }: Commun
               <ShieldCheck className="h-5 w-5 text-emerald-400" />
             </div>
             <div>
-              <h3 className="text-white font-semibold text-sm">Charte communautaire VISUAL</h3>
+              <h3 className="text-white font-semibold text-sm">Charte communautaire VIXUAL</h3>
               <p className="text-white/40 text-xs">{"Respect, courtoisie et bienveillance entre tous les utilisateurs"}</p>
             </div>
           </div>
@@ -97,7 +97,7 @@ export function CommunityCharter({ dismissible = true, compact = false }: Commun
         <div className="flex items-start gap-2.5 p-3 bg-black/20 rounded-xl border border-white/5">
           <AlertOctagon className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
           <p className="text-white/60 text-xs leading-relaxed">
-            {"VISUAL est un espace de cr\u00e9ation collaborative fond\u00e9 sur le respect mutuel. Toute forme de discrimination, harc\u00e8lement, insulte, propos haineux ou contenu inappropri\u00e9 est "}
+            {"VIXUAL est un espace de creation collaborative fonde sur le respect mutuel. Toute forme de discrimination, harcelement, insulte, propos haineux ou contenu inapproprie est "}
             <strong className="text-red-400">{"strictement interdit"}</strong>
             {" et sera sanctionn\u00e9. Utilisez le "}
             <span className="text-red-400 font-medium">{"bouton rouge de signalement"}</span>

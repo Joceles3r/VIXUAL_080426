@@ -40,8 +40,8 @@ if (IS_PRODUCTION && USE_MOCK_AUTH) {
   );
 }
 import type { VixualRole } from "@/components/navigation"
-import type { ParentConsent } from "@/lib/visupoints-engine"
-import { isMinor as checkIsMinor, isEligibleForSignup, MINOR_VISUPOINTS_CAP, DEFAULT_PARENT_CONSENT, MINOR_PARENT_CONSENT, checkMajorityUnlock } from "@/lib/visupoints-engine"
+import type { ParentConsent } from "@/lib/vixupoints-engine"
+import { isMinor as checkIsMinor, isEligibleForSignup, MINOR_VIXUPOINTS_CAP, DEFAULT_PARENT_CONSENT, MINOR_PARENT_CONSENT, checkMajorityUnlock } from "@/lib/vixupoints-engine"
 
 export interface User {
   id: string
@@ -203,7 +203,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: data.email,
       birthDate: data.birthDate,
       isMinor: minor,
-      vixupointsCap: minor ? MINOR_VISUPOINTS_CAP : Infinity,
+      vixupointsCap: minor ? MINOR_VIXUPOINTS_CAP : Infinity,
       parentConsent: minor ? MINOR_PARENT_CONSENT : DEFAULT_PARENT_CONSENT,
     })
   }

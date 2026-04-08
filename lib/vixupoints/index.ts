@@ -6,19 +6,19 @@
 
 export * from "./engine";
 
-// Re-export du moteur legacy pour compatibilite
+// Re-export du moteur VIXUpoints
 export {
   // Types
   type ParentConsentStatus,
   type ParentConsent,
-  type UserVisupointsProfile,
+  type UserVixupointsProfile,
   type VixupointsPack,
   type EngagementRedirectLevel,
   type EngagementRedirectResult,
   
   // Constants
   VIXUPOINTS_PER_EUR,
-  MINOR_VISUPOINTS_CAP,
+  MINOR_VIXUPOINTS_CAP,
   ADULT_VISITOR_CAP,
   MINOR_MIN_AGE,
   MAJORITY_AGE,
@@ -33,30 +33,22 @@ export {
   MICROPACKS_LIMITS,
   DEFAULT_PARENT_CONSENT,
   MINOR_PARENT_CONSENT,
-  
-  // Backward compat aliases (using correct export names from visupoints-engine)
-  VISUPOINTS_CONVERSION_THRESHOLD,
-  VISUPOINTS_PER_EUR,
-  VISUPOINTS_MAX_DAILY,
-  DAILY_VIXUPOINTS_CAP as DAILY_VISUPOINTS_CAP,
-  VISUPOINTS_PROFILE_CAPS,
-  VISUPOINTS_PROFILE_CAPS as PROFILE_CAPS,
-  
-  // Micro-packs
-  VIXUPOINTS_PACKS,
+  VIXUPOINTS_CONVERSION_THRESHOLD,
+  VIXUPOINTS_MAX_DAILY,
+  VIXUPOINTS_PROFILE_CAPS,
   
   // Functions
   computeAge,
   isMinor,
   isEligibleForSignup,
-  creditVisupoints,
-  creditVisupointsCapped,
-  detectVisupointsAbuse,
+  creditVixupoints,
+  creditVixupointsCapped,
+  detectVixupointsAbuse,
   canWithdraw,
   canInvest,
-  canConvertVisupoints,
+  canConvertVixupoints,
   canBuyMicropacks,
   engagementRedirectEngine,
   computeHybridPurchase,
   checkMajorityUnlock,
-} from "@/lib/visupoints-engine";
+} from "@/lib/vixupoints-engine";

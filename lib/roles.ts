@@ -1,41 +1,87 @@
 /**
  * VIXUAL Roles - Terminologie officielle des profils
+ * 
+ * Ce fichier re-exporte les configurations du catalogue unifie
+ * et fournit des aliases pour la compatibilite ascendante.
+ * 
+ * Nomenclature officielle FR:
+ * - invite (guest)
+ * - visiteur (visitor)
+ * - porteur (creator)
+ * - contributeur (contributor)
+ * - infoporteur (infoporteur)
+ * - podcasteur (podcasteur)
+ * - auditeur (auditeur)
+ * - contribu-lecteur (contribu_lecteur)
  */
 
-// Labels officiels des profils (affichage UI)
+import {
+  PROFILE_KEYS,
+  PROFILE_LABELS_FR,
+  PROFILE_LABELS_EN,
+  PROFILE_DESCRIPTIONS_FR,
+  PROFILE_COLORS,
+  PROFILE_PAYMENT_RULES,
+  getProfileLabel,
+  getProfileDescription,
+  canUseHybridPayment,
+  canPayInEuros,
+  canUseVixupoints,
+  type ProfileKey,
+} from "@/lib/profiles/catalog"
+
+// Re-export du catalogue
+export { PROFILE_KEYS, type ProfileKey }
+
+// Labels officiels des profils (affichage UI) - compatibilite ascendante
 export const ROLE_LABELS: Record<string, string> = {
-  guest: "Invite",
-  visitor: "Visiteur",
-  contributor: "Contributeur",
-  contribu_reader: "Contribu-lecteur",
-  listener: "Auditeur",
-  porter: "Porteur",
-  infoporter: "Infoporteur",
-  podcaster: "Podcasteur",
+  guest: PROFILE_LABELS_FR.guest,
+  visitor: PROFILE_LABELS_FR.visitor,
+  contributor: PROFILE_LABELS_FR.contributor,
+  contribu_lecteur: PROFILE_LABELS_FR.contribu_lecteur,
+  contribu_reader: PROFILE_LABELS_FR.contribu_lecteur, // Alias
+  auditeur: PROFILE_LABELS_FR.auditeur,
+  listener: PROFILE_LABELS_FR.auditeur, // Alias EN -> FR
+  creator: PROFILE_LABELS_FR.creator,
+  porter: PROFILE_LABELS_FR.creator, // Alias ancien nom
+  infoporteur: PROFILE_LABELS_FR.infoporteur,
+  infoporter: PROFILE_LABELS_FR.infoporteur, // Alias EN
+  podcasteur: PROFILE_LABELS_FR.podcasteur,
+  podcaster: PROFILE_LABELS_FR.podcasteur, // Alias EN
 }
 
 // Descriptions des profils
 export const ROLE_DESCRIPTIONS: Record<string, string> = {
-  guest: "Acces limite, decouverte de la plateforme",
-  visitor: "Acces aux contenus, utilisation des VIXUpoints",
-  contributor: "Contribution en euros aux projets audiovisuels",
-  contribu_reader: "Contribution aux livres et ecrits (euros/VIXUpoints/hybride)",
-  listener: "Contribution aux podcasts (euros/VIXUpoints/hybride)",
-  porter: "Createur de contenus audiovisuels",
-  infoporter: "Auteur de contenus ecrits et articles",
-  podcaster: "Createur de podcasts",
+  guest: PROFILE_DESCRIPTIONS_FR.guest,
+  visitor: PROFILE_DESCRIPTIONS_FR.visitor,
+  contributor: PROFILE_DESCRIPTIONS_FR.contributor,
+  contribu_lecteur: PROFILE_DESCRIPTIONS_FR.contribu_lecteur,
+  contribu_reader: PROFILE_DESCRIPTIONS_FR.contribu_lecteur,
+  auditeur: PROFILE_DESCRIPTIONS_FR.auditeur,
+  listener: PROFILE_DESCRIPTIONS_FR.auditeur,
+  creator: PROFILE_DESCRIPTIONS_FR.creator,
+  porter: PROFILE_DESCRIPTIONS_FR.creator,
+  infoporteur: PROFILE_DESCRIPTIONS_FR.infoporteur,
+  infoporter: PROFILE_DESCRIPTIONS_FR.infoporteur,
+  podcasteur: PROFILE_DESCRIPTIONS_FR.podcasteur,
+  podcaster: PROFILE_DESCRIPTIONS_FR.podcasteur,
 }
 
 // Couleurs des badges par profil
 export const ROLE_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  guest: { bg: "bg-slate-500/20", text: "text-slate-300", border: "border-slate-500/30" },
-  visitor: { bg: "bg-teal-500/20", text: "text-teal-300", border: "border-teal-500/30" },
-  contributor: { bg: "bg-emerald-500/20", text: "text-emerald-300", border: "border-emerald-500/30" },
-  contribu_reader: { bg: "bg-amber-500/20", text: "text-amber-300", border: "border-amber-500/30" },
-  listener: { bg: "bg-purple-500/20", text: "text-purple-300", border: "border-purple-500/30" },
-  porter: { bg: "bg-rose-500/20", text: "text-rose-300", border: "border-rose-500/30" },
-  infoporter: { bg: "bg-sky-500/20", text: "text-sky-300", border: "border-sky-500/30" },
-  podcaster: { bg: "bg-violet-500/20", text: "text-violet-300", border: "border-violet-500/30" },
+  guest: PROFILE_COLORS.guest,
+  visitor: PROFILE_COLORS.visitor,
+  contributor: PROFILE_COLORS.contributor,
+  contribu_lecteur: PROFILE_COLORS.contribu_lecteur,
+  contribu_reader: PROFILE_COLORS.contribu_lecteur,
+  auditeur: PROFILE_COLORS.auditeur,
+  listener: PROFILE_COLORS.auditeur,
+  creator: PROFILE_COLORS.creator,
+  porter: PROFILE_COLORS.creator,
+  infoporteur: PROFILE_COLORS.infoporteur,
+  infoporter: PROFILE_COLORS.infoporteur,
+  podcasteur: PROFILE_COLORS.podcasteur,
+  podcaster: PROFILE_COLORS.podcasteur,
 }
 
 // Regles de paiement par profil
@@ -43,30 +89,22 @@ export const ROLE_PAYMENT_RULES: Record<string, { vixupoints: boolean; euros: bo
   visitor_minor: { vixupoints: true, euros: false, hybrid: false },
   visitor: { vixupoints: true, euros: true, hybrid: true },
   contributor: { vixupoints: false, euros: true, hybrid: false },
+  contribu_lecteur: { vixupoints: true, euros: true, hybrid: true },
   contribu_reader: { vixupoints: true, euros: true, hybrid: true },
+  auditeur: { vixupoints: true, euros: true, hybrid: true },
   listener: { vixupoints: true, euros: true, hybrid: true },
+  creator: { vixupoints: false, euros: false, hybrid: false },
   porter: { vixupoints: false, euros: false, hybrid: false },
+  infoporteur: { vixupoints: false, euros: false, hybrid: false },
   infoporter: { vixupoints: false, euros: false, hybrid: false },
+  podcasteur: { vixupoints: false, euros: false, hybrid: false },
   podcaster: { vixupoints: false, euros: false, hybrid: false },
 }
 
 // Fonction utilitaire pour obtenir le label d'un role
 export function getRoleLabel(roleKey: string): string {
-  return ROLE_LABELS[roleKey] || roleKey
+  return ROLE_LABELS[roleKey] || getProfileLabel(roleKey as ProfileKey) || roleKey
 }
 
-// Fonction utilitaire pour verifier si un profil peut utiliser le paiement hybride
-export function canUseHybridPayment(roleKey: string, isMinor: boolean = false): boolean {
-  if (isMinor && roleKey === "visitor") {
-    return ROLE_PAYMENT_RULES.visitor_minor.hybrid
-  }
-  return ROLE_PAYMENT_RULES[roleKey]?.hybrid ?? false
-}
-
-// Fonction utilitaire pour verifier si un profil peut payer en euros
-export function canPayInEuros(roleKey: string, isMinor: boolean = false): boolean {
-  if (isMinor && roleKey === "visitor") {
-    return ROLE_PAYMENT_RULES.visitor_minor.euros
-  }
-  return ROLE_PAYMENT_RULES[roleKey]?.euros ?? false
-}
+// Re-export des fonctions utilitaires
+export { canUseHybridPayment, canPayInEuros, canUseVixupoints }

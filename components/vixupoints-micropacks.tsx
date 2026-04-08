@@ -14,7 +14,7 @@ import {
   canBuyMicropacks,
   MICROPACKS_LIMITS,
   type VixupointsPack,
-} from "@/lib/visupoints-engine"
+} from "@/lib/vixupoints-engine"
 
 interface MicropacksShopProps {
   userProfile: string

@@ -1,5 +1,5 @@
 /**
- * VISUAL Discovery Engine V1 — Types
+ * VIXUAL Discovery Engine V1 - Types
  *
  * Defines all types used by the Discovery Engine scoring and wave diffusion system.
  */
@@ -83,8 +83,8 @@ export interface ProjectSignals {
   creatorTrustScore: number
   /** Creator is verified */
   creatorVerified: boolean
-  /** Creator has Gold Pass */
-  creatorGoldPass: boolean
+  /** Creator has active Ticket Gold boost */
+  hasTicketGoldActive: boolean
   /** Current wave level */
   currentWave: WaveLevel
 }

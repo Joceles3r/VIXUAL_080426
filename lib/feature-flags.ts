@@ -42,22 +42,17 @@ export const FEATURES: Record<FeatureFlag, FeatureConfig> = {
   referralSystem: {
     enabled: true,
     version: "V1",
-    description: "Système de parrainage et liens de partage",
+    description: "Systeme de parrainage et liens de partage",
   },
   promoEmail: {
     enabled: true,
     version: "V1",
-    description: "Emails promotionnels et réengagement",
+    description: "Emails promotionnels et reengagement",
   },
   trustScore: {
     enabled: true,
     version: "V1",
     description: "Score de confiance utilisateur",
-  },
-  ticketGold: {
-    enabled: true,
-    version: "V1",
-    description: "Ticket Gold - boost visibilite temporaire 48h",
   },
   minorProtection: {
     enabled: true,
@@ -67,21 +62,19 @@ export const FEATURES: Record<FeatureFlag, FeatureConfig> = {
   watermark: {
     enabled: true,
     version: "V1",
-    description: "Watermark 'Propulsé par VIXUAL' sur les contenus",
+    description: "Watermark 'Propulse par VIXUAL' sur les contenus",
   },
   
-  // V2 - Advanced Features (En préparation)
+  // V2 - Advanced Features (VIXUpoints + Hybrid Payment)
   vixupoints: {
-    enabled: false,
+    enabled: true,
     version: "V2",
-    description: "Système de points VIXUpoints",
-    rolloutPercentage: 0,
+    description: "Systeme de points VIXUpoints",
   },
   hybridPayment: {
-    enabled: false,
+    enabled: true,
     version: "V2",
     description: "Paiement hybride EUR + VIXUpoints",
-    rolloutPercentage: 0,
   },
   youtubeAuto: {
     enabled: false,
@@ -92,20 +85,25 @@ export const FEATURES: Record<FeatureFlag, FeatureConfig> = {
   hubSpoke: {
     enabled: false,
     version: "V2",
-    description: "Hub & Spoke - Contenu utilisateur amplifié",
+    description: "Hub & Spoke - Contenu utilisateur amplifie",
     rolloutPercentage: 0,
   },
   
-  // V3 - Future Features (Désactivés)
+  // V3 - Ticket Gold + Social Features
+  ticketGold: {
+    enabled: true,
+    version: "V3",
+    description: "Ticket Gold - boost visibilite temporaire 48h (1x/mois/projet)",
+  },
   socialFeatures: {
     enabled: false,
     version: "V3",
-    description: "Fonctionnalités sociales avancées",
+    description: "Fonctionnalites sociales avancees",
   },
   aiModeration: {
     enabled: false,
     version: "V3",
-    description: "Modération automatique par IA",
+    description: "Moderation automatique par IA",
   },
 }
 

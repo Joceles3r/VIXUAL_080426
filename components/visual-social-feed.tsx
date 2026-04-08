@@ -248,7 +248,7 @@ function PostComposer({
             <textarea
               value={body}
               onChange={(e) => { setBody(e.target.value); setError(null) }}
-              placeholder={isReply ? "Votre r\u00e9ponse\u2026" : contentType === "global" ? "Partagez votre exp\u00e9rience sur VISUAL\u2026" : "Votre avis sur ce contenu\u2026"}
+              placeholder={isReply ? "Votre reponse..." : contentType === "global" ? "Partagez votre experience sur VIXUAL..." : "Votre avis sur ce contenu..."}
               rows={isReply ? 2 : 3}
               className="w-full bg-transparent text-white/90 text-sm placeholder:text-white/25 resize-none focus:outline-none leading-relaxed"
             />
@@ -430,7 +430,7 @@ export default function VisualSocialFeed({
             </div>
             <div>
               <h2 className="text-xl font-bold text-white">VIXUAL Social</h2>
-              <p className="text-white/40 text-xs">{"Fil global \u2014 La communaut\u00e9 VISUAL s'exprime"}</p>
+              <p className="text-white/40 text-xs">{"Fil global - La communaute VIXUAL s'exprime"}</p>
             </div>
           </div>
           <Button

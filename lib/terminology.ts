@@ -23,12 +23,17 @@ export const PROFILE_COUNT = {
 export const ROLE_LABELS = {
   guest: { singular: "Invite", plural: "Invites" },
   visitor: { singular: "Visiteur", plural: "Visiteurs" },
-  porter: { singular: "Porteur", plural: "Porteurs" },
-  infoporter: { singular: "Infoporteur", plural: "Infoporteurs" },
-  podcaster: { singular: "Podcasteur", plural: "Podcasteurs" },
+  creator: { singular: "Porteur", plural: "Porteurs" },
+  porter: { singular: "Porteur", plural: "Porteurs" }, // Alias
+  infoporteur: { singular: "Infoporteur", plural: "Infoporteurs" },
+  infoporter: { singular: "Infoporteur", plural: "Infoporteurs" }, // Alias EN
+  podcasteur: { singular: "Podcasteur", plural: "Podcasteurs" },
+  podcaster: { singular: "Podcasteur", plural: "Podcasteurs" }, // Alias EN
   contributor: { singular: "Contributeur", plural: "Contributeurs" },
-  contribureader: { singular: "Contribu-lecteur", plural: "Contribu-lecteurs" },
-  listener: { singular: "Auditeur", plural: "Auditeurs" },
+  contribu_lecteur: { singular: "Contribu-lecteur", plural: "Contribu-lecteurs" },
+  contribureader: { singular: "Contribu-lecteur", plural: "Contribu-lecteurs" }, // Alias
+  auditeur: { singular: "Auditeur", plural: "Auditeurs" },
+  listener: { singular: "Auditeur", plural: "Auditeurs" }, // Alias EN
 } as const;
 
 export type RoleKey = keyof typeof ROLE_LABELS;

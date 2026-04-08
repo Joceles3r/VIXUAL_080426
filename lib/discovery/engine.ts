@@ -55,7 +55,7 @@ export function computeVisualScore(signals: ProjectSignals): VisualScoreBreakdow
   // 10% — Trust score (0-100 already)
   let trustScore = Math.min(signals.creatorTrustScore, 100)
   if (signals.creatorVerified) trustScore = Math.min(trustScore + 5, 100)
-  if (signals.creatorGoldPass) trustScore = Math.min(trustScore + 5, 100)
+  if (signals.hasTicketGoldActive) trustScore = Math.min(trustScore + 5, 100)
 
   // 5% — AI quality bonus (heuristic: completeness of project signals)
   // If investor count > 10 AND completion rate > 0.5 AND trust > 60 => full bonus
@@ -200,11 +200,11 @@ export function getMotivationalMessage(
   if (badges.includes("EN_ANALYSE")) return null
 
   if (badges.includes("PROJET_STAR")) {
-    return "Ce projet est une etoile VISUAL. Rejoignez la communaute de soutien !"
+    return "Ce projet est une etoile VIXUAL. Rejoignez la communaute de soutien !"
   }
 
   if (rank !== null && rank <= 10) {
-    return `Ce projet est dans le TOP ${rank} VISUAL. Il pourrait changer de categorie tres bientot.`
+    return `Ce projet est dans le TOP ${rank} VIXUAL. Il pourrait changer de categorie tres bientot.`
   }
 
   if (rank !== null && rank > 10 && rank <= 100) {
@@ -299,7 +299,7 @@ export function rankProjectsFromMock(contents: Content[]): RankedProject[] {
       viewGrowthRate: Math.min(investPct * 0.8 + c.investorCount / 200, 1),
       creatorTrustScore: Math.min(55 + c.investorCount * 0.5, 100),
       creatorVerified: c.investorCount >= 30,
-      creatorGoldPass: c.goldPass ?? false,
+      hasTicketGoldActive: c.hasTicketGoldActive ?? false,
       currentWave:
         c.investorCount >= 80 ? 4
         : c.investorCount >= 40 ? 3
@@ -389,7 +389,7 @@ export function getTop100ByCategory(
       viewGrowthRate: Math.min(p.progressPct / 100 * 0.8 + p.investorCount / 200, 1),
       creatorTrustScore: Math.min(55 + p.investorCount * 0.5, 100),
       creatorVerified: p.investorCount >= 30,
-      creatorGoldPass: content?.goldPass ?? false,
+      hasTicketGoldActive: content?.hasTicketGoldActive ?? false,
       currentWave: p.wave,
     }
     const scoreBreakdown = computeVisualScore(signals)

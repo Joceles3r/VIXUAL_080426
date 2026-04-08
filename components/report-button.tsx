@@ -172,7 +172,7 @@ export function ReportButton({
                   {/* Community charter reminder */}
                   <div className="mx-4 mt-4 p-3 bg-amber-500/5 border border-amber-500/15 rounded-xl">
                     <p className="text-amber-400/80 text-xs leading-relaxed">
-                      {"VISUAL est un espace de respect mutuel. Tout propos raciste, homophobe, antis\u00e9mite, anti-religieux, toute insulte, harc\u00e8lement ou discrimination est strictement interdit et sera sanctionn\u00e9 (avertissement, suspension, suppression de compte)."}
+                      {"VIXUAL est un espace de respect mutuel. Tout propos raciste, homophobe, antisemite, anti-religieux, toute insulte, harcelement ou discrimination est strictement interdit et sera sanctionne (avertissement, suspension, suppression de compte)."}
                     </p>
                   </div>
 

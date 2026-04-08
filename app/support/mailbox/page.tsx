@@ -34,7 +34,7 @@ export default function SupportMailboxPage() {
       <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-24 px-4 md:px-6">
         <div className="max-w-3xl mx-auto text-center py-20">
           <Inbox className="h-16 w-16 text-white/20 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-white mb-2">{"Boîte interne VISUAL"}</h1>
+          <h1 className="text-2xl font-bold text-white mb-2">{"Boite interne VIXUAL"}</h1>
           <p className="text-white/60 mb-6">{"Connectez-vous pour accéder au support."}</p>
           <Link href="/login">
             <Button className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white">
@@ -57,9 +57,9 @@ export default function SupportMailboxPage() {
             </Button>
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-white">{"Boîte interne VISUAL"}</h1>
+            <h1 className="text-2xl font-bold text-white">{"Boite interne VIXUAL"}</h1>
             <p className="text-white/60 text-sm">
-              {"Contactez le responsable de la plateforme (ADMIN VISUAL). R\u00e9ponse sous vingt-quatre \u00e0 soixante-douze heures."}
+              {"Contactez le responsable de la plateforme (ADMIN VIXUAL). Reponse sous vingt-quatre a soixante-douze heures."}
             </p>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default function SupportMailboxPage() {
         {/* Info */}
         <div className="flex items-center gap-2 text-xs text-white/30">
           <Badge variant="outline" className="border-white/10 text-white/30 text-xs">V1</Badge>
-          <span>{"Boîte interne VISUAL — support@visual.app"}</span>
+          <span>{"Boite interne VIXUAL - support@vixual.app"}</span>
         </div>
       </div>
     </main>
