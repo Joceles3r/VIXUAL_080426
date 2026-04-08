@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { VisualSlogan } from "@/components/visual-slogan"
+import { VisualSlogan } from "@/components/vixual-slogan"
 import { TrafficLight } from "@/components/traffic-light"
 import {
   User,
