@@ -26,7 +26,7 @@ import {
   calculateSoutienLibreDistribution,
   validateSoutienAmount,
   type Creator,
-} from "@/lib/soutien-libre/engine";
+} from "@/lib/soutien-libre/shared";
 
 // Mock creator for demo
 function getMockCreator(slug: string): Creator {

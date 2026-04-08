@@ -34,7 +34,7 @@ const RATE_CONFIGS: Record<RouteClass, { max: number; window: number }> = {
   batch: { max: 2, window: 60 },
 };
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // ── Security headers for ALL routes (not just /api) ──
