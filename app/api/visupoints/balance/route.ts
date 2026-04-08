@@ -14,7 +14,7 @@ import {
   canWithdraw,
   canConvertVisupoints,
   detectVisupointsAbuse,
-} from "@/lib/visupoints-engine";
+} from "@/lib/vixupoints-engine";
 
 export const GET = withErrorHandler(async (req: Request) => {
   const url = new URL(req.url);

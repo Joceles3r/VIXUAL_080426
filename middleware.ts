@@ -34,7 +34,7 @@ const RATE_CONFIGS: Record<RouteClass, { max: number; window: number }> = {
   batch: { max: 2, window: 60 },
 };
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // ── Security headers for ALL routes (not just /api) ──
@@ -68,10 +68,11 @@ export async function proxy(request: NextRequest) {
   const config = RATE_CONFIGS[routeClass];
 
   // ── Extract identifier ──
-  const userId = request.headers.get("x-vixual-user-id");
+  // SECURITY: En edge middleware, on n'a pas acces au JWT dechiffre
+  // → toujours utiliser l'IP pour le rate-limiting (pas de header spoofable)
   const forwarded = request.headers.get("x-forwarded-for");
   const ip = forwarded?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown";
-  const identifier = userId ? `user:${userId}` : `ip:${ip}`;
+  const identifier = `ip:${ip}`;
 
   // ── Rate limiting via Upstash Redis REST API ──
   const kvUrl = process.env.KV_REST_API_URL;
@@ -121,8 +122,12 @@ export async function proxy(request: NextRequest) {
           );
         }
       }
-    } catch {
-      // Fail-open if Redis is unavailable
+    } catch (error) {
+      // FAIL-OPEN: si Redis est down, on laisse passer mais on alerte
+      console.error("[VIXUAL ALERT] Rate-limit Redis failure — FAIL-OPEN active", {
+        route: pathname, identifier, error: error instanceof Error ? error.message : error,
+        timestamp: new Date().toISOString(),
+      });
     }
   }
 

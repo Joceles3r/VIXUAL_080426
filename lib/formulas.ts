@@ -195,9 +195,10 @@ export function isCommunityRank(rank: number): boolean {
 // ════════════════════════════════════════════════════════════════════════════
 
 /**
- * Conversion officielle: 100 VIXUpoints = 1 EUR
+ * Conversion officielle: 100 VIXUpoints = 1 EUR - source unique depuis payout/constants
  */
-export const VIXUPOINTS_PER_EUR = 100
+import { VIXUPOINTS_PER_EUR } from "@/lib/payout/constants"
+export { VIXUPOINTS_PER_EUR }
 
 /**
  * Convertit des VIXUpoints en euros

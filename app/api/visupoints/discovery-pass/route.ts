@@ -19,7 +19,7 @@ import {
   DISCOVERY_PASS_REQUIREMENTS,
   VIXUPOINTS_GAINS,
   isEligibleForVixupoints,
-} from "@/lib/vixupoints/engine";
+} from "@/lib/vixupoints-engine";
 
 /**
  * GET - Obtenir le statut du Pass Decouverte

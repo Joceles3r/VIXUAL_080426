@@ -1,14 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
-import { neon } from "@neondatabase/serverless"
 import bcrypt from "bcryptjs"
 import { cookies } from "next/headers"
 import { jwtVerify } from "jose"
-
-const sql = neon(process.env.DATABASE_URL!)
-
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || "vixual-secret-key-change-in-production"
-)
+import { sql } from "@/lib/db"
+import { JWT_SECRET } from "@/lib/auth/jwt"
 
 export async function POST(request: NextRequest) {
   try {

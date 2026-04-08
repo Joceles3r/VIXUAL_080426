@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { VisualHeader } from "@/components/visual-header"
 import { Footer } from "@/components/footer"
-import { VisualSlogan } from "@/components/visual-slogan"
+import { VisualSlogan } from "@/components/vixual-slogan"
 import { Cookie, Shield, Settings, BarChart3, Users, Clock, ToggleLeft, Mail, ArrowLeft } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 

@@ -2,7 +2,7 @@
 
 import { FileDown, FileText, CheckCircle2, ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import { VisualSlogan } from "@/components/visual-slogan"
+import { VisualSlogan } from "@/components/vixual-slogan"
 
 export default function DownloadFormulesPage() {
   const fileName = "VISUAL_Formules_Repartitions_V2.fodt"

@@ -88,8 +88,11 @@ export async function checkRateLimit(
       resetAt: now + config.windowSec,
     };
   } catch (error) {
-    // If Redis is down, allow the request (fail-open)
-    console.error("[VIXUAL rate-limit] Redis error, failing open:", error);
+    // FAIL-OPEN: si Redis est down, on laisse passer mais on alerte
+    console.error("[VIXUAL ALERT] Rate-limit Redis failure — FAIL-OPEN active", {
+      route, identifier, error: error instanceof Error ? error.message : error,
+      timestamp: new Date().toISOString(),
+    });
     return {
       allowed: true,
       remaining: config.maxRequests,
@@ -100,11 +103,10 @@ export async function checkRateLimit(
 
 /**
  * Extracts a rate-limit identifier from a request.
- * Prefers userId from header, falls back to IP.
+ * SECURITY: Utilise uniquement l'IP - les headers peuvent etre spoofes.
  */
 export function getRateLimitId(req: Request): string {
-  const userId = req.headers.get("x-visual-user-id");
-  if (userId) return `user:${userId}`;
+  // SECURITY: Ne jamais utiliser un header non verifie pour le rate-limiting
   const forwarded = req.headers.get("x-forwarded-for");
   const ip = forwarded?.split(",")[0]?.trim() || "unknown";
   return `ip:${ip}`;

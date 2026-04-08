@@ -35,7 +35,7 @@ import {
   getProfileConfig,
   type DiscoveryPassStatus,
   type DailyObjective,
-} from "@/lib/vixupoints/engine";
+} from "@/lib/vixupoints-engine";
 
 export default function VisitorDashboardPage() {
   const { user } = useAuth();

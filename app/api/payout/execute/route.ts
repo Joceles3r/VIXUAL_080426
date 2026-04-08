@@ -20,8 +20,13 @@ export const POST = withErrorHandler(async (req: Request) => {
     const body = await req.json();
     const { contentId, adminSecret } = body;
 
-    // Simple admin secret protection (replace with proper auth in production)
-    if (adminSecret !== process.env.VISUAL_ADMIN_SECRET && adminSecret !== "dev-secret") {
+    // Admin secret protection - no dev bypass allowed
+    const expectedSecret = process.env.VISUAL_ADMIN_SECRET;
+    if (!expectedSecret) {
+      console.error("[VIXUAL Payout] VISUAL_ADMIN_SECRET not configured");
+      return apiError(ErrorCodes.ERR_SERVER_ERROR, "Server configuration error", 503);
+    }
+    if (adminSecret !== expectedSecret) {
       return apiError(ErrorCodes.ERR_UNAUTHORIZED, "Unauthorized", 401);
     }
 
