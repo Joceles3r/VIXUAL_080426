@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { VisualSlogan } from "@/components/visual-slogan"
+import { VisualSlogan } from "@/components/vixual-slogan"
 import {
   Select,
   SelectContent,
@@ -33,7 +33,7 @@ import {
   PODCAST_CATEGORIES,
   type ContentType,
   type Content,
-  isGoldCreator,
+  isVerifiedCreator,
 } from "@/lib/mock-data"
 import { useAuth } from "@/lib/auth-context"
 
@@ -61,7 +61,7 @@ function getVisualBadges(content: Content) {
   if (fundingPercent >= 90) {
     badges.push({ label: "Top projet", icon: Award, color: "text-emerald-300", bg: "bg-emerald-500/80" })
   }
-  if (isGoldCreator(content.creatorName)) {
+  if (isVerifiedCreator(content.creatorName)) {
     badges.push({ label: "Gold", icon: Crown, color: "text-yellow-300", bg: "bg-yellow-500/80" })
   }
   return badges
@@ -179,7 +179,7 @@ function ProjectCard({ content, size = "normal" }: { content: Content; size?: "n
   const progressPercent = Math.min((content.currentInvestment / content.investmentGoal) * 100, 100)
   const badges = getVisualBadges(content)
   const isLocked = !isAuthed && !content.isFree
-  const isGold = isGoldCreator(content.creatorName)
+  const isGold = isVerifiedCreator(content.creatorName)
 
   const typeConfig = {
     video: { bg: "bg-red-600/90", icon: Film, label: "Video" },
@@ -939,7 +939,7 @@ function ExplorerContent() {
 
   const goldCreators = useMemo(() => {
     return filteredContents
-      .filter(c => isGoldCreator(c.creatorName))
+      .filter(c => isVerifiedCreator(c.creatorName))
       .slice(0, 12)
   }, [filteredContents])
 
