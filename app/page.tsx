@@ -215,51 +215,69 @@ export default function HomePage() {
               
               {/* Carte 1: Les 3 Familles */}
               <Card className="overflow-hidden hover:shadow-xl hover:shadow-[#7A00FF]/20 transition-all duration-300 border-[#7A00FF]/30" style={{ background: 'linear-gradient(to bottom, rgba(10, 77, 255, 0.15), rgba(122, 0, 255, 0.1))' }}>
-                <div className="aspect-[16/10] relative overflow-hidden">
+                <CardContent className="p-5 pb-3">
+                  <h3 className="text-lg font-bold mb-2 select-text" style={{ color: '#F5F7FF' }}>
+                    {"Les 3 Familles VIXUAL - Createurs, Participants, Public"}
+                  </h3>
+                </CardContent>
+                <div className="aspect-[16/10] relative overflow-hidden px-5">
                   <img 
-                    src="/images/vixual_3familles.png" 
-                    alt="Les 3 familles VIXUAL - Créateurs, Participants, Public" 
-                    className="w-full h-full object-cover"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%201_%2030%20mars%202026%2C%2023_09_33-9Xo4IW2tIXTNo2g4E6zzRf2R1yRqDK.png" 
+                    alt="Les 3 familles VIXUAL - Createurs, Participants, Public" 
+                    className="w-full h-full object-cover rounded-lg"
                   />
                 </div>
-                <CardContent className="p-5">
-                  <h3 className="text-lg font-bold mb-2" style={{ color: '#F5F7FF' }}>Les 3 Familles</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(245, 247, 255, 0.7)' }}>
-                    <span style={{ color: '#00E5FF' }} className="font-medium">Créateurs</span> publient des oeuvres, <span style={{ color: '#00E5FF' }} className="font-medium">Participants</span> soutiennent financièrement, <span style={{ color: '#00E5FF' }} className="font-medium">Public</span> découvre/participe/partage.
+                <CardContent className="p-5 pt-3">
+                  <p className="text-sm leading-relaxed select-text" style={{ color: 'rgba(245, 247, 255, 0.7)' }}>
+                    {"Les 3 Familles : "}
+                    <span style={{ color: '#00E5FF' }} className="font-medium">{"Createurs"}</span>
+                    {" publient des oeuvres, "}
+                    <span style={{ color: '#00E5FF' }} className="font-medium">{"Participants"}</span>
+                    {" soutiennent financierement, "}
+                    <span style={{ color: '#00E5FF' }} className="font-medium">{"Public"}</span>
+                    {" decouvre/participe/partage."}
                   </p>
                 </CardContent>
               </Card>
 
               {/* Carte 2: Comment ca fonctionne */}
               <Card className="overflow-hidden hover:shadow-xl hover:shadow-[#0A4DFF]/20 transition-all duration-300 border-[#0A4DFF]/30" style={{ background: 'linear-gradient(to bottom, rgba(122, 0, 255, 0.15), rgba(10, 77, 255, 0.1))' }}>
-                <div className="aspect-[16/10] relative overflow-hidden">
+                <CardContent className="p-5 pb-3">
+                  <h3 className="text-lg font-bold mb-2 select-text" style={{ color: '#F5F7FF' }}>
+                    {"Comment fonctionne VIXUAL - Selectionnez, Participez, Gagnez"}
+                  </h3>
+                </CardContent>
+                <div className="aspect-[16/10] relative overflow-hidden px-5">
                   <img 
-                    src="/images/vixual_comment_ca_marche.png" 
-                    alt="Comment fonctionne VIXUAL - Sélectionnez, Participez, Gagnez" 
-                    className="w-full h-full object-cover"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%202_31%20mars%202026%2C%2015_14_36-JiBG5wIrJPtS9tXb07HiZwDZHhAcgx.png" 
+                    alt="Comment fonctionne VIXUAL - Selectionnez, Participez, Gagnez" 
+                    className="w-full h-full object-cover rounded-lg"
                   />
                 </div>
-                <CardContent className="p-5">
-                  <h3 className="text-lg font-bold mb-2" style={{ color: '#F5F7FF' }}>Comment ca fonctionne</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(245, 247, 255, 0.7)' }}>
-                    Créateur publie, participants soutiennent, votes classent, meilleurs gagnent, gains redistribués équitablement.
+                <CardContent className="p-5 pt-3">
+                  <p className="text-sm leading-relaxed select-text" style={{ color: 'rgba(245, 247, 255, 0.7)' }}>
+                    {"Comment ca fonctionne : Createur publie, participants soutiennent, votes classent, meilleurs gagnent, gains redistribues equitablement."}
                   </p>
                 </CardContent>
               </Card>
 
               {/* Carte 3: Principe des gains */}
               <Card className="overflow-hidden hover:shadow-xl hover:shadow-[#00E5FF]/20 transition-all duration-300 border-[#00E5FF]/30" style={{ background: 'linear-gradient(to bottom, rgba(0, 229, 255, 0.1), rgba(122, 0, 255, 0.1))' }}>
-                <div className="aspect-[16/10] relative overflow-hidden">
+                <CardContent className="p-5 pb-3">
+                  <h3 className="text-lg font-bold mb-2 select-text" style={{ color: '#F5F7FF' }}>
+                    {"Votez pour vos projets preferes"}
+                  </h3>
+                </CardContent>
+                <div className="aspect-[16/10] relative overflow-hidden px-5">
                   <img 
-                    src="/images/vixual_vote_projet.png" 
-                    alt="Votez pour vos projets preferes - Main deposant un bulletin dans une urne Projet" 
-                    className="w-full h-full object-cover"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%203%20avr.%202026%2C%2022_38_13-YXCdE4BieypUDI1D3stcttWcES4TQG.png" 
+                    alt="Votez pour vos projets preferes" 
+                    className="w-full h-full object-cover rounded-lg"
                   />
                 </div>
-                <CardContent className="p-5">
-                  <h3 className="text-lg font-bold mb-2" style={{ color: '#F5F7FF' }}>Principe des gains</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(245, 247, 255, 0.7)' }}>
-                    Les votes classent les projets. Les gains sont calcules au prorata de votre contribution financiere reelle.
+                <CardContent className="p-5 pt-3">
+                  <p className="text-sm leading-relaxed select-text" style={{ color: 'rgba(245, 247, 255, 0.7)' }}>
+                    {"Principe des gains : Les votes classent les projets. Les gains sont calcules au prorata de votre contribution financiere reelle."}
                   </p>
                 </CardContent>
               </Card>
