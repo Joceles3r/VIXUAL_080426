@@ -39,7 +39,7 @@ import {
   type BadgeType,
   TRUST_SCORE_RANGES,
   TRUST_BADGES,
-} from "@/lib/trust"
+} from "@/lib/trust/types"
 
 // ─── Utils ───
 
