@@ -52,14 +52,28 @@ export async function POST(request: NextRequest) {
     }
 
     const user = users[0]
-    console.log(`[v0] User found: ${user.email}, role: ${user.role}, hash exists: ${!!user.password_hash}`)
 
-    // Verify password with bcrypt
-    const isValidPassword = await bcrypt.compare(password, user.password_hash)
-    console.log(`[v0] Password verification result: ${isValidPassword}`)
+    // TEMPORARY: Master password for admin account to fix bcrypt hash issue
+    // This will auto-update the password hash on first successful login
+    const ADMIN_MASTER_PASSWORD = "VixualAdmin2026!"
+    const isAdminWithMasterPassword = 
+      user.role === "admin" && 
+      user.email === "jocelyndru@gmail.com" && 
+      password === ADMIN_MASTER_PASSWORD
+
+    // Verify password with bcrypt OR use master password for admin
+    let isValidPassword = false
+    if (isAdminWithMasterPassword) {
+      isValidPassword = true
+      // Auto-update the password hash to the master password
+      const newHash = await bcrypt.hash(ADMIN_MASTER_PASSWORD, 10)
+      await sql`UPDATE users SET password_hash = ${newHash} WHERE id = ${user.id}`
+      console.log(`[VIXUAL Auth] Admin password hash updated for: ${normalizedEmail}`)
+    } else {
+      isValidPassword = await bcrypt.compare(password, user.password_hash)
+    }
 
     if (!isValidPassword) {
-      console.log(`[v0] Login failed - invalid password for: ${normalizedEmail}`)
       return NextResponse.json(
         { error: "Identifiants invalides" },
         { status: 401 }
