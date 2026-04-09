@@ -30,9 +30,13 @@ export async function POST(request: NextRequest) {
       SELECT 
         id, 
         email, 
-        name, 
+        display_name, 
         password_hash, 
-        roles,
+        role,
+        is_verified,
+        is_creator,
+        vixupoints_balance,
+        trust_score,
         created_at
       FROM users 
       WHERE LOWER(email) = ${normalizedEmail}
@@ -58,17 +62,18 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if user has patron role (admin)
-    const userRoles = user.roles || ["visitor"]
-    const isPatron = userRoles.includes("patron")
+    // Check if user has admin role (patron)
+    const userRole = user.role || "visitor"
+    const isAdmin = userRole === "admin"
 
     // Create JWT token
     const token = await new SignJWT({
       userId: user.id,
       email: user.email,
-      name: user.name,
-      roles: userRoles,
-      isAdmin: isPatron,
+      name: user.display_name,
+      role: userRole,
+      isAdmin: isAdmin,
+      isCreator: user.is_creator || false,
     })
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()
@@ -81,9 +86,13 @@ export async function POST(request: NextRequest) {
       user: {
         id: user.id,
         email: user.email,
-        name: user.name,
-        roles: userRoles,
-        isAdmin: isPatron,
+        name: user.display_name,
+        role: userRole,
+        isAdmin: isAdmin,
+        isVerified: user.is_verified,
+        isCreator: user.is_creator,
+        vixupointsBalance: user.vixupoints_balance,
+        trustScore: user.trust_score,
       },
     })
 
