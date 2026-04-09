@@ -44,6 +44,7 @@ export async function POST(request: NextRequest) {
     `
 
     if (users.length === 0) {
+      console.log(`[v0] Login failed - user not found: ${normalizedEmail}`)
       return NextResponse.json(
         { error: "Identifiants invalides" },
         { status: 401 }
@@ -51,11 +52,14 @@ export async function POST(request: NextRequest) {
     }
 
     const user = users[0]
+    console.log(`[v0] User found: ${user.email}, role: ${user.role}, hash exists: ${!!user.password_hash}`)
 
     // Verify password with bcrypt
     const isValidPassword = await bcrypt.compare(password, user.password_hash)
+    console.log(`[v0] Password verification result: ${isValidPassword}`)
 
     if (!isValidPassword) {
+      console.log(`[v0] Login failed - invalid password for: ${normalizedEmail}`)
       return NextResponse.json(
         { error: "Identifiants invalides" },
         { status: 401 }
