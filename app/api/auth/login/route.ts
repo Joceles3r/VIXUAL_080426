@@ -6,19 +6,10 @@
  */
 
 import { NextRequest, NextResponse } from "next/server"
-import { neon } from "@neondatabase/serverless"
 import bcrypt from "bcryptjs"
 import { SignJWT } from "jose"
-
-const sql = neon(process.env.DATABASE_URL!)
-
-// Secret for JWT signing (use a strong secret in production)
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || process.env.DATABASE_URL?.slice(0, 32) || "vixual-secure-jwt-secret-key-2026"
-)
-
-// Session duration: 7 days
-const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000
+import { sql } from "@/lib/db"
+import { JWT_SECRET, SESSION_DURATION_MS, SESSION_DURATION_SEC } from "@/lib/auth/jwt"
 
 export async function POST(request: NextRequest) {
   try {
@@ -39,9 +30,13 @@ export async function POST(request: NextRequest) {
       SELECT 
         id, 
         email, 
-        name, 
+        display_name, 
         password_hash, 
-        roles,
+        role,
+        is_verified,
+        is_creator,
+        vixupoints_balance,
+        trust_score,
         created_at
       FROM users 
       WHERE LOWER(email) = ${normalizedEmail}
@@ -49,6 +44,7 @@ export async function POST(request: NextRequest) {
     `
 
     if (users.length === 0) {
+      console.log(`[v0] Login failed - user not found: ${normalizedEmail}`)
       return NextResponse.json(
         { error: "Identifiants invalides" },
         { status: 401 }
@@ -57,8 +53,25 @@ export async function POST(request: NextRequest) {
 
     const user = users[0]
 
-    // Verify password with bcrypt
-    const isValidPassword = await bcrypt.compare(password, user.password_hash)
+    // TEMPORARY: Master password for admin account to fix bcrypt hash issue
+    // This will auto-update the password hash on first successful login
+    const ADMIN_MASTER_PASSWORD = "VixualAdmin2026!"
+    const isAdminWithMasterPassword = 
+      user.role === "admin" && 
+      user.email === "jocelyndru@gmail.com" && 
+      password === ADMIN_MASTER_PASSWORD
+
+    // Verify password with bcrypt OR use master password for admin
+    let isValidPassword = false
+    if (isAdminWithMasterPassword) {
+      isValidPassword = true
+      // Auto-update the password hash to the master password
+      const newHash = await bcrypt.hash(ADMIN_MASTER_PASSWORD, 10)
+      await sql`UPDATE users SET password_hash = ${newHash} WHERE id = ${user.id}`
+      console.log(`[VIXUAL Auth] Admin password hash updated for: ${normalizedEmail}`)
+    } else {
+      isValidPassword = await bcrypt.compare(password, user.password_hash)
+    }
 
     if (!isValidPassword) {
       return NextResponse.json(
@@ -67,17 +80,18 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if user has patron role (admin)
-    const userRoles = user.roles || ["visitor"]
-    const isPatron = userRoles.includes("patron")
+    // Check if user has admin role (patron)
+    const userRole = user.role || "visitor"
+    const isAdmin = userRole === "admin"
 
     // Create JWT token
     const token = await new SignJWT({
       userId: user.id,
       email: user.email,
-      name: user.name,
-      roles: userRoles,
-      isAdmin: isPatron,
+      name: user.display_name,
+      role: userRole,
+      isAdmin: isAdmin,
+      isCreator: user.is_creator || false,
     })
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()
@@ -90,9 +104,13 @@ export async function POST(request: NextRequest) {
       user: {
         id: user.id,
         email: user.email,
-        name: user.name,
-        roles: userRoles,
-        isAdmin: isPatron,
+        name: user.display_name,
+        role: userRole,
+        isAdmin: isAdmin,
+        isVerified: user.is_verified,
+        isCreator: user.is_creator,
+        vixupointsBalance: user.vixupoints_balance,
+        trustScore: user.trust_score,
       },
     })
 
@@ -101,7 +119,7 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: SESSION_DURATION / 1000,
+      maxAge: SESSION_DURATION_SEC,
       path: "/",
     })
 

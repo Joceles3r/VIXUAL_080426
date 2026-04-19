@@ -7,13 +7,15 @@
  */
 
 // FIX A — Correction du nom de variable (VISUAL → VIXUAL) + ajout fallback PATRON
+// SECURITY: Le fallback est desactive en production
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
 const PATRON_FALLBACK_EMAIL = "jocelyndru@gmail.com";
 
 function getAdminEmail(): string | undefined {
   return (
     process.env.VIXUAL_ADMIN_EMAIL?.toLowerCase() ||
     process.env.NEXT_PUBLIC_ADMIN_EMAIL?.toLowerCase() ||
-    PATRON_FALLBACK_EMAIL
+    (IS_PRODUCTION ? undefined : PATRON_FALLBACK_EMAIL)
   )
 }
 

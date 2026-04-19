@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { VisualHeader } from "@/components/visual-header"
 import { Footer } from "@/components/footer"
-import { VisualSlogan } from "@/components/visual-slogan"
+import { VisualSlogan } from "@/components/vixual-slogan"
 import {
   Shield, User, Database, Eye, Lock, Globe, Clock, FileText,
   Mail, ArrowLeft, Scale, ServerCrash, AlertTriangle, Baby,

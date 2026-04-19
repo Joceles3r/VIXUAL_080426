@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { VisualSlogan } from "@/components/visual-slogan"
+import { VisualSlogan } from "@/components/vixual-slogan"
 import {
   Star,
   Heart,
@@ -28,7 +28,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { useAuth } from "@/lib/auth-context"
 import { MOCK_INVESTMENTS, MOCK_TRANSACTIONS, USER_RANKINGS, LEADERBOARD_CATEGORIES } from "@/lib/mock-data"
-import { MINOR_VISUPOINTS_CAP } from "@/lib/visupoints-engine"
+import { MINOR_VIXUPOINTS_CAP } from "@/lib/vixupoints-engine"
 import { ParentalConsentForm } from "@/components/parental-consent-form"
 import { CommunityCharter } from "@/components/community-charter"
 import { ReportButton } from "@/components/report-button"

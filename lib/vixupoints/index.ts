@@ -2,9 +2,8 @@
  * VIXUAL - VIXUpoints Module
  * 
  * Re-export de tous les elements du systeme VIXUpoints V1.
+ * Source unique: @/lib/vixupoints-engine
  */
-
-export * from "./engine";
 
 // Re-export du moteur VIXUpoints
 export {

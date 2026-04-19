@@ -17,7 +17,7 @@ import {
   detectVisupointsAbuse,
   DAILY_VIXUPOINTS_CAP,
   MINOR_VISUPOINTS_CAP,
-} from "@/lib/visupoints-engine";
+} from "@/lib/vixupoints-engine";
 
 export const POST = withErrorHandler(async (req: Request) => {
   const body = await req.json();

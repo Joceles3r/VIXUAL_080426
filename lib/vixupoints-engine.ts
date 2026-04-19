@@ -62,8 +62,9 @@ export interface UserVixupointsProfile {
 
 // ─── Constants ───
 
-/** Conversion officielle: 100 VIXUpoints = 1 EUR */
-export const VIXUPOINTS_PER_EUR = 100
+/** Conversion officielle: 100 VIXUpoints = 1 EUR - source unique depuis payout/constants */
+import { VIXUPOINTS_PER_EUR } from "@/lib/payout/constants"
+export { VIXUPOINTS_PER_EUR }
 
 export const MINOR_VIXUPOINTS_CAP = 10_000
 export const ADULT_VISITOR_CAP = 2_500
