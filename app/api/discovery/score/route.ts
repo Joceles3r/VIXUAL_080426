@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     // Find content in mock data
     const content = ALL_CONTENTS.find((c) => c.id === contentId);
     if (!content) {
-      return apiError(ErrorCodes.ERR_NOT_FOUND, "Content not found", 404);
+      return apiError(ErrorCodes.ERR_CONTENT_NOT_FOUND, "Content not found", 404);
     }
 
     // Compute VIXUAL Score

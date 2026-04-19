@@ -99,8 +99,8 @@ export async function checkMinorDailyCap(userId: string): Promise<{
   `;
   const used = Number((rows[0] as { total: string }).total) || 0;
   return {
-    exceeded: used >= MINOR_DAILY_VISUPOINTS_CAP,
+    exceeded: used >= MINOR_DAILY_VIXUPOINTS_CAP,
     used,
-    remaining: Math.max(0, MINOR_DAILY_VISUPOINTS_CAP - used),
+    remaining: Math.max(0, MINOR_DAILY_VIXUPOINTS_CAP - used),
   };
 }

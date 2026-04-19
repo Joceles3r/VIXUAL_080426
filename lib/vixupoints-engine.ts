@@ -535,3 +535,168 @@ export function checkMajorityUnlock(
   }
   return profile
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PASS DÉCOUVERTE — Fonctions et constantes pour le système de discovery pass
+// ═══════════════════════════════════════════════════════════════════════════
+
+/** Alias de VIXUPOINTS_ACTIONS pour les composants qui utilisent VIXUPOINTS_GAINS */
+export const VIXUPOINTS_GAINS = {
+  activeViewing: VIXUPOINTS_ACTIONS.viewExcerpt,        // 5 pts — extrait visionné
+  fullContentView: VIXUPOINTS_ACTIONS.viewFullContent,  // 15 pts — contenu complet
+  interaction: VIXUPOINTS_ACTIONS.usefulComment,        // 5 pts — interaction
+  share: VIXUPOINTS_ACTIONS.shareContent,               // 10 pts — partage
+  contribution: 20,                                     // 20 pts — contribution financière
+} as const;
+
+/** Messages pédagogiques pour l'UI VIXUpoints */
+export const PEDAGOGIC_MESSAGES = {
+  welcome: "Bienvenue ! Regardez des extraits, interagissez et accumulez des VIXUpoints.",
+  conversion: "100 VIXUpoints = 1 €. Convertissables à partir de 2 500 points (= 25 €)",
+  dailyCap: "Plafond quotidien atteint. Revenez demain pour continuer à accumuler.",
+  passUnlocked: "Pass Découverte débloqué ! Regardez un contenu complet aujourd'hui.",
+  passUsed: "Pass utilisé aujourd'hui. Revenez demain pour un nouveau pass.",
+} as const;
+
+/** Exigences pour débloquer le Pass Découverte */
+export const DISCOVERY_PASS_REQUIREMENTS = {
+  excerptViews: 3,   // 3 extraits vus
+  interactions: 2,   // 2 interactions (commentaires, likes, partages)
+  vixupoints: 15,    // 15 VIXUpoints gagnés dans la journée
+} as const;
+
+/** Configuration de profil pour l'affichage des VIXUpoints */
+export interface ProfileVixupointsDisplay {
+  totalCap: number | null;
+  dailyCap: number;
+  canConvert: boolean;
+  canUseHybrid: boolean;
+}
+
+/** Retourne la config VIXUpoints d'affichage pour un profil donné */
+export function getProfileConfig(profile: string): ProfileVixupointsDisplay {
+  const config = PROFILE_VIXUPOINTS_CONFIG[profile] ?? PROFILE_VIXUPOINTS_CONFIG["visitor_adult"];
+  return {
+    totalCap: config.cap > 0 ? config.cap : null,
+    dailyCap: DAILY_VIXUPOINTS_CAP,
+    canConvert: config.canUseVixupoints && config.cap > 0,
+    canUseHybrid: config.canUseHybrid,
+  };
+}
+
+/** Vérifie si un profil est éligible aux VIXUpoints */
+export function isEligibleForVixupoints(profile: string): boolean {
+  const config = PROFILE_VIXUPOINTS_CONFIG[profile];
+  return config?.canUseVixupoints === true;
+}
+
+/** Statut du Pass Découverte */
+export interface DiscoveryPassStatus {
+  canUnlock: boolean;
+  isUnlocked: boolean;
+  isUsed: boolean;
+  progress: {
+    excerpts: { current: number; required: number };
+    interactions: { current: number; required: number };
+    vixupoints: { current: number; required: number };
+  };
+  allRequirementsMet: boolean;
+}
+
+/** Calcule le statut du Pass Découverte */
+export function getDiscoveryPassStatus(
+  passUnlocked: boolean,
+  passUsed: boolean,
+  excerptViewsToday: number,
+  vixupointsEarnedToday: number,
+  interactionsToday: number
+): DiscoveryPassStatus {
+  const excerptsOk = excerptViewsToday >= DISCOVERY_PASS_REQUIREMENTS.excerptViews;
+  const interactionsOk = interactionsToday >= DISCOVERY_PASS_REQUIREMENTS.interactions;
+  const pointsOk = vixupointsEarnedToday >= DISCOVERY_PASS_REQUIREMENTS.vixupoints;
+  const allMet = excerptsOk && interactionsOk && pointsOk;
+
+  return {
+    canUnlock: allMet && !passUnlocked,
+    isUnlocked: passUnlocked,
+    isUsed: passUsed,
+    allRequirementsMet: allMet,
+    progress: {
+      excerpts: { current: excerptViewsToday, required: DISCOVERY_PASS_REQUIREMENTS.excerptViews },
+      interactions: { current: interactionsToday, required: DISCOVERY_PASS_REQUIREMENTS.interactions },
+      vixupoints: { current: vixupointsEarnedToday, required: DISCOVERY_PASS_REQUIREMENTS.vixupoints },
+    },
+  };
+}
+
+/** Objectif quotidien du Pass Découverte */
+export interface DailyObjective {
+  id: string;
+  label: string;
+  current: number;
+  required: number;
+  completed: boolean;
+  points: number;
+}
+
+/** Retourne la liste des objectifs quotidiens */
+export function getDailyObjectives(
+  excerptViewsToday: number,
+  interactionsToday: number,
+  passUnlocked: boolean
+): DailyObjective[] {
+  return [
+    {
+      id: "excerpts",
+      label: "Regarder 3 extraits",
+      current: Math.min(excerptViewsToday, DISCOVERY_PASS_REQUIREMENTS.excerptViews),
+      required: DISCOVERY_PASS_REQUIREMENTS.excerptViews,
+      completed: excerptViewsToday >= DISCOVERY_PASS_REQUIREMENTS.excerptViews,
+      points: DISCOVERY_PASS_REQUIREMENTS.excerptViews * VIXUPOINTS_GAINS.activeViewing,
+    },
+    {
+      id: "interactions",
+      label: "2 interactions (like, commentaire, partage)",
+      current: Math.min(interactionsToday, DISCOVERY_PASS_REQUIREMENTS.interactions),
+      required: DISCOVERY_PASS_REQUIREMENTS.interactions,
+      completed: interactionsToday >= DISCOVERY_PASS_REQUIREMENTS.interactions,
+      points: DISCOVERY_PASS_REQUIREMENTS.interactions * VIXUPOINTS_GAINS.interaction,
+    },
+    {
+      id: "pass",
+      label: "Débloquer et utiliser le Pass Découverte",
+      current: passUnlocked ? 1 : 0,
+      required: 1,
+      completed: passUnlocked,
+      points: VIXUPOINTS_GAINS.fullContentView,
+    },
+  ];
+}
+
+/** Tente de débloquer le Pass Découverte (validation côté client) */
+export function unlockDiscoveryPass(
+  excerptViewsToday: number,
+  vixupointsEarnedToday: number,
+  interactionsToday: number
+): { success: boolean; reason?: string } {
+  if (excerptViewsToday < DISCOVERY_PASS_REQUIREMENTS.excerptViews) {
+    return { success: false, reason: `Il faut ${DISCOVERY_PASS_REQUIREMENTS.excerptViews} extraits vus (actuel: ${excerptViewsToday})` };
+  }
+  if (interactionsToday < DISCOVERY_PASS_REQUIREMENTS.interactions) {
+    return { success: false, reason: `Il faut ${DISCOVERY_PASS_REQUIREMENTS.interactions} interactions (actuel: ${interactionsToday})` };
+  }
+  if (vixupointsEarnedToday < DISCOVERY_PASS_REQUIREMENTS.vixupoints) {
+    return { success: false, reason: `Il faut ${DISCOVERY_PASS_REQUIREMENTS.vixupoints} VIXUpoints gagnés (actuel: ${vixupointsEarnedToday})` };
+  }
+  return { success: true };
+}
+
+/** Tente de consommer le Pass Découverte */
+export function consumeDiscoveryPass(
+  passUnlocked: boolean,
+  passUsed: boolean
+): { success: boolean; reason?: string } {
+  if (!passUnlocked) return { success: false, reason: "Pass non débloqué" };
+  if (passUsed) return { success: false, reason: "Pass déjà utilisé aujourd'hui" };
+  return { success: true };
+}

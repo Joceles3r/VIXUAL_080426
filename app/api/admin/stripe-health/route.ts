@@ -122,7 +122,7 @@ export async function GET() {
     if (config.secretKey) {
       try {
         const stripe = new Stripe(config.secretKey, {
-          apiVersion: "2025-04-30.basil",
+          apiVersion: "2026-02-04.clover",
           typescript: true,
         });
         

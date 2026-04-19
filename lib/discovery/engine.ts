@@ -360,7 +360,7 @@ export function rankProjectsFromMock(contents: Content[]): RankedProject[] {
 export function getTop100ByCategory(
   contentType?: string,
   limit: number = 100,
-): (RankedProject & { score: VisualScoreBreakdown; scores: Record<string, number> })[] {
+): (Omit<RankedProject, "score"> & { score: VisualScoreBreakdown; scores: Record<string, number> })[] {
   // Rank all projects
   let ranked = rankProjectsFromMock(ALL_CONTENTS)
 

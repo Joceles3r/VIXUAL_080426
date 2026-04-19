@@ -7,7 +7,10 @@ export type Role =
   | "porter"
   | "infoporter"
   | "podcaster"
-  | "vixual_platform";
+  | "vixual_platform"
+  // Deprecated aliases - maintain for DB compatibility
+  | "investor"
+  | "investireader";
 
 /** Category determines which formula set applies */
 export type PayoutCategory = "films" | "voix_info" | "livres" | "podcasts";

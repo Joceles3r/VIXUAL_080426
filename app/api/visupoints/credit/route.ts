@@ -13,10 +13,10 @@ import { NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { apiError, ErrorCodes, withErrorHandler } from "@/lib/api-errors";
 import {
-  creditVisupointsCapped,
-  detectVisupointsAbuse,
+  creditVixupointsCapped,
+  detectVixupointsAbuse,
   DAILY_VIXUPOINTS_CAP,
-  MINOR_VISUPOINTS_CAP,
+  MINOR_VIXUPOINTS_CAP,
 } from "@/lib/vixupoints-engine";
 
 export const POST = withErrorHandler(async (req: Request) => {
@@ -58,7 +58,7 @@ export const POST = withErrorHandler(async (req: Request) => {
   const dailyEarnedToday = Number(dailyRows[0]?.total || 0);
 
   // Compute capped credit
-  const result = creditVisupointsCapped(
+  const result = creditVixupointsCapped(
     Number(user.visupoints_balance || 0),
     points,
     dailyEarnedToday,
@@ -105,7 +105,7 @@ export const POST = withErrorHandler(async (req: Request) => {
     `;
     const accountAgeDays = Number(accountRows[0]?.age_days || 0);
 
-    const abuse = detectVisupointsAbuse(dailyEarnings, result.newBalance, accountAgeDays);
+    const abuse = detectVixupointsAbuse(dailyEarnings, result.newBalance, accountAgeDays);
     if (abuse.riskScore >= 50) {
       // Log the abuse alert -- admin can review
       await sql`

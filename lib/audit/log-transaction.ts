@@ -1,4 +1,4 @@
-import { sql } from "@neondatabase/serverless"
+import { sql } from "@/lib/db"
 import crypto from "crypto"
 
 export interface AuditLogEntry {

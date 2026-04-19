@@ -141,7 +141,7 @@ export const POST = withErrorHandler(async (req: Request) => {
   const profile = user.is_minor ? "visitor_minor" : (user.role || "visitor");
 
   if (!isEligibleForVixupoints(profile)) {
-    return apiError(ErrorCodes.ERR_NOT_ALLOWED, "Ce profil ne beneficie pas du Pass Decouverte", 403);
+    return apiError(ErrorCodes.ERR_FORBIDDEN, "Ce profil ne beneficie pas du Pass Decouverte", 403);
   }
 
   const today = new Date().toISOString().slice(0, 10);

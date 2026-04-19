@@ -141,7 +141,7 @@ export interface RankedProject {
   creatorName: string
   contentType: "video" | "text" | "podcast"
   coverUrl: string
-  score: number
+  score: number | VisualScoreBreakdown
   wave: WaveLevel
   badges: ProjectBadge[]
   currentInvestment: number

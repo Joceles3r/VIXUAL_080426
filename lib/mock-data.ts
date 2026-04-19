@@ -70,6 +70,21 @@ export function isVerifiedCreator(creatorName: string): boolean {
   return VERIFIED_CREATORS_NAMES.includes(creatorName)
 }
 
+/**
+ * Vérifie si un créateur a le statut Gold (Gold Pass).
+ * En production, ce statut viendra de la DB (table users.gold_pass).
+ * En attendant, la liste des créateurs Gold est hardcodée ici.
+ */
+const GOLD_CREATORS = new Set<string>([
+  "Marie Stellaire",
+  "Karim Ondes",
+  // Ajouter ici les noms/IDs des créateurs Gold au fur et à mesure
+]);
+
+export function isGoldCreator(creatorName: string): boolean {
+  return GOLD_CREATORS.has(creatorName);
+}
+
 // Filtre les contenus des créateurs Gold
 export const MOCK_VIDEO_CONTENTS: Content[] = [
   { id: "v1", title: "L'Odyssee des Etoiles", description: "Un court-metrage de science-fiction epoustouflant explorant les confins de l'univers.", contentType: "video", coverUrl: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=800&h=450&fit=crop", creatorName: "Marie Stellaire", creatorId: "c1", createdAt: "2026-01-15", investmentGoal: 5000, currentInvestment: 3200, contributorCount: 47, investorCount: 47, totalVotes: 312, isFree: false, category: "Science-Fiction", duration: "18:45" },
@@ -142,7 +157,7 @@ export const MOCK_INVESTMENTS: Investment[] = [
     contentType: "video",
     amount: 15,
     votes: getVotesForInvestment(15),         // 9 votes
-    visupointsEarned: getVisupointsForInvestment(15), // 80 pts
+    vixupointsEarned: getVisupointsForInvestment(15), // 80 pts
     date: "2026-01-20",
     status: "active",
     returns: 2.5,
@@ -154,7 +169,7 @@ export const MOCK_INVESTMENTS: Investment[] = [
     contentType: "text",
     amount: 10,
     votes: getVotesForInvestment(10),         // 7 votes
-    visupointsEarned: getVisupointsForInvestment(10), // 50 pts
+    vixupointsEarned: getVisupointsForInvestment(10), // 50 pts
     date: "2026-01-22",
     status: "active",
     returns: 1.8,
@@ -166,7 +181,7 @@ export const MOCK_INVESTMENTS: Investment[] = [
     contentType: "video",
     amount: 5,
     votes: getVotesForInvestment(5),          // 4 votes
-    visupointsEarned: getVisupointsForInvestment(5),  // 25 pts
+    vixupointsEarned: getVisupointsForInvestment(5),  // 25 pts
     date: "2026-02-05",
     status: "active",
     returns: 0.6,
@@ -178,7 +193,7 @@ export const MOCK_INVESTMENTS: Investment[] = [
     contentType: "text",
     amount: 20,
     votes: getVotesForInvestment(20),         // 10 votes
-    visupointsEarned: getVisupointsForInvestment(20), // 110 pts
+    vixupointsEarned: getVisupointsForInvestment(20), // 110 pts
     date: "2026-02-10",
     status: "completed",
     returns: 5.2,
@@ -190,8 +205,8 @@ export const MOCK_TRANSACTIONS: Transaction[] = [
   {
     id: "tr0",
     type: "caution",
-    description: `Caution Contributeur (${CAUTION_EUR.investor}EUR)`,
-    amount: -CAUTION_EUR.investor,
+    description: `Caution Contributeur (${CAUTION_EUR.contributor}EUR)`,
+    amount: -CAUTION_EUR.contributor,
     date: "2026-01-15",
     status: "completed",
   },

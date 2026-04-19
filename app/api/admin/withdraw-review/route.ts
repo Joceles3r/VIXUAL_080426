@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
-import { adminGuard } from "@/lib/admin-guard";
+import { isAdminEmail } from "@/lib/admin-guard";
 import { ErrorCodes, apiError, withErrorHandler } from "@/lib/api-errors";
 
 // GET: list pending withdrawal reviews (admin only)
 export const GET = withErrorHandler(async (req: Request) => {
-  const guard = await adminGuard(req as NextRequest);
-  if (!guard.authorized) {
+  const adminEmail = (req as NextRequest).headers.get("x-admin-email")
+    ?? new URL(req.url).searchParams.get("email");
+  if (!adminEmail || !isAdminEmail(adminEmail)) {
     return apiError(ErrorCodes.ERR_FORBIDDEN, "Acces admin requis", 403);
   }
 
@@ -39,8 +40,9 @@ export const GET = withErrorHandler(async (req: Request) => {
 
 // POST: approve or reject a withdrawal (admin only)
 export const POST = withErrorHandler(async (req: Request) => {
-  const guard = await adminGuard(req as NextRequest);
-  if (!guard.authorized) {
+  const adminEmail = (req as NextRequest).headers.get("x-admin-email")
+    ?? new URL(req.url).searchParams.get("email");
+  if (!adminEmail || !isAdminEmail(adminEmail)) {
     return apiError(ErrorCodes.ERR_FORBIDDEN, "Acces admin requis", 403);
   }
 
@@ -85,7 +87,7 @@ export const POST = withErrorHandler(async (req: Request) => {
     UPDATE withdrawal_requests
     SET review_status = ${decision},
         reviewed_at = now(),
-        reviewed_by = ${guard.adminEmail || "admin"},
+        reviewed_by = ${adminEmail},
         review_note = ${note || null}
     WHERE id = ${withdrawalId}::uuid
   `;

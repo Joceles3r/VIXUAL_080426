@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
   if (isDatabaseConfigured()) {
     try {
       const rows = await sql`
-        SELECT id, project_id, user_id, is_active, purchased_at, activated_at, expires_at, stripe_payment_id
+        SELECT id, project_id, user_id, is_active, purchased_at, activated_at, expires_at, stripe_payment_id, boost_multiplier
         FROM ticket_gold
         WHERE project_id = ${projectId} AND user_id = ${userId}
         ORDER BY purchased_at DESC
@@ -46,6 +46,9 @@ export async function GET(req: NextRequest) {
         activatedAt: row.activated_at ? new Date(row.activated_at as string) : undefined,
         expiresAt: row.expires_at ? new Date(row.expires_at as string) : undefined,
         stripePaymentId: row.stripe_payment_id as string | undefined,
+        boostMultiplier: typeof row.boost_multiplier === "string"
+          ? parseFloat(row.boost_multiplier)
+          : (row.boost_multiplier as number ?? 0.5),
       }));
     } catch (err) {
       console.error("[Ticket Gold] Erreur DB:", err);
@@ -95,7 +98,7 @@ export async function POST(req: NextRequest) {
     if (isDatabaseConfigured()) {
       try {
         const rows = await sql`
-          SELECT id, project_id, user_id, is_active, purchased_at, activated_at, expires_at, stripe_payment_id
+          SELECT id, project_id, user_id, is_active, purchased_at, activated_at, expires_at, stripe_payment_id, boost_multiplier
           FROM ticket_gold
           WHERE project_id = ${projectId} AND user_id = ${userId}
           ORDER BY purchased_at DESC
@@ -110,6 +113,9 @@ export async function POST(req: NextRequest) {
           activatedAt: row.activated_at ? new Date(row.activated_at as string) : undefined,
           expiresAt: row.expires_at ? new Date(row.expires_at as string) : undefined,
           stripePaymentId: row.stripe_payment_id as string | undefined,
+          boostMultiplier: typeof row.boost_multiplier === "string"
+            ? parseFloat(row.boost_multiplier)
+            : (row.boost_multiplier as number ?? 0.5),
         }));
       } catch (err) {
         console.error("[Ticket Gold] Erreur DB lors de POST:", err);

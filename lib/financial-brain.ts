@@ -170,10 +170,10 @@ export function getPaymentStatusLabel(status: PaymentStatus): string {
 }
 
 export function getRequiredValidation(status: PaymentStatus, amount: number): AdminRole[] {
-  if (status === "critical") return ["patron"]
-  if (status === "red") return ["patron"]
-  if (status === "orange") return ["adjoint", "patron"]
-  if (amount > 1000) return ["moderator", "adjoint"] // Double validation > 1000€
+  if (status === "critical") return ["admin"]
+  if (status === "red") return ["admin"]
+  if (status === "orange") return ["admin_adjoint", "admin"]
+  if (amount > 1000) return ["moderator", "admin_adjoint"] // Double validation > 1000€
   return []
 }
 
@@ -320,7 +320,7 @@ export interface RolePermissions {
 }
 
 export const ROLE_PERMISSIONS: Record<AdminRole, RolePermissions> = {
-  patron: {
+  admin: {
     canValidateGreen: true,
     canValidateOrange: true,
     canValidateRed: true,
@@ -335,7 +335,7 @@ export const ROLE_PERMISSIONS: Record<AdminRole, RolePermissions> = {
     canViewLogs: true,
     canOpenInvestigation: true,
   },
-  adjoint: {
+  admin_adjoint: {
     canValidateGreen: true,
     canValidateOrange: true,
     canValidateRed: false,
@@ -435,7 +435,7 @@ export function getMockPaymentReviews(): PaymentReview[] {
       status: "orange",
       aiScore: 78,
       alerts: ["Pic d'activite inhabituel avant cloture"],
-      requiresValidation: ["adjoint"],
+      requiresValidation: ["admin_adjoint"],
       createdAt: "2026-03-15T10:05:00Z",
     },
     {
@@ -448,7 +448,7 @@ export function getMockPaymentReviews(): PaymentReview[] {
       status: "red",
       aiScore: 44,
       alerts: ["Cluster multi-comptes detecte", "Repartition incoherente"],
-      requiresValidation: ["patron"],
+      requiresValidation: ["admin"],
       createdAt: "2026-03-15T10:10:00Z",
     },
     {
@@ -525,7 +525,7 @@ export function getMockAuditLogs(): AIAuditLog[] {
       oldValue: "Inclus dans repartition",
       newValue: "Exclu de repartition",
       decidedBy: "jocelyndru@gmail.com",
-      role: "patron",
+      role: "admin",
     },
     {
       id: "log-002",
@@ -539,7 +539,7 @@ export function getMockAuditLogs(): AIAuditLog[] {
       oldValue: "En attente",
       newValue: "Valide",
       decidedBy: "adjoint@vixual.com",
-      role: "adjoint",
+      role: "admin_adjoint",
     },
   ]
 }
