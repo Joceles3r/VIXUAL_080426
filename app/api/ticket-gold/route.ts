@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getStripeSafe, isStripeConfigured } from "@/lib/stripe";
+import { getStripeClient, isStripeConfiguredAsync } from "@/lib/stripe";
 import { 
   TICKET_GOLD_CONFIG, 
   canPurchaseTicketGold, 
@@ -81,10 +81,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Verifier que Stripe est configure
-    if (!isStripeConfigured()) {
+    // Verifier que Stripe est configure (DB-aware)
+    if (!(await isStripeConfiguredAsync())) {
       return NextResponse.json(
-        { error: "Stripe non configure" },
+        { error: "Stripe non configure - contactez un administrateur" },
         { status: 503 }
       );
     }
@@ -125,7 +125,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const stripe = getStripeSafe();
+    const stripe = await getStripeClient();
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://vixual.app";
 
     // Creer la session Checkout Stripe

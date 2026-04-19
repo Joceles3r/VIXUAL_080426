@@ -36,25 +36,22 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
   
-  // Check for duplicate event (idempotency) - use stripe_events_log table
-  const existingEvent = await sql`
-    SELECT id, processing_status FROM stripe_events_log WHERE id = ${event.id}
+  // Idempotence atomique : INSERT ... ON CONFLICT DO NOTHING.
+  // Si une insertion retourne 0 ligne, c'est un doublon → on sort proprement.
+  const inserted = await sql`
+    INSERT INTO stripe_events_log (id, event_type, livemode, payload, processing_status)
+    VALUES (${event.id}, ${event.type}, ${event.livemode}, ${JSON.stringify(event.data)}, 'processing')
+    ON CONFLICT (id) DO NOTHING
+    RETURNING id
   `;
   
-  if (existingEvent.length > 0) {
-    logStripeEvent("Duplicate webhook ignored", { 
+  if (inserted.length === 0) {
+    logStripeEvent("Duplicate webhook ignored (idempotency)", { 
       eventId: event.id, 
       type: event.type,
-      previousStatus: existingEvent[0].processing_status
     });
     return NextResponse.json({ received: true, duplicate: true });
   }
-  
-  // Record event before processing (for idempotency)
-  await sql`
-    INSERT INTO stripe_events_log (id, event_type, livemode, payload, processing_status)
-    VALUES (${event.id}, ${event.type}, ${event.livemode}, ${JSON.stringify(event.data)}, 'processing')
-  `;
   
   try {
     // Process event based on type
@@ -73,6 +70,10 @@ export async function POST(req: NextRequest) {
         
       case "charge.refunded":
         await handleChargeRefunded(event.data.object as Stripe.Charge);
+        break;
+        
+      case "transfer.created":
+        await handleTransferCreated(event.data.object as Stripe.Transfer);
         break;
         
       case "transfer.failed":
@@ -194,20 +195,36 @@ async function handleChargeRefunded(charge: Stripe.Charge) {
   }
 }
 
+async function handleTransferCreated(transfer: Stripe.Transfer) {
+  logStripeEvent("Transfer created", { 
+    id: transfer.id, 
+    destination: transfer.destination,
+    amount: transfer.amount,
+  });
+  
+  // Mark payout as processing in payout_ledger if the transfer matches
+  await sql`
+    UPDATE payout_ledger 
+    SET status = 'processing', updated_at = NOW()
+    WHERE stripe_transfer_id = ${transfer.id}
+      AND status IN ('pending', 'processing')
+  `.catch(() => {});
+}
+
 async function handleTransferFailed(transfer: Stripe.Transfer) {
   logStripeEvent("Transfer failed", { 
     id: transfer.id, 
     destination: transfer.destination 
   });
   
-  // Update payout status
+  // Update payout_ledger status (canonical table - payouts is legacy)
   await sql`
-    UPDATE payouts 
-    SET status = 'failed', error = 'Transfer failed'
+    UPDATE payout_ledger 
+    SET status = 'failed', 
+        metadata = COALESCE(metadata, '{}'::jsonb) || ${JSON.stringify({ error: "Transfer failed", failedAt: new Date().toISOString() })}::jsonb,
+        updated_at = NOW()
     WHERE stripe_transfer_id = ${transfer.id}
-  `;
-  
-  // TODO: Notify admin
+  `.catch(() => {});
 }
 
 async function handleAccountUpdated(account: Stripe.Account) {
@@ -268,6 +285,54 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
   });
   
   const metadata = session.metadata || {};
+  
+  // ── Priority Reintegration 25€ ────────────────────────────────────
+  if (metadata.product_type === "priority_reintegration") {
+    const projectId = metadata.project_id;
+    const userId = metadata.user_id;
+    if (projectId && userId) {
+      await sql`
+        UPDATE projects
+        SET status = 'prioritized',
+            priority_reintegrated_at = NOW(),
+            priority_payment_id = ${session.payment_intent || session.id}
+        WHERE id = ${projectId}
+      `.catch((err) => {
+        console.error("[Webhook/PriorityReintegration] UPDATE failed:", err);
+      });
+      logStripeEvent("Priority reintegration activated", { projectId, userId });
+    }
+    return;
+  }
+  
+  // ── Free Support (soutien libre) ──────────────────────────────────
+  if (metadata.product_type === "free_support") {
+    const creatorId = metadata.creator_id;
+    const userId = metadata.user_id;
+    const amountCents = parseInt(metadata.amount_cents || "0", 10);
+    if (creatorId && amountCents > 0) {
+      // Journalise dans payments (pour historique)
+      await sql`
+        INSERT INTO payments (
+          user_id, stripe_checkout_session_id, stripe_payment_intent_id,
+          amount_cents, status, payment_type, metadata
+        ) VALUES (
+          ${userId === "anonymous" ? null : userId},
+          ${session.id},
+          ${session.payment_intent as string | null},
+          ${amountCents},
+          'succeeded',
+          'free_support',
+          ${JSON.stringify({ creator_id: creatorId, platform_fee_cents: metadata.platform_fee_cents })}::jsonb
+        )
+        ON CONFLICT (stripe_checkout_session_id) DO NOTHING
+      `.catch((err) => {
+        console.error("[Webhook/FreeSupport] INSERT failed:", err);
+      });
+      logStripeEvent("Free support recorded", { creatorId, amountCents });
+    }
+    return;
+  }
   
   // Handle Ticket Gold purchase
   if (metadata.product_type === "ticket_gold") {

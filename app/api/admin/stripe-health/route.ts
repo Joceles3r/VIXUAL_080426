@@ -158,6 +158,87 @@ export async function GET() {
       }
     }
 
+    // ── Récupérer événements webhook récents ───────────────────
+    let recentEvents: Array<{
+      id: string;
+      event_type: string;
+      processing_status: string;
+      error_message: string | null;
+      processed_at: string;
+    }> = [];
+    let recentErrors: typeof recentEvents = [];
+    let eventStats = { total_24h: 0, processed_24h: 0, failed_24h: 0 };
+    
+    try {
+      const eventsRows = await sql`
+        SELECT id, event_type, processing_status, error_message, processed_at
+        FROM stripe_events_log
+        ORDER BY processed_at DESC
+        LIMIT 10
+      `;
+      recentEvents = eventsRows.map((r) => ({
+        id: r.id as string,
+        event_type: r.event_type as string,
+        processing_status: r.processing_status as string,
+        error_message: (r.error_message as string) || null,
+        processed_at: new Date(r.processed_at as string).toISOString(),
+      }));
+      
+      recentErrors = recentEvents.filter(
+        (e) => e.processing_status === "failed" && e.error_message
+      );
+      
+      const statsRows = await sql`
+        SELECT 
+          COUNT(*) as total,
+          COUNT(*) FILTER (WHERE processing_status = 'processed') as processed,
+          COUNT(*) FILTER (WHERE processing_status = 'failed') as failed
+        FROM stripe_events_log
+        WHERE processed_at >= NOW() - INTERVAL '24 hours'
+      `;
+      if (statsRows.length > 0) {
+        eventStats = {
+          total_24h: Number(statsRows[0].total) || 0,
+          processed_24h: Number(statsRows[0].processed) || 0,
+          failed_24h: Number(statsRows[0].failed) || 0,
+        };
+      }
+    } catch (err) {
+      health.warnings.push("Impossible de lire les événements webhook récents");
+    }
+
+    // ── Statistiques Stripe Connect ────────────────────────────
+    let connectStats = {
+      total_accounts: 0,
+      verified_accounts: 0,
+      pending_accounts: 0,
+      restricted_accounts: 0,
+      disabled_accounts: 0,
+    };
+    
+    try {
+      const connectRows = await sql`
+        SELECT 
+          COUNT(*) as total,
+          COUNT(*) FILTER (WHERE stripe_account_status = 'verified') as verified,
+          COUNT(*) FILTER (WHERE stripe_account_status = 'pending') as pending,
+          COUNT(*) FILTER (WHERE stripe_account_status = 'restricted') as restricted,
+          COUNT(*) FILTER (WHERE stripe_account_status = 'disabled') as disabled
+        FROM users WHERE stripe_account_id IS NOT NULL
+      `;
+      if (connectRows.length > 0) {
+        connectStats = {
+          total_accounts: Number(connectRows[0].total) || 0,
+          verified_accounts: Number(connectRows[0].verified) || 0,
+          pending_accounts: Number(connectRows[0].pending) || 0,
+          restricted_accounts: Number(connectRows[0].restricted) || 0,
+          disabled_accounts: Number(connectRows[0].disabled) || 0,
+        };
+      }
+    } catch {
+      // Ignore: Connect stats are optional
+    }
+
     // Verdict final - DOIT inclure le test reel de connexion
     health.ok = 
       health.errors.length === 0 && 
@@ -165,12 +246,24 @@ export async function GET() {
       health.can_process_payments &&
       stripeConnectionOk;
     
+    // Alertes supplémentaires
+    if (eventStats.failed_24h > 5) {
+      health.warnings.push(`${eventStats.failed_24h} webhooks en échec sur 24h — vérifiez les erreurs récentes`);
+    }
+    if (connectStats.restricted_accounts > 0) {
+      health.warnings.push(`${connectStats.restricted_accounts} compte(s) Connect avec informations manquantes`);
+    }
+
     // Ajouter les infos de compte Stripe si disponibles
     const response = {
       ...health,
       stripe_connection_tested: true,
       stripe_connection_ok: stripeConnectionOk,
       stripe_account: stripeAccountInfo,
+      recent_events: recentEvents,
+      recent_errors: recentErrors,
+      event_stats: eventStats,
+      connect_stats: connectStats,
     };
 
     // Warnings supplementaires

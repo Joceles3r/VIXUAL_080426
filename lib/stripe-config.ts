@@ -124,6 +124,10 @@ export interface StripeRuntimeConfig {
   connectClientId: string;
   mode: StripeMode;
   source: "database" | "environment";
+  /** ISO timestamp of last DB update (undefined for env source) */
+  updatedAt?: string;
+  /** Email of admin who last updated (undefined for env source) */
+  updatedBy?: string;
 }
 
 // ── Chargement depuis la base ─────────────────────────────────────────────────
@@ -143,7 +147,8 @@ export async function getStripeConfig(): Promise<StripeRuntimeConfig> {
       SELECT
         test_secret_key, test_publishable_key, test_webhook_secret,
         live_secret_key, live_publishable_key, live_webhook_secret,
-        active_mode, connect_client_id
+        active_mode, connect_client_id,
+        updated_at, updated_by
       FROM stripe_config
       WHERE id = 1
       LIMIT 1
@@ -177,6 +182,8 @@ export async function getStripeConfig(): Promise<StripeRuntimeConfig> {
           connectClientId: (row.connect_client_id as string) || "",
           mode,
           source: "database",
+          updatedAt: row.updated_at ? new Date(row.updated_at as string).toISOString() : undefined,
+          updatedBy: (row.updated_by as string) || undefined,
         };
         _cache = { ...config, fetchedAt: Date.now() };
         return config;

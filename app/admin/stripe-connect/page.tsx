@@ -176,26 +176,44 @@ export default function StripeConnectDashboardPage() {
   const [accountFilter, setAccountFilter] = useState<string>("all")
   const [expandedAccount, setExpandedAccount] = useState<string | null>(null)
 
-  // Fetch data
+  // Fetch data from real Admin API (falls back to mocks if unauthenticated)
   const fetchData = useCallback(async () => {
+    if (!user?.email) {
+      setLoading(false)
+      return
+    }
     setLoading(true)
     try {
-      // In production, fetch from API
-      // const res = await fetch("/api/admin/stripe-connect/stats")
-      // const data = await res.json()
-      // setStats(data.stats)
-      // setAccounts(data.accounts)
-      // setPayments(data.payments)
-      // setPayouts(data.payouts)
-      
-      // Mock delay
-      await new Promise(r => setTimeout(r, 500))
+      const emailParam = encodeURIComponent(user.email)
+      const [statsRes, accountsRes, paymentsRes, payoutsRes] = await Promise.all([
+        fetch(`/api/admin/stripe-connect?email=${emailParam}&action=stats`, { cache: "no-store" }),
+        fetch(`/api/admin/stripe-connect?email=${emailParam}&action=accounts`, { cache: "no-store" }),
+        fetch(`/api/admin/stripe-connect?email=${emailParam}&action=payments`, { cache: "no-store" }),
+        fetch(`/api/admin/stripe-connect?email=${emailParam}&action=payouts`, { cache: "no-store" }),
+      ])
+
+      if (statsRes.ok) {
+        const data = await statsRes.json()
+        if (data?.stats) setStats({ ...MOCK_STATS, ...data.stats })
+      }
+      if (accountsRes.ok) {
+        const data = await accountsRes.json()
+        if (Array.isArray(data?.accounts)) setAccounts(data.accounts)
+      }
+      if (paymentsRes.ok) {
+        const data = await paymentsRes.json()
+        if (Array.isArray(data?.payments)) setPayments(data.payments)
+      }
+      if (payoutsRes.ok) {
+        const data = await payoutsRes.json()
+        if (Array.isArray(data?.payouts)) setPayouts(data.payouts)
+      }
     } catch (error) {
-      console.error("Error fetching Stripe Connect data:", error)
+      console.error("[Admin/StripeConnect] Error fetching data:", error)
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [user?.email])
 
   useEffect(() => {
     fetchData()
@@ -203,11 +221,17 @@ export default function StripeConnectDashboardPage() {
 
   // Sync all accounts with Stripe
   const handleSyncAll = async () => {
+    if (!user?.email) return
     setSyncing(true)
     try {
-      // await fetch("/api/admin/stripe-connect/sync", { method: "POST" })
-      await new Promise(r => setTimeout(r, 1500))
+      await fetch("/api/admin/stripe-connect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email, action: "sync-all" }),
+      })
       await fetchData()
+    } catch (error) {
+      console.error("[Admin/StripeConnect] Sync error:", error)
     } finally {
       setSyncing(false)
     }
@@ -215,42 +239,57 @@ export default function StripeConnectDashboardPage() {
 
   // Execute pending payouts
   const handleExecutePayouts = async () => {
+    if (!user?.email) return
     if (!confirm("Executer tous les paiements en attente ? Cette action est irreversible.")) return
     try {
-      // await fetch("/api/admin/stripe-connect/execute-payouts", { method: "POST" })
-      await new Promise(r => setTimeout(r, 1000))
+      const res = await fetch("/api/admin/stripe-connect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email, action: "execute-payouts" }),
+      })
+      const data = await res.json()
+      if (data?.message) alert(data.message)
       await fetchData()
     } catch (error) {
-      console.error("Error executing payouts:", error)
+      console.error("[Admin/StripeConnect] Execute payouts error:", error)
     }
   }
 
   // Freeze/unfreeze a payout
   const handleToggleFreeze = async (payoutId: string, currentStatus: string) => {
+    if (!user?.email) return
     const newStatus = currentStatus === "frozen" ? "pending" : "frozen"
     try {
-      // await fetch(`/api/admin/stripe-connect/payout/${payoutId}`, {
-      //   method: "PATCH",
-      //   body: JSON.stringify({ status: newStatus })
-      // })
-      setPayouts(prev => prev.map(p => p.id === payoutId ? { ...p, status: newStatus as "frozen" | "pending" } : p))
+      const res = await fetch("/api/admin/stripe-connect", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email, payoutId, status: newStatus }),
+      })
+      if (res.ok) {
+        setPayouts(prev => prev.map(p => p.id === payoutId ? { ...p, status: newStatus as "frozen" | "pending" } : p))
+      }
     } catch (error) {
-      console.error("Error toggling freeze:", error)
+      console.error("[Admin/StripeConnect] Toggle freeze error:", error)
     }
   }
 
   // Resend onboarding link
   const handleResendOnboarding = async (accountId: string) => {
+    if (!user?.email) return
     try {
-      // const res = await fetch("/api/admin/stripe-connect/resend-onboarding", {
-      //   method: "POST",
-      //   body: JSON.stringify({ accountId })
-      // })
-      // const data = await res.json()
-      // window.open(data.url, "_blank")
-      alert("Lien d'onboarding renvoye (simulation)")
+      const res = await fetch("/api/admin/stripe-connect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email, action: "resend-onboarding", accountId }),
+      })
+      const data = await res.json()
+      if (data?.url) {
+        window.open(data.url, "_blank")
+      } else {
+        alert("Impossible de generer le lien d'onboarding")
+      }
     } catch (error) {
-      console.error("Error resending onboarding:", error)
+      console.error("[Admin/StripeConnect] Resend onboarding error:", error)
     }
   }
 

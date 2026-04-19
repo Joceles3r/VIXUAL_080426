@@ -358,6 +358,93 @@ class StripeConnectService {
       return false;
     }
   }
+
+  /**
+   * Guard métier : vérifie si un utilisateur peut percevoir des gains.
+   * Utilisé pour bloquer l'affichage/traitement des gains dans le wallet
+   * si l'onboarding Connect n'est pas finalisé.
+   *
+   * Retourne un diagnostic structuré pour affichage UI.
+   */
+  async canReceiveGains(userId: string): Promise<{
+    canReceive: boolean;
+    hasAccount: boolean;
+    status: StripeConnectAccountStatus;
+    reason?: string;
+    actionRequired?: "onboarding" | "complete_requirements" | "contact_support";
+  }> {
+    const users = await sql`
+      SELECT stripe_account_id, stripe_account_status, stripe_account_details
+      FROM users WHERE id = ${userId}
+    `;
+    
+    if (users.length === 0) {
+      return {
+        canReceive: false,
+        hasAccount: false,
+        status: "none",
+        reason: "Utilisateur introuvable",
+        actionRequired: "contact_support",
+      };
+    }
+    
+    const user = users[0] as { 
+      stripe_account_id?: string | null;
+      stripe_account_status?: string | null;
+      stripe_account_details?: Record<string, unknown> | null;
+    };
+    
+    if (!user.stripe_account_id) {
+      return {
+        canReceive: false,
+        hasAccount: false,
+        status: "none",
+        reason: "Compte Stripe Connect non créé. Veuillez finaliser votre onboarding pour recevoir vos gains.",
+        actionRequired: "onboarding",
+      };
+    }
+    
+    const status = (user.stripe_account_status as StripeConnectAccountStatus) || "pending";
+    const details = user.stripe_account_details || {};
+    const payoutsEnabled = Boolean(details.payoutsEnabled);
+    
+    if (status === "verified" && payoutsEnabled) {
+      return {
+        canReceive: true,
+        hasAccount: true,
+        status: "verified",
+      };
+    }
+    
+    if (status === "disabled") {
+      return {
+        canReceive: false,
+        hasAccount: true,
+        status: "disabled",
+        reason: "Votre compte Stripe est désactivé. Contactez le support.",
+        actionRequired: "contact_support",
+      };
+    }
+    
+    if (status === "restricted") {
+      return {
+        canReceive: false,
+        hasAccount: true,
+        status: "restricted",
+        reason: "Votre compte Stripe nécessite des informations complémentaires.",
+        actionRequired: "complete_requirements",
+      };
+    }
+    
+    // pending / none / other
+    return {
+      canReceive: false,
+      hasAccount: true,
+      status,
+      reason: "Finalisez votre onboarding Stripe pour recevoir vos gains.",
+      actionRequired: "onboarding",
+    };
+  }
   
   /**
    * Get balance for a Connect account
