@@ -552,10 +552,14 @@ export const VIXUPOINTS_GAINS = {
 /** Messages pédagogiques pour l'UI VIXUpoints */
 export const PEDAGOGIC_MESSAGES = {
   welcome: "Bienvenue ! Regardez des extraits, interagissez et accumulez des VIXUpoints.",
-  conversion: "100 VIXUpoints = 1 €. Convertissables à partir de 2 500 points (= 25 €)",
-  dailyCap: "Plafond quotidien atteint. Revenez demain pour continuer à accumuler.",
-  passUnlocked: "Pass Découverte débloqué ! Regardez un contenu complet aujourd'hui.",
-  passUsed: "Pass utilisé aujourd'hui. Revenez demain pour un nouveau pass.",
+  conversion: "100 VIXUpoints = 1 €. Convertissables a partir de 2 500 points (= 25 EUR)",
+  dailyCap: "Plafond quotidien atteint. Revenez demain pour continuer a accumuler.",
+  passUnlocked: "Pass Decouverte debloque ! Regardez un contenu complet aujourd'hui.",
+  passUsed: "Pass utilise aujourd'hui. Revenez demain pour un nouveau pass.",
+  /** Alias for passUnlocked - used by visitor page */
+  passUnlock: "Completez les objectifs pour debloquer votre acces gratuit quotidien",
+  /** Message d'engagement */
+  engagement: "Decouvrez des contenus exclusifs",
 } as const;
 
 /** Exigences pour débloquer le Pass Découverte */
@@ -600,6 +604,14 @@ export interface DiscoveryPassStatus {
     interactions: { current: number; required: number };
     vixupoints: { current: number; required: number };
   };
+  /** Alias for progress - used by visitor page */
+  unlockRequirements: {
+    excerptViews: { current: number; required: number };
+    interactions: { current: number; required: number };
+    vixupoints: { current: number; required: number };
+  };
+  /** Percentage progress toward unlock (0-100) */
+  unlockProgress: number;
   allRequirementsMet: boolean;
 }
 
@@ -616,13 +628,25 @@ export function getDiscoveryPassStatus(
   const pointsOk = vixupointsEarnedToday >= DISCOVERY_PASS_REQUIREMENTS.vixupoints;
   const allMet = excerptsOk && interactionsOk && pointsOk;
 
+  // Calculate unlock progress percentage (average of all three requirements)
+  const excerptProgress = Math.min(excerptViewsToday / DISCOVERY_PASS_REQUIREMENTS.excerptViews, 1) * 100;
+  const interactionProgress = Math.min(interactionsToday / DISCOVERY_PASS_REQUIREMENTS.interactions, 1) * 100;
+  const pointsProgress = Math.min(vixupointsEarnedToday / DISCOVERY_PASS_REQUIREMENTS.vixupoints, 1) * 100;
+  const unlockProgress = Math.round((excerptProgress + interactionProgress + pointsProgress) / 3);
+
   return {
     canUnlock: allMet && !passUnlocked,
     isUnlocked: passUnlocked,
     isUsed: passUsed,
     allRequirementsMet: allMet,
+    unlockProgress,
     progress: {
       excerpts: { current: excerptViewsToday, required: DISCOVERY_PASS_REQUIREMENTS.excerptViews },
+      interactions: { current: interactionsToday, required: DISCOVERY_PASS_REQUIREMENTS.interactions },
+      vixupoints: { current: vixupointsEarnedToday, required: DISCOVERY_PASS_REQUIREMENTS.vixupoints },
+    },
+    unlockRequirements: {
+      excerptViews: { current: excerptViewsToday, required: DISCOVERY_PASS_REQUIREMENTS.excerptViews },
       interactions: { current: interactionsToday, required: DISCOVERY_PASS_REQUIREMENTS.interactions },
       vixupoints: { current: vixupointsEarnedToday, required: DISCOVERY_PASS_REQUIREMENTS.vixupoints },
     },
@@ -633,10 +657,18 @@ export function getDiscoveryPassStatus(
 export interface DailyObjective {
   id: string;
   label: string;
+  /** Alias for label */
+  title: string;
+  /** Description detaillee */
+  description: string;
   current: number;
   required: number;
+  /** Alias for required */
+  target: number;
   completed: boolean;
   points: number;
+  /** Alias for points */
+  reward: number;
 }
 
 /** Retourne la liste des objectifs quotidiens */
@@ -645,30 +677,46 @@ export function getDailyObjectives(
   interactionsToday: number,
   passUnlocked: boolean
 ): DailyObjective[] {
+  const excerptPoints = DISCOVERY_PASS_REQUIREMENTS.excerptViews * VIXUPOINTS_GAINS.activeViewing;
+  const interactionPoints = DISCOVERY_PASS_REQUIREMENTS.interactions * VIXUPOINTS_GAINS.interaction;
+  const passPoints = VIXUPOINTS_GAINS.fullContentView;
+
   return [
     {
       id: "excerpts",
       label: "Regarder 3 extraits",
+      title: "Regarder 3 extraits",
+      description: "Visionnez des extraits de contenus pour decouvrir les createurs",
       current: Math.min(excerptViewsToday, DISCOVERY_PASS_REQUIREMENTS.excerptViews),
       required: DISCOVERY_PASS_REQUIREMENTS.excerptViews,
+      target: DISCOVERY_PASS_REQUIREMENTS.excerptViews,
       completed: excerptViewsToday >= DISCOVERY_PASS_REQUIREMENTS.excerptViews,
-      points: DISCOVERY_PASS_REQUIREMENTS.excerptViews * VIXUPOINTS_GAINS.activeViewing,
+      points: excerptPoints,
+      reward: excerptPoints,
     },
     {
       id: "interactions",
-      label: "2 interactions (like, commentaire, partage)",
+      label: "2 interactions",
+      title: "2 interactions",
+      description: "Likez, commentez ou partagez des contenus",
       current: Math.min(interactionsToday, DISCOVERY_PASS_REQUIREMENTS.interactions),
       required: DISCOVERY_PASS_REQUIREMENTS.interactions,
+      target: DISCOVERY_PASS_REQUIREMENTS.interactions,
       completed: interactionsToday >= DISCOVERY_PASS_REQUIREMENTS.interactions,
-      points: DISCOVERY_PASS_REQUIREMENTS.interactions * VIXUPOINTS_GAINS.interaction,
+      points: interactionPoints,
+      reward: interactionPoints,
     },
     {
       id: "pass",
-      label: "Débloquer et utiliser le Pass Découverte",
+      label: "Pass Decouverte",
+      title: "Pass Decouverte",
+      description: "Debloquez et utilisez votre Pass pour un contenu complet gratuit",
       current: passUnlocked ? 1 : 0,
       required: 1,
+      target: 1,
       completed: passUnlocked,
-      points: VIXUPOINTS_GAINS.fullContentView,
+      points: passPoints,
+      reward: passPoints,
     },
   ];
 }

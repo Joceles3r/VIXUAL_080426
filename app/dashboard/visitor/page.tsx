@@ -76,26 +76,34 @@ export default function VisitorDashboardPage() {
   useEffect(() => {
     // Charger les donnees depuis les APIs
     async function loadData() {
+      // Si pas d'utilisateur connecte, utiliser des valeurs par defaut
+      if (!user?.id) {
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
         setError(null);
         
         // Charger le solde VIXUpoints
-        const balanceRes = await fetch("/api/visupoints/balance");
+        const balanceRes = await fetch(`/api/visupoints/balance?userId=${user.id}`);
         if (balanceRes.ok) {
           const balanceData = await balanceRes.json();
           setVixupoints(balanceData.balance || 0);
-          setDailyEarned(balanceData.dailyEarned || 0);
+          setDailyEarned(balanceData.caps?.daily?.used || 0);
         }
         
         // Charger le statut du Pass Decouverte
-        const passRes = await fetch("/api/visupoints/discovery-pass");
+        const passRes = await fetch(`/api/visupoints/discovery-pass?userId=${user.id}`);
         if (passRes.ok) {
           const passData = await passRes.json();
-          setExcerptViewsToday(passData.excerptViewsToday || 0);
-          setInteractionsToday(passData.interactionsToday || 0);
-          setPassUnlocked(passData.unlocked || false);
-          setPassUsed(passData.usedToday || false);
+          if (passData.status) {
+            setExcerptViewsToday(passData.status.progress?.excerpts?.current || 0);
+            setInteractionsToday(passData.status.progress?.interactions?.current || 0);
+            setPassUnlocked(passData.status.isUnlocked || false);
+            setPassUsed(passData.status.isUsed || false);
+          }
         }
       } catch (err) {
         console.error("[v0] Error loading visitor data:", err);
@@ -106,7 +114,7 @@ export default function VisitorDashboardPage() {
     }
     
     loadData();
-  }, []);
+  }, [user?.id]);
   
   // Actions
   const handleUnlockPass = () => {
