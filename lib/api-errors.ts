@@ -1,5 +1,5 @@
 /**
- * VISUAL - Centralized API Error Handler
+ * VIXUAL - Centralized API Error Handler
  *
  * Standardized error codes and response format for all API routes.
  * Replaces ad-hoc error handling with consistent, debuggable error responses.
@@ -50,10 +50,10 @@ export const ErrorCodes = {
   ERR_ACCOUNT_SUSPENDED: "ERR_ACCOUNT_SUSPENDED",
 
   // VIXUpoints
-  ERR_VISUPOINTS_DAILY_CAP: "ERR_VISUPOINTS_DAILY_CAP",
-  ERR_VISUPOINTS_PROFILE_CAP: "ERR_VISUPOINTS_PROFILE_CAP",
-  ERR_VISUPOINTS_ABUSE_DETECTED: "ERR_VISUPOINTS_ABUSE_DETECTED",
-  ERR_VISUPOINTS_INVALID_ACTION: "ERR_VISUPOINTS_INVALID_ACTION",
+  ERR_VIXUPOINTS_DAILY_CAP: "ERR_VIXUPOINTS_DAILY_CAP",
+  ERR_VIXUPOINTS_PROFILE_CAP: "ERR_VIXUPOINTS_PROFILE_CAP",
+  ERR_VIXUPOINTS_ABUSE_DETECTED: "ERR_VIXUPOINTS_ABUSE_DETECTED",
+  ERR_VIXUPOINTS_INVALID_ACTION: "ERR_VIXUPOINTS_INVALID_ACTION",
 
   // Payout
   ERR_PAYOUT_INTEGRITY: "ERR_PAYOUT_INTEGRITY",
@@ -152,7 +152,7 @@ export function withErrorHandler(
       return await handler(req);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : "Internal server error";
-      console.error(`[VISUAL API ERROR] ${message}`, error);
+      console.error(`[VIXUAL API ERROR] ${message}`, error);
       return apiError(ErrorCodes.ERR_INTERNAL, message, 500);
     }
   };

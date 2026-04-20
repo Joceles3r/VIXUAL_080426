@@ -71,9 +71,11 @@ export function isVerifiedCreator(creatorName: string): boolean {
 }
 
 /**
- * Vérifie si un créateur a le statut Gold (Gold Pass).
- * En production, ce statut viendra de la DB (table users.gold_pass).
+ * Vérifie si un créateur a le statut "Créateur Gold" (badge premium VIXUAL).
+ * En production, ce statut viendra de la DB (table users.is_gold_creator).
  * En attendant, la liste des créateurs Gold est hardcodée ici.
+ *
+ * Note : ce badge est distinct de "Ticket Gold" (boost projet 48h, V3).
  */
 const GOLD_CREATORS = new Set<string>([
   "Marie Stellaire",

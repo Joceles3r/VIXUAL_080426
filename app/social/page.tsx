@@ -80,7 +80,7 @@ function V1Notice() {
           Version 1
         </h3>
         <div className="space-y-1.5 text-xs text-white/40">
-          <p>{"Les VISUpoints sont temporairement d\u00e9sactiv\u00e9s sur VIXUAL Social en V1 pour garantir l'\u00e9quilibre du syst\u00e8me."}</p>
+          <p>{"Les VIXUpoints sont temporairement d\u00e9sactiv\u00e9s sur VIXUAL Social en V1 pour garantir l'\u00e9quilibre du syst\u00e8me."}</p>
           <p>{"Le mode fonctionne actuellement en mock (donn\u00e9es de d\u00e9monstration). La connexion \u00e0 la base de donn\u00e9es sera activ\u00e9e en V2."}</p>
           <p>{"Deux vues disponibles : le fil global (ici) et les discussions sous chaque contenu."}</p>
         </div>

@@ -42,28 +42,25 @@ const PROFILES = {
 
   visitor: {
     title: "Visiteur",
-    subtitle: "Accès complet aux contenus",
+    subtitle: "Découvrir, accumuler, débloquer, progresser",
     icon: Crown,
     color: "bg-emerald-500/20 border-emerald-500/40",
     textColor: "text-emerald-300",
-    description: "Profitez du paiement hybride, participez à Vixual Social et gagnez des VIXUpoints.",
+    description: "Votre parcours VIXUAL en quatre temps : découvrir les contenus, accumuler des VIXUpoints, débloquer votre Pass Découverte, progresser jusqu'à la conversion en euros.",
     features: [
-      "Accès à tous les extraits et contenus gratuits",
-      "Paiement hybride: 30% euros + 70% VIXUpoints",
-      "Participation à Vixual Social (mini-réseau)",
-      "Accumulation de VIXUpoints via interactions",
-      "Échange: 2500 VIXUpoints = 25€",
-      "Limite max 2500 VIXUpoints en caisse"
+      "Découvrir : accès libre à tous les extraits",
+      "Accumuler : gagner des VIXUpoints en participant",
+      "Débloquer : Pass Découverte quotidien (1 contenu complet gratuit)",
+      "Progresser : conversion à partir de 2 500 VIXUpoints (= 25€)",
     ],
     restrictions: [
-      "Pas de création de contenu",
-      "Limite de VIXUpoints fixée (2500 max)",
-      "Pas de gains directs de projets",
-      "Pas accès au withdrawal si dépasse 2500"
+      "Pas de création de contenu (devenir Porteur/Infoporteur/Podcasteur)",
+      "Plafond VIXUpoints en caisse selon votre profil",
+      "Gains directs de projets réservés aux profils Contributeurs",
     ],
-    cta: "S'inscrire comme Visiteur",
-    nextStep: "Accédez au paiement hybride et à Vixual Social",
-    advantage: "Les VIXUpoints peuvent être utilisés comme cagnotte pour acheter du contenu ou échangés contre 25€ minimum"
+    cta: "Commencer l'aventure Visiteur",
+    nextStep: "Découvrez, accumulez et progressez à votre rythme",
+    advantage: "Un parcours simple : regarder des extraits, participer, débloquer du contenu gratuit, convertir vos points en euros"
   },
 
   porter: {

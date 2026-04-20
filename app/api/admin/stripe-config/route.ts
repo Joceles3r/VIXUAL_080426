@@ -224,6 +224,18 @@ export async function POST(req: NextRequest) {
   memoryCache.updated_by = email;
   memoryCache.updated_at = now;
 
+  // PRODUCTION: refuser le fallback mémoire - la DB est obligatoire
+  const isProduction = process.env.NODE_ENV === "production";
+  if (isProduction && !isDatabaseConfigured()) {
+    return NextResponse.json(
+      {
+        error: "Base de donnees requise en production. Configurez DATABASE_URL avant de sauvegarder vos cles Stripe.",
+        source: "none",
+      },
+      { status: 503 }
+    );
+  }
+
   // Try to persist to DB if available
   let savedToDb = false;
   if (isDatabaseConfigured()) {
@@ -328,11 +340,22 @@ export async function POST(req: NextRequest) {
     logStripeSettingsUpdate(email, email, { keysUpdated }).catch(() => {});
   }
 
+  // En production, si la DB n'a pas sauvegarde, c'est une erreur critique
+  if (isProduction && !savedToDb) {
+    return NextResponse.json(
+      {
+        error: "Impossible de sauvegarder en base de donnees. Les cles ne sont pas persistees.",
+        source: "memory",
+      },
+      { status: 500 }
+    );
+  }
+
   return NextResponse.json({
     success: true,
-    message: savedToDb 
-      ? "Configuration Stripe sauvegardee en base de donnees" 
-      : "Configuration Stripe sauvegardee en memoire (base de donnees non disponible)",
+    message: savedToDb
+      ? "Configuration Stripe sauvegardee en base de donnees (persistante)"
+      : "Configuration Stripe sauvegardee en memoire (DEV UNIQUEMENT - sera perdue au redemarrage)",
     active_mode: body.active_mode || memoryCache.active_mode || "test",
     source: savedToDb ? "database" : "memory",
   });

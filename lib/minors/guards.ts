@@ -50,7 +50,7 @@ export async function guardMinorAction(
     return apiError(config.code, config.message, 403);
   }
 
-  // VISUpoints actions require valid guardian approval
+  // VIXUpoints actions require valid guardian approval
   if (action === "visupoints_spend") {
     if (!status.hasGuardianApproval) {
       return apiError(

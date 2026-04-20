@@ -356,12 +356,12 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   {isPodcast && <><Mic className="h-3 w-3 mr-1" />Podcast</>}
                 </Badge>
 
-                {/* VISUAL + Gold badges */}
+                {/* VIXUAL + Gold badges */}
                 <div className="absolute top-12 left-4 z-30 flex flex-wrap gap-1">
                   {isGold && (
                     <Badge className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0 text-[10px] shadow-lg shadow-amber-500/20">
                       <Crown className="h-3 w-3 mr-1" />
-                      Gold Pass
+                      Créateur Gold
                     </Badge>
                   )}
                   {badges.map((b) => (
@@ -846,20 +846,20 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                         <span className="font-medium text-white truncate">{content.creatorName}</span>
                         {isGold && <Crown className="h-3.5 w-3.5 text-amber-400 shrink-0" />}
                       </div>
-                      <div className="text-sm text-white/50">{"Cr\u00e9ateur VISUAL"}</div>
+                      <div className="text-sm text-white/50">{"Cr\u00e9ateur VIXUAL"}</div>
                     </div>
                   </div>
                   {isGold && (
                     <div className="flex items-center gap-1.5 p-2 bg-amber-500/5 rounded-lg border border-amber-500/10 mb-3">
                       <Trophy className="h-3.5 w-3.5 text-amber-400" />
-                      <span className="text-amber-400/80 text-[11px]">Membre Gold Pass</span>
+                      <span className="text-amber-400/80 text-[11px]">Créateur Gold</span>
                       <span className="text-white/20 mx-0.5">|</span>
                       <Shield className="h-3.5 w-3.5 text-emerald-400" />
                       <span className="text-emerald-400/80 text-[11px]">Trust : Excellent</span>
                     </div>
                   )}
                   <p className="text-white/40 text-xs mb-3">
-                    {"Votre projet peut trouver son public sur VISUAL."}
+                    {"Votre projet peut trouver son public sur VIXUAL."}
                   </p>
                   <Button variant="outline" className="w-full bg-transparent border-white/15 text-white/70 hover:bg-white/5 hover:text-white">
                     <Eye className="h-4 w-4 mr-2" />

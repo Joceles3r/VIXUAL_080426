@@ -1,12 +1,12 @@
 /**
- * Generates "VISUAL_Formules_Repartitions_V2.odt" as a flat ODT (FODT) file.
+ * Generates "VIXUAL_Formules_Repartitions_V2.odt" as a flat ODT (FODT) file.
  * FODT is a single-file XML format natively openable by LibreOffice, Google Docs, and MS Word.
  *
  * Covers the 6 active profiles:
  *   Creators: Porteur, Infoporteur, Podcaster
- *   Investors: Investisseur, Investi-lecteur, Auditeur (Listener)
+ *   Investors: Contributeur, Contribu-lecteur, Auditeur (Listener)
  *
- * Excludes: VSLS and Petites Annonces (not in VISUAL V1).
+ * Excludes: VSLS and Petites Annonces (not in VIXUAL V1).
  */
 
 import { writeFileSync, mkdirSync } from "fs";
@@ -85,7 +85,7 @@ const body = [];
 body.push(heading("VISUAL - Formules Mathematiques et Repartitions des Gains", 1));
 body.push(p(`Version V2 - ${today}`));
 body.push(p('Plateforme : VIXUAL - "Regarde-Participe-Gagne"'));
-body.push(p("Reference interne : 100 VISUpoints = 1 EUR"));
+body.push(p("Reference interne : 100 VIXUpoints = 1 EUR"));
 body.push(p("Hors VSLS et Petites Annonces (non deployes en V1)"));
 body.push(spacer());
 
@@ -96,7 +96,7 @@ body.push(heading("SOMMAIRE", 1));
 body.push(bulletList([
   "1. Les 6 Profils VISUAL",
   "2. Bareme Commun Investisseurs (EUR -> Votes)",
-  "3. VISUpoints - Bareme Fidelite et Conversion",
+  "3. VIXUpoints - Bareme Fidelite et Conversion",
   "4. Cautions",
   "5. Films / Videos / Documentaires - Cloture 40/30/7/23",
 "6. Voix de l'Info - Vente 70/30 + Pot mensuel 60/40",
@@ -153,21 +153,21 @@ body.push(spacer());
 // ═══════════════════════════════════════════════
 // 3. VISUPOINTS
 // ═══════════════════════════════════════════════
-body.push(heading("3. VISUpoints - Bareme Fidelite et Conversion", 1));
+body.push(heading("3. VIXUpoints - Bareme Fidelite et Conversion", 1));
 
 body.push(heading("Bareme d'acquisition", 2));
 body.push(table("BaremeVisupoints",
   ["Montant (EUR)", "2", "3", "4", "5", "6", "8", "10", "12", "15", "20"],
-  [["VISUpoints", "10", "15", "20", "25", "30", "40", "50", "60", "80", "110"]]
+  [["VIXUpoints", "10", "15", "20", "25", "30", "40", "50", "60", "80", "110"]]
 ));
 body.push(spacer());
 
 body.push(heading("Regles de conversion", 2));
 body.push(bulletList([
-  "Taux de conversion : 100 VISUpoints = 1 EUR",
-  "Seuil minimum de conversion : 2 500 VISUpoints (soit 25 EUR)",
-  "Formule : EUR_convertis = floor(VISUpoints / 100)",
-  "Points restants = VISUpoints - (EUR_convertis x 100)",
+  "Taux de conversion : 100 VIXUpoints = 1 EUR",
+  "Seuil minimum de conversion : 2 500 VIXUpoints (soit 25 EUR)",
+  "Formule : EUR_convertis = floor(VIXUpoints / 100)",
+  "Points restants = VIXUpoints - (EUR_convertis x 100)",
 ]));
 body.push(spacer());
 
@@ -340,7 +340,7 @@ body.push(bulletList([
 ]));
 body.push(spacer());
 
-// ═══════════════════════════════════════════════
+// ════════════════════════════════════════════��══
 // 8. PODCASTS
 // ═══════════════════════════════════════════════
 body.push(heading("8. Podcasts - Vente 70/30 + Pot mensuel 40/30/20/10", 1));
@@ -518,7 +518,7 @@ body.push(heading("Endpoints Principaux", 2));
 body.push(heading("A) Investissement", 3));
 body.push(p("POST /api/stripe/invest"));
 body.push(p('Body: { category: "films"|"livres"|"podcasts", targetId, amount, currency: "EUR" }'));
-body.push(p("-> Credite votes selon bareme + VISUpoints"));
+body.push(p("-> Credite votes selon bareme + VIXUpoints"));
 body.push(p("-> Roles autorises : investor, investireader, listener"));
 body.push(spacer());
 
