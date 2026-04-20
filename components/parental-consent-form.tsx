@@ -174,7 +174,7 @@ export function ParentalConsentForm({ userId, onSubmitted }: ParentalConsentForm
                 />
               </label>
             </div>
-            <p className="text-white/30 text-xs">{"Sera v\u00e9rifi\u00e9 par l'\u00e9quipe VISUAL. PDF ou image."}</p>
+            <p className="text-white/30 text-xs">{"Sera v\u00e9rifi\u00e9 par l'\u00e9quipe VIXUAL. PDF ou image."}</p>
           </div>
         </div>
 

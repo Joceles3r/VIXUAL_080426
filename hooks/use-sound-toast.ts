@@ -3,7 +3,7 @@
 /**
  * Sound-enhanced toast hook
  * 
- * Wraps useToast with automatic VISUAL jingle playback
+ * Wraps useToast with automatic VIXUAL jingle playback
  * based on toast type (success, error, default)
  */
 

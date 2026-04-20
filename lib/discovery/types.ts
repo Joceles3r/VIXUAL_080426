@@ -22,7 +22,7 @@ export const WAVE_LABELS: Record<WaveLevel, string> = {
   4: "Projet populaire",
 }
 
-// ── Score VISUAL (section 3) ──
+// ── Score VIXUAL (section 3) ──
 
 export interface VisualScoreBreakdown {
   /** 40% — investissements recus vs objectif */

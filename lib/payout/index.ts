@@ -141,7 +141,7 @@ export {
   canReceivePayouts,
   // R3 - Interdiction auto-investissement
   checkSelfInvestment,
-  // R5 - VISUAL Trust Score
+  // R5 - VIXUAL Trust Score
   computeTrustScore,
   // R6 - Limitation stockage
   STORAGE_LIMITS,

@@ -35,7 +35,7 @@ export default function DownloadFormulesPage() {
             <VisualSlogan size="xs" opacity="medium" />
           </div>
           <p className="text-white/50 text-center text-sm mb-8">
-            {"Répartitions complètes des gains VISUAL V2"}
+            {"Répartitions complètes des gains VIXUAL V2"}
           </p>
 
           {/* File info */}

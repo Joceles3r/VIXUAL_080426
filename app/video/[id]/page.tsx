@@ -48,7 +48,7 @@ function DynamicWatermark({ userId, contentId }: { userId: string; contentId: st
   )
 }
 
-/* ---------- VISUAL Badges ---------- */
+/* ---------- VIXUAL Badges ---------- */
 function getVisualBadges(content: typeof ALL_CONTENTS[0]) {
   const badges: { label: string; icon: typeof Flame; color: string; bg: string }[] = []
   const daysSinceCreation = Math.floor(
@@ -507,7 +507,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                 </CardContent>
               </Card>
 
-              {/* ---------- VISUAL SOCIAL THREAD ---------- */}
+              {/* ---------- VIXUAL SOCIAL THREAD ---------- */}
               <Card className="bg-slate-900/50 border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white flex items-center gap-2">
@@ -826,7 +826,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   {/* Legal */}
                   <div className="pt-2 border-t border-white/5">
                     <p className="text-xs text-white/30 text-center">
-                      {"Investir comporte des risques. Les gains ne sont pas garantis. VISUAL n'est pas un jeu de hasard."}
+                      {"Investir comporte des risques. Les gains ne sont pas garantis. VIXUAL n'est pas un jeu de hasard."}
                     </p>
                   </div>
                 </CardContent>
@@ -868,10 +868,10 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                 </CardContent>
               </Card>
 
-              {/* --- Parcours VISUAL --- */}
+              {/* --- Parcours VIXUAL --- */}
               <Card className="bg-slate-900/30 border-white/5">
                 <CardContent className="p-4">
-                  <h4 className="text-white/50 text-xs font-semibold uppercase tracking-wider mb-3">Parcours VISUAL</h4>
+                  <h4 className="text-white/50 text-xs font-semibold uppercase tracking-wider mb-3">Parcours VIXUAL</h4>
                   <div className="space-y-2">
                     {[
                       { icon: Eye, label: "D\u00e9couvrir le projet", done: true },
@@ -896,7 +896,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
               <div className="flex items-center gap-2 p-3 rounded-lg bg-slate-900/30 border border-white/5">
                 <Shield className="h-4 w-4 text-emerald-500 shrink-0" />
                 <p className="text-white/40 text-[11px]">
-                  {"Sur VISUAL, chaque visionnage contribue \u00e0 soutenir les cr\u00e9ateurs."}
+                  {"Sur VIXUAL, chaque visionnage contribue \u00e0 soutenir les cr\u00e9ateurs."}
                 </p>
               </div>
             </div>

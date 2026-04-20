@@ -1,5 +1,5 @@
 /**
- * VISUAL -- IP Reputation Service
+ * VIXUAL -- IP Reputation Service
  *
  * Abstraction layer for VPN / Proxy / Tor / Datacenter detection.
  * Pluggable: swap StubProvider for ipinfo, ipqualityscore, Cloudflare, etc.

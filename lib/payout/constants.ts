@@ -386,7 +386,7 @@ export const CREATOR_QUOTAS = {
   films: { maxDuration: Infinity, perQuarter: 1, priceEur: 7, label: "Films (> 30 min)" },
 } as const;
 
-// ──────────────────────────────────────────────
+// ───────────────────────────────────────────��──
 // 7. VENTE D'ARTICLE (Infoporteur) - 70/30
 // ──────────────────────────────────────────────
 
@@ -455,7 +455,7 @@ export const MINOR_VISUPOINTS_CAP_EUR = MINOR_VISUPOINTS_CAP / VISUPOINTS_PER_EU
 export const ADULT_VISUPOINTS_CONVERSION_THRESHOLD = VISUPOINTS_CONVERSION_THRESHOLD;
 
 // ──────────────────────────────────────────────
-// 11. VISUPOINTS - PLAFONDS PAR PROFIL
+// 11. VIXUPOINTS - PLAFONDS PAR PROFIL
 // ──────────────────────────────────────────────
 
 export type VisupointsProfileKey =

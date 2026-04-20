@@ -466,7 +466,7 @@ export function engagementRedirectEngine(
     return {
       level: "warning",
       title: "Vos VIXUpoints s'accumulent !",
-      message: "Profitez-en pour acc\u00e9der \u00e0 du contenu premium ou explorez de nouveaux r\u00f4les sur VISUAL.",
+      message: "Profitez-en pour acc\u00e9der \u00e0 du contenu premium ou explorez de nouveaux r\u00f4les sur VIXUAL.",
       showPathA: true,
       showPathB: true,
     }

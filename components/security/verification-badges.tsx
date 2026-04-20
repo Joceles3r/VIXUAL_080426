@@ -71,7 +71,7 @@ export function VerificationBadges({
               </Badge>
             </TooltipTrigger>
             <TooltipContent className="bg-slate-900 border-white/10 text-white text-xs max-w-60">
-              {"Createur verifie : identite KYC validee et contenu publie sur VISUAL."}
+              {"Createur verifie : identite KYC validee et contenu publie sur VIXUAL."}
             </TooltipContent>
           </Tooltip>
         )}

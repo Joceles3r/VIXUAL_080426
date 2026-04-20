@@ -1,7 +1,7 @@
 "use client"
 
 /**
- * VISUAL Sound System - React Hook
+ * VIXUAL Sound System - React Hook
  * 
  * Usage:
  * const { play, playWin, playPulse, enabled, setEnabled } = useSounds()

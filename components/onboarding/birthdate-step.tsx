@@ -54,7 +54,7 @@ export function BirthdateStep() {
         <div>
           <h3 className="text-lg font-bold text-white">{"Votre date de naissance"}</h3>
           <p className="text-sm text-white/50">
-            {"VISUAL est accessible \u00e0 partir de seize ans. Les mineurs (seize et dix-sept ans) doivent fournir une autorisation parentale."}
+            {"VIXUAL est accessible \u00e0 partir de seize ans. Les mineurs (seize et dix-sept ans) doivent fournir une autorisation parentale."}
           </p>
         </div>
       </div>

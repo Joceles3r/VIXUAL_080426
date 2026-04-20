@@ -337,7 +337,7 @@ export default function ProfilePage() {
                 <div className="flex items-center gap-3">
                   <Star className="h-5 w-5 text-emerald-400" />
                   <div>
-                    <p className="text-white font-medium">VISUAL Trust Score</p>
+                    <p className="text-white font-medium">VIXUAL Trust Score</p>
                     <p className="text-white/50 text-sm">{"Votre indice de confiance sur la plateforme"}</p>
                   </div>
                 </div>

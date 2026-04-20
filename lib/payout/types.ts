@@ -34,11 +34,11 @@ export type PayoutAllocation = {
   userId: string;
   role: Role;
   bucket: Bucket;
-  /** Amount that VISUAL should credit to the user's internal wallet (in cents). */
+  /** Amount that VIXUAL should credit to the user's internal wallet (in cents). */
   amountCents: number;
   /** Amount before euro-floor rounding (in cents). */
   grossCents: number;
-  /** Cents removed by euro-floor rounding (captured by VISUAL as residual). */
+  /** Cents removed by euro-floor rounding (captured by VIXUAL as residual). */
   roundingResidualCents: number;
   currency: Currency;
   meta: Record<string, unknown>;
@@ -127,11 +127,11 @@ export type PayoutEngineOutput = {
 
   grossEligibleCents: number;
 
-  /** VISUAL total take in cents (fee + residuals + anything undistributed) */
+  /** VIXUAL total take in cents (fee + residuals + anything undistributed) */
   platformTakeCents: number;
-  /** VISUAL base fee (7% of grossEligible) before adding rounding residuals. */
+  /** VIXUAL base fee (7% of grossEligible) before adding rounding residuals. */
   platformFeeCents: number;
-  /** Sum of euro-floor rounding residuals captured by VISUAL. */
+  /** Sum of euro-floor rounding residuals captured by VIXUAL. */
   platformResidualCents: number;
 
   /** Sum of all credited user amounts (rounded) in cents. */

@@ -238,7 +238,7 @@ const MOCK_GLOBAL_POSTS: SocialPost[] = [
   {
     id: "p_g1", contentType: "global", contentId: null,
     authorUserId: "u1", authorName: "Marie C.", authorRole: "visitor",
-    body: "Je viens de d\u00e9couvrir un court-m\u00e9trage incroyable sur VISUAL. La photographie est magnifique, chaque plan raconte une histoire. Bravo au porteur !",
+    body: "Je viens de d\u00e9couvrir un court-m\u00e9trage incroyable sur VIXUAL. La photographie est magnifique, chaque plan raconte une histoire. Bravo au porteur !",
     tags: ["avis"], parentId: null, depth: 0, status: "visible",
     likeCount: 12, replyCount: 2, reportCount: 0, createdAtISO: pastISO(2),
   },
@@ -280,7 +280,7 @@ const MOCK_GLOBAL_POSTS: SocialPost[] = [
   {
     id: "p_g5", contentType: "global", contentId: null,
     authorUserId: "u7", authorName: "Camille V.", authorRole: "visitor",
-    body: "Apr\u00e8s 6 mois sur VISUAL, je suis pass\u00e9e de simple visiteuse \u00e0 investisseuse. La communaut\u00e9 ici est vraiment unique. Merci pour tout !",
+    body: "Apr\u00e8s 6 mois sur VIXUAL, je suis pass\u00e9e de simple visiteuse \u00e0 investisseuse. La communaut\u00e9 ici est vraiment unique. Merci pour tout !",
     tags: ["avis"], parentId: null, depth: 0, status: "visible",
     likeCount: 20, replyCount: 0, reportCount: 0, createdAtISO: pastISO(18),
   },
@@ -304,7 +304,7 @@ const MOCK_CONTENT_POSTS: SocialPost[] = [
   {
     id: "p_c1r1", contentType: "video", contentId: "content-1",
     authorUserId: "u2", authorName: "Lucas D.", authorRole: "porter",
-    body: "Oui, il travaille sur un nouveau projet ! Restez connect\u00e9s, l'annonce arrive bient\u00f4t sur VISUAL.",
+    body: "Oui, il travaille sur un nouveau projet ! Restez connect\u00e9s, l'annonce arrive bient\u00f4t sur VIXUAL.",
     tags: ["avis"], parentId: "p_c1", depth: 1, status: "visible",
     likeCount: 3, replyCount: 0, reportCount: 0, createdAtISO: pastISO(2),
   },

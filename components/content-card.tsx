@@ -14,7 +14,7 @@ import { useAuth } from "@/lib/auth-context"
 import { ReportButton } from "@/components/report-button"
 import type { Content } from "@/lib/mock-data"
 
-/* ---------- VISUAL Badges ---------- */
+/* ---------- VIXUAL Badges ---------- */
 function getVisualBadges(content: Content) {
   const badges: { label: string; icon: typeof Flame; bg: string }[] = []
   const daysSinceCreation = Math.floor(
@@ -66,7 +66,7 @@ export function ContentCard({ content }: ContentCardProps) {
             {badgeConfig.label}
           </Badge>
 
-          {/* VISUAL badges row */}
+          {/* VIXUAL badges row */}
           {badges.length > 0 && (
             <div className="absolute top-10 left-3 flex gap-1">
               {badges.slice(0, 2).map((b) => (

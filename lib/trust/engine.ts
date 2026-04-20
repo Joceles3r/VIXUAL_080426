@@ -1,5 +1,5 @@
 /**
- * VISUAL Trust Score -- Engine
+ * VIXUAL Trust Score -- Engine
  *
  * Core function: recordTrustEvent(userId, eventType, reason?, metadata?)
  * This is the single entry point for recording any trust-impacting action.

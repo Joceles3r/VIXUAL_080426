@@ -1,5 +1,5 @@
 /**
- * VISUAL -- Risk Gate Engine
+ * VIXUAL -- Risk Gate Engine
  *
  * Central decision engine: "can this user do this action right now?"
  *

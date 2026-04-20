@@ -464,7 +464,7 @@ export default function WalletPage() {
         </Card>
       )}
 
-      {/* SECTION 6 + 7 : VISUPOINTS + GRAPHIQUES */}
+      {/* SECTION 6 + 7 : VIXUPOINTS + GRAPHIQUES */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* VIXUpoints */}
         <Card className="bg-gradient-to-br from-amber-900/10 to-amber-800/5 border-amber-500/20">
@@ -630,7 +630,7 @@ export default function WalletPage() {
                 <Award className="h-5 w-5 text-amber-400" />
               </div>
               <div>
-                <p className="text-white font-medium text-sm">{"Classement VISUAL"}</p>
+                <p className="text-white font-medium text-sm">{"Classement VIXUAL"}</p>
                 <p className="text-white/40 text-xs">{"Top investisseurs ce mois"}</p>
               </div>
             </div>
@@ -716,7 +716,7 @@ export default function WalletPage() {
             </div>
             <div className="flex items-start gap-2">
               <AlertCircle className="h-3.5 w-3.5 mt-0.5 shrink-0 text-white/20" />
-              <span>{"Gains non garantis. Les retours d\u00e9pendent de la performance des projets soutenus. VISUAL n'est pas un jeu de hasard."}</span>
+              <span>{"Gains non garantis. Les retours d\u00e9pendent de la performance des projets soutenus. VIXUAL n'est pas un jeu de hasard."}</span>
             </div>
           </div>
         </CardContent>
