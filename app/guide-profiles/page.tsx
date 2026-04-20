@@ -12,7 +12,7 @@ import {
   Play, Gift, Zap, CheckCircle, AlertCircle, ArrowRight, BookOpen, Mic, Headphones, LogIn, Target
 } from "lucide-react"
 
-type ProfileKey = "guest" | "visitor" | "porter" | "infoporter" | "podcaster" | "contributor" | "contribureader" | "listener"
+type ProfileKey = "guest" | "visitor" | "creator" | "infoporteur" | "podcasteur" | "contributor" | "contribu_lecteur" | "auditeur"
 
 const PROFILES = {
   guest: {
@@ -63,7 +63,7 @@ const PROFILES = {
     advantage: "Un parcours simple : regarder des extraits, participer, débloquer du contenu gratuit, convertir vos points en euros"
   },
 
-  porter: {
+  creator: {
     title: "Porteur",
     subtitle: "Créateur de contenu audiovisuel",
     icon: Film,
@@ -90,7 +90,7 @@ const PROFILES = {
     advantage: "Gagnez entre 5% et 40% des contributions selon votre classement"
   },
 
-  infoporter: {
+  infoporteur: {
     title: "Infoporteur",
     subtitle: "Créateur de contenu littéraire",
     icon: BookOpen,
@@ -117,7 +117,7 @@ const PROFILES = {
     advantage: "Touchez des Contribu-lecteurs qui aiment votre style"
   },
 
-  podcaster: {
+  podcasteur: {
     title: "Podcasteur",
     subtitle: "Créateur de contenu audio",
     icon: Mic,
@@ -171,7 +171,7 @@ const PROFILES = {
     advantage: "Gagnez entre 1% et 40% des pools de contribution selon votre classement"
   },
 
-  contribureader: {
+  contribu_lecteur: {
     title: "Contribu-lecteur",
     subtitle: "Soutenant de contenu littéraire",
     icon: Heart,
@@ -198,7 +198,7 @@ const PROFILES = {
     advantage: "Gagnez entre 1% et 40% en soutenant les meilleurs contenus littéraires"
   },
 
-  listener: {
+  auditeur: {
     title: "Auditeur",
     subtitle: "Soutenant de contenu audio",
     icon: Headphones,

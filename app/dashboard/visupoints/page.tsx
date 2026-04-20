@@ -13,11 +13,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAuth } from "@/lib/auth-context"
 import { MicropacksShop } from "@/components/vixupoints-micropacks"
 import {
-  VISUPOINTS_CONVERSION_THRESHOLD,
-  VISUPOINTS_PER_EUR,
-  convertVisupoints,
-  VISUPOINTS_PROFILE_CAPS,
-  VISUPOINTS_MAX_DAILY,
+  VIXUPOINTS_CONVERSION_THRESHOLD,
+  VIXUPOINTS_PER_EUR,
+  convertVixupoints,
+  VIXUPOINTS_PROFILE_CAPS,
+  VIXUPOINTS_MAX_DAILY,
   HYBRID_BONUS_MONTHLY_CAP,
   INVESTOR_EVOLUTION_BONUS,
 } from "@/lib/payout/constants"
@@ -241,7 +241,7 @@ function ProfileTable() {
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
-              {Object.entries(VISUPOINTS_PROFILE_CAPS).map(([key, profile]) => (
+              {Object.entries(VIXUPOINTS_PROFILE_CAPS).map(([key, profile]) => (
                 <tr key={key}>
                   <td className="py-2.5 pr-4 text-white font-medium">{profile.label}</td>
                   <td className="py-2.5 px-2 text-center">

@@ -110,12 +110,12 @@ export {
   // Mineurs
   MINOR_MIN_AGE,
   MAJORITY_AGE,
-  MINOR_VISUPOINTS_CAP,
-  MINOR_VISUPOINTS_CAP_EUR,
-  ADULT_VISUPOINTS_CONVERSION_THRESHOLD,
+  MINOR_VIXUPOINTS_CAP,
+  MINOR_VIXUPOINTS_CAP_EUR,
+  ADULT_VIXUPOINTS_CONVERSION_THRESHOLD,
   // Profils VIXUpoints
-  VISUPOINTS_PROFILE_CAPS,
-  VISUPOINTS_MAX_DAILY,
+  VIXUPOINTS_PROFILE_CAPS,
+  VIXUPOINTS_MAX_DAILY,
   // Engagement Redirect Engine
   ENGAGEMENT_THRESHOLDS,
   // Paiement hybride
@@ -128,9 +128,9 @@ export {
   INVESTOR_EVOLUTION_BONUS,
 } from "./constants";
 
-export type { VisualCategory, VisupointsProfileKey, EngagementLevel } from "./constants";
+export type { VixualCategory, VixupointsProfileKey, EngagementLevel } from "./constants";
 
-// ── Visual Rules Engine V1 (Consolidation Post 9h20) ──
+// ── VIXUAL Rules Engine V1 (Consolidation Post 9h20) ──
 export {
   // R1 - Paiement mensuel
   generateIdempotencyKey,
@@ -157,7 +157,7 @@ export {
   checkIPDeclaration,
   // R11 - Admin capabilities
   ADMIN_CAPABILITIES,
-} from "../visual-rules-engine";
+} from "../vixual-rules-engine";
 
 export type {
   MonthlyBatchEntry,
@@ -173,4 +173,4 @@ export type {
   PromotionConsent,
   IPDeclaration,
   AdminCapability,
-} from "../visual-rules-engine";
+} from "../vixual-rules-engine";

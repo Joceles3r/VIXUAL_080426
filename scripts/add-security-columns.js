@@ -3,7 +3,7 @@ import { neon } from "@neondatabase/serverless";
 const sql = neon(process.env.DATABASE_URL);
 
 async function migrate() {
-  console.log("VISUAL Security Patch: Adding security columns...");
+  console.log("VIXUAL Security Patch: Adding security columns...");
 
   // Verification level (0=basique, 1=standard, 2=fort KYC)
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS verification_level INTEGER DEFAULT 0`;
@@ -53,7 +53,7 @@ async function migrate() {
     console.log("  (withdrawal_requests table not found, skipping risk_flags_snapshot)");
   }
 
-  console.log("VISUAL Security Patch: Migration complete!");
+  console.log("VIXUAL Security Patch: Migration complete!");
 }
 
 migrate().catch((err) => {

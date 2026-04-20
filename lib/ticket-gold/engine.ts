@@ -1,7 +1,7 @@
 /**
  * VIXUAL TICKET GOLD ENGINE
  * 
- * Remplace le Gold Pass par un systeme plus simple et equitable:
+ * Systeme de boost temporaire simple et equitable:
  * - 5EUR par ticket
  * - Boost de visibilite pendant 48h
  * - Maximum 1 ticket par mois par projet

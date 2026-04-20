@@ -3,7 +3,7 @@ import { neon } from "@neondatabase/serverless";
 const sql = neon(process.env.DATABASE_URL);
 
 async function migrate() {
-  console.log("Starting VISUAL security patch migration (003)...");
+  console.log("Starting VIXUAL security patch migration (003)...");
 
   // ── 1. payout_simulations table (audit trail) ──
   await sql`
@@ -136,7 +136,7 @@ async function migrate() {
   await sql`CREATE INDEX IF NOT EXISTS idx_investments_user_content ON investments(user_id, content_id)`;
   console.log("OK: all security patch indexes created");
 
-  console.log("VISUAL security patch migration (003) complete!");
+  console.log("VIXUAL security patch migration (003) complete!");
 }
 
 migrate().catch((err) => {

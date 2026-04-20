@@ -16,7 +16,7 @@ import { sql } from "@/lib/db";
 import { computePayoutAllocations } from "./payout-engine";
 import type { PayoutSimulation } from "./payout-engine";
 import type { PayoutCategory, PayoutEngineInput } from "./types";
-import { generateIdempotencyKey, isBatchDay } from "@/lib/visual-rules-engine";
+import { generateIdempotencyKey, isBatchDay } from "@/lib/vixual-rules-engine";
 
 // ── Types ──
 

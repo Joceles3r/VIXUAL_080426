@@ -41,7 +41,7 @@ import { useAuth } from "@/lib/auth-context"
    VIXUAL EXPLORER V2 - Experience Netflix/YouTube Immersive
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ---------- Helper: Get Visual Badges ---------- */
+/* ---------- Helper: Get VIXUAL Badges ---------- */
 function getVisualBadges(content: Content) {
   const badges: { label: string; icon: typeof Flame; color: string; bg: string }[] = []
   const daysSinceCreation = Math.floor(

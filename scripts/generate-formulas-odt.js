@@ -82,7 +82,7 @@ const body = [];
 // ═══════════════════════════════════════════════
 // TITLE
 // ═══════════════════════════════════════════════
-body.push(heading("VISUAL - Formules Mathematiques et Repartitions des Gains", 1));
+body.push(heading("VIXUAL - Formules Mathematiques et Repartitions des Gains", 1));
 body.push(p(`Version V2 - ${today}`));
 body.push(p('Plateforme : VIXUAL - "Regarde-Participe-Gagne"'));
 body.push(p("Reference interne : 100 VIXUpoints = 1 EUR"));
@@ -94,7 +94,7 @@ body.push(spacer());
 // ═══════════════════════════════════════════════
 body.push(heading("SOMMAIRE", 1));
 body.push(bulletList([
-  "1. Les 6 Profils VISUAL",
+  "1. Les 8 Profils VIXUAL",
   "2. Bareme Commun Investisseurs (EUR -> Votes)",
   "3. VIXUpoints - Bareme Fidelite et Conversion",
   "4. Cautions",
@@ -214,7 +214,7 @@ body.push(table("InvTop10BPS",
     ["% de G", "13,66%", "6,83%", "4,55%", "3,41%", "2,73%", "2,28%", "1,95%", "1,71%", "1,52%", "1,37%"],
   ]
 ));
-body.push(p("Total = 4001 BPS (40,01% - le 1 BPS supplementaire est absorbe par l'arrondi VISUAL)"));
+body.push(p("Total = 4001 BPS (40,01% - le 1 BPS supplementaire est absorbe par l'arrondi VIXUAL)"));
 body.push(spacer());
 
 body.push(heading("B) 30% -> Porteurs TOP 10", 2));
@@ -237,10 +237,10 @@ body.push(spacer());
 body.push(heading("C) 7% -> Investisseurs rangs 11-100", 2));
 body.push(p("P_Inv_11_100 = 0,07 x P"));
 body.push(p("Distribution : Equiparti (parts egales) OU Pro-rata votes (parametrage admin)."));
-body.push(p("Si aucun investisseur eligible : le pool est capture par VISUAL."));
+body.push(p("Si aucun investisseur eligible : le pool est capture par VIXUAL."));
 body.push(spacer());
 
-body.push(heading("D) 23% -> VISUAL (Plateforme)", 2));
+body.push(heading("D) 23% -> VIXUAL (Plateforme)", 2));
 body.push(p("P_VISUAL = 0,23 x P"));
 body.push(bulletList([
   "Frais operationnels",
@@ -264,7 +264,7 @@ body.push(spacer());
 body.push(heading("Flux A - Vente Unitaire d'Article", 2));
 body.push(p("Net_vente = Prix_paye - Frais_paiement"));
 body.push(p("Auteur (Infoporteur) = 0,70 x Net_vente"));
-body.push(p("VISUAL = 0,30 x Net_vente"));
+body.push(p("VIXUAL = 0,30 x Net_vente"));
 body.push(p("Arrondi : Au centime pres (0,01 EUR)"));
 body.push(spacer());
 
@@ -304,7 +304,7 @@ body.push(spacer());
 body.push(heading("Flux A - Vente Unitaire de Livre", 2));
 body.push(p("Net_vente = Prix_paye - Frais_paiement"));
 body.push(p("Auteur (Infoporteur) = 0,70 x Net_vente"));
-body.push(p("VISUAL = 0,30 x Net_vente"));
+body.push(p("VIXUAL = 0,30 x Net_vente"));
 body.push(spacer());
 
 body.push(heading("Flux B - Pot Mensuel", 2));
@@ -340,7 +340,7 @@ body.push(bulletList([
 ]));
 body.push(spacer());
 
-// ════════════════════════════════════════════��══
+// ════════════════════════════════════════════����══
 // 8. PODCASTS
 // ═══════════════════════════════════════════════
 body.push(heading("8. Podcasts - Vente 70/30 + Pot mensuel 40/30/20/10", 1));
@@ -351,7 +351,7 @@ body.push(spacer());
 body.push(heading("Flux A - Vente Episode", 2));
 body.push(p("Net_vente = Prix_paye - Frais_paiement"));
 body.push(p("Podcaster = 0,70 x Net_vente"));
-body.push(p("VISUAL = 0,30 x Net_vente"));
+body.push(p("VIXUAL = 0,30 x Net_vente"));
 body.push(spacer());
 
 body.push(heading("Flux B - Pot Mensuel", 2));
@@ -393,8 +393,8 @@ body.push(p("  weight_i_capped = 0,20 x Sum(votes_total) x listen_score_i"));
 body.push(p("Objectif : Prevenir la monopolisation par gros investisseurs."));
 body.push(spacer());
 
-body.push(heading("C) 20% -> VISUAL (Plateforme)", 3));
-body.push(p("P_VISUAL = 0,20 x P"));
+body.push(heading("C) 20% -> VIXUAL (Plateforme)", 3));
+body.push(p("P_VIXUAL = 0,20 x P"));
 body.push(spacer());
 
 body.push(heading("D) 10% -> Bonus Pool", 3));
@@ -453,7 +453,7 @@ body.push(heading("11. Regles Transverses", 1));
 body.push(heading("Arrondis", 2));
 body.push(bulletList([
   "Methode : Euro-floor (arrondi inferieur a l'euro le plus proche)",
-  "Les centimes residuels sont captures par VISUAL",
+  "Les centimes residuels sont captures par VIXUAL",
   "Verification : platformTake + totalUserPayout == grossEligible (bouclage exact)",
 ]));
 body.push(spacer());
@@ -525,7 +525,7 @@ body.push(spacer());
 body.push(heading("B) Vente Unitaire", 3));
 body.push(p("POST /api/sale"));
 body.push(p('Body: { category: "voix_info"|"livres"|"podcasts", targetId, price, currency, buyerId }'));
-body.push(p("-> Split 70/30 immediat (auteur/VISUAL)"));
+body.push(p("-> Split 70/30 immediat (auteur/VIXUAL)"));
 body.push(spacer());
 
 body.push(heading("C) Cloture de Cycle", 3));
@@ -633,7 +633,7 @@ body.push(table("RecapProfils",
 body.push(spacer());
 
 body.push(p("--- Fin du document ---"));
-body.push(p(`Document genere automatiquement depuis le code VISUAL V2 le ${today}.`));
+body.push(p(`Document genere automatiquement depuis le code VIXUAL V2 le ${today}.`));
 
 // ═══════════════════════════════════════════════
 // ASSEMBLE FODT XML
