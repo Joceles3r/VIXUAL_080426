@@ -9,7 +9,7 @@
  * DELETE /api/admin/stripe-config     → bascule le mode test/live
  */
 import { NextRequest, NextResponse } from "next/server";
-import { neon } from "@neondatabase/serverless";
+import { sql, isDatabaseConfigured } from "@/lib/db";
 import { 
   encryptValue, 
   decryptValue, 
@@ -35,17 +35,11 @@ let memoryCache: {
   updated_at?: string;
 } = {};
 
-// ── Check if DB is configured ──
-function isDatabaseConfigured(): boolean {
-  return !!process.env.DATABASE_URL && !process.env.DATABASE_URL.includes("your-database");
-}
-
 // ── Ensure table exists ──
 async function ensureTableExists() {
   if (!isDatabaseConfigured()) return false;
   
   try {
-    const sql = neon(process.env.DATABASE_URL!);
     await sql`
       CREATE TABLE IF NOT EXISTS stripe_config (
         id INTEGER PRIMARY KEY DEFAULT 1,
@@ -94,7 +88,6 @@ export async function GET(req: NextRequest) {
   if (isDatabaseConfigured()) {
     try {
       await ensureTableExists();
-      const sql = neon(process.env.DATABASE_URL!);
       const rows = await sql`
         SELECT
           test_secret_key, test_publishable_key, test_webhook_secret,
@@ -241,7 +234,6 @@ export async function POST(req: NextRequest) {
   if (isDatabaseConfigured()) {
     try {
       await ensureTableExists();
-      const sql = neon(process.env.DATABASE_URL!);
 
       // Build update fields dynamically - ignorer les placeholders masques
       const updates: Record<string, string | null | undefined> = {
@@ -389,7 +381,6 @@ export async function PATCH(req: NextRequest) {
   if (isDatabaseConfigured()) {
     try {
       await ensureTableExists();
-      const sql = neon(process.env.DATABASE_URL!);
       await sql`
         UPDATE stripe_config
         SET active_mode = ${body.mode}, updated_by = ${body.email}, updated_at = NOW()

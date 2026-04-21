@@ -16,7 +16,7 @@
  */
 import "server-only";
 import Stripe from "stripe";
-import { getStripeConfig } from "./stripe-config";
+import { getStripeConfig, getStripeConfigFresh } from "./stripe-config";
 
 // ── Version API Stripe officiellement supportée par VIXUAL ───────────────────
 
@@ -28,23 +28,35 @@ let _stripeClient: Stripe | null = null;
 let _clientFingerprint: string | null = null;
 
 /**
- * Retourne une instance Stripe configurée avec les clés actives (DB puis env).
- * Singleton invalidé automatiquement si la clé secrète change.
+ * Returns a Stripe instance configured with active keys (DB then env).
+ * FOR CRITICAL PATH (webhooks, payments): Use { fresh: true } for 100% freshness.
+ * For other operations: Uses getStripeConfig() (DB with env fallback).
  *
- * C'est la fonction à utiliser partout dans le code métier.
+ * @param options.fresh - If true, forces DB read ignoring env fallback (for critical path)
  */
-export async function getStripeClient(): Promise<Stripe> {
-  const config = await getStripeConfig();
+export async function getStripeClient(options?: { fresh?: boolean }): Promise<Stripe> {
+  // Use fresh config for critical path operations
+  const config = options?.fresh
+    ? await getStripeConfigFresh()
+    : await getStripeConfig();
 
   if (!config.secretKey) {
     throw new Error(
-      "[VIXUAL] Aucune clé secrète Stripe configurée. " +
-        "Ajoutez vos clés depuis l'Admin → Config Stripe, " +
-        "ou définissez STRIPE_TEST_SECRET_KEY dans .env.local"
+      "[VIXUAL] Aucune cle secrete Stripe configuree. " +
+        "Ajoutez vos cles depuis l'Admin -> Config Stripe, " +
+        "ou definissez STRIPE_TEST_SECRET_KEY dans .env.local"
     );
   }
 
-  // Fingerprint = secretKey + mode pour détecter changement de configuration
+  // For fresh requests, always create new instance (no caching for maximum freshness)
+  if (options?.fresh) {
+    return new Stripe(config.secretKey, {
+      apiVersion: STRIPE_API_VERSION,
+      typescript: true,
+    });
+  }
+
+  // Fingerprint = secretKey + mode pour detecter changement de configuration
   const fingerprint = `${config.mode}:${config.secretKey}`;
   if (!_stripeClient || _clientFingerprint !== fingerprint) {
     _stripeClient = new Stripe(config.secretKey, {

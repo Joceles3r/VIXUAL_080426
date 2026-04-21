@@ -9,7 +9,7 @@
  * Ce module est SERVER ONLY.
  */
 import "server-only";
-import { neon } from "@neondatabase/serverless";
+import { sql, isDatabaseConfigured } from "./db";
 import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "crypto";
 
 // ── Environment Detection ────────────────────────────────────────────────────
@@ -130,74 +130,72 @@ export interface StripeRuntimeConfig {
   updatedBy?: string;
 }
 
-// ── Chargement depuis la base ─────────────────────────────────────────────────
+// ── Chargement depuis la base (NO CACHE - 100% freshness) ─────────────────────
 
-let _cache: (StripeRuntimeConfig & { fetchedAt: number }) | null = null;
-const CACHE_TTL_MS = 60_000; // 1 minute
-
+/**
+ * Retrieves Stripe configuration from database (source de verite).
+ * No in-memory caching - reads from DB every time.
+ * This ensures 100% config freshness across all serverless instances.
+ */
 export async function getStripeConfig(): Promise<StripeRuntimeConfig> {
-  // Use in-memory cache to avoid a DB hit on every request
-  if (_cache && Date.now() - _cache.fetchedAt < CACHE_TTL_MS) {
-    return _cache;
-  }
+  // Only try DB if it's configured
+  if (isDatabaseConfigured()) {
+    try {
+      const rows = await sql`
+        SELECT
+          test_secret_key, test_publishable_key, test_webhook_secret,
+          live_secret_key, live_publishable_key, live_webhook_secret,
+          active_mode, connect_client_id,
+          updated_at, updated_by
+        FROM stripe_config
+        WHERE id = 1
+        LIMIT 1
+      `;
 
-  try {
-    const sql = neon(process.env.DATABASE_URL!);
-    const rows = await sql`
-      SELECT
-        test_secret_key, test_publishable_key, test_webhook_secret,
-        live_secret_key, live_publishable_key, live_webhook_secret,
-        active_mode, connect_client_id,
-        updated_at, updated_by
-      FROM stripe_config
-      WHERE id = 1
-      LIMIT 1
-    `;
+      if (rows.length > 0) {
+        const row = rows[0];
+        const mode = (row.active_mode as StripeMode) || "test";
 
-    if (rows.length > 0) {
-      const row = rows[0];
-      const mode = (row.active_mode as StripeMode) || "test";
+        const secretKey =
+          mode === "test"
+            ? decryptValue(row.test_secret_key as string || "")
+            : decryptValue(row.live_secret_key as string || "");
 
-      const secretKey =
-        mode === "test"
-          ? decryptValue(row.test_secret_key as string || "")
-          : decryptValue(row.live_secret_key as string || "");
+        const publishableKey =
+          mode === "test"
+            ? (row.test_publishable_key as string || "")
+            : (row.live_publishable_key as string || "");
 
-      const publishableKey =
-        mode === "test"
-          ? (row.test_publishable_key as string || "")
-          : (row.live_publishable_key as string || "");
+        const webhookSecret =
+          mode === "test"
+            ? decryptValue(row.test_webhook_secret as string || "")
+            : decryptValue(row.live_webhook_secret as string || "");
 
-      const webhookSecret =
-        mode === "test"
-          ? decryptValue(row.test_webhook_secret as string || "")
-          : decryptValue(row.live_webhook_secret as string || "");
-
-      // Only use DB config if there's actually a secret key configured
-      if (secretKey && secretKey.startsWith("sk_")) {
-        const config: StripeRuntimeConfig = {
-          secretKey,
-          publishableKey,
-          webhookSecret,
-          connectClientId: (row.connect_client_id as string) || "",
-          mode,
-          source: "database",
-          updatedAt: row.updated_at ? new Date(row.updated_at as string).toISOString() : undefined,
-          updatedBy: (row.updated_by as string) || undefined,
-        };
-        _cache = { ...config, fetchedAt: Date.now() };
-        return config;
+        // Only use DB config if there's actually a secret key configured
+        if (secretKey && secretKey.startsWith("sk_")) {
+          return {
+            secretKey,
+            publishableKey,
+            webhookSecret,
+            connectClientId: (row.connect_client_id as string) || "",
+            mode,
+            source: "database",
+            updatedAt: row.updated_at ? new Date(row.updated_at as string).toISOString() : undefined,
+            updatedBy: (row.updated_by as string) || undefined,
+          };
+        }
       }
+    } catch {
+      // DB unavailable — fall through to env vars
+      console.warn("[Stripe Config] Database read failed, falling back to env vars");
     }
-  } catch {
-    // DB unavailable — fall through to env vars
   }
 
   // ── Fallback: variables d'environnement ──────────────────────────────────
   const envMode: StripeMode =
     process.env.NEXT_PUBLIC_STRIPE_TEST_MODE !== "false" ? "test" : "live";
 
-  const config: StripeRuntimeConfig = {
+  return {
     secretKey:
       envMode === "test"
         ? process.env.STRIPE_TEST_SECRET_KEY || process.env.STRIPE_SECRET_KEY || ""
@@ -214,14 +212,59 @@ export async function getStripeConfig(): Promise<StripeRuntimeConfig> {
     mode: envMode,
     source: "environment",
   };
-
-  _cache = { ...config, fetchedAt: Date.now() };
-  return config;
 }
 
-/** Invalider le cache (appelé après une mise à jour depuis l'admin) */
+/**
+ * Retrieves fresh Stripe config for critical path operations.
+ * Forces DB read, throws if DB unavailable.
+ * Use for: webhooks, payment processing, payout execution.
+ */
+export async function getStripeConfigFresh(): Promise<StripeRuntimeConfig> {
+  if (!isDatabaseConfigured()) {
+    throw new Error("[VIXUAL] DATABASE_URL not configured - cannot read Stripe config");
+  }
+
+  try {
+    const rows = await sql`
+      SELECT
+        test_secret_key, test_publishable_key, test_webhook_secret,
+        live_secret_key, live_publishable_key, live_webhook_secret,
+        active_mode, connect_client_id
+      FROM stripe_config
+      WHERE id = 1
+      LIMIT 1
+    `;
+
+    if (rows.length === 0) {
+      throw new Error("[VIXUAL] No stripe_config found in database");
+    }
+
+    const row = rows[0];
+    const mode = (row.active_mode as StripeMode) || "test";
+
+    return {
+      secretKey: mode === "test"
+        ? decryptValue(row.test_secret_key as string || "")
+        : decryptValue(row.live_secret_key as string || ""),
+      publishableKey: mode === "test"
+        ? (row.test_publishable_key as string || "")
+        : (row.live_publishable_key as string || ""),
+      webhookSecret: mode === "test"
+        ? decryptValue(row.test_webhook_secret as string || "")
+        : decryptValue(row.live_webhook_secret as string || ""),
+      connectClientId: (row.connect_client_id as string) || "",
+      mode,
+      source: "database",
+    };
+  } catch (err) {
+    console.error("[Stripe Config] Fresh read failed:", err);
+    throw new Error("[VIXUAL] Cannot read Stripe config from database");
+  }
+}
+
+/** @deprecated No longer needed - cache was removed for 100% freshness */
 export function invalidateStripeConfigCache() {
-  _cache = null;
+  // No-op for backward compatibility
 }
 
 /** Masquer une clé pour l'affichage (sk_test_xxxx...xxxx) */
@@ -364,8 +407,9 @@ export function resolveStripeRuntimeConfig(settings: AdminStripeSettings): Strip
  * Charger les settings admin depuis la DB (format brut)
  */
 export async function loadAdminStripeSettings(): Promise<AdminStripeSettings | null> {
+  if (!isDatabaseConfigured()) return null;
+  
   try {
-    const sql = neon(process.env.DATABASE_URL!);
     const rows = await sql`
       SELECT
         active_mode as stripe_mode,

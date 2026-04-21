@@ -7,9 +7,7 @@
  * - Soutien = aide libre sans retour (pas de vote, pas de classement, pas de gain)
  */
 
-import { neon } from "@neondatabase/serverless"
-
-const sql = neon(process.env.DATABASE_URL!)
+import { sql } from "./db"
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
