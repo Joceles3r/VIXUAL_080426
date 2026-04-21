@@ -20,20 +20,28 @@ export const PROFILE_COUNT = {
 
 // ── Roles ──
 
+/**
+ * CLES OFFICIELLES ROLES VIXUAL - VERROU FINAL
+ * 
+ * Nomenclature officielle FR -> Cles internes:
+ * - invite -> guest
+ * - visiteur -> visitor
+ * - createur -> creator (ex: porteur)
+ * - contributeur -> contributor
+ * - infoporteur -> infoporteur
+ * - podcasteur -> podcasteur
+ * - auditeur -> auditeur
+ * - contribu-lecteur -> contribu_lecteur
+ */
 export const ROLE_LABELS = {
   guest: { singular: "Invite", plural: "Invites" },
   visitor: { singular: "Visiteur", plural: "Visiteurs" },
-  creator: { singular: "Porteur", plural: "Porteurs" },
-  porter: { singular: "Porteur", plural: "Porteurs" }, // Alias
+  creator: { singular: "Createur", plural: "Createurs" },
   infoporteur: { singular: "Infoporteur", plural: "Infoporteurs" },
-  infoporter: { singular: "Infoporteur", plural: "Infoporteurs" }, // Alias EN
   podcasteur: { singular: "Podcasteur", plural: "Podcasteurs" },
-  podcaster: { singular: "Podcasteur", plural: "Podcasteurs" }, // Alias EN
   contributor: { singular: "Contributeur", plural: "Contributeurs" },
   contribu_lecteur: { singular: "Contribu-lecteur", plural: "Contribu-lecteurs" },
-  contribureader: { singular: "Contribu-lecteur", plural: "Contribu-lecteurs" }, // Alias
   auditeur: { singular: "Auditeur", plural: "Auditeurs" },
-  listener: { singular: "Auditeur", plural: "Auditeurs" }, // Alias EN
 } as const;
 
 export type RoleKey = keyof typeof ROLE_LABELS;

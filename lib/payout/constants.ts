@@ -326,9 +326,9 @@ export const CATEGORY_SPLITS: Record<VixualCategory, {
     label: "Films / Videos / Documentaires",
     frequency: "Configurable (admin)",
     splits: [
-      { label: "Investisseurs TOP 10", percent: FILMS_INVESTOR_TOP10_PERCENT, color: "emerald" },
-      { label: "Porteurs TOP 10", percent: FILMS_CREATOR_TOP10_PERCENT, color: "teal" },
-      { label: "Investisseurs rangs 11-100", percent: FILMS_INVESTOR_11_100_PERCENT, color: "sky" },
+      { label: "Contributeurs TOP 10", percent: FILMS_INVESTOR_TOP10_PERCENT, color: "emerald" },
+      { label: "Createurs TOP 10", percent: FILMS_CREATOR_TOP10_PERCENT, color: "teal" },
+      { label: "Contributeurs rangs 11-100", percent: FILMS_INVESTOR_11_100_PERCENT, color: "sky" },
       { label: "Vixual (plateforme)", percent: FILMS_Vixual_PERCENT, color: "slate" },
     ],
   },
@@ -345,7 +345,7 @@ export const CATEGORY_SPLITS: Record<VixualCategory, {
     frequency: "Mensuel (1er du mois)",
     splits: [
       { label: "Auteurs TOP 10", percent: LIVRES_POT_AUTHORS_TOP10_PERCENT, color: "amber" },
-      { label: "Investi-lecteurs gagnants", percent: LIVRES_POT_INVESTIREADERS_PERCENT, color: "sky" },
+      { label: "Contribu-lecteurs gagnants", percent: LIVRES_POT_INVESTIREADERS_PERCENT, color: "sky" },
     ],
   },
   podcasts: {
@@ -389,7 +389,7 @@ export const CREATOR_QUOTAS = {
   films: { maxDuration: Infinity, perQuarter: 1, priceEur: 7, label: "Films (> 30 min)" },
 } as const;
 
-// ───────────────────────────────────────────���──
+// ─────────────���─────────────────────────────���──
 // 7. VENTE D'ARTICLE (Infoporteur) - 70/30
 // ──────────────────────────────────────────────
 
@@ -466,17 +466,19 @@ export const ADULT_VISUPOINTS_CONVERSION_THRESHOLD = ADULT_VIXUPOINTS_CONVERSION
 // 11. VIXUPOINTS - PLAFONDS PAR PROFIL
 // ──────────────────────────────────────────────
 
+// VERROU FINAL: Cles officielles uniquement
 export type VixupointsProfileKey =
   | "guest"
   | "visitor"
   | "visitor_minor"
-  | "auditor"
-  | "investireader"
-  | "porter"
-  | "infoporter"
-  | "podcaster"
-  | "investor";
+  | "creator"
+  | "contributor"
+  | "infoporteur"
+  | "podcasteur"
+  | "auditeur"
+  | "contribu_lecteur";
 
+// VERROU FINAL: Cles officielles uniquement, plus d'anciens alias
 export const VIXUPOINTS_PROFILE_CAPS: Record<VixupointsProfileKey, {
   label: string;
   cap: number | null; // null = ne gagne pas
@@ -484,15 +486,15 @@ export const VIXUPOINTS_PROFILE_CAPS: Record<VixupointsProfileKey, {
   convertible: boolean;
   objective: string;
 }> = {
-  guest:          { label: "Invit\u00e9",              cap: null,   capType: "none",    convertible: false, objective: "Acquisition" },
-  visitor:        { label: "Visiteur majeur",      cap: 2_500,  capType: "total",   convertible: true,  objective: "Inciter \u00e0 investir" },
-  visitor_minor:  { label: "Visiteur mineur (16\u201317)", cap: 10_000, capType: "total",   convertible: false, objective: "Fid\u00e9lisation long terme" },
-  auditor:        { label: "Auditeur",             cap: 2_500,  capType: "total",   convertible: true,  objective: "Encourager \u00e9coute" },
-  investireader:  { label: "Investi-lecteur",      cap: 2_500,  capType: "total",   convertible: true,  objective: "Lecture active" },
-  porter:         { label: "Porteur",              cap: 1_000,  capType: "monthly", convertible: false, objective: "Boost visibilit\u00e9" },
-  infoporter:     { label: "Infoporteur",          cap: 1_000,  capType: "monthly", convertible: false, objective: "Boost article" },
-  podcaster:      { label: "Podcasteur",           cap: 1_000,  capType: "monthly", convertible: false, objective: "Mise en avant" },
-  investor:       { label: "Investisseur",         cap: null,   capType: "none",    convertible: false, objective: "R\u00e9mun\u00e9r\u00e9 via gains" },
+  guest:            { label: "Invite",                   cap: null,   capType: "none",    convertible: false, objective: "Acquisition" },
+  visitor:          { label: "Visiteur majeur",          cap: 2_500,  capType: "total",   convertible: true,  objective: "Inciter a contribuer" },
+  visitor_minor:    { label: "Visiteur mineur (16-17)",  cap: 10_000, capType: "total",   convertible: false, objective: "Fidelisation long terme" },
+  creator:          { label: "Createur",                 cap: 1_000,  capType: "monthly", convertible: false, objective: "Boost visibilite" },
+  contributor:      { label: "Contributeur",             cap: null,   capType: "none",    convertible: false, objective: "Remunere via gains" },
+  infoporteur:      { label: "Infoporteur",              cap: 1_000,  capType: "monthly", convertible: false, objective: "Boost article" },
+  podcasteur:       { label: "Podcasteur",               cap: 1_000,  capType: "monthly", convertible: false, objective: "Mise en avant" },
+  auditeur:         { label: "Auditeur",                 cap: 2_500,  capType: "total",   convertible: true,  objective: "Encourager ecoute" },
+  contribu_lecteur: { label: "Contribu-lecteur",         cap: 2_500,  capType: "total",   convertible: true,  objective: "Lecture active" },
 };
 
 /** Maximum journalier recommand\u00e9 */

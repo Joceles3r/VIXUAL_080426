@@ -1,25 +1,46 @@
 /**
- * VIXUAL Role Aliases - Compatibilite avec les anciens termes
+ * VIXUAL Role Aliases - VERROU FINAL
  * 
  * Ce fichier permet de migrer progressivement de l'ancienne terminologie
- * vers la nouvelle sans casser le code existant.
+ * vers la nouvelle. Les anciens alias sont conserves uniquement pour
+ * la migration des donnees existantes.
+ * 
+ * CLES OFFICIELLES (ne pas utiliser d'autres cles dans le code nouveau):
+ * - guest
+ * - visitor
+ * - creator
+ * - contributor
+ * - infoporteur
+ * - podcasteur
+ * - auditeur
+ * - contribu_lecteur
  */
 
-// Mapping des anciens termes vers les nouveaux
+// Mapping des anciens termes vers les nouveaux (pour migration uniquement)
 export const LEGACY_ROLE_ALIASES: Record<string, string> = {
-  // Anciens termes -> Nouveaux termes
+  // Anciens termes -> Cles officielles
   investor: "contributor",
-  investireader: "contribu_reader",
-  investi_reader: "contribu_reader",
-  "investi-reader": "contribu_reader",
+  porter: "creator",
+  porteur: "creator",
+  infoporter: "infoporteur",
+  podcaster: "podcasteur",
+  listener: "auditeur",
+  auditor: "auditeur",
+  investireader: "contribu_lecteur",
+  investi_reader: "contribu_lecteur",
+  "investi-reader": "contribu_lecteur",
+  contribureader: "contribu_lecteur",
+  contribu_reader: "contribu_lecteur",
 }
 
 // Mapping des anciens termes d'affichage
 export const LEGACY_LABEL_ALIASES: Record<string, string> = {
   "Investisseur": "Contributeur",
-  "Investi-lecteur": "Contribu-lecteur",
   "Investisseurs": "Contributeurs",
+  "Investi-lecteur": "Contribu-lecteur",
   "Investi-lecteurs": "Contribu-lecteurs",
+  "Porteur": "Createur",
+  "Porteurs": "Createurs",
 }
 
 // Mapping des termes business

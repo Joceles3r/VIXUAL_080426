@@ -28,15 +28,16 @@ import {
   Rocket,
 } from "lucide-react"
 
+// VERROU FINAL: Cles officielles uniquement
 export type VixualRole =
   | "guest"
   | "visitor"
-  | "porter"
+  | "creator"
   | "contributor"
-  | "infoporter"
-  | "contribureader"
-  | "podcaster"
-  | "listener"
+  | "infoporteur"
+  | "podcasteur"
+  | "auditeur"
+  | "contribu_lecteur"
 
 /** @deprecated Use VixualRole instead */
 export type VisualRole = VixualRole
@@ -82,7 +83,7 @@ export const EXPLORE_MENU: NavMenu = {
   ],
 }
 
-// Menu "Mon Espace" (inscrits) + items conditionnels par rôles
+// Menu "Mon Espace" (inscrits) + items conditionnels par roles - VERROU FINAL
 export const MY_SPACE_MENU: NavMenu = {
   label: "Mon Espace",
   items: [
@@ -91,25 +92,25 @@ export const MY_SPACE_MENU: NavMenu = {
       label: "Tableau de bord",
       href: "/dashboard",
       icon: LayoutDashboard,
-      roles: ["visitor", "porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+      roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
     },
     {
       label: "Mon profil",
       href: "/dashboard/profile",
       icon: User,
-      roles: ["visitor", "porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+      roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
     },
     {
       label: "Parametres",
       href: "/dashboard/settings",
       icon: Settings,
-      roles: ["visitor", "porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+      roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
     },
     {
       label: "Support (Boite interne)",
       href: "/support/mailbox",
       icon: Mail,
-      roles: ["visitor", "porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+      roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
     },
 
     // VISITEUR (+ tous les inscrits)
@@ -117,27 +118,27 @@ export const MY_SPACE_MENU: NavMenu = {
       label: "Mes VIXUpoints",
       href: "/dashboard/visupoints",
       icon: Star,
-      roles: ["visitor", "porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+      roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
     },
     {
       label: "Mes favoris / suivis",
       href: "/dashboard/favorites",
       icon: Heart,
-      roles: ["visitor", "porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+      roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
     },
 
-    // PORTEUR (video)
+    // CREATEUR (video)
     {
       label: "Deposer un film/video",
       href: "/upload",
       icon: Upload,
-      roles: ["porter"],
+      roles: ["creator"],
     },
     {
       label: "Mes films & videos",
       href: "/dashboard/projects?type=video",
       icon: Film,
-      roles: ["porter"],
+      roles: ["creator"],
     },
 
     // INFOPORTEUR (ecrit)
@@ -145,13 +146,13 @@ export const MY_SPACE_MENU: NavMenu = {
       label: "Deposer un livre/article",
       href: "/upload/text",
       icon: Upload,
-      roles: ["infoporter"],
+      roles: ["infoporteur"],
     },
     {
       label: "Mes livres & articles",
       href: "/dashboard/projects?type=text",
       icon: FileText,
-      roles: ["infoporter"],
+      roles: ["infoporteur"],
     },
 
     // PODCASTEUR (podcast)
@@ -159,13 +160,13 @@ export const MY_SPACE_MENU: NavMenu = {
       label: "Deposer un podcast",
       href: "/upload/podcast",
       icon: Upload,
-      roles: ["podcaster"],
+      roles: ["podcasteur"],
     },
     {
       label: "Mes podcasts",
       href: "/dashboard/projects?type=podcast",
       icon: Mic,
-      roles: ["podcaster"],
+      roles: ["podcasteur"],
     },
 
     // CONTRIBUTEUR (video)
@@ -176,12 +177,12 @@ export const MY_SPACE_MENU: NavMenu = {
       roles: ["contributor"],
     },
 
-    // CONTRIBULECTEUR (ecrit)
+    // CONTRIBU-LECTEUR (ecrit)
     {
       label: "Mes contributions (livres & articles)",
       href: "/dashboard/investments?type=text",
       icon: FileText,
-      roles: ["contribureader"],
+      roles: ["contribu_lecteur"],
     },
 
     // AUDITEUR (podcast)
@@ -189,13 +190,13 @@ export const MY_SPACE_MENU: NavMenu = {
       label: "Explorer les podcasts",
       href: "/explore?type=podcast",
       icon: Compass,
-      roles: ["listener"],
+      roles: ["auditeur"],
     },
     {
-      label: "Mes investissements (podcast)",
+      label: "Mes contributions (podcast)",
       href: "/dashboard/investments?type=podcast",
       icon: Mic,
-      roles: ["listener"],
+      roles: ["auditeur"],
     },
 
     // PROMOTION / PARRAINAGE (tous les inscrits)
@@ -203,7 +204,7 @@ export const MY_SPACE_MENU: NavMenu = {
       label: "Promotion / Parrainage",
       href: "/dashboard/promo",
       icon: Share2,
-      roles: ["visitor", "porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+      roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
     },
 
     // WALLET (contributeurs + createurs)
@@ -211,13 +212,13 @@ export const MY_SPACE_MENU: NavMenu = {
       label: "Mon wallet / gains",
       href: "/dashboard/wallet",
       icon: Wallet,
-      roles: ["contributor", "contribureader", "listener", "porter", "infoporter", "podcaster"],
+      roles: ["contributor", "contribu_lecteur", "auditeur", "creator", "infoporteur", "podcasteur"],
     },
     {
       label: "Historique",
       href: "/dashboard/history",
       icon: History,
-      roles: ["contributor", "contribureader", "listener", "porter", "infoporter", "podcaster"],
+      roles: ["contributor", "contribu_lecteur", "auditeur", "creator", "infoporteur", "podcasteur"],
     },
   ],
 }

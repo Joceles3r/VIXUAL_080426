@@ -5,7 +5,7 @@ import Link from "next/link"
 import { VisualSlogan } from "@/components/vixual-slogan"
 
 export default function DownloadFormulesPage() {
-  const fileName = "VISUAL_Formules_Repartitions_V2.fodt"
+  const fileName = "VIXUAL_Formules_Repartitions_V2.fodt"
   const fileUrl = `/${fileName}`
 
   return (

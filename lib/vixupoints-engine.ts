@@ -85,7 +85,7 @@ export const VIXUPOINTS_ACTIONS = {
   referralSignup: 40,       // Inscription via partage
 } as const
 
-/** Profile-based caps and permissions */
+/** Profile-based caps and permissions - VERROU FINAL: cles officielles */
 export const PROFILE_VIXUPOINTS_CONFIG: Record<string, {
   canUseVixupoints: boolean
   canPayEuros: boolean
@@ -93,14 +93,16 @@ export const PROFILE_VIXUPOINTS_CONFIG: Record<string, {
   cap: number
   capType: "total" | "monthly"
 }> = {
+  guest: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, cap: 0, capType: "total" },
   visitor_minor: { canUseVixupoints: true, canPayEuros: false, canUseHybrid: false, cap: 10_000, capType: "total" },
   visitor_adult: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, cap: 2_500, capType: "total" },
+  visitor: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, cap: 2_500, capType: "total" },
+  creator: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, cap: 0, capType: "total" },
   contributor: { canUseVixupoints: false, canPayEuros: true, canUseHybrid: false, cap: 0, capType: "total" },
-  contribureader: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, cap: 2_500, capType: "total" },
-  auditor: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, cap: 2_500, capType: "total" },
-  porter: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, cap: 0, capType: "total" },
-  infoporter: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, cap: 0, capType: "total" },
-  podcaster: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, cap: 0, capType: "total" },
+  infoporteur: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, cap: 0, capType: "total" },
+  podcasteur: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, cap: 0, capType: "total" },
+  auditeur: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, cap: 2_500, capType: "total" },
+  contribu_lecteur: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, cap: 2_500, capType: "total" },
 }
 
 /** Message pedagogique VIXUAL */
@@ -117,8 +119,9 @@ export const VIXUPOINTS_MAX_DAILY = DAILY_VIXUPOINTS_CAP
 export const VIXUPOINTS_PROFILE_CAPS = {
   visitor_minor: { cap: 10_000, maxDaily: 100, canWithdraw: false },
   visitor_adult: { cap: 2_500, maxDaily: 100, canWithdraw: false },
-  contribureader: { cap: 2_500, maxDaily: 100, canWithdraw: true },
-  auditor: { cap: 2_500, maxDaily: 100, canWithdraw: true },
+  visitor: { cap: 2_500, maxDaily: 100, canWithdraw: false },
+  auditeur: { cap: 2_500, maxDaily: 100, canWithdraw: true },
+  contribu_lecteur: { cap: 2_500, maxDaily: 100, canWithdraw: true },
 } as const
 
 /** Alias pour compatibilite avec creditVisupointsCapped */
@@ -126,8 +129,8 @@ export const PROFILE_CAPS: Record<string, { cap: number }> = {
   visitor_minor: { cap: 10_000 },
   visitor_adult: { cap: 2_500 },
   visitor: { cap: 2_500 },
-  contribureader: { cap: 2_500 },
-  auditor: { cap: 2_500 },
+  auditeur: { cap: 2_500 },
+  contribu_lecteur: { cap: 2_500 },
 }
 
 // ─── Micro-Packs VIXUpoints ───
@@ -184,12 +187,13 @@ export const VIXUPOINTS_PACKS: VixupointsPack[] = [
   },
 ]
 
-/** Profils autorises a acheter des micro-packs */
+/** Profils autorises a acheter des micro-packs - cles officielles */
 export const MICROPACKS_ELIGIBLE_PROFILES = [
   "visitor_minor",
-  "visitor_adult", 
-  "contribureader",
-  "listener",
+  "visitor_adult",
+  "visitor",
+  "auditeur",
+  "contribu_lecteur",
 ] as const
 
 /** Verifie si un profil peut acheter des micro-packs */
