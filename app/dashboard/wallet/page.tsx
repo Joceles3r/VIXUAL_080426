@@ -65,7 +65,8 @@ const TX_ICONS: Record<string, string> = {
 const MOCK_WALLET = {
   availableCents: 18_42, pendingCents: 4_50, totalEarnedCents: 156_80, totalWithdrawnCents: 45_00,
 }
-const MOCK_VISUPOINTS = { balance: 1200, cap: 5000, todayEarned: 15 }
+// VERROU FINAL: mock VIXUpoints (alias UI)
+const MOCK_VIXUPOINTS = { balance: 1200, cap: 5000, todayEarned: 15 }
 const MOCK_TRANSACTIONS = [
   { id: "tx1", type: "video_sale", amountCents: 1000, description: "Vente vid\u00e9o : L'Odyss\u00e9e des \u00c9toiles", status: "completed", createdAt: "2026-03-03" },
   { id: "tx2", type: "return", amountCents: 400, description: "Retour contribution : Murmures de la For\u00eat", status: "completed", createdAt: "2026-03-02" },
@@ -117,7 +118,7 @@ export default function WalletPage() {
   const wallet = data?.wallet || MOCK_WALLET
   const transactions = data?.transactions || MOCK_TRANSACTIONS
   const stripeConnect = data?.stripeConnect || { status: "not_started", chargesEnabled: false, payoutsEnabled: false, hasAccount: false }
-  const visupoints = data?.visupoints || MOCK_VISUPOINTS
+  const visupoints = data?.visupoints || MOCK_VIXUPOINTS
   const pendingWithdrawals = data?.pendingWithdrawals || MOCK_PENDING_WITHDRAWALS
   const isLoading = !data && !error && !!user
 

@@ -44,7 +44,7 @@ export default function UploadPodcastPage() {
   const [isUploading, setIsUploading] = useState(false)
   const [cautionLoading, setCautionLoading] = useState(false)
 
-  const hasPaidCaution = user?.depositStatus?.podcaster10 ?? false
+  const hasPaidCaution = user?.depositStatus?.podcasteur10 ?? false
   const [uploadProgress, setUploadProgress] = useState(0)
   const [formData, setFormData] = useState({
     title: "",

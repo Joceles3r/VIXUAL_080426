@@ -491,9 +491,9 @@ export const VOTES_WEIGHT_NEW_USER = 0.5
 export const VOTES_WEIGHT_ESTABLISHED_USER = 1.0
 export const VOTES_WEIGHT_POWER_USER = 1.5
 
-// === BACKWARDS COMPATIBILITY ===
-export const FILMS_VISUAL_BPS = FILMS_Vixual_BPS
-export const PODCASTS_POT_VISUAL_PERCENT = PODCASTS_POT_Vixual_PERCENT
+// VERROU FINAL : les anciens alias FILMS_VISUAL_BPS et
+// PODCASTS_POT_VISUAL_PERCENT ont ete supprimes.
+// Utiliser exclusivement FILMS_Vixual_BPS et PODCASTS_POT_Vixual_PERCENT.
 \`\`\`
 
 ### lib/visupoints-engine.ts

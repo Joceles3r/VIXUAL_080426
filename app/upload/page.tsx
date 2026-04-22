@@ -44,7 +44,7 @@ export default function UploadVideoPage() {
   const [isUploading, setIsUploading] = useState(false)
   const [cautionLoading, setCautionLoading] = useState(false)
 
-  const hasPaidCaution = user?.depositStatus?.porter10 ?? false
+  const hasPaidCaution = user?.depositStatus?.creator10 ?? false
   const [uploadProgress, setUploadProgress] = useState(0)
   const [formData, setFormData] = useState({
     title: "",

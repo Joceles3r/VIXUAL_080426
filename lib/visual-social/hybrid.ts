@@ -34,7 +34,7 @@ export type SocialTag =
   | "investissement"
   | "spoiler"
 
-// VERROU FINAL: Renomme VISUAL_SOCIAL_TAGS -> VIXUAL_SOCIAL_TAGS
+// Tags officiels du feed social VIXUAL
 export const VIXUAL_SOCIAL_TAGS: SocialTag[] = [
   "avis",
   "question",
@@ -85,7 +85,6 @@ export const TAG_CATEGORIES = [
 
 // VIXUpoints desactives en V1 pour eviter le farming
 // avant que la moderation et l'anti-spam soient stables
-// VERROU FINAL: Renomme VISUAL_SOCIAL_ENABLE_VISUPOINTS_V1 -> VIXUAL_SOCIAL_ENABLE_VIXUPOINTS_V1
 export const VIXUAL_SOCIAL_ENABLE_VIXUPOINTS_V1 = false
 
 // ─── Post type ───
@@ -424,5 +423,4 @@ export function getVIXUALSocialProvider(deps?: Record<string, unknown>): VIXUALS
   return isVIXUALSocialEnabled() ? createDbProvider(deps ?? {}) : createMockProvider()
 }
 
-/** @deprecated Alias for backward compatibility - use getVIXUALSocialProvider */
-export const getVisualSocialProvider = getVIXUALSocialProvider;
+

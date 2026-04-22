@@ -46,7 +46,7 @@ export default function UploadTextPage() {
   const [isUploading, setIsUploading] = useState(false)
   const [cautionLoading, setCautionLoading] = useState(false)
 
-  const hasPaidCaution = user?.depositStatus?.infoporter10 ?? false
+  const hasPaidCaution = user?.depositStatus?.infoporteur10 ?? false
   const [uploadProgress, setUploadProgress] = useState(0)
   const [formData, setFormData] = useState({
     title: "",

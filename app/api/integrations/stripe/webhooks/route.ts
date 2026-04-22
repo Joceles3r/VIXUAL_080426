@@ -141,12 +141,12 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
       WHERE stripe_payment_intent_id = ${paymentIntent.id}
     `;
     
-    // Credit VIXUpoints to investor (use visupoints_balance, not legacy visupoints column)
-    const visupointsGranted = parseInt(metadata.visupoints_granted || "0", 10);
-    if (visupointsGranted > 0) {
+    // VERROU FINAL: credit VIXUpoints au contributeur (colonne DB visupoints_balance conservee)
+    const vixupointsGranted = parseInt(metadata.vixupoints_granted || metadata.visupoints_granted || "0", 10);
+    if (vixupointsGranted > 0) {
       await sql`
         UPDATE users 
-        SET visupoints_balance = COALESCE(visupoints_balance, 0) + ${visupointsGranted}
+        SET visupoints_balance = COALESCE(visupoints_balance, 0) + ${vixupointsGranted}
         WHERE id = ${metadata.vixual_user_id}
       `;
     }

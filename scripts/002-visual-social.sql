@@ -1,5 +1,5 @@
 -- ─────────────────────────────────────────────
--- VISUAL SOCIAL (Mode B tags) — V1
+-- VIXUAL SOCIAL (Mode B tags) — V1 (ex-VISUAL SOCIAL, renomme)
 -- ─────────────────────────────────────────────
 
 CREATE TABLE IF NOT EXISTS social_posts (

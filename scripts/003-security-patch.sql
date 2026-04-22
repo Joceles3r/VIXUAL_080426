@@ -1,4 +1,4 @@
--- VISUAL - Migration 003: Security & Integrity Patch
+-- VIXUAL - Migration 003: Security & Integrity Patch (ex-VISUAL, renomme)
 -- Source: "Analyse des Faiblesses et Solutions Techniques"
 --
 -- Changes:

@@ -54,13 +54,14 @@ export interface User {
   vixupointsCap: number
   parentConsent: ParentConsent
   kycVerified: boolean
+  // VERROU FINAL: cles officielles uniquement
   depositStatus?: {
-    porter10: boolean
+    creator10: boolean
     contributor20: boolean
-    infoporter10: boolean
-    contribureader20: boolean
-    podcaster10: boolean
-    listener20: boolean
+    infoporteur10: boolean
+    contribu_lecteur20: boolean
+    podcasteur10: boolean
+    auditeur20: boolean
   }
   stripeConnect?: {
     accountId?: string
@@ -113,12 +114,12 @@ const MOCK_USER: User = {
   parentConsent: DEFAULT_PARENT_CONSENT,
   kycVerified: false,
   depositStatus: {
-    porter10: false,
+    creator10: false,
     contributor20: false,
-    infoporter10: false,
-    contribureader20: false,
-    podcaster10: false,
-    listener20: false,
+    infoporteur10: false,
+    contribu_lecteur20: false,
+    podcasteur10: false,
+    auditeur20: false,
   },
   stripeConnect: {
     status: "not_started",

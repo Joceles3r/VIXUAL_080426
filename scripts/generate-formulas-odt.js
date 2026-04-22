@@ -241,7 +241,7 @@ body.push(p("Si aucun investisseur eligible : le pool est capture par VIXUAL."))
 body.push(spacer());
 
 body.push(heading("D) 23% -> VIXUAL (Plateforme)", 2));
-body.push(p("P_VISUAL = 0,23 x P"));
+body.push(p("P_VIXUAL = 0,23 x P"));
 body.push(bulletList([
   "Frais operationnels",
   "Arrondis de calcul (bouclage au centime - methode euro-floor)",
@@ -340,7 +340,7 @@ body.push(bulletList([
 ]));
 body.push(spacer());
 
-// ════════════════════════════════════════════����══
+// ════════════════════════════════════════════������══
 // 8. PODCASTS
 // ═══════════════════════════════════════════════
 body.push(heading("8. Podcasts - Vente 70/30 + Pot mensuel 40/30/20/10", 1));
@@ -671,7 +671,7 @@ ${body.join("\n")}
   </office:body>
 </office:document>`;
 
-const outPath = "public/VISUAL_Formules_Repartitions_V2.fodt";
+const outPath = "public/VIXUAL_Formules_Repartitions_V2.fodt";
 mkdirSync(dirname(outPath), { recursive: true });
 writeFileSync(outPath, fodt, "utf-8");
 console.log(`[v0] FODT generated: ${outPath} (${(fodt.length / 1024).toFixed(1)} KB)`);

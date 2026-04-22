@@ -13,7 +13,7 @@ import {
   type SocialPost, type SocialTag, type ListParams, type ContentType,
   VIXUAL_SOCIAL_TAGS, TAG_LABELS, TAG_COLORS, TAG_CATEGORIES,
   MAX_BODY_LENGTH, MAX_TAGS_PER_POST, VIXUAL_SOCIAL_ENABLE_VIXUPOINTS_V1,
-  ROLE_SOCIAL_CONFIG, timeAgo, getVisualSocialProvider,
+  ROLE_SOCIAL_CONFIG, timeAgo, getVIXUALSocialProvider,
 } from "@/lib/visual-social/hybrid"
 
 // ─── Role Badge ───
@@ -337,7 +337,7 @@ export default function VisualSocialFeed({
   const [reportedPosts, setReportedPosts] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
 
-  const provider = useMemo(() => getVisualSocialProvider(), [])
+  const provider = useMemo(() => getVIXUALSocialProvider(), [])
 
   const loadPosts = useCallback(async () => {
     setLoading(true)
