@@ -262,11 +262,9 @@ export const PODCASTS_POT_INVESTORS_PERCENT = 30;
 export const PODCASTS_POT_Vixual_PERCENT = 20;
 export const PODCASTS_POT_BONUS_PERCENT = 10;
 
-// Backward compatibility aliases
-/** @deprecated Use FILMS_Vixual_BPS instead */
-export const FILMS_VISUAL_BPS = FILMS_Vixual_BPS;
-/** @deprecated Use PODCASTS_POT_Vixual_PERCENT instead */
-export const PODCASTS_POT_VISUAL_PERCENT = PODCASTS_POT_Vixual_PERCENT;
+// VERROU FINAL: cles VIXUAL officielles
+export const FILMS_VIXUAL_BPS = FILMS_Vixual_BPS;
+export const PODCASTS_POT_VIXUAL_PERCENT = PODCASTS_POT_Vixual_PERCENT;
 
 /**
  * Detail du bonus 10% Podcasts (source: README payout-engine V2)
@@ -389,7 +387,7 @@ export const CREATOR_QUOTAS = {
   films: { maxDuration: Infinity, perQuarter: 1, priceEur: 7, label: "Films (> 30 min)" },
 } as const;
 
-// ─────────────���─────────────────────────────���──
+// ────────────�����─────────────────────────────���──
 // 7. VENTE D'ARTICLE (Infoporteur) - 70/30
 // ──────────────────────────────────────────────
 

@@ -11,8 +11,8 @@ import {
 import { ReportButton } from "@/components/report-button"
 import {
   type SocialPost, type SocialTag, type ListParams, type ContentType,
-  VISUAL_SOCIAL_TAGS, TAG_LABELS, TAG_COLORS, TAG_CATEGORIES,
-  MAX_BODY_LENGTH, MAX_TAGS_PER_POST, VISUAL_SOCIAL_ENABLE_VISUPOINTS_V1,
+  VIXUAL_SOCIAL_TAGS, TAG_LABELS, TAG_COLORS, TAG_CATEGORIES,
+  MAX_BODY_LENGTH, MAX_TAGS_PER_POST, VIXUAL_SOCIAL_ENABLE_VIXUPOINTS_V1,
   ROLE_SOCIAL_CONFIG, timeAgo, getVisualSocialProvider,
 } from "@/lib/visual-social/hybrid"
 
@@ -411,7 +411,7 @@ export default function VisualSocialFeed({
         counts[tag] = (counts[tag] || 0) + 1
       }
     }
-    return VISUAL_SOCIAL_TAGS
+    return VIXUAL_SOCIAL_TAGS
       .map((tag) => ({ tag, count: counts[tag] || 0 }))
       .filter((t) => t.count > 0)
       .sort((a, b) => b.count - a.count)
@@ -536,7 +536,7 @@ export default function VisualSocialFeed({
       )}
 
       {/* V1 notice */}
-      {!VISUAL_SOCIAL_ENABLE_VISUPOINTS_V1 && !isContentMode && (
+        {!VIXUAL_SOCIAL_ENABLE_VIXUPOINTS_V1 && !isContentMode && (
         <div className="text-center py-3 text-white/15 text-xs">
           {"V1 — Les VIXUpoints VIXUAL Social sont temporairement désactivés"}
         </div>

@@ -34,7 +34,8 @@ export type SocialTag =
   | "investissement"
   | "spoiler"
 
-export const VISUAL_SOCIAL_TAGS: SocialTag[] = [
+// VERROU FINAL: Renomme VISUAL_SOCIAL_TAGS -> VIXUAL_SOCIAL_TAGS
+export const VIXUAL_SOCIAL_TAGS: SocialTag[] = [
   "avis",
   "question",
   "amelioration",
@@ -84,7 +85,8 @@ export const TAG_CATEGORIES = [
 
 // VIXUpoints desactives en V1 pour eviter le farming
 // avant que la moderation et l'anti-spam soient stables
-export const VISUAL_SOCIAL_ENABLE_VISUPOINTS_V1 = false
+// VERROU FINAL: Renomme VISUAL_SOCIAL_ENABLE_VISUPOINTS_V1 -> VIXUAL_SOCIAL_ENABLE_VIXUPOINTS_V1
+export const VIXUAL_SOCIAL_ENABLE_VIXUPOINTS_V1 = false
 
 // ─── Post type ───
 
@@ -142,8 +144,14 @@ export interface VIXUALSocialProvider {
 // ─── Feature flag ───
 
 export function isVIXUALSocialEnabled(): boolean {
+  // VERROU FINAL: VIXUAL_SOCIAL_ENABLED (accepte anciens VISUAL_SOCIAL_ENABLED pour migration)
   const raw =
-    (typeof process !== "undefined" && (process.env.NEXT_PUBLIC_VISUAL_SOCIAL_ENABLED ?? process.env.VISUAL_SOCIAL_ENABLED)) ||
+    (typeof process !== "undefined" && (
+      process.env.NEXT_PUBLIC_VIXUAL_SOCIAL_ENABLED ??
+      process.env.VIXUAL_SOCIAL_ENABLED ??
+      process.env.NEXT_PUBLIC_VISUAL_SOCIAL_ENABLED ??
+      process.env.VISUAL_SOCIAL_ENABLED
+    )) ||
     "0"
   return raw === "1" || raw.toLowerCase() === "true"
 }
@@ -158,7 +166,7 @@ export const REPORT_THRESHOLD_HIDE = 3
 export function normalizeTags(tags: string[]): SocialTag[] {
   const cleaned = tags
     .map((t) => t.trim().toLowerCase().replace(/^#/, "") as SocialTag)
-    .filter((t) => VISUAL_SOCIAL_TAGS.includes(t))
+    .filter((t) => VIXUAL_SOCIAL_TAGS.includes(t))
   return Array.from(new Set(cleaned)).slice(0, MAX_TAGS_PER_POST)
 }
 

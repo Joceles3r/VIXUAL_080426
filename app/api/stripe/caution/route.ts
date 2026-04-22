@@ -24,16 +24,15 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
 
   const { userId, cautionType } = body as {
     userId?: string;
-    cautionType?: "creator" | "contributor" | "investor";
+    cautionType?: "creator" | "contributor";
   };
 
   if (!userId) {
     return apiError(ErrorCodes.ERR_INVALID_INPUT, "userId requis", 400);
   }
 
-  // Accepte "investor" comme alias deprecated de "contributor"
-  const normalizedType: "creator" | "contributor" =
-    cautionType === "investor" ? "contributor" : (cautionType ?? "contributor");
+  // VERROU FINAL: seules les cles officielles sont acceptees
+  const normalizedType: "creator" | "contributor" = cautionType ?? "contributor";
 
   if (normalizedType !== "creator" && normalizedType !== "contributor") {
     return apiError(

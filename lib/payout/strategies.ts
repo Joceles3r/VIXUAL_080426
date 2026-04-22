@@ -19,13 +19,13 @@ import type {
 } from "./types";
 
 import {
-  FILMS_VISUAL_BPS,
+  FILMS_VIXUAL_BPS,
   FILMS_INVESTOR_TOP10_RANK_BPS,
   FILMS_CREATOR_TOP10_RANK_BPS,
   FILMS_INVESTOR_11_100_BPS,
   PODCASTS_POT_CREATORS_PERCENT,
   PODCASTS_POT_INVESTORS_PERCENT,
-  PODCASTS_POT_VISUAL_PERCENT,
+  PODCASTS_POT_VIXUAL_PERCENT,
   PODCASTS_POT_BONUS_PERCENT,
   PODCASTS_BONUS_BREAKDOWN,
   PODCASTS_ANTI_CAPTURE_MAX_VOTE_SHARE,
@@ -111,10 +111,10 @@ export class FilmStrategy implements PayoutStrategy {
       warnings.push(`top10Creators must have length 10, got ${input.top10Creators.length}.`);
     }
 
-    const totalBps = sum(FILMS_INVESTOR_TOP10_RANK_BPS) + sum(FILMS_CREATOR_TOP10_RANK_BPS) + FILMS_INVESTOR_11_100_BPS + FILMS_VISUAL_BPS;
+    const totalBps = sum(FILMS_INVESTOR_TOP10_RANK_BPS) + sum(FILMS_CREATOR_TOP10_RANK_BPS) + FILMS_INVESTOR_11_100_BPS + FILMS_VIXUAL_BPS;
     if (totalBps !== BPS_DENOM) warnings.push(`Films total BPS expected 10000, got ${totalBps}.`);
 
-    const platformFeeGross = mulBpsFloor(G, FILMS_VISUAL_BPS);
+    const platformFeeGross = mulBpsFloor(G, FILMS_VIXUAL_BPS);
 
     // Contributeurs TOP10 (40% rank-weighted)
     for (let r = 0; r < Math.min(10, input.top10Investors.length); r++) {
@@ -181,7 +181,7 @@ export class PodcastStrategy implements PayoutStrategy {
     const creatorsPool = Math.floor((G * PODCASTS_POT_CREATORS_PERCENT) / 100);
     const investorsPool = Math.floor((G * PODCASTS_POT_INVESTORS_PERCENT) / 100);
     const bonusPool = Math.floor((G * PODCASTS_POT_BONUS_PERCENT) / 100);
-    const platformFeeGross = Math.floor((G * PODCASTS_POT_VISUAL_PERCENT) / 100);
+    const platformFeeGross = Math.floor((G * PODCASTS_POT_VIXUAL_PERCENT) / 100);
 
     // 40% Podcasteurs (rank-weighted)
     const totalWeight = 55;

@@ -28,7 +28,7 @@ import {
  * 
  * Query params:
  * - userId: string (required)
- * - creatorType: porter | infoporter | podcaster (required)
+ * - creatorType: creator | infoporteur | podcasteur (required)
  * - include: comma-separated list of sections to include
  *   (progress, stats, goals, tips, contents, history)
  */
@@ -103,7 +103,7 @@ export async function GET(request: NextRequest) {
  * 
  * Body:
  * - userId: string (required)
- * - creatorType: porter | infoporter | podcaster (required)
+ * - creatorType: creator | infoporteur | podcasteur (required)
  * - reason: ProgressUpdateReason (required)
  * - contentId?: string (optional, for content-specific updates)
  */

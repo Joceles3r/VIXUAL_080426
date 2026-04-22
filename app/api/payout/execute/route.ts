@@ -21,9 +21,10 @@ export const POST = withErrorHandler(async (req: Request) => {
     const { contentId, adminSecret } = body;
 
     // Admin secret protection - no dev bypass allowed
-    const expectedSecret = process.env.VISUAL_ADMIN_SECRET;
+    // VERROU FINAL: VIXUAL_ADMIN_SECRET (accepte VISUAL_ADMIN_SECRET en fallback pour migration)
+    const expectedSecret = process.env.VIXUAL_ADMIN_SECRET ?? process.env.VISUAL_ADMIN_SECRET;
     if (!expectedSecret) {
-      console.error("[VIXUAL Payout] VISUAL_ADMIN_SECRET not configured");
+      console.error("[VIXUAL Payout] VIXUAL_ADMIN_SECRET not configured");
       return apiError(ErrorCodes.ERR_SERVER_ERROR, "Server configuration error", 503);
     }
     if (adminSecret !== expectedSecret) {
