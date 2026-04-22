@@ -46,9 +46,10 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    if (!creatorType || !["porter", "infoporter", "podcaster"].includes(creatorType)) {
+    // VERROU FINAL: cles officielles
+    if (!creatorType || !["creator", "infoporteur", "podcasteur"].includes(creatorType)) {
       return NextResponse.json(
-        { error: "creatorType must be porter, infoporter, or podcaster" },
+        { error: "creatorType must be creator, infoporteur, or podcasteur" },
         { status: 400 }
       )
     }
@@ -118,9 +119,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (!["porter", "infoporter", "podcaster"].includes(creatorType)) {
+    // VERROU FINAL: cles officielles
+    if (!["creator", "infoporteur", "podcasteur"].includes(creatorType)) {
       return NextResponse.json(
-        { error: "creatorType must be porter, infoporter, or podcaster" },
+        { error: "creatorType must be creator, infoporteur, or podcasteur" },
         { status: 400 }
       )
     }

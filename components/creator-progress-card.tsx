@@ -42,9 +42,10 @@ import {
   canAccessCreatorProPage,
 } from "@/lib/creator-progression"
 
+// VERROU FINAL: cles officielles
 interface CreatorProgressCardProps {
   userId: string
-  creatorType: "porter" | "infoporter" | "podcaster"
+  creatorType: "creator" | "infoporteur" | "podcasteur"
   compact?: boolean
   className?: string
 }

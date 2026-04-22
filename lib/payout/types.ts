@@ -1,16 +1,14 @@
 export type Currency = "eur";
 
+// VERROU FINAL: Cles officielles uniquement
 export type Role =
   | "contributor"
-  | "contribureader"
-  | "listener"
-  | "porter"
-  | "infoporter"
-  | "podcaster"
-  | "vixual_platform"
-  // Deprecated aliases - maintain for DB compatibility
-  | "investor"
-  | "investireader";
+  | "contribu_lecteur"
+  | "auditeur"
+  | "creator"
+  | "infoporteur"
+  | "podcasteur"
+  | "vixual_platform";
 
 /** Category determines which formula set applies */
 export type PayoutCategory = "films" | "voix_info" | "livres" | "podcasts";
@@ -82,20 +80,20 @@ export type PayoutEngineInput = {
 
   /**
    * TOP10 winners in rank order. Length must be 10.
-   * For films: role = investor / porter.
-   * For literary: role = investireader / infoporter.
-   * For podcasts: role = listener / podcaster.
+   * For films: role = contributor / creator.
+   * For literary: role = contribu_lecteur / infoporteur.
+   * For podcasts: role = auditeur / podcasteur.
    */
-  top10Investors: { userId: string; role: "investor" | "investireader" | "listener" }[];
-  top10Creators: { userId: string; role: "porter" | "infoporter" | "podcaster" }[];
+  top10Investors: { userId: string; role: "contributor" | "contribu_lecteur" | "auditeur" }[];
+  top10Creators: { userId: string; role: "creator" | "infoporteur" | "podcasteur" }[];
 
   /**
-   * Eligible investors in ranks 11–100 (unique users).
-   * Films: 7% pool for ranks 11–100.
+   * Eligible investors in ranks 11-100 (unique users).
+   * Films: 7% pool for ranks 11-100.
    * Podcasts: included in the 30% investor pool (pro-rata).
-   * Voix Info / Livres: readers/investi-lecteurs gagnants.
+   * Voix Info / Livres: contribu-lecteurs gagnants.
    */
-  investors11to100: { userId: string; role: "investor" | "investireader" | "listener" }[];
+  investors11to100: { userId: string; role: "contributor" | "contribu_lecteur" | "auditeur" }[];
 
   /**
    * Podcast-specific: listen_score per investor for weighting.

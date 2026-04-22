@@ -25,18 +25,18 @@
  * @since 2026-03-12
  */
 
-import { VISUPOINTS_PER_EUR } from "./payout/constants"
+import { VIXUPOINTS_PER_EUR } from "./payout/constants"
 
-// ─── Types ───
+// ─── Types (VERROU FINAL: cles officielles) ───
 
-export type CreatorProfile = "porter" | "infoporter" | "podcaster"
-export type BuyerProfile = "visitor" | "auditor" | "contribureader" | "contributor" | "porter" | "infoporter" | "podcaster"
+export type CreatorProfile = "creator" | "infoporteur" | "podcasteur"
+export type BuyerProfile = "visitor" | "auditeur" | "contribu_lecteur" | "contributor" | "creator" | "infoporteur" | "podcasteur"
 
 /** Profils autorises a utiliser le paiement hybride */
-export type HybridPaymentProfile = "visitor_adult" | "contribureader" | "auditor"
+export type HybridPaymentProfile = "visitor_adult" | "contribu_lecteur" | "auditeur"
 
 /** Profils devant payer 100% en euros (pas de paiement hybride) */
-export type CashOnlyProfile = "contributor" | "porter" | "infoporter" | "podcaster"
+export type CashOnlyProfile = "contributor" | "creator" | "infoporteur" | "podcasteur"
 
 /** Profils mineurs (VIXUpoints uniquement, systeme tres encadre) */
 export type MinorProfile = "visitor_minor"
@@ -81,37 +81,37 @@ export const HYBRID_BONUS_RATE = 0.05
 /** Plafond mensuel du bonus en points */
 export const HYBRID_BONUS_MONTHLY_CAP = 200
 
-/** Profils autorises a acheter du contenu */
+/** Profils autorises a acheter du contenu - VERROU FINAL */
 export const BUYER_PROFILES: BuyerProfile[] = [
   "visitor",
-  "auditor",
-  "contribureader",
+  "auditeur",
+  "contribu_lecteur",
   "contributor",
-  "porter",
-  "infoporter",
-  "podcaster",
+  "creator",
+  "infoporteur",
+  "podcasteur",
 ]
 
 /** Profils pouvant utiliser le paiement hybride (VIXUpoints + Euros) */
 export const HYBRID_PAYMENT_PROFILES: HybridPaymentProfile[] = [
   "visitor_adult",
-  "contribureader",
-  "auditor",
+  "contribu_lecteur",
+  "auditeur",
 ]
 
 /** Profils devant payer 100% en euros (pas de paiement hybride) */
 export const CASH_ONLY_PROFILES: CashOnlyProfile[] = [
   "contributor",
-  "porter",
-  "infoporter",
-  "podcaster",
+  "creator",
+  "infoporteur",
+  "podcasteur",
 ]
 
-/** Profils créateurs autorisés à acheter du contenu */
+/** Profils createurs autorises a acheter du contenu */
 export const CREATOR_BUYER_PROFILES: CreatorProfile[] = [
-  "porter",
-  "infoporter",
-  "podcaster",
+  "creator",
+  "infoporteur",
+  "podcasteur",
 ]
 
 // ─── Validations ───
@@ -254,7 +254,7 @@ export function executePurchase(
   const bonusEarned = Math.min(rawBonus, remainingMonthlyBonusCap)
 
   // Cash à charger = totalPrice - points
-  const cashCharged = contentPrice - (pointsUsed / VISUPOINTS_PER_EUR)
+  const cashCharged = contentPrice - (pointsUsed / VIXUPOINTS_PER_EUR)
 
   return {
     cashCharged: Number(cashCharged.toFixed(2)),
@@ -302,7 +302,7 @@ export function getPriceGuideTable(): Array<{
   return prices.map((price) => ({
     price,
     minCash: Number((price * HYBRID_MIN_CASH_RATIO).toFixed(2)),
-    maxPoints: Math.round(price * HYBRID_MAX_POINTS_RATIO * VISUPOINTS_PER_EUR),
-    recommendedPoints: Math.round(price * 0.5 * VISUPOINTS_PER_EUR), // 50% comme recommandation
+    maxPoints: Math.round(price * HYBRID_MAX_POINTS_RATIO * VIXUPOINTS_PER_EUR),
+    recommendedPoints: Math.round(price * 0.5 * VIXUPOINTS_PER_EUR), // 50% comme recommandation
   }))
 }

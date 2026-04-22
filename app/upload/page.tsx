@@ -70,7 +70,7 @@ export default function UploadVideoPage() {
     router.push("/dashboard/projects?type=video")
   }
 
-  if (!user || !user.roles.includes("porter")) {
+  if (!user || !user.roles.includes("creator")) {
     return (
       <div className="min-h-screen bg-slate-950">
         <VisualHeader />

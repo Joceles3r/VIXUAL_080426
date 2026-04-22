@@ -128,7 +128,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
   const isVideo = cType === "video"
   const isPodcast = cType === "podcast"
   const isGuest = !isAuthed
-  const canInvest = isAuthed && (roles.includes("investor") || roles.includes("investireader") || roles.includes("listener"))
+  const canInvest = isAuthed && (roles.includes("contributor") || roles.includes("contribu_lecteur") || roles.includes("auditeur"))
   const badges = getVisualBadges(content)
   const motivationalMsgs = getMotivationalMessages(content)
   const isGold = isGoldCreator(content.creatorName)

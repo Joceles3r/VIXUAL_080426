@@ -1,5 +1,6 @@
 /**
  * VIXUAL PROFILE RULES ENGINE
+ * VERROU FINAL: Cles officielles uniquement
  * 
  * Regles des profils VIXUAL:
  * - Un utilisateur peut choisir n'importe quel profil au depart
@@ -28,19 +29,19 @@ export interface UserProfileState {
   availableTransitions: VixualRole[];
 }
 
-// ── Constants ──
+// ── Constants (VERROU FINAL: cles officielles) ──
 
 /** Profils de base (choix initial) */
-export const BASE_PROFILES: VixualRole[] = ["visitor", "porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"];
+export const BASE_PROFILES: VixualRole[] = ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"];
 
 /** Profils createurs */
-export const CREATOR_PROFILES: VixualRole[] = ["porter", "infoporter", "podcaster"];
+export const CREATOR_PROFILES: VixualRole[] = ["creator", "infoporteur", "podcasteur"];
 
-/** Profils contributeurs/investisseurs */
-export const INVESTOR_PROFILES: VixualRole[] = ["contributor", "contribureader", "listener"];
+/** Profils contributeurs */
+export const INVESTOR_PROFILES: VixualRole[] = ["contributor", "contribu_lecteur", "auditeur"];
 
 /** Profils cumulables (peuvent etre combines) */
-export const STACKABLE_PROFILES: VixualRole[] = ["porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"];
+export const STACKABLE_PROFILES: VixualRole[] = ["creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"];
 
 /** Profil visiteur - special, non cumulable */
 export const VISITOR_PROFILE: VixualRole = "visitor";
@@ -213,35 +214,35 @@ export function canStackProfiles(currentRoles: VixualRole[]): boolean {
 }
 
 /**
- * Retourne le label d'affichage d'un profil
+ * Retourne le label d'affichage d'un profil - VERROU FINAL
  */
 export function getProfileLabel(role: VixualRole): string {
   const labels: Record<VixualRole, string> = {
     guest: "Invite",
     visitor: "Visiteur",
-    porter: "Porteur",
+    creator: "Createur",
     contributor: "Contributeur",
-    infoporter: "Infoporteur",
-    contribureader: "ContribuReader",
-    podcaster: "Podcasteur",
-    listener: "Auditeur",
+    infoporteur: "Infoporteur",
+    podcasteur: "Podcasteur",
+    auditeur: "Auditeur",
+    contribu_lecteur: "Contribu-lecteur",
   };
   return labels[role] || role;
 }
 
 /**
- * Retourne la description d'un profil
+ * Retourne la description d'un profil - VERROU FINAL
  */
 export function getProfileDescription(role: VixualRole): string {
   const descriptions: Record<VixualRole, string> = {
     guest: "Non connecte - Acces limite",
     visitor: "Decouvrez VIXUAL gratuitement avec le Pass Decouverte",
-    porter: "Creez et partagez vos films et videos",
+    creator: "Creez et partagez vos films et videos",
     contributor: "Soutenez financierement les projets video",
-    infoporter: "Publiez vos livres et articles",
-    contribureader: "Soutenez financierement les ecrits",
-    podcaster: "Diffusez vos podcasts",
-    listener: "Soutenez financierement les podcasts",
+    infoporteur: "Publiez vos livres et articles",
+    podcasteur: "Diffusez vos podcasts",
+    auditeur: "Soutenez financierement les podcasts",
+    contribu_lecteur: "Soutenez financierement les ecrits",
   };
   return descriptions[role] || "";
 }
@@ -262,29 +263,29 @@ export function getRecommendedProfiles(
       reason: "Soutenez des projets et gagnez des gains",
     });
     recommendations.push({
-      role: "porter",
+      role: "creator",
       reason: "Partagez vos creations video",
     });
   }
 
   // Si createur, recommander profil contributeur associe
-  if (currentRoles.includes("porter") && !currentRoles.includes("contributor")) {
+  if (currentRoles.includes("creator") && !currentRoles.includes("contributor")) {
     recommendations.push({
       role: "contributor",
       reason: "Completez votre profil en devenant aussi contributeur",
     });
   }
 
-  if (currentRoles.includes("infoporter") && !currentRoles.includes("contribureader")) {
+  if (currentRoles.includes("infoporteur") && !currentRoles.includes("contribu_lecteur")) {
     recommendations.push({
-      role: "contribureader",
-      reason: "Completez votre profil en devenant aussi ContribuReader",
+      role: "contribu_lecteur",
+      reason: "Completez votre profil en devenant aussi Contribu-lecteur",
     });
   }
 
-  if (currentRoles.includes("podcaster") && !currentRoles.includes("listener")) {
+  if (currentRoles.includes("podcasteur") && !currentRoles.includes("auditeur")) {
     recommendations.push({
-      role: "listener",
+      role: "auditeur",
       reason: "Completez votre profil en devenant aussi Auditeur",
     });
   }

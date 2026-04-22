@@ -7,15 +7,16 @@
  * @since 2026-03-11
  */
 
+// VERROU FINAL: cles officielles
 export type UserProfile = 
   | "guest"
   | "visitor"
-  | "porter"
+  | "creator"
   | "infoporteur"
   | "podcasteur"
   | "contributor"
-  | "contriReader"
-  | "listener"
+  | "contribu_lecteur"
+  | "auditeur"
 
 export interface ProfileGuide {
   profile: UserProfile
@@ -183,10 +184,10 @@ export const PROFILE_GUIDES: Record<UserProfile, ProfileGuide> = {
     },
   },
 
-  // ─── PORTEUR (créateur audiovisuel) ───
-  porter: {
-    profile: "porter",
-    displayName: "Porteur",
+  // ─── CREATEUR (créateur audiovisuel) ───
+  creator: {
+    profile: "creator",
+    displayName: "Createur",
     requiresSignup: true,
     description:
       "Créateur audiovisuel. Déposez vos vidéos, gérez vos projets, recevez les contributions des visiteurs.",
@@ -524,9 +525,9 @@ export const PROFILE_GUIDES: Record<UserProfile, ProfileGuide> = {
     },
   },
 
-  // ─── AUDITEUR (investisseur podcast) ───
-  listener: {
-    profile: "listener",
+  // ─── AUDITEUR (contributeur podcast) ───
+  auditeur: {
+    profile: "auditeur",
     displayName: "Auditeur",
     requiresSignup: true,
     description:
@@ -608,20 +609,21 @@ export function getProfileActions(profile: UserProfile): ProfileAction[] {
  * Obtient le profil recommandé pour un utilisateur visiteur
  * basé sur ses préférences de contenu
  */
+// VERROU FINAL: cles officielles
 export function getRecommendedProfile(contentPreferences: string[]): UserProfile {
   const hasVideo = contentPreferences.includes("video")
   const hasText = contentPreferences.includes("text")
   const hasPodcast = contentPreferences.includes("podcast")
 
-  // Si l'utilisateur aime créer du contenu
-  if (hasVideo) return "porter"
+  // Si l'utilisateur aime creer du contenu
+  if (hasVideo) return "creator"
   if (hasText) return "infoporteur"
   if (hasPodcast) return "podcasteur"
 
   // Si l'utilisateur aime consommer
   if (hasVideo) return "contributor"
-  if (hasText) return "contriReader"
-  if (hasPodcast) return "listener"
+  if (hasText) return "contribu_lecteur"
+  if (hasPodcast) return "auditeur"
 
   return "visitor"
 }

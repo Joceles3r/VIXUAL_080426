@@ -75,12 +75,12 @@ export const POST = withErrorHandler(async (req: Request) => {
       payoutCategory = "podcasts";
     }
 
-    // Determine roles based on category
-    const roleMap: Record<PayoutCategory, { investor: "investor" | "investireader" | "listener"; creator: "porter" | "infoporter" | "podcaster" }> = {
-      films: { investor: "investor", creator: "porter" },
-      voix_info: { investor: "investireader", creator: "infoporter" },
-      livres: { investor: "investireader", creator: "infoporter" },
-      podcasts: { investor: "listener", creator: "podcaster" },
+    // Determine roles based on category - VERROU FINAL: cles officielles
+    const roleMap: Record<PayoutCategory, { investor: "contributor" | "contribu_lecteur" | "auditeur"; creator: "creator" | "infoporteur" | "podcasteur" }> = {
+      films: { investor: "contributor", creator: "creator" },
+      voix_info: { investor: "contribu_lecteur", creator: "infoporteur" },
+      livres: { investor: "contribu_lecteur", creator: "infoporteur" },
+      podcasts: { investor: "auditeur", creator: "podcasteur" },
     };
     const roles = roleMap[payoutCategory];
 

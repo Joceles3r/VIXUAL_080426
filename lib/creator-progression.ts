@@ -7,7 +7,8 @@
 
 // ─── Types ───
 
-export type CreatorType = "porter" | "infoporter" | "podcaster"
+// VERROU FINAL: cles officielles
+export type CreatorType = "creator" | "infoporteur" | "podcasteur"
 
 export type CreatorLevelKey = "starter" | "active" | "confirmed" | "influential" | "elite"
 

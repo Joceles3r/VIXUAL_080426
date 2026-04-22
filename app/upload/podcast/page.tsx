@@ -69,7 +69,7 @@ export default function UploadPodcastPage() {
     router.push("/dashboard/projects?type=podcast")
   }
 
-  if (!user || !user.roles.includes("podcaster")) {
+  if (!user || !user.roles.includes("podcasteur")) {
     return (
       <div className="min-h-screen bg-slate-950">
         <VisualHeader />

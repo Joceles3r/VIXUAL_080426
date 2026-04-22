@@ -28,7 +28,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { useAuth } from "@/lib/auth-context"
 import { MOCK_INVESTMENTS, MOCK_TRANSACTIONS, USER_RANKINGS, LEADERBOARD_CATEGORIES } from "@/lib/mock-data"
-import { MINOR_VIXUPOINTS_CAP } from "@/lib/vixupoints-engine"
+import { MINOR_VIXUPOINTS_CAP } from "@/lib/payout/constants"
 import { ParentalConsentForm } from "@/components/parental-consent-form"
 import { CommunityCharter } from "@/components/community-charter"
 import { ReportButton } from "@/components/report-button"
@@ -91,15 +91,16 @@ export default function DashboardPage() {
     )
   }
 
+  // VERROU FINAL: cles officielles uniquement
   const isVisitor = roles.includes("visitor")
-  const isPorter = roles.includes("porter")
-  const isContributor = roles.includes("contributor") || roles.includes("investor")
-  const isInfoporter = roles.includes("infoporter")
-  const isContribuReader = roles.includes("contribu_reader") || roles.includes("investireader")
-  const isPodcaster = roles.includes("podcaster")
-  const isListener = roles.includes("listener")
-  const hasCreatorRole = isPorter || isInfoporter || isPodcaster
-  const hasContributorRole = isContributor || isContribuReader || isListener
+  const isCreator = roles.includes("creator")
+  const isContributor = roles.includes("contributor")
+  const isInfoporteur = roles.includes("infoporteur")
+  const isContribuLecteur = roles.includes("contribu_lecteur")
+  const isPodcasteur = roles.includes("podcasteur")
+  const isAuditeur = roles.includes("auditeur")
+  const hasCreatorRole = isCreator || isInfoporteur || isPodcasteur
+  const hasContributorRole = isContributor || isContribuLecteur || isAuditeur
 
   return (
     <div className="space-y-8">
@@ -290,16 +291,16 @@ export default function DashboardPage() {
       {hasCreatorRole && user?.id && (
         <CreatorProgressCard 
           userId={user.id}
-          creatorType={isPorter ? "porter" : isInfoporter ? "infoporter" : "podcaster"}
+          creatorType={isCreator ? "creator" : isInfoporteur ? "infoporteur" : "podcasteur"}
         />
       )}
 
       {/* Caution Reminder */}
       {hasCreatorRole &&
         user?.depositStatus &&
-        ((!user.depositStatus.porter10 && isPorter) ||
-          (!user.depositStatus.infoporter10 && isInfoporter) ||
-          (!user.depositStatus.podcaster10 && isPodcaster)) && (
+        ((!user.depositStatus.creator10 && isCreator) ||
+          (!user.depositStatus.infoporteur10 && isInfoporteur) ||
+          (!user.depositStatus.podcasteur10 && isPodcasteur)) && (
           <Card className="bg-amber-500/10 border-amber-500/30">
             <CardContent className="p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-3">
@@ -340,7 +341,7 @@ export default function DashboardPage() {
                   {"Compte mineur (16\u201317 ans)"}
                 </p>
                 <p className="text-white/50 text-xs">
-                  {"Plafond : " + MINOR_VISUPOINTS_CAP.toLocaleString() + " VIXUpoints (100\u20ac). Investissements et retraits bloqu\u00e9s jusqu'\u00e0 18 ans."}
+                  {"Plafond : " + MINOR_VIXUPOINTS_CAP.toLocaleString() + " VIXUpoints (100\u20ac). Contributions et retraits bloques jusqu'a 18 ans."}
                 </p>
               </div>
             </div>

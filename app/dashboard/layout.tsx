@@ -22,99 +22,100 @@ import { VisualHeader } from "@/components/visual-header"
 import { useAuth } from "@/lib/auth-context"
 import { cn } from "@/lib/utils"
 
+// VERROU FINAL: cles officielles uniquement
 const SIDEBAR_ITEMS: { label: string; href: string; icon: any; roles: string[]; accent?: boolean }[] = [
   {
     label: "Tableau de bord",
     href: "/dashboard",
     icon: LayoutDashboard,
-    roles: ["visitor", "porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+    roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
   },
   {
     label: "Mes VIXUpoints",
-    href: "/dashboard/visupoints",
+    href: "/dashboard/vixupoints",
     icon: Star,
-    roles: ["visitor", "contribureader", "listener"],
+    roles: ["visitor", "contribu_lecteur", "auditeur"],
   },
   {
     label: "Pass Decouverte",
     href: "/dashboard/visitor",
     icon: Ticket,
-    roles: ["visitor", "contribureader", "listener"],
+    roles: ["visitor", "contribu_lecteur", "auditeur"],
     accent: true,
   },
   {
     label: "Mes favoris",
     href: "/dashboard/favorites",
     icon: Heart,
-    roles: ["visitor", "porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+    roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
   },
   {
     label: "Ma progression",
     href: "/dashboard/creator",
     icon: Sparkles,
-    roles: ["porter", "infoporter", "podcaster"],
+    roles: ["creator", "infoporteur", "podcasteur"],
     accent: true,
   },
   {
     label: "Mes projets (video)",
     href: "/dashboard/projects?type=video",
     icon: Film,
-    roles: ["porter"],
+    roles: ["creator"],
   },
   {
     label: "Mes ecrits",
     href: "/dashboard/projects?type=text",
     icon: FileText,
-    roles: ["infoporter"],
+    roles: ["infoporteur"],
   },
   {
     label: "Mes podcasts",
     href: "/dashboard/projects?type=podcast",
     icon: Mic,
-    roles: ["podcaster"],
+    roles: ["podcasteur"],
   },
   {
     label: "Mes contributions",
     href: "/dashboard/contributions",
     icon: Wallet,
-    roles: ["contributor", "contribureader", "listener"],
+    roles: ["contributor", "contribu_lecteur", "auditeur"],
   },
   {
     label: "Mon Wallet V3",
     href: "/dashboard/wallet",
     icon: Wallet2,
-    roles: ["porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+    roles: ["creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
     accent: true,
   },
   {
     label: "Historique",
     href: "/dashboard/history",
     icon: History,
-    roles: ["porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+    roles: ["creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
   },
   {
     label: "Deposer une video",
     href: "/upload",
     icon: Upload,
-    roles: ["porter"],
+    roles: ["creator"],
   },
   {
     label: "Deposer un ecrit",
     href: "/upload/text",
     icon: Upload,
-    roles: ["infoporter"],
+    roles: ["infoporteur"],
   },
   {
     label: "Deposer un podcast",
     href: "/upload/podcast",
     icon: Upload,
-    roles: ["podcaster"],
+    roles: ["podcasteur"],
   },
   {
     label: "Parametres",
     href: "/dashboard/settings",
     icon: Settings,
-    roles: ["visitor", "porter", "investor", "infoporter", "investireader", "podcaster", "listener"],
+    roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
   },
 ]
 
