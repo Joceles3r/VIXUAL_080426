@@ -49,13 +49,13 @@ export {
   // Votes
   INVESTMENT_TO_VOTES,
   getVotesForInvestment,
-  // VIXUpoints
-  INVESTMENT_TO_VISUPOINTS,
-  getVisupointsForInvestment,
-  VISUPOINTS_CONVERSION_THRESHOLD,
-  VISUPOINTS_PER_EUR,
-  VISUPOINTS_MIN_WITHDRAW_EUR,
-  convertVisupoints,
+  // VIXUpoints - VERROU FINAL: clés officielles VIXUPOINTS_*
+  INVESTMENT_TO_VIXUPOINTS,
+  getVixupointsForInvestment,
+  VIXUPOINTS_CONVERSION_THRESHOLD,
+  VIXUPOINTS_PER_EUR,
+  VIXUPOINTS_MIN_WITHDRAW_EUR,
+  convertVixupoints,
   // Repartition par categorie (nouvelles constantes)
   FILMS_INVESTOR_TOP10_PERCENT,
   FILMS_CREATOR_TOP10_PERCENT,
@@ -101,7 +101,7 @@ export {
   CREATOR_TOP10_DETAIL,
   // Vente d'article
   ARTICLE_SALE_AUTHOR_PERCENT,
-  ARTICLE_SALE_VISUAL_PERCENT,
+  ARTICLE_SALE_VIXUAL_PERCENT,
   computeArticleSale,
   // Classement
   computeEngagementCoefficient,

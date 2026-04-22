@@ -276,7 +276,7 @@ function ProfileTable() {
         <div className="mt-4 flex items-center gap-4 text-xs text-white/30">
           <span className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full bg-amber-500/40" />
-            {"Max journalier recommand\u00e9 : " + VISUPOINTS_MAX_DAILY + " pts"}
+            {"Max journalier recommande : " + VIXUPOINTS_MAX_DAILY + " pts"}
           </span>
           <span className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full bg-emerald-500/40" />
@@ -300,7 +300,7 @@ export default function VisupointsPage() {
   // Restrictions
   const withdrawStatus = canWithdraw(userIsMinor, kycVerified)
   const convertStatus = canConvertVixupoints(userIsMinor)
-  const conversion = convertVisupoints(currentPoints)
+  const conversion = convertVixupoints(currentPoints)
 
   // Engagement Redirect Engine
   const engagementRedirect = engagementRedirectEngine(userRole, currentPoints, userIsMinor)
@@ -410,7 +410,7 @@ export default function VisupointsPage() {
                 )}
 
                 <div className="mt-3 flex gap-3 text-xs text-white/30">
-                  <span>{"Max journalier : " + VISUPOINTS_MAX_DAILY + " pts"}</span>
+                  <span>{"Max journalier : " + VIXUPOINTS_MAX_DAILY + " pts"}</span>
                   <span>{"100 pts = 1\u20ac"}</span>
                 </div>
               </div>
@@ -461,12 +461,12 @@ export default function VisupointsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-black/30 rounded-xl p-4 border border-white/5">
               <p className="text-white/50 text-sm">Taux</p>
-              <p className="text-white font-bold text-lg mt-1">{VISUPOINTS_PER_EUR + " pts = 1\u20ac"}</p>
+              <p className="text-white font-bold text-lg mt-1">{VIXUPOINTS_PER_EUR + " pts = 1\u20ac"}</p>
             </div>
             <div className="bg-black/30 rounded-xl p-4 border border-white/5">
               <p className="text-white/50 text-sm">Seuil minimum</p>
-              <p className="text-white font-bold text-lg mt-1">{VISUPOINTS_CONVERSION_THRESHOLD.toLocaleString("fr-FR") + " pts"}</p>
-              <p className="text-white/40 text-xs mt-0.5">{(VISUPOINTS_CONVERSION_THRESHOLD / VISUPOINTS_PER_EUR) + "\u20ac"}</p>
+              <p className="text-white font-bold text-lg mt-1">{VIXUPOINTS_CONVERSION_THRESHOLD.toLocaleString("fr-FR") + " pts"}</p>
+              <p className="text-white/40 text-xs mt-0.5">{(VIXUPOINTS_CONVERSION_THRESHOLD / VIXUPOINTS_PER_EUR) + "\u20ac"}</p>
             </div>
             <div className="bg-black/30 rounded-xl p-4 border border-white/5">
               <p className="text-white/50 text-sm">Montant convertible</p>

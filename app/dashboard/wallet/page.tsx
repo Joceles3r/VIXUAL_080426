@@ -12,8 +12,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAuth } from "@/lib/auth-context"
 import {
-  CAUTION_EUR, STRIPE_CONFIG, VISUPOINTS_PER_EUR,
-  VISUPOINTS_CONVERSION_THRESHOLD,
+  CAUTION_EUR, STRIPE_CONFIG, VIXUPOINTS_PER_EUR,
+  VIXUPOINTS_CONVERSION_THRESHOLD,
 } from "@/lib/payout/constants"
 import { SecurityGate } from "@/components/security/security-gate"
 import { VerificationBadges } from "@/components/security/verification-badges"
@@ -486,14 +486,14 @@ export default function WalletPage() {
                 <p className="text-white/40 text-xs">{"gagn\u00e9s aujourd'hui"}</p>
               </div>
               <div className="bg-black/20 rounded-lg p-3 text-center">
-                <p className="text-white font-bold text-lg">{VISUPOINTS_CONVERSION_THRESHOLD.toLocaleString("fr-FR")}</p>
+                <p className="text-white font-bold text-lg">{VIXUPOINTS_CONVERSION_THRESHOLD.toLocaleString("fr-FR")}</p>
                 <p className="text-white/40 text-xs">{"seuil conversion"}</p>
               </div>
             </div>
-            {visupoints.balance >= VISUPOINTS_CONVERSION_THRESHOLD && (
+            {visupoints.balance >= VIXUPOINTS_CONVERSION_THRESHOLD && (
               <div className="flex items-center gap-2 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
                 <Sparkles className="h-4 w-4 text-emerald-400" />
-                <p className="text-emerald-400 text-xs font-medium">{"Conversion disponible : "}{Math.floor(visupoints.balance / VISUPOINTS_PER_EUR)}{" \u20ac"}</p>
+                <p className="text-emerald-400 text-xs font-medium">{"Conversion disponible : "}{Math.floor(visupoints.balance / VIXUPOINTS_PER_EUR)}{" \u20ac"}</p>
               </div>
             )}
           </CardContent>

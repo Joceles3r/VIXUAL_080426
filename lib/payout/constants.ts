@@ -159,16 +159,14 @@ export const VIXUPOINTS_PER_EUR = 100;
 /** Retrait minimum en euros (correspondant au seuil) */
 export const VIXUPOINTS_MIN_WITHDRAW_EUR = VIXUPOINTS_CONVERSION_THRESHOLD / VIXUPOINTS_PER_EUR; // 25 EUR
 
-// ─── Backward Compatibility Aliases ───
+// ─── Backward Compatibility Aliases (contribution/investment seulement) ───
+// VERROU FINAL: VISUPOINTS_* legacy aliases SUPPRIMES, utilisez VIXUPOINTS_*
 export const INVESTMENT_TIERS_EUR = CONTRIBUTION_TIERS_EUR;
 export type InvestmentTierEur = ContributionTierEur;
 export const INVESTMENT_TO_VOTES = CONTRIBUTION_TO_VOTES;
 export const getVotesForInvestment = getVotesForContribution;
-export const INVESTMENT_TO_VISUPOINTS = CONTRIBUTION_TO_VIXUPOINTS;
-export const getVisupointsForInvestment = getVixupointsForContribution;
-export const VISUPOINTS_CONVERSION_THRESHOLD = VIXUPOINTS_CONVERSION_THRESHOLD;
-export const VISUPOINTS_PER_EUR = VIXUPOINTS_PER_EUR;
-export const VISUPOINTS_MIN_WITHDRAW_EUR = VIXUPOINTS_MIN_WITHDRAW_EUR;
+export const INVESTMENT_TO_VIXUPOINTS = CONTRIBUTION_TO_VIXUPOINTS;
+export const getVixupointsForInvestment = getVixupointsForContribution;
 
 /**
  * Convertit des VIXUpoints en euros.
@@ -197,8 +195,7 @@ export function convertVixupoints(points: number): {
   };
 }
 
-// Backward compatibility alias
-export const convertVisupoints = convertVixupoints;
+// VERROU FINAL: convertVisupoints alias SUPPRIME, utilisez convertVixupoints
 
 // ────────────────────────────��─────────────────
 // 6. REPARTITION DES GAINS PAR CATEGORIE
@@ -387,15 +384,15 @@ export const CREATOR_QUOTAS = {
   films: { maxDuration: Infinity, perQuarter: 1, priceEur: 7, label: "Films (> 30 min)" },
 } as const;
 
-// ────────────�����─────────────────────────────���──
+// ────────────�����─────────────────────────────����──
 // 7. VENTE D'ARTICLE (Infoporteur) - 70/30
 // ──────────────────────────────────────────────
 
 /** Part de l'auteur sur la vente d'un article */
 export const ARTICLE_SALE_AUTHOR_PERCENT = 70;
 
-/** Part de Vixual sur la vente d'un article */
-export const ARTICLE_SALE_Vixual_PERCENT = 30;
+/** Part de VIXUAL sur la vente d'un article */
+export const ARTICLE_SALE_VIXUAL_PERCENT = 30;
 
 /**
  * Calcule la repartition pour une vente d'article.
@@ -403,11 +400,11 @@ export const ARTICLE_SALE_Vixual_PERCENT = 30;
  */
 export function computeArticleSale(priceEurCents: number): {
   authorCents: number;
-  visualCents: number;
+  vixualCents: number;
 } {
   const authorCents = Math.floor((priceEurCents * ARTICLE_SALE_AUTHOR_PERCENT) / 100);
-  const visualCents = priceEurCents - authorCents;
-  return { authorCents, visualCents };
+  const vixualCents = priceEurCents - authorCents;
+  return { authorCents, vixualCents };
 }
 
 // ──────────────────────────────────────────────
@@ -455,10 +452,7 @@ export const MINOR_VIXUPOINTS_CAP_EUR = MINOR_VIXUPOINTS_CAP / VIXUPOINTS_PER_EU
 /** Seuil conversion majeur : 2500 VIXUpoints */
 export const ADULT_VIXUPOINTS_CONVERSION_THRESHOLD = VIXUPOINTS_CONVERSION_THRESHOLD;
 
-// Backward compatibility aliases
-export const MINOR_VISUPOINTS_CAP = MINOR_VIXUPOINTS_CAP;
-export const MINOR_VISUPOINTS_CAP_EUR = MINOR_VIXUPOINTS_CAP_EUR;
-export const ADULT_VISUPOINTS_CONVERSION_THRESHOLD = ADULT_VIXUPOINTS_CONVERSION_THRESHOLD;
+// VERROU FINAL: aliases VISUPOINTS_* SUPPRIMES, utilisez VIXUPOINTS_*
 
 // ──────────────────────────────────────────────
 // 11. VIXUPOINTS - PLAFONDS PAR PROFIL
@@ -495,10 +489,9 @@ export const VIXUPOINTS_PROFILE_CAPS: Record<VixupointsProfileKey, {
   contribu_lecteur: { label: "Contribu-lecteur",         cap: 2_500,  capType: "total",   convertible: true,  objective: "Lecture active" },
 };
 
-/** Maximum journalier recommand\u00e9 */
+/** Maximum journalier recommande */
 export const VIXUPOINTS_MAX_DAILY = 60;
-// Backward compatibility alias
-export const VISUPOINTS_MAX_DAILY = VIXUPOINTS_MAX_DAILY;
+// VERROU FINAL: VISUPOINTS_MAX_DAILY alias SUPPRIME
 
 // ──────────────────────────────────────────────
 // 12. ENGAGEMENT REDIRECT ENGINE

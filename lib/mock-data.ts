@@ -2,7 +2,7 @@ import type { InvestmentTierEur } from "@/lib/payout/constants"
 import {
   INVESTMENT_TIERS_EUR,
   getVotesForInvestment,
-  getVisupointsForInvestment,
+  getVixupointsForInvestment,
   CAUTION_EUR,
 } from "@/lib/payout/constants"
 
@@ -159,7 +159,7 @@ export const MOCK_INVESTMENTS: Investment[] = [
     contentType: "video",
     amount: 15,
     votes: getVotesForInvestment(15),         // 9 votes
-    vixupointsEarned: getVisupointsForInvestment(15), // 80 pts
+    vixupointsEarned: getVixupointsForInvestment(15), // 80 pts
     date: "2026-01-20",
     status: "active",
     returns: 2.5,
@@ -171,7 +171,7 @@ export const MOCK_INVESTMENTS: Investment[] = [
     contentType: "text",
     amount: 10,
     votes: getVotesForInvestment(10),         // 7 votes
-    vixupointsEarned: getVisupointsForInvestment(10), // 50 pts
+    vixupointsEarned: getVixupointsForInvestment(10), // 50 pts
     date: "2026-01-22",
     status: "active",
     returns: 1.8,
@@ -183,7 +183,7 @@ export const MOCK_INVESTMENTS: Investment[] = [
     contentType: "video",
     amount: 5,
     votes: getVotesForInvestment(5),          // 4 votes
-    vixupointsEarned: getVisupointsForInvestment(5),  // 25 pts
+    vixupointsEarned: getVixupointsForInvestment(5),  // 25 pts
     date: "2026-02-05",
     status: "active",
     returns: 0.6,
@@ -195,7 +195,7 @@ export const MOCK_INVESTMENTS: Investment[] = [
     contentType: "text",
     amount: 20,
     votes: getVotesForInvestment(20),         // 10 votes
-    vixupointsEarned: getVisupointsForInvestment(20), // 110 pts
+    vixupointsEarned: getVixupointsForInvestment(20), // 110 pts
     date: "2026-02-10",
     status: "completed",
     returns: 5.2,

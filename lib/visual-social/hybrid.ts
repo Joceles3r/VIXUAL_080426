@@ -144,13 +144,11 @@ export interface VIXUALSocialProvider {
 // ─── Feature flag ───
 
 export function isVIXUALSocialEnabled(): boolean {
-  // VERROU FINAL: VIXUAL_SOCIAL_ENABLED (accepte anciens VISUAL_SOCIAL_ENABLED pour migration)
+  // VERROU FINAL: uniquement VIXUAL_SOCIAL_ENABLED, aucun fallback legacy
   const raw =
     (typeof process !== "undefined" && (
       process.env.NEXT_PUBLIC_VIXUAL_SOCIAL_ENABLED ??
-      process.env.VIXUAL_SOCIAL_ENABLED ??
-      process.env.NEXT_PUBLIC_VISUAL_SOCIAL_ENABLED ??
-      process.env.VISUAL_SOCIAL_ENABLED
+      process.env.VIXUAL_SOCIAL_ENABLED
     )) ||
     "0"
   return raw === "1" || raw.toLowerCase() === "true"

@@ -8,7 +8,7 @@ import { TrendingUp, Calculator } from "lucide-react";
 import {
   INVESTMENT_TIERS_EUR,
   getVotesForInvestment,
-  getVisupointsForInvestment,
+  getVixupointsForInvestment,
 } from "@/lib/payout/constants";
 
 export function InvestSimulator() {
@@ -24,7 +24,7 @@ export function InvestSimulator() {
   }, [amount]);
 
   const votes = getVotesForInvestment(snappedAmount);
-  const visupoints = getVisupointsForInvestment(snappedAmount);
+  const visupoints = getVixupointsForInvestment(snappedAmount);
 
   // Conservative projection model (indicative)
   const potentialReturn = {

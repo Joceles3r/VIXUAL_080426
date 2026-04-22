@@ -202,7 +202,7 @@ export function HybridPaymentSelector({
     )
   }
 
-  // Cas: Paiement hybride disponible (visitor_adult, contribureader, auditor)
+  // Cas: Paiement hybride disponible (visitor_adult, contribu_lecteur, auditeur)
   return (
     <Card className={cn("bg-slate-800/50 border-slate-700", className)}>
       <CardHeader className="pb-2">

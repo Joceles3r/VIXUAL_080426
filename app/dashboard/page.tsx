@@ -435,14 +435,14 @@ export default function DashboardPage() {
                   {user?.visupoints || 0}
                   {user?.isMinor && (
                     <span className="text-sm font-normal text-white/40 ml-1">
-                      {"/ " + MINOR_VISUPOINTS_CAP.toLocaleString()}
+                      {"/ " + MINOR_VIXUPOINTS_CAP.toLocaleString()}
                     </span>
                   )}
                 </p>
                 {user?.isMinor && (
                   <div className="mt-2">
                     <Progress
-                      value={((user.visupoints || 0) / MINOR_VISUPOINTS_CAP) * 100}
+                      value={((user.visupoints || 0) / MINOR_VIXUPOINTS_CAP) * 100}
                       className="h-1.5 bg-white/10"
                     />
                   </div>
