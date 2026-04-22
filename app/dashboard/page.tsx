@@ -584,7 +584,7 @@ export default function DashboardPage() {
           </Card>
         </Link>
 
-        {isPorter && (
+        {isCreator && (
           <Link href="/upload">
             <Card className="bg-slate-900/50 border-white/10 hover:border-red-500/50 transition-colors cursor-pointer h-full">
               <CardContent className="p-6 flex items-center gap-4">
@@ -592,7 +592,7 @@ export default function DashboardPage() {
                   <Upload className="h-6 w-6 text-red-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-white">Déposer une vidéo</h3>
+                  <h3 className="font-semibold text-white">Deposer une video</h3>
                   <p className="text-sm text-white/60">
                     Publiez votre contenu audiovisuel
                   </p>
@@ -603,7 +603,7 @@ export default function DashboardPage() {
           </Link>
         )}
 
-        {isInfoporter && (
+        {isInfoporteur && (
           <Link href="/upload/text">
             <Card className="bg-slate-900/50 border-white/10 hover:border-amber-500/50 transition-colors cursor-pointer h-full">
               <CardContent className="p-6 flex items-center gap-4">
@@ -611,9 +611,9 @@ export default function DashboardPage() {
                   <FileText className="h-6 w-6 text-amber-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-white">{"Déposer un écrit"}</h3>
+                  <h3 className="font-semibold text-white">{"Deposer un ecrit"}</h3>
                   <p className="text-sm text-white/60">
-                    {"Publiez votre contenu littéraire"}
+                    {"Publiez votre contenu litteraire"}
                   </p>
                 </div>
                 <ArrowRight className="h-5 w-5 text-white/40" />
@@ -622,7 +622,7 @@ export default function DashboardPage() {
           </Link>
         )}
 
-        {isPodcaster && (
+        {isPodcasteur && (
           <Link href="/upload/podcast">
             <Card className="bg-slate-900/50 border-white/10 hover:border-purple-500/50 transition-colors cursor-pointer h-full">
               <CardContent className="p-6 flex items-center gap-4">
@@ -630,9 +630,9 @@ export default function DashboardPage() {
                   <Mic className="h-6 w-6 text-purple-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-white">{"Déposer un podcast"}</h3>
+                  <h3 className="font-semibold text-white">{"Deposer un podcast"}</h3>
                   <p className="text-sm text-white/60">
-                    {"Publiez vos épisodes audio"}
+                    {"Publiez vos episodes audio"}
                   </p>
                 </div>
                 <ArrowRight className="h-5 w-5 text-white/40" />

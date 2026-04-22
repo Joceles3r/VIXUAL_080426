@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql, isDatabaseConfigured } from "@/lib/db";
 import { ErrorCodes, apiError, withErrorHandler } from "@/lib/api-errors";
-import { triageMessage } from "@/lib/support/ai-support-engine";
+import { triageTicket } from "@/lib/support/ai-support-engine";
 
 /**
  * GET /api/support/tickets?userId=xxx
@@ -75,7 +75,8 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
   }
 
   // Triage IA pour determiner categorie + priorite + reponse auto
-  const triage = await triageMessage(message, subject);
+  // triageTicket(subject, message, userTrustScore) - on utilise un trust score par defaut de 50
+  const triage = triageTicket(subject, message, 50);
 
   if (!isDatabaseConfigured()) {
     // En dev, retourne une réponse simulée
