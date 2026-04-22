@@ -216,7 +216,7 @@ export class PodcastStrategy implements PayoutStrategy {
 
     if (totalInvWeight === 0) {
       residualTotal += investorsPool;
-      warnings.push("No investor weights for podcasts; 30% pool captured by VIXUAL.");
+      warnings.push("No contributor weights for podcasts; 30% pool captured by VIXUAL.");
     } else {
       for (const iw of investorWeights) {
         const gross = Math.floor((investorsPool * iw.weight) / totalInvWeight);

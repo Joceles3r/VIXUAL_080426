@@ -39,7 +39,10 @@ export type VixualRole =
   | "auditeur"
   | "contribu_lecteur"
 
-/** @deprecated Use VixualRole instead */
+/**
+ * @deprecated VisualRole est deprecie - utilisez VixualRole
+ * Conserve uniquement pour la retrocompatibilite temporaire
+ */
 export type VisualRole = VixualRole
 
 export type NavItem = {
@@ -230,8 +233,8 @@ export const ADMIN_ITEM = {
   icon: Settings,
 } as const
 
-// Helper pour vérifier les rôles
-export function hasAnyRole(userRoles: VisualRole[], itemRoles?: VisualRole[]) {
+// Helper pour verifier les roles
+export function hasAnyRole(userRoles: VixualRole[], itemRoles?: VixualRole[]) {
   if (!itemRoles || itemRoles.length === 0) return true
   return itemRoles.some((r) => userRoles.includes(r))
 }

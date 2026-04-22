@@ -90,13 +90,13 @@ export type PayoutEngineInput = {
   /**
    * Eligible investors in ranks 11-100 (unique users).
    * Films: 7% pool for ranks 11-100.
-   * Podcasts: included in the 30% investor pool (pro-rata).
+   * Podcasts: included in the 30% contributor pool (pro-rata).
    * Voix Info / Livres: contribu-lecteurs gagnants.
    */
   investors11to100: { userId: string; role: "contributor" | "contribu_lecteur" | "auditeur" }[];
 
   /**
-   * Podcast-specific: listen_score per investor for weighting.
+   * Podcast-specific: listen_score per contributor for weighting.
    * Key = userId, value = listen_score (0-1).
    */
   listenScores?: Record<string, number>;

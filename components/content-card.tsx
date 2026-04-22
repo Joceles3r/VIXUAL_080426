@@ -165,7 +165,7 @@ export function ContentCard({ content }: ContentCardProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1 text-sm text-white/60">
               <Users className="h-4 w-4" />
-              <span>{content.investorCount} investisseurs</span>
+              <span>{content.investorCount} contributeurs</span>
             </div>
             {isAuthed && (
               <div onClick={(e) => e.preventDefault()}>
