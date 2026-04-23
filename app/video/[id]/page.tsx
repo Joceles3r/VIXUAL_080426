@@ -800,7 +800,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                         </Link>
                         <p className="text-xs text-white/40 text-center mt-2">{"Caution remboursable en cas de r\u00e9siliation"}</p>
                       </div>
-                      <Link href="/dashboard/visupoints">
+                      <Link href="/dashboard/vixupoints">
                         <Button variant="outline" className="w-full bg-transparent border-amber-500/30 text-amber-400 hover:bg-amber-600/10">
                           <Star className="h-4 w-4 mr-2" />
                           Gagner des VIXUpoints en partageant

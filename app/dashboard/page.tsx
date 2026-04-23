@@ -1013,7 +1013,7 @@ export default function DashboardPage() {
                 </span>
                 <span className="text-white/40">Prochain: Argent</span>
               </div>
-              <Link href="/dashboard/visupoints">
+              <Link href="/dashboard/vixupoints">
                 <Button
                   variant="outline"
                   className="w-full bg-transparent border-amber-500/50 text-amber-400 hover:bg-amber-600/20"

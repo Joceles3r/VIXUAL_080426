@@ -119,7 +119,7 @@ export const MY_SPACE_MENU: NavMenu = {
     // VISITEUR (+ tous les inscrits)
     {
       label: "Mes VIXUpoints",
-      href: "/dashboard/visupoints",
+      href: "/dashboard/vixupoints",
       icon: Star,
       roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
     },
