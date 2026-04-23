@@ -669,10 +669,10 @@ export default function DashboardPage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-white">
-                    Passer au niveau sup\u00e9rieur
+                    Passer au niveau superieur
                   </h3>
                   <p className="text-sm text-white/60">
-                    Devenez cr\u00e9ateur ou investisseur
+                    Devenez createur ou contributeur
                   </p>
                 </div>
                 <ArrowRight className="h-5 w-5 text-white/40" />
