@@ -1,3 +1,10 @@
+/**
+ * COMPOSANT STRUCTUREL VIXUAL
+ * Source des roles autorises par item de menu (sidebar dashboard).
+ * Modifier avec prudence : impact global navigation/pages.
+ * Ne pas reintroduire d'anciens roles (porter, infoporter, podcaster, listener,
+ * contribureader, investor, investireader).
+ */
 "use client"
 
 import React from "react"

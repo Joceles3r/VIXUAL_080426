@@ -1,3 +1,8 @@
+/**
+ * COMPOSANT STRUCTUREL VIXUAL
+ * Carte de contenu utilisee par toutes les listes/feeds.
+ * Modifier avec prudence : impact visuel global.
+ */
 "use client"
 
 import Image from "next/image"

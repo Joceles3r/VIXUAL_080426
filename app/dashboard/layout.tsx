@@ -1,3 +1,8 @@
+/**
+ * COMPOSANT STRUCTUREL VIXUAL
+ * Layout dashboard utilisateur (sidebar + nav).
+ * Modifier avec prudence : impact toutes les sous-routes /dashboard/*.
+ */
 "use client"
 
 import { ReactNode } from "react"

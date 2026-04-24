@@ -1,3 +1,8 @@
+/**
+ * COMPOSANT STRUCTUREL VIXUAL
+ * Header public partage par toutes les pages.
+ * Modifier avec prudence : impact global navigation/pages.
+ */
 "use client"
 
 import Link from "next/link"

@@ -1,3 +1,8 @@
+/**
+ * COMPOSANT STRUCTUREL VIXUAL
+ * Bouton de soutien (passerelle Stripe externe).
+ * Modifier avec prudence : impact paiement createurs.
+ */
 "use client"
 
 import { useState } from "react"

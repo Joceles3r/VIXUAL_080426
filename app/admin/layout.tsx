@@ -1,3 +1,8 @@
+/**
+ * COMPOSANT STRUCTUREL VIXUAL
+ * Layout admin / patron (gate role admin + sidebar).
+ * Modifier avec prudence : impact toutes les sous-routes /admin/*.
+ */
 "use client"
 
 import { useAuth } from "@/lib/auth-context"
