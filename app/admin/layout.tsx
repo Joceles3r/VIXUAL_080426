@@ -31,8 +31,10 @@ import {
   Mail,
   Bot,
   UsersRound,
+  FlaskConical,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useTestLabAccess } from "@/lib/test-lab/use-test-lab-access"
 
 const ADMIN_NAV = [
   { label: "Tableau de bord", href: "/admin", icon: BarChart3 },
@@ -59,6 +61,7 @@ const ADMIN_NAV = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, isAdmin, isAuthed } = useAuth()
   const router = useRouter()
+  const testLab = useTestLabAccess()
 
   useEffect(() => {
     // Redirect non-admin users after a brief check
@@ -151,6 +154,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               )}
             </Link>
           )})}
+
+          {testLab.canAccess && (
+            <Link
+              href="/admin/test-lab"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors text-violet-200 bg-violet-500/10 border border-violet-500/40 hover:bg-violet-500/20 mt-2"
+            >
+              <FlaskConical className="h-4 w-4 text-violet-300" />
+              Laboratoire de tests
+              <span className="ml-auto text-[10px] uppercase tracking-wider bg-violet-500/30 text-violet-100 px-1.5 py-0.5 rounded font-semibold">
+                Patron
+              </span>
+            </Link>
+          )}
         </nav>
 
         {/* Bottom actions */}
