@@ -1,9 +1,15 @@
 /**
  * MODULE TEST-LAB VIXUAL — SIMULATEUR BUNNY (mock)
  * Aucune requete reelle a Bunny.net.
+ * SECURITE : si VIXUAL_TEST_LAB_ALLOW_REAL_BUNNY !== "true", tout est mock.
  */
 
 import type { TestBunnyMode, TestProject } from "./types"
+
+/** Verifie si le mode mock est force (par defaut : oui). */
+function isBunnyMockForced(): boolean {
+  return process.env.VIXUAL_TEST_LAB_ALLOW_REAL_BUNNY !== "true"
+}
 
 export function simulateBunnyStatus(
   project: TestProject,
@@ -11,13 +17,16 @@ export function simulateBunnyStatus(
 ): TestProject {
   if (project.type !== "video") return project
 
+  // SECURITE : forcer le mode mock
+  const finalStatus = isBunnyMockForced() ? "mock" as TestBunnyMode : status
+
   return {
     ...project,
-    bunnyStatus: status,
+    bunnyStatus: finalStatus,
     url:
-      status === "ready"
+      finalStatus === "ready"
         ? project.url ?? "/videos/demo1.mp4"
-        : status === "processing"
+        : finalStatus === "processing"
           ? undefined
           : project.url,
   }

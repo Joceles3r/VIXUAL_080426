@@ -54,25 +54,56 @@ export default function TestLabScenariosPage() {
         },
         body: JSON.stringify(config),
       })
+
+      // Gestion erreur HTTP
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}))
+        setResponse({
+          success: false,
+          error: errorData.error || `Erreur HTTP ${res.status}`,
+        })
+        alert(`Erreur lancement scenario: ${errorData.error || res.statusText}`)
+        return
+      }
+
       const data = (await res.json()) as RunResponse
       setResponse(data)
+
+      if (!data.success) {
+        alert(`Erreur: ${data.error || "Erreur inconnue"}`)
+      }
     } catch (err) {
+      const errorMsg = (err as Error).message
       setResponse({
         success: false,
-        error: (err as Error).message,
+        error: errorMsg,
       })
+      alert(`Erreur lancement scenario: ${errorMsg}`)
     } finally {
       setLoading(false)
     }
   }
 
   async function resetLab() {
+    // Confirmation avant reset
+    if (!confirm("Reinitialiser le laboratoire de tests ? Cette action supprimera tous les resultats de tests.")) {
+      return
+    }
+
     setResetState("loading")
     try {
       const res = await fetch("/api/admin/test-lab/reset", {
         method: "POST",
         headers: { "x-admin-email": email },
       })
+
+      // Gestion erreur HTTP
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}))
+        setResetState(errorData.error || `Erreur HTTP ${res.status}`)
+        return
+      }
+
       const data = (await res.json()) as { success: boolean; message?: string; error?: string }
       setResetState(data.success ? data.message ?? "Reset effectue" : data.error ?? "Erreur")
     } catch (err) {

@@ -10,12 +10,14 @@ import { sql } from "@/lib/db"
 export const runtime = "nodejs"
 
 export async function POST(req: NextRequest) {
-  // Simplifie : on verifie juste si le header x-admin indique un admin
-  const isAdmin = req.headers.get("x-admin") === "true"
+  // SECURITE STRICTE : seul le PATRON peut reset le laboratoire
+  const adminEmail = req.headers.get("x-admin-email")
 
-  if (!assertTestLabAccess(isAdmin)) {
+  if (!assertTestLabAccess(adminEmail)) {
     return denyTestLabAccess()
   }
+
+  console.log("[TEST-LAB] Reset demandé par:", adminEmail)
 
   try {
     await sql`DELETE FROM test_lab_payloads`

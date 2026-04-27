@@ -35,11 +35,24 @@ async function persistRun(
 }
 
 export async function POST(req: NextRequest) {
-  // Simplifie : on verifie juste si le header x-admin indique un admin
-  const isAdmin = req.headers.get("x-admin") === "true"
+  // SECURITE STRICTE : seul le PATRON peut lancer des scenarios
+  const adminEmail = req.headers.get("x-admin-email")
 
-  if (!assertTestLabAccess(isAdmin)) {
+  // Debug log pour voir l'email recu
+  console.log("[TEST-LAB] Email recu:", adminEmail, "| Attendu: jocelyndru@gmail.com")
+
+  if (!assertTestLabAccess(adminEmail)) {
+    console.log("[TEST-LAB] Acces refuse pour:", adminEmail)
     return denyTestLabAccess()
+  }
+
+  // Verrou mode isole : aucune ecriture dans tables reelles
+  const mode = process.env.VIXUAL_TEST_LAB_MODE ?? "isolated"
+  if (mode !== "isolated") {
+    return NextResponse.json({
+      success: false,
+      error: "Mode test lab non isole - operation refusee",
+    }, { status: 403 })
   }
 
   let body: Partial<TestScenarioConfig> = {}
@@ -49,7 +62,25 @@ export async function POST(req: NextRequest) {
     body = {}
   }
 
+  // Validation des inputs
+  if ((body.visitors ?? 0) < 0 || (body.contributors ?? 0) < 0 || (body.creators ?? 0) < 0) {
+    return NextResponse.json({
+      success: false,
+      error: "Configuration invalide : valeurs negatives non autorisees",
+    }, { status: 400 })
+  }
+
   const config = buildDefaultScenario(body)
+
+  // Log pour debug
+  console.log("[TEST-LAB] Scenario lancé:", {
+    admin: adminEmail,
+    scenario: config.name,
+    visitors: config.visitors,
+    creators: config.creators,
+    contributors: config.contributors,
+  })
+
   const result = runCustomScenario(config)
 
   const runId = await persistRun(config.name, result.summary, adminEmail || "patron")

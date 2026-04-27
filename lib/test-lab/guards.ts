@@ -1,20 +1,20 @@
 /**
  * MODULE TEST-LAB VIXUAL — GARDE D'ISOLATION
  *
- * Ce module est reserve aux administrateurs VIXUAL.
+ * Ce module est STRICTEMENT reserve a l'ADMIN/PATRON (jocelyndru@gmail.com).
  * Il ne doit JAMAIS toucher aux donnees reelles (users, contents,
  * payments, wallets, payouts).
  *
- * Simplifie : tous les admins ont acces.
+ * Securite renforcee : seul le PATRON peut executer des scenarios.
  */
 
 import { NextResponse } from "next/server"
 
-/** Email officiel du PATRON VIXUAL (reference). */
+/** Email officiel du PATRON VIXUAL — seul autorise sur /admin/test-lab. */
 export const PATRON_EMAIL = "jocelyndru@gmail.com"
 
 export function isTestLabEnabled(): boolean {
-  // Toujours actif pour simplifier
+  // Toujours actif pour le PATRON
   return true
 }
 
@@ -24,11 +24,19 @@ export function isAdminPatronEmail(email?: string | null): boolean {
 }
 
 /**
- * Verifie que l'utilisateur est admin.
- * Simplifie : tous les admins ont acces au Test Lab.
+ * Verifie que l'email fourni est bien celui du PATRON.
+ * SECURITE STRICTE : seul jocelyndru@gmail.com peut acceder au Test Lab.
  */
-export function assertTestLabAccess(isAdmin: boolean): boolean {
-  return isAdmin
+export function assertTestLabAccess(email?: string | null): boolean {
+  return isAdminPatronEmail(email)
+}
+
+/**
+ * Verifie que le mode est bien "isolated" pour eviter toute pollution.
+ */
+export function assertIsolatedMode(): boolean {
+  const mode = process.env.VIXUAL_TEST_LAB_MODE ?? "isolated"
+  return mode === "isolated"
 }
 
 /** Reponse 403 standardisee pour toutes les routes test-lab. */

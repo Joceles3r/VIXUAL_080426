@@ -1,6 +1,7 @@
 /**
  * MODULE TEST-LAB VIXUAL — SIMULATEUR STRIPE
  * Aucune transaction reelle. Resultat purement deterministe.
+ * SECURITE : si VIXUAL_TEST_LAB_ALLOW_REAL_STRIPE !== "true", tout est simule.
  */
 
 import type {
@@ -9,6 +10,11 @@ import type {
   TestTransaction,
   TestUser,
 } from "./types"
+
+/** Verifie si le mode simulation est force (par defaut : oui). */
+function isStripeSimulationForced(): boolean {
+  return process.env.VIXUAL_TEST_LAB_ALLOW_REAL_STRIPE !== "true"
+}
 
 function getPaymentStatus(
   successPercent: number,
@@ -30,6 +36,9 @@ export function generateStripeTestTransactions(
   users: TestUser[],
   projects: TestProject[],
 ): TestTransaction[] {
+  // SECURITE : forcer le mode simulation
+  const provider = isStripeSimulationForced() ? "simulation" : "stripe_test"
+
   const contributors = users.filter((u) => u.role === "contributor")
   const transactions: TestTransaction[] = []
 
@@ -49,7 +58,7 @@ export function generateStripeTestTransactions(
       projectId: project.id,
       amount: [2, 5, 10, 20][index % 4],
       status,
-      provider: "stripe_test",
+      provider,
     })
   })
 
