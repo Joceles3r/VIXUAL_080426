@@ -155,14 +155,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </Link>
           )})}
 
-          {testLab.canAccess && (
+          {/* Test Lab - TOUJOURS visible pour les admins */}
+          {testLab.showButton && (
             <Link
               href="/admin/test-lab"
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors text-violet-200 bg-violet-500/10 border border-violet-500/40 hover:bg-violet-500/20 mt-2"
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all mt-4 ${
+                testLab.canAccess
+                  ? "text-violet-100 bg-gradient-to-r from-violet-600/40 to-fuchsia-600/40 border-2 border-violet-400/60 hover:border-violet-300 hover:shadow-lg hover:shadow-violet-500/20 animate-pulse"
+                  : "text-violet-300/60 bg-violet-900/20 border border-violet-500/20 hover:bg-violet-800/30"
+              }`}
             >
-              <FlaskConical className="h-4 w-4 text-violet-300" />
-              Laboratoire de tests
-              <span className="ml-auto text-[10px] uppercase tracking-wider bg-violet-500/30 text-violet-100 px-1.5 py-0.5 rounded font-semibold">
+              <FlaskConical className={`h-5 w-5 ${testLab.canAccess ? "text-violet-200" : "text-violet-400/50"}`} />
+              <div className="flex flex-col flex-1">
+                <span className="font-semibold">Laboratoire de Tests</span>
+                {testLab.blockedReason && (
+                  <span className="text-[10px] text-violet-400/60">{testLab.blockedReason}</span>
+                )}
+              </div>
+              <span className={`text-[10px] uppercase tracking-wider px-2 py-1 rounded font-bold ${
+                testLab.canAccess
+                  ? "bg-violet-500 text-white"
+                  : "bg-violet-800/50 text-violet-400/70"
+              }`}>
                 Patron
               </span>
             </Link>

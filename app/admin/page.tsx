@@ -33,7 +33,11 @@ import {
   FileCheck,
   LogOut,
   Wallet2,
+  FlaskConical,
+  Sparkles,
 } from "lucide-react"
+import Link from "next/link"
+import { useTestLabAccess } from "@/lib/test-lab/use-test-lab-access"
 
 interface AdminStats {
   totalUsers: number
@@ -170,6 +174,9 @@ export default function AdminPage() {
           </Button>
         </div>
       </div>
+
+      {/* Test Lab Banner - Gros bouton voyant */}
+      <TestLabBanner />
 
       {/* Tabs */}
       <div className="flex gap-1 mb-8 bg-slate-900/50 p-1 rounded-xl border border-white/5 w-fit">
@@ -1099,9 +1106,79 @@ export default function AdminPage() {
       {/* Timestamp */}
       {stats?.timestamp && (
         <p className="text-xs text-white/20 mt-8 text-right">
-          {"Dernière actualisation :"} {new Date(stats.timestamp).toLocaleString("fr-FR")}
+          {"Derniere actualisation :"} {new Date(stats.timestamp).toLocaleString("fr-FR")}
         </p>
       )}
     </div>
+  )
+}
+
+/**
+ * Composant TestLabBanner - Gros bouton voyant pour le PATRON
+ */
+function TestLabBanner() {
+  const testLab = useTestLabAccess()
+
+  if (!testLab.showButton) return null
+
+  return (
+    <Link href="/admin/test-lab" className="block mb-6">
+      <div className={`relative overflow-hidden rounded-2xl border-2 p-5 transition-all group ${
+        testLab.canAccess
+          ? "border-violet-400/60 bg-gradient-to-r from-violet-900/40 via-fuchsia-900/30 to-violet-900/40 hover:border-violet-300 hover:shadow-xl hover:shadow-violet-500/20"
+          : "border-violet-500/20 bg-violet-950/30 hover:border-violet-500/40"
+      }`}>
+        {/* Animated glow effect */}
+        {testLab.canAccess && (
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-500/10 to-transparent animate-pulse" />
+        )}
+
+        <div className="relative flex items-center gap-5">
+          {/* Icon container */}
+          <div className={`w-16 h-16 rounded-xl flex items-center justify-center ${
+            testLab.canAccess
+              ? "bg-gradient-to-br from-violet-500 to-fuchsia-600 shadow-lg shadow-violet-500/30"
+              : "bg-violet-800/30"
+          }`}>
+            <FlaskConical className={`h-8 w-8 ${testLab.canAccess ? "text-white" : "text-violet-400/50"}`} />
+          </div>
+
+          {/* Text content */}
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-1">
+              <h3 className={`text-xl font-bold ${testLab.canAccess ? "text-white" : "text-violet-300/70"}`}>
+                Laboratoire de Tests
+              </h3>
+              <span className={`text-xs uppercase tracking-wider px-2.5 py-1 rounded-full font-bold ${
+                testLab.canAccess
+                  ? "bg-violet-500 text-white"
+                  : "bg-violet-800/50 text-violet-400/70"
+              }`}>
+                Patron Only
+              </span>
+              {testLab.canAccess && (
+                <Sparkles className="h-5 w-5 text-amber-400 animate-pulse" />
+              )}
+            </div>
+            <p className={`text-sm ${testLab.canAccess ? "text-violet-200/80" : "text-violet-400/50"}`}>
+              {testLab.canAccess
+                ? "Testez Stripe, Bunny et les scenarios de paiement en mode isole"
+                : testLab.blockedReason || "Acces restreint"}
+            </p>
+          </div>
+
+          {/* Arrow indicator */}
+          <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-transform group-hover:translate-x-1 ${
+            testLab.canAccess
+              ? "bg-violet-500/20 text-violet-200"
+              : "bg-violet-800/20 text-violet-500/30"
+          }`}>
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </Link>
   )
 }
