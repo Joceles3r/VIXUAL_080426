@@ -35,9 +35,10 @@ async function persistRun(
 }
 
 export async function POST(req: NextRequest) {
-  const adminEmail = req.headers.get("x-admin-email")
+  // Simplifie : on verifie juste si le header x-admin indique un admin
+  const isAdmin = req.headers.get("x-admin") === "true"
 
-  if (!assertTestLabAccess(adminEmail)) {
+  if (!assertTestLabAccess(isAdmin)) {
     return denyTestLabAccess()
   }
 
