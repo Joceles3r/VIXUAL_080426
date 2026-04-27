@@ -81,3 +81,37 @@ export interface TestScenarioResult {
   transactions: TestTransaction[]
   summary: TestScenarioSummary
 }
+
+// === TYPES SIMULATION TEMPS REEL ===
+
+export type TestUserBehavior =
+  | "observer"
+  | "active"
+  | "super_contributor"
+  | "payment_fail"
+  | "creator_active"
+
+export interface RealtimeSimulationConfig {
+  name: string
+  users: number
+  creators: number
+  projects: number
+  durationMinutes: number
+  intensity: "low" | "medium" | "high"
+  contributionsPerMinute: number
+  paymentFailurePercent: number
+  bunnyErrorPercent: number
+}
+
+export interface RealtimeTickResult {
+  tick: number
+  activeUsers: number
+  pageViews: number
+  contributionsCount: number
+  contributionAmountTotal: number
+  successfulPayments: number
+  failedPayments: number
+  bunnyProcessing: number
+  bunnyReady: number
+  bunnyError: number
+}

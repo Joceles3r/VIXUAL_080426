@@ -128,8 +128,63 @@ export default function TestLabScenariosPage() {
           </p>
         </header>
 
+        {/* Scenarios rapides preconfigures */}
+        <section className="rounded-2xl border border-violet-500/20 bg-violet-500/5 p-5">
+          <h2 className="font-semibold mb-3">Scenarios rapides</h2>
+          <div className="grid md:grid-cols-3 gap-3">
+            <QuickScenarioButton
+              label="Scenario leger"
+              desc="50 utilisateurs"
+              onClick={() => setConfig({
+                ...config,
+                name: "Scenario leger",
+                visitors: 20,
+                creators: 2,
+                contributors: 5,
+                videos: 2,
+                podcasts: 1,
+                articles: 2,
+                successfulPaymentsPercent: 85,
+                failedPaymentsPercent: 15,
+              })}
+            />
+            <QuickScenarioButton
+              label="Scenario lancement"
+              desc="250 utilisateurs"
+              onClick={() => setConfig({
+                ...config,
+                name: "Scenario lancement",
+                visitors: 250,
+                creators: 10,
+                contributors: 60,
+                videos: 20,
+                podcasts: 8,
+                articles: 15,
+                successfulPaymentsPercent: 88,
+                failedPaymentsPercent: 12,
+              })}
+            />
+            <QuickScenarioButton
+              label="Fort trafic"
+              desc="1 000 utilisateurs"
+              onClick={() => setConfig({
+                ...config,
+                name: "Scenario fort trafic",
+                visitors: 1000,
+                creators: 50,
+                contributors: 250,
+                videos: 100,
+                podcasts: 40,
+                articles: 80,
+                successfulPaymentsPercent: 90,
+                failedPaymentsPercent: 10,
+              })}
+            />
+          </div>
+        </section>
+
         <section className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <h2 className="font-semibold mb-4">Configuration</h2>
+          <h2 className="font-semibold mb-4">Configuration personnalisee</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <Field label="Nom du scenario">
               <input
@@ -367,6 +422,27 @@ function Stat({
       <p className="text-xs uppercase tracking-wider text-white/50">{label}</p>
       <p className={`text-2xl font-bold mt-1 ${toneClass}`}>{value}</p>
     </div>
+  )
+}
+
+function QuickScenarioButton({
+  label,
+  desc,
+  onClick,
+}: {
+  label: string
+  desc: string
+  onClick: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="rounded-xl border border-violet-500/30 bg-violet-500/10 hover:bg-violet-500/20 p-4 text-left transition"
+    >
+      <p className="font-semibold text-violet-200">{label}</p>
+      <p className="text-xs text-white/50 mt-1">{desc}</p>
+    </button>
   )
 }
 

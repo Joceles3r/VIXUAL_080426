@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { FlaskConical, CreditCard, Video, BarChart3, Wand2 } from "lucide-react"
+import { FlaskConical, CreditCard, Video, BarChart3, Wand2, Users, RotateCcw } from "lucide-react"
 
 export default function AdminTestLabPage() {
   const tiles = [
@@ -11,6 +11,13 @@ export default function AdminTestLabPage() {
       desc: "Generer profils, contenus, contributions et statuts Bunny mock.",
       icon: Wand2,
       color: "violet",
+    },
+    {
+      href: "/admin/test-lab/realtime",
+      title: "Simulation temps reel",
+      desc: "Simule 1 000 utilisateurs avec trafic, contributions et etats Stripe/Bunny.",
+      icon: Users,
+      color: "fuchsia",
     },
     {
       href: "/admin/test-lab/stripe",
@@ -37,6 +44,7 @@ export default function AdminTestLabPage() {
 
   const colorMap = {
     violet: "border-violet-500/30 bg-violet-500/10 hover:bg-violet-500/20",
+    fuchsia: "border-fuchsia-500/30 bg-fuchsia-500/10 hover:bg-fuchsia-500/20",
     emerald: "border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20",
     sky: "border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20",
     amber: "border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20",
@@ -44,6 +52,7 @@ export default function AdminTestLabPage() {
 
   const iconColorMap = {
     violet: "text-violet-300",
+    fuchsia: "text-fuchsia-300",
     emerald: "text-emerald-300",
     sky: "text-sky-300",
     amber: "text-amber-300",
