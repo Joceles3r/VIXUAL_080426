@@ -85,9 +85,10 @@ export default function HomePage() {
               </div>
 
               {/* Slogan signature */}
-              <div className="mb-8">
+              <div className="mb-4">
                 <VisualSlogan size="base" opacity="high" withLines />
               </div>
+              <p className="text-white/45 text-sm italic mb-8">Vois-les avant tout le monde.</p>
 
               <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto text-pretty">
                 VIXUAL, la première plateforme de streaming participative pour les films, écrits et podcasts. Soutenez les créateurs en contribuant à leur succès.

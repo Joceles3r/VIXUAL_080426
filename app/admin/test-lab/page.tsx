@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { FlaskConical, CreditCard, Video, BarChart3, Wand2, Users, RotateCcw } from "lucide-react"
+import { FlaskConical, CreditCard, Video, BarChart3, Wand2, Users, RotateCcw, GitCompare } from "lucide-react"
 
 export default function AdminTestLabPage() {
   const tiles = [
@@ -40,6 +40,13 @@ export default function AdminTestLabPage() {
       icon: BarChart3,
       color: "amber",
     },
+    {
+      href: "/admin/test-lab/comparison",
+      title: "Comparaison A/B",
+      desc: "Compare deux configurations economiques cote a cote (ex: 23% vs 20% commission).",
+      icon: GitCompare,
+      color: "indigo",
+    },
   ] as const
 
   const colorMap = {
@@ -48,6 +55,7 @@ export default function AdminTestLabPage() {
     emerald: "border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20",
     sky: "border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20",
     amber: "border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20",
+    indigo: "border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20",
   } as const
 
   const iconColorMap = {
@@ -56,6 +64,7 @@ export default function AdminTestLabPage() {
     emerald: "text-emerald-300",
     sky: "text-sky-300",
     amber: "text-amber-300",
+    indigo: "text-indigo-300",
   } as const
 
   return (
