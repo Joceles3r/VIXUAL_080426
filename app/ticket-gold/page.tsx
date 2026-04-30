@@ -1,5 +1,6 @@
 "use client"
 
+import { VersionGuard } from "@/components/version-guard"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -83,6 +84,7 @@ export default function TicketGoldPage() {
   }
 
   return (
+    <VersionGuard requiredVersion="V3">
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
       <VisualHeader />
 
@@ -249,5 +251,6 @@ export default function TicketGoldPage() {
 
       <Footer />
     </div>
+    </VersionGuard>
   )
 }

@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { VersionGuardServer } from "@/components/version-guard-server"
 import { VisualHeader } from "@/components/visual-header"
 import { Footer } from "@/components/footer"
 import { ArchivesHero } from "@/components/archives-statistiques/archives-hero"

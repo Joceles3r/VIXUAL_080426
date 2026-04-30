@@ -11,6 +11,7 @@ import { VisualSlogan } from "@/components/vixual-slogan"
 import { ContentCard } from "@/components/content-card"
 import { TrafficLight } from "@/components/traffic-light"
 import { ALL_CONTENTS } from "@/lib/mock-data"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 
 const FEATURED_CONTENTS = ALL_CONTENTS.slice(0, 4)
 
@@ -60,6 +61,8 @@ const STATS = [
 ]
 
 export default function HomePage() {
+  const platformVersion = usePlatformVersion()
+
   return (
     <div className="min-h-screen bg-slate-950">
       <VisualHeader />
@@ -88,7 +91,22 @@ export default function HomePage() {
               <div className="mb-4">
                 <VisualSlogan size="base" opacity="high" withLines />
               </div>
-              <p className="text-white/45 text-sm italic mb-8">Vois-les avant tout le monde.</p>
+              <p className="text-white/45 text-sm italic mb-4">Vois-les avant tout le monde.</p>
+
+              {platformVersion === "V1" && (
+                <div className="mb-6">
+                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-medium">
+                    Phase de lancement - decouvrez VIXUAL avec ses createurs video
+                  </span>
+                </div>
+              )}
+              {platformVersion === "V2" && (
+                <div className="mb-6">
+                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-medium">
+                    Phase de croissance - createurs video, ecrits et podcasts desormais disponibles
+                  </span>
+                </div>
+              )}
 
               <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto text-pretty">
                 VIXUAL, la première plateforme de streaming participative pour les films, écrits et podcasts. Soutenez les créateurs en contribuant à leur succès.

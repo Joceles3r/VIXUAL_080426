@@ -36,6 +36,7 @@ import {
   isVerifiedCreator,
 } from "@/lib/mock-data"
 import { useAuth } from "@/lib/auth-context"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 
 /* ═══════════════════════════════════════════════════════════════════════════
    VIXUAL EXPLORER V2 - Experience Netflix/YouTube Immersive
@@ -401,17 +402,22 @@ function ContentRow({
 /* ---------- CATEGORY TABS ---------- */
 function CategoryTabs({ 
   activeTab, 
-  onTabChange 
+  onTabChange,
+  platformVersion,
 }: { 
   activeTab: "all" | "video" | "text" | "podcast"
-  onTabChange: (tab: "all" | "video" | "text" | "podcast") => void 
+  onTabChange: (tab: "all" | "video" | "text" | "podcast") => void
+  platformVersion: "V1" | "V2" | "V3"
 }) {
-  const tabs = [
-    { id: "all" as const, label: "Tout", icon: Compass },
-    { id: "video" as const, label: "Films & Videos", icon: Film },
-    { id: "text" as const, label: "Livres & Articles", icon: BookOpen },
-    { id: "podcast" as const, label: "Podcasts", icon: Headphones },
+  const allTabs = [
+    { id: "all" as const, label: "Tout", icon: Compass, minVersion: "V1" as const },
+    { id: "video" as const, label: "Films & Videos", icon: Film, minVersion: "V1" as const },
+    { id: "text" as const, label: "Livres & Articles", icon: BookOpen, minVersion: "V2" as const },
+    { id: "podcast" as const, label: "Podcasts", icon: Headphones, minVersion: "V2" as const },
   ]
+
+  const versionOrder = { V1: 1, V2: 2, V3: 3 }
+  const tabs = allTabs.filter(tab => versionOrder[platformVersion] >= versionOrder[tab.minVersion])
 
   return (
     <div className="flex items-center gap-2 px-4 sm:px-8 lg:px-16 py-4 overflow-x-auto">
@@ -786,6 +792,7 @@ function ExplorerContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { isAuthed, roles } = useAuth()
+  const platformVersion = usePlatformVersion()
   
   // Read URL params
   const tabParam = searchParams.get("tab") as "all" | "video" | "text" | "podcast" | null
@@ -822,6 +829,13 @@ function ExplorerContent() {
       prevPageRef.current = pageParam
     }
   }, [tabParam, genreParam, pageParam])
+
+  // Force tab reset if V1 and user navigates to text/podcast
+  useEffect(() => {
+    if (platformVersion === "V1" && (activeTab === "text" || activeTab === "podcast")) {
+      setActiveTab("all")
+    }
+  }, [platformVersion, activeTab])
 
   // Listen for header navigation events to force re-sync
   useEffect(() => {
@@ -988,7 +1002,7 @@ function ExplorerContent() {
       </p>
 
       {/* Category Tabs */}
-      <CategoryTabs activeTab={activeTab} onTabChange={handleTabChange} />
+      <CategoryTabs activeTab={activeTab} onTabChange={handleTabChange} platformVersion={platformVersion} />
 
       {/* Main Category Title with Traffic Lights */}
       {activeTab !== "all" && (

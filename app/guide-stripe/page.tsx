@@ -1,5 +1,6 @@
 "use client"
 
+import { VersionGuard } from "@/components/version-guard"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -106,6 +107,7 @@ export default function GuideStripePage() {
   const router = useRouter()
 
   return (
+    <VersionGuard requiredVersion="V2">
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
       <VisualHeader />
 
@@ -406,5 +408,6 @@ export default function GuideStripePage() {
 
       <Footer />
     </div>
+    </VersionGuard>
   )
 }

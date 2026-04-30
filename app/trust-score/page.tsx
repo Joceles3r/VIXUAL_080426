@@ -1,5 +1,6 @@
 "use client"
 
+import { VersionGuard } from "@/components/version-guard"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -94,6 +95,7 @@ export default function TrustScorePage() {
   const [activeTab, setActiveTab] = useState("overview")
 
   return (
+    <VersionGuard requiredVersion="V3">
     <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
       {/* Header */}
       <div className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/50">
@@ -347,5 +349,6 @@ export default function TrustScorePage() {
         </Tabs>
       </div>
     </main>
+    </VersionGuard>
   )
 }

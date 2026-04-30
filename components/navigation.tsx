@@ -57,6 +57,7 @@ export type NavItem = {
   href: string
   icon?: React.ComponentType<{ className?: string }>
   roles?: VixualRole[]
+  minVersion?: "V1" | "V2" | "V3"
 }
 
 export type NavMenu = {
@@ -70,13 +71,13 @@ export const DISCOVER_MENU: NavMenu = {
   items: [
     { label: "Guide des profils", href: "/guide-profiles", icon: Crown },
     { label: "Comment ça marche", href: "/how-it-works", icon: BookOpen },
-    { label: "Guide Paiements", href: "/guide-stripe", icon: Wallet },
+    { label: "Guide Paiements", href: "/guide-stripe", icon: Wallet, minVersion: "V2" },
     { label: "FAQ", href: "/faq", icon: HelpCircle },
     { label: "Classements TOP 10/100/500", href: "/leaderboard", icon: Trophy },
-    { label: "Top Contributeurs", href: "/top-contributors", icon: Star },
-    { label: "Trust Score", href: "/trust-score", icon: Shield },
-    { label: "Ticket Gold", href: "/ticket-gold", icon: Rocket },
-    { label: "Soutien Libre", href: "/soutien-libre", icon: Heart },
+    { label: "Top Contributeurs", href: "/top-contributors", icon: Star, minVersion: "V2" },
+    { label: "Trust Score", href: "/trust-score", icon: Shield, minVersion: "V3" },
+    { label: "Ticket Gold", href: "/ticket-gold", icon: Rocket, minVersion: "V3" },
+    { label: "Soutien Libre", href: "/soutien-libre", icon: Heart, minVersion: "V2" },
   ],
 }
 
@@ -85,11 +86,11 @@ export const EXPLORE_MENU: NavMenu = {
   label: "Explorer",
   items: [
     { label: "Films & Videos", href: "/explore?tab=video", icon: Film },
-    { label: "Livres & Articles", href: "/explore?tab=text", icon: FileText },
-    { label: "Podcasts", href: "/explore?tab=podcast", icon: Mic },
+    { label: "Livres & Articles", href: "/explore?tab=text", icon: FileText, minVersion: "V2" },
+    { label: "Podcasts", href: "/explore?tab=podcast", icon: Mic, minVersion: "V2" },
     { label: "Tout Explorer", href: "/explore", icon: Compass },
-    { label: "Archives & Statistiques", href: "/archives-statistiques", icon: Archive },
-    { label: "Vixual Social", href: "/social", icon: MessageCircle },
+    { label: "Archives & Statistiques", href: "/archives-statistiques", icon: Archive, minVersion: "V2" },
+    { label: "Vixual Social", href: "/social", icon: MessageCircle, minVersion: "V3" },
   ],
 }
 
@@ -157,12 +158,14 @@ export const MY_SPACE_MENU: NavMenu = {
       href: "/upload/text",
       icon: Upload,
       roles: ["infoporteur"],
+      minVersion: "V2",
     },
     {
       label: "Mes livres & articles",
       href: "/dashboard/projects?type=text",
       icon: FileText,
       roles: ["infoporteur"],
+      minVersion: "V2",
     },
 
     // PODCASTEUR (podcast)
@@ -171,12 +174,14 @@ export const MY_SPACE_MENU: NavMenu = {
       href: "/upload/podcast",
       icon: Upload,
       roles: ["podcasteur"],
+      minVersion: "V2",
     },
     {
       label: "Mes podcasts",
       href: "/dashboard/projects?type=podcast",
       icon: Mic,
       roles: ["podcasteur"],
+      minVersion: "V2",
     },
 
     // CONTRIBUTEUR (video)
@@ -193,6 +198,7 @@ export const MY_SPACE_MENU: NavMenu = {
       href: "/dashboard/investments?type=text",
       icon: FileText,
       roles: ["contribu_lecteur"],
+      minVersion: "V2",
     },
 
     // AUDITEUR (podcast)
@@ -201,12 +207,14 @@ export const MY_SPACE_MENU: NavMenu = {
       href: "/explore?type=podcast",
       icon: Compass,
       roles: ["auditeur"],
+      minVersion: "V2",
     },
     {
       label: "Mes contributions (podcast)",
       href: "/dashboard/investments?type=podcast",
       icon: Mic,
       roles: ["auditeur"],
+      minVersion: "V2",
     },
 
     // PROMOTION / PARRAINAGE (tous les inscrits)
@@ -244,4 +252,11 @@ export const ADMIN_ITEM = {
 export function hasAnyRole(userRoles: VixualRole[], itemRoles?: VixualRole[]) {
   if (!itemRoles || itemRoles.length === 0) return true
   return itemRoles.some((r) => userRoles.includes(r))
+}
+
+// Helper pour filtrer selon la version active de la plateforme
+export function isItemVisibleAtVersion(item: NavItem, currentVersion: "V1" | "V2" | "V3"): boolean {
+  if (!item.minVersion) return true
+  const order = { V1: 1, V2: 2, V3: 3 }
+  return order[currentVersion] >= order[item.minVersion]
 }

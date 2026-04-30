@@ -37,9 +37,11 @@ import {
   EXPLORE_MENU,
   MY_SPACE_MENU,
   hasAnyRole,
+  isItemVisibleAtVersion,
   type NavItem,
   type VixualRole,
 } from "@/components/navigation"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 import { useAuth } from "@/lib/auth-context"
 import { MinorStatusBadge } from "@/components/minors/minor-status-badge"
 
@@ -47,14 +49,16 @@ function MenuBlock({
   label,
   items,
   roles,
+  platformVersion,
 }: {
   label: string
   items: NavItem[]
   roles: VixualRole[]
+  platformVersion: "V1" | "V2" | "V3"
 }) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
-  const visibleItems = items.filter((it) => hasAnyRole(roles, it.roles))
+  const visibleItems = items.filter((it) => hasAnyRole(roles, it.roles) && isItemVisibleAtVersion(it, platformVersion))
 
   if (visibleItems.length === 0) return null
 
@@ -120,6 +124,7 @@ function MobileMenu({
   isAuthed,
   isAdmin,
   onLogout,
+  platformVersion,
 }: {
   isOpen: boolean
   onClose: () => void
@@ -127,6 +132,7 @@ function MobileMenu({
   isAuthed: boolean
   isAdmin: boolean
   onLogout: () => void
+  platformVersion: "V1" | "V2" | "V3"
 }) {
   const router = useRouter()
 
@@ -170,7 +176,7 @@ function MobileMenu({
         <div className="p-4 space-y-6">
           {allMenus.map((menu) => {
             const visibleItems = menu.items.filter((it) =>
-              hasAnyRole(roles, it.roles)
+              hasAnyRole(roles, it.roles) && isItemVisibleAtVersion(it, platformVersion)
             )
             if (visibleItems.length === 0) return null
 
@@ -270,6 +276,7 @@ function MobileMenu({
 export function VisualHeader() {
   const { user, isAuthed, isAdmin, roles, logout } = useAuth()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const platformVersion = usePlatformVersion()
 
   const effectiveRoles = useMemo<VixualRole[]>(() => {
     if (!isAuthed) return ["guest"] as VixualRole[]
@@ -314,17 +321,20 @@ export function VisualHeader() {
               label={DISCOVER_MENU.label}
               items={DISCOVER_MENU.items}
               roles={effectiveRoles}
+              platformVersion={platformVersion}
             />
             <MenuBlock
               label={EXPLORE_MENU.label}
               items={EXPLORE_MENU.items}
               roles={effectiveRoles}
+              platformVersion={platformVersion}
             />
             {isAuthed && (
               <MenuBlock
                 label={MY_SPACE_MENU.label}
                 items={MY_SPACE_MENU.items}
                 roles={effectiveRoles}
+                platformVersion={platformVersion}
               />
             )}
 
@@ -429,6 +439,7 @@ export function VisualHeader() {
         isAuthed={isAuthed}
         isAdmin={isAdmin}
         onLogout={logout}
+        platformVersion={platformVersion}
       />
     </>
   )

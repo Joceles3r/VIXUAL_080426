@@ -28,9 +28,10 @@ import { NotificationsBell } from "@/components/notifications-bell"
 import { LevelUpCelebration } from "@/components/level-up-celebration"
 import { useAuth } from "@/lib/auth-context"
 import { cn } from "@/lib/utils"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 
 // VERROU FINAL: cles officielles uniquement
-const SIDEBAR_ITEMS: { label: string; href: string; icon: any; roles: string[]; accent?: boolean }[] = [
+const SIDEBAR_ITEMS: { label: string; href: string; icon: any; roles: string[]; accent?: boolean; minVersion?: "V1" | "V2" | "V3" }[] = [
   {
     label: "Tableau de bord",
     href: "/dashboard",
@@ -74,12 +75,14 @@ const SIDEBAR_ITEMS: { label: string; href: string; icon: any; roles: string[]; 
     href: "/dashboard/projects?type=text",
     icon: FileText,
     roles: ["infoporteur"],
+    minVersion: "V2",
   },
   {
     label: "Mes podcasts",
     href: "/dashboard/projects?type=podcast",
     icon: Mic,
     roles: ["podcasteur"],
+    minVersion: "V2",
   },
   {
     label: "Mes contributions",
@@ -111,12 +114,14 @@ const SIDEBAR_ITEMS: { label: string; href: string; icon: any; roles: string[]; 
     href: "/upload/text",
     icon: Upload,
     roles: ["infoporteur"],
+    minVersion: "V2",
   },
   {
     label: "Deposer un podcast",
     href: "/upload/podcast",
     icon: Upload,
     roles: ["podcasteur"],
+    minVersion: "V2",
   },
   {
     label: "Parametres",
@@ -129,10 +134,13 @@ const SIDEBAR_ITEMS: { label: string; href: string; icon: any; roles: string[]; 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const { roles, isAuthed } = useAuth()
+  const platformVersion = usePlatformVersion()
 
-  const visibleItems = SIDEBAR_ITEMS.filter(
-    (item) => item.roles.some((r) => roles.includes(r as any)) || !isAuthed
-  )
+  const visibleItems = SIDEBAR_ITEMS.filter((item) => {
+    const roleMatch = item.roles.some((r) => roles.includes(r as any)) || !isAuthed
+    const versionMatch = !item.minVersion || ({ V1: 1, V2: 2, V3: 3 }[platformVersion] >= { V1: 1, V2: 2, V3: 3 }[item.minVersion])
+    return roleMatch && versionMatch
+  })
 
   return (
     <div className="min-h-screen bg-slate-950">

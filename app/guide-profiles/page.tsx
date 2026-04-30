@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -238,9 +239,18 @@ const PROFILES: Record<string, {
   }
 }
 
+// Profils disponibles selon la version de la plateforme
+const PROFILES_BY_VERSION: Record<"V1" | "V2" | "V3", ProfileKey[]> = {
+  V1: ["guest", "visitor", "creator", "contributor"],
+  V2: ["guest", "visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
+  V3: ["guest", "visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
+}
+
 export default function GuideProfilesPage() {
   const router = useRouter()
   const [selectedProfile, setSelectedProfile] = useState<ProfileKey | null>(null)
+  const platformVersion = usePlatformVersion()
+  const visibleProfileKeys = PROFILES_BY_VERSION[platformVersion]
 
   const profile = selectedProfile ? PROFILES[selectedProfile] : null
   const IconComponent = profile?.icon
@@ -289,7 +299,7 @@ export default function GuideProfilesPage() {
 
             {/* Profile Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-              {Object.entries(PROFILES).map(([key, prof]) => {
+              {Object.entries(PROFILES).filter(([key]) => visibleProfileKeys.includes(key as ProfileKey)).map(([key, prof]) => {
                 const Prof = prof.icon
                 return (
                   <button

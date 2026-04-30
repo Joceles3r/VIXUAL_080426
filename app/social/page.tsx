@@ -1,5 +1,6 @@
 "use client"
 
+import { VersionGuard } from "@/components/version-guard"
 import VisualSocialFeed from "@/components/visual-social-feed"
 import { VisualHeader } from "@/components/visual-header"
 import { Footer } from "@/components/footer"
@@ -91,6 +92,7 @@ function V1Notice() {
 
 export default function VixualSocialPage() {
   return (
+    <VersionGuard requiredVersion="V3">
     <div className="min-h-screen bg-slate-950">
       <VisualHeader />
       <main className="pt-20 pb-12">
@@ -144,5 +146,6 @@ export default function VixualSocialPage() {
       </main>
       <Footer />
     </div>
+    </VersionGuard>
   )
 }

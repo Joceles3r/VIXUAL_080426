@@ -1,5 +1,6 @@
 "use client"
 
+import { VersionGuard } from "@/components/version-guard"
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -101,6 +102,7 @@ export default function UploadPodcastPage() {
   }
 
   return (
+    <VersionGuard requiredVersion="V2">
     <div className="min-h-screen bg-slate-950">
       <VisualHeader />
 
@@ -476,5 +478,6 @@ export default function UploadPodcastPage() {
 
       <Footer />
     </div>
+    </VersionGuard>
   )
 }

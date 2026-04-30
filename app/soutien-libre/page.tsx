@@ -1,5 +1,6 @@
 "use client";
 
+import { VersionGuard } from "@/components/version-guard";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -62,6 +63,7 @@ export default function SoutienLibrePage() {
   );
 
   return (
+    <VersionGuard requiredVersion="V2">
     <main
       className="min-h-screen text-white"
       style={{
@@ -206,6 +208,7 @@ export default function SoutienLibrePage() {
         </section>
       </div>
     </main>
+    </VersionGuard>
   );
 }
 
