@@ -84,7 +84,7 @@ export function canPurchaseTicketGold(
   
   // Trouver le ticket actif pour ce projet
   const activeTicket = existingTickets.find(
-    t => t.projectId === projectId && t.isActive && new Date(t.expiresAt) > now
+    t => t.projectId === projectId && t.isActive && t.expiresAt && new Date(t.expiresAt) > now
   );
   
   if (activeTicket) {
@@ -183,7 +183,7 @@ export function calculateBoostedVisibility(
 export function checkAndExpireTickets(tickets: TicketGold[]): TicketGold[] {
   const now = new Date();
   return tickets.map(ticket => {
-    if (ticket.isActive && new Date(ticket.expiresAt) <= now) {
+    if (ticket.isActive && ticket.expiresAt && new Date(ticket.expiresAt) <= now) {
       return { ...ticket, isActive: false };
     }
     return ticket;

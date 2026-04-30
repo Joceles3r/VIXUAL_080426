@@ -157,7 +157,7 @@ class BunnyCDNService {
           "AccessKey": this.storageApiKey,
           "Content-Type": contentType,
         },
-        body: file instanceof Buffer ? new Uint8Array(file) : file,
+        body: (file instanceof Buffer ? new Uint8Array(file) : file) as BodyInit,
       });
       
       if (!response.ok) {
@@ -380,7 +380,7 @@ class BunnyCDNService {
           "AccessKey": this.apiKey,
           "Content-Type": "application/octet-stream",
         },
-        body: videoBuffer instanceof Buffer ? new Uint8Array(videoBuffer) : videoBuffer,
+        body: (videoBuffer instanceof Buffer ? new Uint8Array(videoBuffer) : videoBuffer) as BodyInit,
       }
     );
     

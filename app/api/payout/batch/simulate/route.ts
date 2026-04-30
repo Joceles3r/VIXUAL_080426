@@ -10,7 +10,7 @@ import { adminGuard } from "@/lib/admin-guard";
 import { apiError, ErrorCodes, withErrorHandler } from "@/lib/api-errors";
 import { simulateBatch, getCurrentMonth } from "@/lib/payout/batch";
 
-export const POST = withErrorHandler(async (req: Request) => {
+export const POST = withErrorHandler(async (req: any): Promise<any> => {
   const body = await req.json();
   const { email, month } = body;
 

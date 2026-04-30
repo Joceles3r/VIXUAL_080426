@@ -112,7 +112,7 @@ export const POST = withErrorHandler(async (req: Request) => {
     5: "error",
   }
   
-  const statusText = statusMap[Status] || "unknown"
+  const statusText = (statusMap as Record<number, string>)[Status as number] || "unknown"
   
   // Mettre à jour le statut de la vidéo dans la base de données
   try {

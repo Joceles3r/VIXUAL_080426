@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       daysSincePublished: Math.floor((Date.now() - new Date(content.createdAt).getTime()) / 86400000),
       recentInvestmentEur: 0, viewGrowthRate: 0,
       creatorTrustScore: 60, creatorVerified: false,
-      creatorGoldPass: content.goldPass ?? false,
+      creatorGoldPass: (content as any).goldPass ?? false,
       currentWave: 1,
     }
 

@@ -87,11 +87,11 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
         message,
         category: triage.category,
         priority: triage.priority,
-        status: triage.shouldEscalate ? "escalated" : "open",
+        status: triage.escalationNeeded ? "escalated" : "open",
         ai_response: triage.suggestedResponse,
         ai_confidence: triage.confidence,
-        ai_resolved: triage.canAutoResolve,
-        escalated: triage.shouldEscalate,
+        ai_resolved: (triage.confidence > 0.8 && !triage.escalationNeeded),
+        escalated: triage.escalationNeeded,
         created_at: new Date().toISOString(),
       },
       source: "memory",
@@ -106,9 +106,9 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
     ) VALUES (
       ${userId}, ${userEmail}, ${userName || null}, ${subject}, ${message},
       ${triage.category}, ${triage.priority},
-      ${triage.shouldEscalate ? "escalated" : "open"},
-      ${triage.shouldEscalate},
-      ${triage.suggestedResponse}, ${triage.confidence}, ${triage.canAutoResolve}
+      ${triage.escalationNeeded ? "escalated" : "open"},
+      ${triage.escalationNeeded},
+      ${triage.suggestedResponse}, ${triage.confidence}, ${(triage.confidence > 0.8 && !triage.escalationNeeded)}
     )
     RETURNING id, subject, message, category, priority, status, escalated,
               ai_response, ai_confidence, ai_resolved, created_at

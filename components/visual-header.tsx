@@ -272,9 +272,9 @@ export function VisualHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const effectiveRoles = useMemo<VixualRole[]>(() => {
-    if (!isAuthed) return ["guest"]
-    const r = roles?.length ? roles : ["visitor"]
-    return r.includes("guest") ? r.filter((x) => x !== "guest") : r
+    if (!isAuthed) return ["guest"] as VixualRole[]
+    const r = (roles?.length ? roles : ["visitor"]) as VixualRole[]
+    return r.includes("guest" as VixualRole) ? r.filter((x) => x !== "guest") : r
   }, [isAuthed, roles])
 
   // isAdmin vient du auth context, pas des roles de profil

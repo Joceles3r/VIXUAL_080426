@@ -16,7 +16,7 @@ import {
  * In production this would come from a verified session/JWT,
  * but for now we validate against the server-side env var.
  */
-export const POST = withErrorHandler(async (req: Request) => {
+export const POST = withErrorHandler(async (req: any): Promise<any> => {
     const body = await req.json()
     const { email, action, payload } = body
 
@@ -72,9 +72,9 @@ export const POST = withErrorHandler(async (req: Request) => {
               message: `Content ${contentId} has been validated.`,
               ruleOf100: {
                 universe: ruleResult.universe,
-                cycleNumber: ruleResult.cycleNumber,
-                validatedCount: ruleResult.currentCount,
-                threshold: ruleResult.threshold,
+                cycleNumber: ruleResult.activeCycleNumber ?? ruleResult.closedCycleNumber ?? null,
+                validatedCount: ruleResult.validatedCount,
+                threshold: 100,
                 closed: ruleResult.closed,
                 nextCycleOpened: ruleResult.nextCycleNumber !== undefined,
                 nextCycleNumber: ruleResult.nextCycleNumber,

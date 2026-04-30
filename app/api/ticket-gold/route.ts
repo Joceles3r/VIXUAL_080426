@@ -199,8 +199,8 @@ export async function PUT(req: NextRequest) {
             expires_at, is_active, boost_multiplier, stripe_payment_id
           ) VALUES (
             ${ticket.id}, ${ticket.projectId}, ${ticket.userId},
-            ${ticket.purchasedAt.toISOString()}, ${ticket.activatedAt.toISOString()},
-            ${ticket.expiresAt.toISOString()}, ${ticket.isActive},
+            ${ticket.purchasedAt.toISOString()}, ${ticket.activatedAt?.toISOString() ?? null},
+            ${ticket.expiresAt?.toISOString() ?? null}, ${ticket.isActive},
             ${ticket.boostMultiplier}, ${ticket.stripePaymentId || null}
           )
         `;
