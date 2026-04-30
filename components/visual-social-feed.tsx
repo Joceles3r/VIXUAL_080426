@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
   Send, MessageCircle, Hash, ChevronDown, ChevronUp,
-  X, Sparkles, Filter, ThumbsUp, CornerDownRight,
+  X, Sparkles, Filter, ThumbsUp, CornerDownRight, AlertTriangle,
 } from "lucide-react"
 import { ReportButton } from "@/components/report-button"
 import {
@@ -190,9 +190,9 @@ function PostComposer({
   const [selectedTags, setSelectedTags] = useState<SocialTag[]>([])
   const [showTagPicker, setShowTagPicker] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { user, role } = useAuth()
+  const { user, roles } = useAuth()
 
-  const roleConfig = ROLE_SOCIAL_CONFIG[role?.[0] || "guest"]
+  const roleConfig = ROLE_SOCIAL_CONFIG[roles?.[0] || "guest"]
   const charsLeft = MAX_BODY_LENGTH - body.length
   const charsColor = charsLeft < 0 ? "text-red-400" : charsLeft < 100 ? "text-amber-400" : "text-white/30"
   const isReply = Boolean(replyTo)
@@ -243,7 +243,7 @@ function PostComposer({
         )}
 
         <div className="flex gap-3">
-          <UserAvatar name={user?.name || "Moi"} role={role?.[0] || "guest"} />
+          <UserAvatar name={user?.name || "Moi"} role={roles?.[0] || "guest"} />
           <div className="flex-1">
             <textarea
               value={body}
@@ -327,7 +327,7 @@ export default function VisualSocialFeed({
   contentType?: ContentType
   contentId?: string
 }) {
-  const { user, role } = useAuth()
+  const { user, roles } = useAuth()
   const [roots, setRoots] = useState<SocialPost[]>([])
   const [repliesByParent, setRepliesByParent] = useState<Record<string, SocialPost[]>>({})
   const [filterTag, setFilterTag] = useState<SocialTag | null>(null)
@@ -358,7 +358,7 @@ export default function VisualSocialFeed({
       contentId: mode === "global" ? null : (contentId || null),
       authorUserId: user?.id || "me",
       authorName: user?.name || "Moi",
-      authorRole: (role?.[0] || "visitor") as any,
+      authorRole: (roles?.[0] || "visitor") as any,
       body,
       tags,
       parentId: parentId ?? null,
@@ -374,7 +374,7 @@ export default function VisualSocialFeed({
       setRoots((prev) => [result, ...prev])
     }
     setReplyTo(null)
-  }, [provider, mode, contentType, contentId, user, role])
+  }, [provider, mode, contentType, contentId, user, roles])
 
   const handleLike = useCallback(async (postId: string) => {
     if (likedPosts.has(postId)) return

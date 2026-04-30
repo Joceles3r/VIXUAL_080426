@@ -24,7 +24,7 @@ export const POST = withErrorHandler(async (req: Request) => {
     const expectedSecret = process.env.VIXUAL_ADMIN_SECRET;
     if (!expectedSecret) {
       console.error("[VIXUAL Payout] VIXUAL_ADMIN_SECRET not configured");
-      return apiError(ErrorCodes.ERR_SERVER_ERROR, "Server configuration error", 503);
+      return apiError(ErrorCodes.ERR_INTERNAL, "Server configuration error", 503);
     }
     if (adminSecret !== expectedSecret) {
       return apiError(ErrorCodes.ERR_UNAUTHORIZED, "Unauthorized", 401);

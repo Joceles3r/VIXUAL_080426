@@ -14,7 +14,19 @@ import {
 
 type ProfileKey = "guest" | "visitor" | "creator" | "infoporteur" | "podcasteur" | "contributor" | "contribu_lecteur" | "auditeur"
 
-const PROFILES = {
+const PROFILES: Record<string, {
+  title: string
+  subtitle: string
+  icon: any
+  color: string
+  textColor: string
+  description: string
+  features: string[]
+  restrictions: string[]
+  cta: string
+  nextStep: string
+  advantage?: string
+}> = {
   guest: {
     title: "Invité",
     subtitle: "Exploration gratuite",

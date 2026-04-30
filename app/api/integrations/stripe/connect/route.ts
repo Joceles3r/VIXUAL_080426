@@ -113,10 +113,11 @@ export async function GET(req: NextRequest) {
     // Sync to database
     await stripeConnectService.syncAccountStatus(user.stripe_account_id as string, userId);
     
+    const { accountId: _ignored, ...statusRest } = status as Record<string, unknown>;
     return NextResponse.json({
       hasAccount: true,
       accountId: user.stripe_account_id,
-      ...status,
+      ...statusRest,
     });
     
   } catch (error) {

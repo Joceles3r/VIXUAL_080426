@@ -20,7 +20,7 @@ import { getStripeConfig, getStripeConfigFresh } from "./stripe-config";
 
 // ── Version API Stripe officiellement supportée par VIXUAL ───────────────────
 
-const STRIPE_API_VERSION: Stripe.LatestApiVersion = "2026-02-04.clover";
+const STRIPE_API_VERSION: Stripe.LatestApiVersion = "2026-01-28.clover";
 
 // ── Client Stripe asynchrone (recommandé) ─────────────────────────────────────
 

@@ -461,7 +461,7 @@ export function getMockPaymentReviews(): PaymentReview[] {
       status: "green",
       aiScore: 92,
       alerts: [],
-      requiresValidation: ["moderator", "adjoint"], // Double validation car > 1000€
+      requiresValidation: ["moderator", "admin_adjoint"], // Double validation car > 1000€
       createdAt: "2026-03-15T10:15:00Z",
     },
   ]

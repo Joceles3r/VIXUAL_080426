@@ -24,6 +24,8 @@ import {
   Ticket,
 } from "lucide-react"
 import { VisualHeader } from "@/components/visual-header"
+import { NotificationsBell } from "@/components/notifications-bell"
+import { LevelUpCelebration } from "@/components/level-up-celebration"
 import { useAuth } from "@/lib/auth-context"
 import { cn } from "@/lib/utils"
 
@@ -134,7 +136,11 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-slate-950">
+      <LevelUpCelebration />
       <VisualHeader />
+      <div className="fixed top-4 right-4 z-50">
+        <NotificationsBell />
+      </div>
 
       <div className="flex pt-20">
         {/* Sidebar */}

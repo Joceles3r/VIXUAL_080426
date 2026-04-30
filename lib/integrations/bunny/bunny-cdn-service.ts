@@ -136,7 +136,7 @@ class BunnyCDNService {
       ...BUNNY_CDN_CONFIG.allowedAudioTypes,
     ];
     
-    if (!allowedTypes.includes(contentType)) {
+    if (!allowedTypes.includes(contentType as typeof allowedTypes[number])) {
       throw new Error(`File type ${contentType} is not allowed`);
     }
     
@@ -157,7 +157,7 @@ class BunnyCDNService {
           "AccessKey": this.storageApiKey,
           "Content-Type": contentType,
         },
-        body: file,
+        body: file instanceof Buffer ? new Uint8Array(file) : file,
       });
       
       if (!response.ok) {
@@ -380,7 +380,7 @@ class BunnyCDNService {
           "AccessKey": this.apiKey,
           "Content-Type": "application/octet-stream",
         },
-        body: videoBuffer,
+        body: videoBuffer instanceof Buffer ? new Uint8Array(videoBuffer) : videoBuffer,
       }
     );
     

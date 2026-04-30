@@ -20,6 +20,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { VisualHeader } from "@/components/visual-header"
 import { Footer } from "@/components/footer"
 import VisualSocialFeed from "@/components/visual-social-feed"
+import { CommentsSection } from "@/components/comments-section"
+import { VisibilityBoostButton } from "@/components/visibility-boost-button"
+import { ContributionDisclaimer } from "@/components/contribution-disclaimer"
 import { ALL_CONTENTS, isGoldCreator } from "@/lib/mock-data"
 import { useAuth } from "@/lib/auth-context"
 import { useToast } from "@/components/ui/use-toast"
@@ -386,10 +389,11 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   <div className="flex-1 min-w-0">
                     <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1.5 text-balance">{content.title}</h1>
                     <div className="flex flex-wrap items-center gap-3 text-sm">
-                      <Link href="#" className="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
-                        {content.creatorName}
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-emerald-400 font-medium">{content.creatorName}</span>
                         {isGold && <Crown className="h-3.5 w-3.5 text-amber-400" />}
-                      </Link>
+                        <VisibilityBoostButton creatorId={content.creatorId} contentId={content.id} />
+                      </div>
                       <span className="text-white/30">|</span>
                       <span className="flex items-center gap-1 text-white/50">
                         {isVideo && <><Clock className="h-3.5 w-3.5" />{content.duration}</>}
@@ -455,8 +459,8 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                       {isFavorite ? "Favori" : "J'aime"}
                     </Button>
                     <SupportButton
-                      creatorId={content.creator.id || "creator-1"}
-                      creatorName={content.creator.name}
+                      creatorId={content.creatorId || "creator-1"}
+                      creatorName={content.creatorName}
                       projectId={content.id}
                       projectTitle={content.title}
                       variant="outline"
@@ -517,6 +521,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                 </CardHeader>
                 <CardContent className="p-4 sm:p-6">
                   <VisualSocialFeed mode="content" contentType={cType as ContentType} contentId={content.id} />
+                  <CommentsSection contentId={content.id} />
                 </CardContent>
               </Card>
 
@@ -727,12 +732,15 @@ export default function VideoPage({ params }: { params: { id: string } }) {
 
                       {/* Investment confirmation */}
                       {selectedAmount && !showInvestConfirm && (
-                        <Button
-                          onClick={() => setShowInvestConfirm(true)}
-                          className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white h-12 text-lg shadow-lg shadow-emerald-500/20"
-                        >
-                          Investir {selectedAmount}{"\u20ac"}
-                        </Button>
+                        <>
+                          <ContributionDisclaimer compact />
+                          <Button
+                            onClick={() => setShowInvestConfirm(true)}
+                            className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white h-12 text-lg shadow-lg shadow-emerald-500/20"
+                          >
+                            Investir {selectedAmount}{"\u20ac"}
+                          </Button>
+                        </>
                       )}
 
                       {!selectedAmount && (

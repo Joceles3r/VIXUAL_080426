@@ -19,8 +19,8 @@ export interface TicketGold {
   projectId: string;
   userId: string;
   purchasedAt: Date;
-  activatedAt: Date;
-  expiresAt: Date;
+  activatedAt?: Date;
+  expiresAt?: Date;
   isActive: boolean;
   boostMultiplier: number;
   stripePaymentId?: string;

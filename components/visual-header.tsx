@@ -38,7 +38,7 @@ import {
   MY_SPACE_MENU,
   hasAnyRole,
   type NavItem,
-  type VisualRole,
+  type VixualRole,
 } from "@/components/navigation"
 import { useAuth } from "@/lib/auth-context"
 import { MinorStatusBadge } from "@/components/minors/minor-status-badge"
@@ -50,7 +50,7 @@ function MenuBlock({
 }: {
   label: string
   items: NavItem[]
-  roles: VisualRole[]
+  roles: VixualRole[]
 }) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
@@ -123,7 +123,7 @@ function MobileMenu({
 }: {
   isOpen: boolean
   onClose: () => void
-  roles: VisualRole[]
+  roles: VixualRole[]
   isAuthed: boolean
   isAdmin: boolean
   onLogout: () => void
@@ -220,10 +220,10 @@ function MobileMenu({
                 <div className="flex justify-center mb-2">
                   <ReportButton
                     targetId="general"
-                    targetType="other"
+                    targetType="content"
                     targetName="Signalement g\u00e9n\u00e9ral"
                     variant="full"
-                    size="default"
+                    size="sm"
                   />
                 </div>
                 <Button
@@ -271,7 +271,7 @@ export function VisualHeader() {
   const { user, isAuthed, isAdmin, roles, logout } = useAuth()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  const effectiveRoles = useMemo<VisualRole[]>(() => {
+  const effectiveRoles = useMemo<VixualRole[]>(() => {
     if (!isAuthed) return ["guest"]
     const r = roles?.length ? roles : ["visitor"]
     return r.includes("guest") ? r.filter((x) => x !== "guest") : r
@@ -357,7 +357,7 @@ export function VisualHeader() {
                 <div className="hidden md:block">
                   <ReportButton
                     targetId="general"
-                    targetType="other"
+                    targetType="content"
                     targetName="Signalement g\u00e9n\u00e9ral"
                     variant="icon"
                     size="sm"

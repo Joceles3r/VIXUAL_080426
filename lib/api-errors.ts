@@ -145,7 +145,7 @@ export function apiError(
  * Catches unhandled errors and returns a standardized 500 response.
  */
 export function withErrorHandler(
-  handler: (req: Request) => Promise<NextResponse>
+  handler: (req: any) => Promise<NextResponse>
 ) {
   return async (req: Request): Promise<NextResponse> => {
     try {

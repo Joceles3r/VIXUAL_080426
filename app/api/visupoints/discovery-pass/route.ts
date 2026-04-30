@@ -206,14 +206,14 @@ export const POST = withErrorHandler(async (req: Request) => {
     // Debloquer le Pass
     await sql`
       UPDATE discovery_pass_daily
-      SET unlocked = true, unlocked_at = NOW(), unlock_method = ${unlockResult.method}
+      SET unlocked = true, unlocked_at = NOW(), unlock_method = ${'auto'}
       WHERE user_id = ${userId} AND date = ${today}
     `;
 
     return NextResponse.json({
       success: true,
       message: "Pass Decouverte debloque !",
-      method: unlockResult.method,
+      method: 'auto',
     });
   }
 
@@ -225,7 +225,7 @@ export const POST = withErrorHandler(async (req: Request) => {
     const consumeResult = consumeDiscoveryPass(passData.unlocked ?? false, passData.used ?? false);
 
     if (!consumeResult.success) {
-      return NextResponse.json({ success: false, message: consumeResult.message });
+      return NextResponse.json({ success: false, message: consumeResult.reason });
     }
 
     // Consommer le Pass
@@ -249,7 +249,7 @@ export const POST = withErrorHandler(async (req: Request) => {
 
     return NextResponse.json({
       success: true,
-      message: consumeResult.message,
+      message: 'Pass Découverte utilisé avec succès.',
       contentId,
       bonusPoints: VIXUPOINTS_GAINS.fullContentView,
       newBalance,

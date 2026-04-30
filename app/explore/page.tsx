@@ -575,15 +575,22 @@ function GenreSelector({
       text: "text-purple-400",
       glow: "shadow-purple-500/20"
     },
-  }[tabConfig.color]
+  }
+  const safeColors = colorClasses[tabConfig.color as keyof typeof colorClasses] ?? {
+    activeBg: "bg-emerald-600",
+    hoverBg: "hover:bg-emerald-500/20",
+    border: "border-emerald-500/30",
+    text: "text-emerald-400",
+    glow: "shadow-emerald-500/20",
+  }
 
   return (
     <div className={`px-4 sm:px-8 lg:px-16 py-5 bg-gradient-to-r ${tabConfig.gradient} border-y ${tabConfig.borderColor}`}>
       {/* Section Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className={`p-2 rounded-lg ${colorClasses.activeBg}/20 ${colorClasses.border} border`}>
-            <tabConfig.icon className={`h-5 w-5 ${colorClasses.text}`} />
+          <div className={`p-2 rounded-lg ${safeColors.activeBg}/20 ${safeColors.border} border`}>
+            <tabConfig.icon className={`h-5 w-5 ${safeColors.text}`} />
           </div>
           <div>
             <h3 className="text-white font-semibold text-sm">{tabConfig.label}</h3>
@@ -611,8 +618,8 @@ function GenreSelector({
             onClick={() => onGenreChange(genre.id)}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-all border ${
               selectedGenre === genre.id
-                ? `${colorClasses.activeBg} text-white border-transparent shadow-lg ${colorClasses.glow}`
-                : `bg-slate-800/50 text-white/70 ${colorClasses.border} ${colorClasses.hoverBg} hover:text-white hover:border-white/30`
+                ? `${safeColors.activeBg} text-white border-transparent shadow-lg ${safeColors.glow}`
+                : `bg-slate-800/50 text-white/70 ${safeColors.border} ${safeColors.hoverBg} hover:text-white hover:border-white/30`
             }`}
           >
             {genre.label}
@@ -624,15 +631,15 @@ function GenreSelector({
       {selectedGenre !== "all" && (
         <div className="flex items-center gap-3 mt-4 pt-4 border-t border-white/10">
           <div className="flex items-center gap-2">
-            <CheckCircle className={`h-4 w-4 ${colorClasses.text}`} />
+            <CheckCircle className={`h-4 w-4 ${safeColors.text}`} />
             <span className="text-white/60 text-sm">Filtre actif:</span>
           </div>
-          <Badge className={`${colorClasses.activeBg} text-white border-0 px-3 py-1`}>
+          <Badge className={`${safeColors.activeBg} text-white border-0 px-3 py-1`}>
             {genres.find(g => g.id === selectedGenre)?.label}
           </Badge>
           <button 
             onClick={() => onGenreChange("all")}
-            className={`${colorClasses.text} hover:text-white text-sm underline underline-offset-2 ml-auto`}
+            className={`${safeColors.text} hover:text-white text-sm underline underline-offset-2 ml-auto`}
           >
             Effacer le filtre
           </button>
@@ -975,6 +982,10 @@ function ExplorerContent() {
 
       {/* Hero Section */}
       {heroContent && <ImmersiveHero content={heroContent} />}
+
+      <p className="text-emerald-400/70 text-sm mb-6 italic text-center pt-4">
+        Vois-les avant tout le monde — découvre les talents émergents que la communauté propulse.
+      </p>
 
       {/* Category Tabs */}
       <CategoryTabs activeTab={activeTab} onTabChange={handleTabChange} />

@@ -123,6 +123,7 @@ export default function SignupPage() {
             <CardTitle className="text-2xl text-white">
               {"Créer un compte"}
             </CardTitle>
+            <p className="text-white/55 text-sm italic mt-2 text-center">Vois-les avant tout le monde.</p>
             <p className="text-white/60 mt-2">
               Rejoignez VIXUAL et devenez Visiteur gratuitement
             </p>

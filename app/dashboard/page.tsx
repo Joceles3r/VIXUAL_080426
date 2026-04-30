@@ -412,10 +412,10 @@ export default function DashboardPage() {
           </div>
           <ReportButton
             targetId="general"
-            targetType="other"
+            targetType="content"
             targetName="Signalement depuis le tableau de bord"
             variant="full"
-            size="default"
+            size="sm"
           />
         </CardContent>
       </Card>

@@ -461,8 +461,8 @@ export const PROFILE_GUIDES: Record<UserProfile, ProfileGuide> = {
   },
 
   // ─── CONTRI-LECTEUR (investisseur littéraire) ───
-  contriReader: {
-    profile: "contriReader",
+  contribu_lecteur: {
+    profile: "contribu_lecteur",
     displayName: "Contri-lecteur",
     requiresSignup: true,
     description:

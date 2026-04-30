@@ -18,7 +18,7 @@ import {
   getMockAuditLogs,
   type CycleAnalysis,
   type FraudAlert,
-  type AuditLog,
+  type AIAuditLog,
 } from "@/lib/financial-brain"
 
 /* ══════════════════════════════════════════════════════════════════════════ */
@@ -281,8 +281,8 @@ export default function FinancialBrainPage() {
                         <td className="py-2 px-2">{log.cycle}</td>
                         <td className="py-2 px-2 text-rose-400 text-xs">{log.anomaly}</td>
                         <td className="py-2 px-2 text-center">
-                          <Badge className={`${log.aiScore > 50 ? "bg-rose-500/20 text-rose-400" : "bg-emerald-500/20 text-emerald-400"}`}>
-                            {log.aiScore}%
+                          <Badge className={`${(log.aiScore ?? 0) > 50 ? "bg-rose-500/20 text-rose-400" : "bg-emerald-500/20 text-emerald-400"}`}>
+                            {log.aiScore ?? 0}%
                           </Badge>
                         </td>
                         <td className="py-2 px-2 text-emerald-400 text-xs">{log.humanDecision}</td>
