@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getPlatformVersion, setPlatformVersion, type PlatformVersion } from "@/lib/platform/version"
+import { getPlatformVersion, setPlatformVersion, getVersionFeatures, getVersionProfiles, type PlatformVersion } from "@/lib/platform/version"
 
 const PATRON_EMAIL = "jocelyndru@gmail.com"
 
 export async function GET() {
   const version = await getPlatformVersion()
-  return NextResponse.json({ version })
+  const features = getVersionFeatures(version)
+  const profiles = getVersionProfiles(version)
+  return NextResponse.json({ version, features, profiles })
 }
 
 export async function POST(req: NextRequest) {

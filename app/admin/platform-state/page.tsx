@@ -3,17 +3,52 @@ import { useState, useEffect } from "react"
 import { useAuth } from "@/lib/auth-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { AlertTriangle, Rocket, Users, Sparkles } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { AlertTriangle, Rocket, Users, Sparkles, Check, X, Video, BookOpen, Mic } from "lucide-react"
 
 const VERSIONS = [
-  { id: "V1", title: "V1 — Lancement", desc: "4 profils (Invite/Visiteur/Porteur/Contributeur), videos uniquement, Pass Decouverte, boost visibilite visiteur→createur", icon: Rocket, color: "emerald" },
-  { id: "V2", title: "V2 — Croissance", desc: "8 profils, paiement hybride 30%/70%, ecrits + podcasts, OAuth, commentaires, notifications", icon: Users, color: "amber" },
-  { id: "V3", title: "V3 — Pleine puissance", desc: "Vixual Social complet, Ticket Gold, Trust Score visible, IA support, soutien libre, archives", icon: Sparkles, color: "violet" },
+  {
+    id: "V1",
+    title: "V1 — Lancement",
+    desc: "4 profils (Invite/Visiteur/Porteur/Contributeur), videos uniquement, Pass Decouverte, boost visibilite visiteur→createur",
+    icon: Rocket,
+    color: "emerald",
+    profiles: ["Invite", "Visiteur", "Porteur", "Contributeur"],
+    features: { videos: true, ecrits: false, podcasts: false, passDecouverte: true, boostVisibilite: true, oauth: false, vixualSocial: false, ticketGold: false, trustScoreVisible: false, iaSupport: false },
+  },
+  {
+    id: "V2",
+    title: "V2 — Croissance",
+    desc: "8 profils, paiement hybride 30%/70%, ecrits + podcasts, OAuth, commentaires, notifications",
+    icon: Users,
+    color: "amber",
+    profiles: ["Invite", "Visiteur", "Porteur", "Contributeur", "Infoporteur", "Podcasteur", "Auditeur", "Contribu-lecteur"],
+    features: { videos: true, ecrits: true, podcasts: true, passDecouverte: true, boostVisibilite: true, oauth: true, vixualSocial: false, ticketGold: false, trustScoreVisible: false, iaSupport: false },
+  },
+  {
+    id: "V3",
+    title: "V3 — Pleine puissance",
+    desc: "Vixual Social complet, Ticket Gold, Trust Score visible, IA support, soutien libre, archives",
+    icon: Sparkles,
+    color: "violet",
+    profiles: ["Invite", "Visiteur", "Porteur", "Contributeur", "Infoporteur", "Podcasteur", "Auditeur", "Contribu-lecteur"],
+    features: { videos: true, ecrits: true, podcasts: true, passDecouverte: true, boostVisibilite: true, oauth: true, vixualSocial: true, ticketGold: true, trustScoreVisible: true, iaSupport: true },
+  },
 ] as const
+
+function FeatureItem({ label, enabled, icon }: { label: string; enabled: boolean; icon?: React.ReactNode }) {
+  return (
+    <div className={`flex items-center gap-1.5 px-2 py-1 rounded ${enabled ? "bg-emerald-500/10 text-emerald-300" : "bg-slate-800/50 text-white/30"}`}>
+      {enabled ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+      {icon}
+      <span>{label}</span>
+    </div>
+  )
+}
 
 export default function PlatformStatePage() {
   const { user } = useAuth()
-  const [current, setCurrent] = useState<string>("V1")
+  const [current, setCurrent] = useState<string>("V3")
   const [pendingChange, setPendingChange] = useState<string | null>(null)
   const [reason, setReason] = useState("")
   const [loading, setLoading] = useState(false)
@@ -46,23 +81,64 @@ export default function PlatformStatePage() {
       <h1 className="text-2xl font-bold text-white mb-2">Etat de la plateforme</h1>
       <p className="text-white/55 text-sm mb-8">Bascule entre versions de VIXUAL. Affecte tous les utilisateurs immediatement (cache 30s).</p>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {VERSIONS.map(v => {
           const Icon = v.icon
           const isCurrent = current === v.id
           const colors = colorClasses[v.color]
           return (
-            <Card key={v.id} className={`bg-slate-900/60 border ${isCurrent ? colors.border : "border-white/10"}`}>
-              <CardContent className="p-5 flex items-start gap-4">
-                <Icon className={`h-6 w-6 ${colors.icon} shrink-0 mt-0.5`} />
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-semibold text-white">{v.title}</span>
-                    {isCurrent && <span className={`text-[10px] px-2 py-0.5 rounded-full ${colors.badge} uppercase tracking-wider`}>Actuelle</span>}
+            <Card key={v.id} className={`bg-slate-900/60 border-2 transition-all ${isCurrent ? `${colors.border} shadow-lg` : "border-white/10 hover:border-white/20"}`}>
+              <CardContent className="p-5">
+                <div className="flex items-start gap-4 mb-4">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                    v.color === "emerald" ? "bg-emerald-500/20" :
+                    v.color === "amber" ? "bg-amber-500/20" : "bg-violet-500/20"
+                  }`}>
+                    <Icon className={`h-6 w-6 ${colors.icon}`} />
                   </div>
-                  <p className="text-white/55 text-sm">{v.desc}</p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-bold text-white text-lg">{v.title}</span>
+                      {isCurrent && <Badge className={`${colors.badge} text-[10px] uppercase tracking-wider`}>Actuelle</Badge>}
+                    </div>
+                    <p className="text-white/55 text-sm">{v.desc}</p>
+                  </div>
+                  {!isCurrent && (
+                    <Button 
+                      onClick={() => setPendingChange(v.id)} 
+                      className={`${
+                        v.color === "emerald" ? "bg-emerald-600 hover:bg-emerald-500" :
+                        v.color === "amber" ? "bg-amber-600 hover:bg-amber-500" : "bg-violet-600 hover:bg-violet-500"
+                      } text-white`}
+                    >
+                      Basculer vers {v.id}
+                    </Button>
+                  )}
                 </div>
-                {!isCurrent && <Button variant="outline" size="sm" onClick={() => setPendingChange(v.id)}>Basculer</Button>}
+
+                {/* Profils disponibles */}
+                <div className="mb-3">
+                  <span className="text-xs text-white/40 uppercase tracking-wider">Profils ({v.profiles.length})</span>
+                  <div className="flex flex-wrap gap-1.5 mt-1.5">
+                    {v.profiles.map(p => (
+                      <Badge key={p} variant="outline" className="text-xs border-white/20 text-white/70">{p}</Badge>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Features */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                  <FeatureItem label="Videos" enabled={v.features.videos} icon={<Video className="h-3 w-3" />} />
+                  <FeatureItem label="Ecrits" enabled={v.features.ecrits} icon={<BookOpen className="h-3 w-3" />} />
+                  <FeatureItem label="Podcasts" enabled={v.features.podcasts} icon={<Mic className="h-3 w-3" />} />
+                  <FeatureItem label="Pass Decouverte" enabled={v.features.passDecouverte} />
+                  <FeatureItem label="Boost Visibilite" enabled={v.features.boostVisibilite} />
+                  <FeatureItem label="OAuth" enabled={v.features.oauth} />
+                  <FeatureItem label="Vixual Social" enabled={v.features.vixualSocial} />
+                  <FeatureItem label="Ticket Gold" enabled={v.features.ticketGold} />
+                  <FeatureItem label="Trust Score" enabled={v.features.trustScoreVisible} />
+                  <FeatureItem label="IA Support" enabled={v.features.iaSupport} />
+                </div>
               </CardContent>
             </Card>
           )

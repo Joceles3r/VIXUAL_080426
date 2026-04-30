@@ -1121,11 +1121,11 @@ export default function AdminPage() {
  * Composant VersionSwitchBanner - GROS bouton de bascule V1/V2/V3 pour le PATRON
  */
 function VersionSwitchBanner() {
-  const [currentVersion, setCurrentVersion] = useState<string>("V1")
+  const [currentVersion, setCurrentVersion] = useState<string>("V3")
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    fetch("/api/platform/version").then(r => r.json()).then(d => setCurrentVersion(d.version || "V1")).catch(() => {})
+    fetch("/api/platform/version").then(r => r.json()).then(d => setCurrentVersion(d.version || "V3")).catch(() => {})
   }, [])
 
   const versionColors: Record<string, { border: string; bg: string; text: string; glow: string }> = {
@@ -1166,9 +1166,9 @@ function VersionSwitchBanner() {
               <Sparkles className="h-5 w-5 text-amber-400 animate-pulse" />
             </div>
             <p className={`text-sm ${colors.text}`}>
-              {currentVersion === "V1" && "Lancement — 4 profils, videos, Pass Decouverte"}
-              {currentVersion === "V2" && "Croissance — 8 profils, paiement hybride, OAuth"}
-              {currentVersion === "V3" && "Pleine puissance — Vixual Social, Ticket Gold, IA Support"}
+              {currentVersion === "V1" && "Lancement — 4 profils (Invite/Visiteur/Porteur/Contributeur), videos, Pass Decouverte, boost visibilite"}
+              {currentVersion === "V2" && "Croissance — 8 profils, ecrits + podcasts, paiement hybride 30%/70%, OAuth, commentaires"}
+              {currentVersion === "V3" && "Pleine puissance — Vixual Social, Ticket Gold, Trust Score visible, IA Support, archives"}
             </p>
           </div>
 
