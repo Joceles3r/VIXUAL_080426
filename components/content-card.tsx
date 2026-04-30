@@ -142,9 +142,9 @@ export function ContentCard({ content }: ContentCardProps) {
             <Progress value={progressPercent} className="h-2 bg-slate-800" />
             <div className="flex justify-between text-xs text-white/60">
               <span className="text-emerald-400 font-medium">
-                {content.currentInvestment.toLocaleString()}{"\u20ac"}
+                {content.currentInvestment.toLocaleString("fr-FR")}{"\u20ac"}
               </span>
-              <span>sur {content.investmentGoal.toLocaleString()}{"\u20ac"}</span>
+              <span>sur {content.investmentGoal.toLocaleString("fr-FR")}{"\u20ac"}</span>
             </div>
           </div>
 
