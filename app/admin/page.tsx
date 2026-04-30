@@ -35,6 +35,7 @@ import {
   Wallet2,
   FlaskConical,
   Sparkles,
+  Rocket,
 } from "lucide-react"
 import Link from "next/link"
 import { useTestLabAccess } from "@/lib/test-lab/use-test-lab-access"
@@ -174,6 +175,9 @@ export default function AdminPage() {
           </Button>
         </div>
       </div>
+
+      {/* Version Switch Banner - Stratification V1/V2/V3 */}
+      <VersionSwitchBanner />
 
       {/* Test Lab Banner - Gros bouton voyant */}
       <TestLabBanner />
@@ -1110,6 +1114,82 @@ export default function AdminPage() {
         </p>
       )}
     </div>
+  )
+}
+
+/**
+ * Composant VersionSwitchBanner - GROS bouton de bascule V1/V2/V3 pour le PATRON
+ */
+function VersionSwitchBanner() {
+  const [currentVersion, setCurrentVersion] = useState<string>("V1")
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    fetch("/api/platform/version").then(r => r.json()).then(d => setCurrentVersion(d.version || "V1")).catch(() => {})
+  }, [])
+
+  const versionColors: Record<string, { border: string; bg: string; text: string; glow: string }> = {
+    V1: { border: "border-emerald-400/60", bg: "from-emerald-900/40 via-teal-900/30 to-emerald-900/40", text: "text-emerald-300", glow: "shadow-emerald-500/20" },
+    V2: { border: "border-amber-400/60", bg: "from-amber-900/40 via-orange-900/30 to-amber-900/40", text: "text-amber-300", glow: "shadow-amber-500/20" },
+    V3: { border: "border-violet-400/60", bg: "from-violet-900/40 via-fuchsia-900/30 to-violet-900/40", text: "text-violet-300", glow: "shadow-violet-500/20" },
+  }
+
+  const colors = versionColors[currentVersion] || versionColors.V1
+
+  return (
+    <Link href="/admin/platform-state" className="block mb-6">
+      <div className={`relative overflow-hidden rounded-2xl border-2 p-5 transition-all group ${colors.border} bg-gradient-to-r ${colors.bg} hover:shadow-xl ${colors.glow}`}>
+        {/* Animated glow */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse" />
+
+        <div className="relative flex items-center gap-5">
+          {/* Icon */}
+          <div className={`w-16 h-16 rounded-xl flex items-center justify-center bg-gradient-to-br ${
+            currentVersion === "V1" ? "from-emerald-500 to-teal-600" :
+            currentVersion === "V2" ? "from-amber-500 to-orange-600" :
+            "from-violet-500 to-fuchsia-600"
+          } shadow-lg`}>
+            <Rocket className="h-8 w-8 text-white" />
+          </div>
+
+          {/* Text */}
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-1">
+              <h3 className="text-xl font-bold text-white">Stratification VIXUAL</h3>
+              <span className={`text-sm uppercase tracking-wider px-3 py-1 rounded-full font-black ${
+                currentVersion === "V1" ? "bg-emerald-500 text-white" :
+                currentVersion === "V2" ? "bg-amber-500 text-black" :
+                "bg-violet-500 text-white"
+              }`}>
+                {currentVersion}
+              </span>
+              <Sparkles className="h-5 w-5 text-amber-400 animate-pulse" />
+            </div>
+            <p className={`text-sm ${colors.text}`}>
+              {currentVersion === "V1" && "Lancement — 4 profils, videos, Pass Decouverte"}
+              {currentVersion === "V2" && "Croissance — 8 profils, paiement hybride, OAuth"}
+              {currentVersion === "V3" && "Pleine puissance — Vixual Social, Ticket Gold, IA Support"}
+            </p>
+          </div>
+
+          {/* Badge + Arrow */}
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-white/40 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
+              Cliquer pour basculer
+            </span>
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-transform group-hover:translate-x-1 ${
+              currentVersion === "V1" ? "bg-emerald-500/20 text-emerald-200" :
+              currentVersion === "V2" ? "bg-amber-500/20 text-amber-200" :
+              "bg-violet-500/20 text-violet-200"
+            }`}>
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
   )
 }
 
