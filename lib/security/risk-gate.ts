@@ -184,7 +184,7 @@ export function buildSecurityDoc(opts: {
   }
 
   const score = opts.trustScore ?? 50;
-  let label: UserSecurityDoc["trustScore"]["label"] = "correct";
+  let label: NonNullable<UserSecurityDoc["trustScore"]>["label"] = "correct";
   if (score >= 80) label = "excellent";
   else if (score >= 60) label = "profil serieux";
   else if (score >= 40) label = "correct";
