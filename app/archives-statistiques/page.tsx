@@ -24,6 +24,7 @@ export default async function ArchivesStatistiquesPage() {
   const bestProgressions = getBestProgressions(6)
 
   return (
+    <VersionGuardServer requiredVersion="V2">
     <div className="min-h-screen bg-slate-950">
       <VisualHeader />
       
@@ -86,5 +87,6 @@ export default async function ArchivesStatistiquesPage() {
       
       <Footer />
     </div>
+    </VersionGuardServer>
   )
 }
