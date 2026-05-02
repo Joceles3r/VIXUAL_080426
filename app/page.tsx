@@ -87,7 +87,7 @@ export default function HomePage() {
                   <span
                     className={
                       platformVersion === "V1"
-                        ? "text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-purple-400"
+                        ? "text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 to-purple-300 [text-shadow:none] [filter:drop-shadow(0_0_6px_rgba(217,70,239,0.18))]"
                         : platformVersion === "V2"
                         ? "text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-rose-400"
                         : "text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400"
