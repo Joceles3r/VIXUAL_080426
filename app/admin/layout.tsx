@@ -35,6 +35,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTestLabAccess } from "@/lib/test-lab/use-test-lab-access"
+import { AdminVersionQuickToggle } from "@/components/admin-version-quick-toggle"
 
 const ADMIN_NAV = [
   { label: "Tableau de bord", href: "/admin", icon: BarChart3 },
@@ -98,6 +99,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <p className="text-sm font-bold text-amber-400">ADMIN / PATRON</p>
               <p className="text-xs text-white/50 truncate max-w-[130px]">{user?.email}</p>
             </div>
+          </div>
+          {/* Bascule rapide de version */}
+          <div className="mt-3 flex justify-end">
+            <AdminVersionQuickToggle />
           </div>
         </div>
 

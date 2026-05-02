@@ -10,6 +10,7 @@ import { MinorClientGuard } from "@/components/minors/minor-client-guard"
 import { SoundProvider } from "@/components/sound-provider"
 import { ResizeObserverFix } from "@/components/resize-observer-fix"
 import { ErrorBoundaryClient } from "@/components/error-boundary-client"
+import { VersionThemeProvider } from "@/components/version-theme-provider"
 import { APP_NAME, APP_DESCRIPTION } from "@/lib/branding"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -43,18 +44,20 @@ export default function RootLayout({
   return (
     <html lang="fr" className="dark">
       <body className={`${inter.className} antialiased bg-slate-950 text-white`}>
-        <ResizeObserverFix />
-        <ErrorBoundaryClient>
-          <StripeModeBanner />
-          <AuthProvider>
-            <SoundProvider>
-              <MinorClientGuard />
-              {children}
-            </SoundProvider>
-          </AuthProvider>
-          <CookieConsentBanner />
-        </ErrorBoundaryClient>
-        <Analytics />
+        <VersionThemeProvider>
+          <ResizeObserverFix />
+          <ErrorBoundaryClient>
+            <StripeModeBanner />
+            <AuthProvider>
+              <SoundProvider>
+                <MinorClientGuard />
+                {children}
+              </SoundProvider>
+            </AuthProvider>
+            <CookieConsentBanner />
+          </ErrorBoundaryClient>
+          <Analytics />
+        </VersionThemeProvider>
       </body>
     </html>
   )

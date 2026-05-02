@@ -78,9 +78,21 @@ export default function HomePage() {
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex items-center justify-center gap-4 md:gap-6 mb-4">
                 <TrafficLight size="lg" className="hidden sm:flex" />
-                <h1 className="text-4xl md:text-6xl font-bold text-white text-balance">
+                <h1
+                  className={`text-4xl md:text-6xl font-bold text-white text-balance ${
+                    platformVersion === "V1" ? "vx-neon-text" : ""
+                  }`}
+                >
                   Contribuez aux{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
+                  <span
+                    className={
+                      platformVersion === "V1"
+                        ? "text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-purple-400"
+                        : platformVersion === "V2"
+                        ? "text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-rose-400"
+                        : "text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400"
+                    }
+                  >
                     talents de demain
                   </span>
                 </h1>
@@ -95,14 +107,14 @@ export default function HomePage() {
 
               {platformVersion === "V1" && (
                 <div className="mb-6">
-                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-medium">
-                    Phase de lancement - decouvrez VIXUAL avec ses createurs video
+                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-300 text-xs font-medium vx-pulse">
+                    Phase de lancement - VIXUAL nouvelle generation, 4 profils essentiels
                   </span>
                 </div>
               )}
               {platformVersion === "V2" && (
                 <div className="mb-6">
-                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-medium">
+                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-medium">
                     Phase de croissance - createurs video, ecrits et podcasts desormais disponibles
                   </span>
                 </div>

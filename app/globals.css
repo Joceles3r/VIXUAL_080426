@@ -128,6 +128,104 @@
   --sidebar-ring: oklch(0.65 0.19 160);
 }
 
+/* ─────────────────────────────────────────────────────────────────── */
+/* VIXUAL — THEMES PAR VERSION DE PLATEFORME                           */
+/* ─────────────────────────────────────────────────────────────────── */
+
+/* V1 — Lancement : purple+pink fluo, futuriste, minimaliste */
+[data-version="V1"] {
+  --vx-accent: #d946ef;
+  --vx-accent-bright: #f0abfc;
+  --vx-accent-glow: #e879f9;
+  --vx-secondary: #a855f7;
+  --vx-secondary-bright: #c084fc;
+  --vx-bg-gradient-from: #1a0b2e;
+  --vx-bg-gradient-via: #0f0820;
+  --vx-bg-gradient-to: #1a0b2e;
+  --vx-card-bg: rgba(168, 85, 247, 0.05);
+  --vx-card-border: rgba(217, 70, 239, 0.25);
+  --vx-card-border-hover: rgba(217, 70, 239, 0.5);
+  --vx-text-accent: #f0abfc;
+  --vx-glow-shadow: 0 0 20px rgba(217, 70, 239, 0.3);
+  --vx-glow-shadow-strong: 0 0 30px rgba(217, 70, 239, 0.5);
+}
+
+/* V2 — Croissance : rouge + noir, Netflix-like, soft & minimaliste */
+[data-version="V2"] {
+  --vx-accent: #dc2626;
+  --vx-accent-bright: #ef4444;
+  --vx-accent-glow: #f87171;
+  --vx-secondary: #991b1b;
+  --vx-secondary-bright: #b91c1c;
+  --vx-bg-gradient-from: #0a0a0a;
+  --vx-bg-gradient-via: #141414;
+  --vx-bg-gradient-to: #0a0a0a;
+  --vx-card-bg: rgba(20, 20, 20, 0.8);
+  --vx-card-border: rgba(220, 38, 38, 0.2);
+  --vx-card-border-hover: rgba(220, 38, 38, 0.5);
+  --vx-text-accent: #ef4444;
+  --vx-glow-shadow: 0 0 15px rgba(220, 38, 38, 0.2);
+  --vx-glow-shadow-strong: 0 0 25px rgba(220, 38, 38, 0.4);
+}
+
+/* V3 — Pleine puissance : palette emerald/teal d'origine */
+[data-version="V3"] {
+  --vx-accent: #10b981;
+  --vx-accent-bright: #34d399;
+  --vx-accent-glow: #6ee7b7;
+  --vx-secondary: #14b8a6;
+  --vx-secondary-bright: #2dd4bf;
+  --vx-bg-gradient-from: #020617;
+  --vx-bg-gradient-via: #0f172a;
+  --vx-bg-gradient-to: #020617;
+  --vx-card-bg: rgba(15, 23, 42, 0.5);
+  --vx-card-border: rgba(16, 185, 129, 0.2);
+  --vx-card-border-hover: rgba(16, 185, 129, 0.5);
+  --vx-text-accent: #34d399;
+  --vx-glow-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+  --vx-glow-shadow-strong: 0 0 30px rgba(16, 185, 129, 0.4);
+}
+
+/* Classes utilitaires VIXUAL */
+.vx-bg-version {
+  background: linear-gradient(180deg, var(--vx-bg-gradient-from), var(--vx-bg-gradient-via), var(--vx-bg-gradient-to));
+}
+.vx-text-accent { color: var(--vx-text-accent); }
+.vx-bg-accent { background-color: var(--vx-accent); }
+.vx-bg-accent-soft { background-color: var(--vx-card-bg); }
+.vx-border-accent { border-color: var(--vx-card-border); }
+.vx-border-accent-hover:hover { border-color: var(--vx-card-border-hover); }
+.vx-glow { box-shadow: var(--vx-glow-shadow); }
+.vx-glow-strong { box-shadow: var(--vx-glow-shadow-strong); }
+
+/* V1 — animations futuristes : neon pulse */
+[data-version="V1"] .vx-neon-text {
+  text-shadow:
+    0 0 5px var(--vx-accent),
+    0 0 10px var(--vx-accent),
+    0 0 20px var(--vx-accent-glow);
+}
+[data-version="V1"] .vx-neon-border {
+  box-shadow:
+    inset 0 0 10px rgba(217, 70, 239, 0.2),
+    0 0 15px rgba(217, 70, 239, 0.3);
+}
+@keyframes vx-pulse-fluo {
+  0%, 100% { box-shadow: 0 0 10px rgba(217, 70, 239, 0.4); }
+  50% { box-shadow: 0 0 25px rgba(217, 70, 239, 0.7); }
+}
+[data-version="V1"] .vx-pulse { animation: vx-pulse-fluo 2.5s ease-in-out infinite; }
+
+/* V2 — feel Netflix soft */
+[data-version="V2"] .vx-cinema-card {
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 10, 10, 0.85) 100%);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}
+[data-version="V2"] .vx-cinema-card:hover {
+  border-color: rgba(220, 38, 38, 0.5);
+  box-shadow: 0 8px 24px rgba(220, 38, 38, 0.15);
+}
+
 .dark {
   --background: oklch(0.07 0.015 260);
   --foreground: oklch(0.98 0 0);
