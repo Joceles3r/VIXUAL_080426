@@ -38,11 +38,7 @@ export async function POST(req: NextRequest) {
   // SECURITE STRICTE : seul le PATRON peut lancer des scenarios
   const adminEmail = req.headers.get("x-admin-email")
 
-  // Debug log pour voir l'email recu
-  console.log("[TEST-LAB] Email recu:", adminEmail, "| Attendu: jocelyndru@gmail.com")
-
   if (!assertTestLabAccess(adminEmail)) {
-    console.log("[TEST-LAB] Acces refuse pour:", adminEmail)
     return denyTestLabAccess()
   }
 
@@ -71,24 +67,18 @@ export async function POST(req: NextRequest) {
   }
 
   const config = buildDefaultScenario(body)
-
-  // Log pour debug
-  console.log("[TEST-LAB] Scenario lancé:", {
-    admin: adminEmail,
-    scenario: config.name,
-    visitors: config.visitors,
-    creators: config.creators,
-    contributors: config.contributors,
-  })
-
   const result = runCustomScenario(config)
-
   const runId = await persistRun(config.name, result.summary, adminEmail || "patron")
 
+  // OPTIMISATION TOKENS : on ne renvoie QUE le summary, pas les listes
+  // completes (users / projects / transactions) qui peuvent etre tres lourdes.
   return NextResponse.json({
     success: true,
     runId,
     config,
-    result,
+    result: {
+      scenarioName: result.scenarioName,
+      summary: result.summary,
+    },
   })
 }

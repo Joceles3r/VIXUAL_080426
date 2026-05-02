@@ -15,21 +15,28 @@ export function useTestLabAccess() {
   const email = user?.email?.trim().toLowerCase() ?? ""
   const isPatron = email === PATRON_EMAIL
 
-  // Bouton visible pour tous les admins (pour montrer que ca existe)
-  const showButton = isAuthed && isAdmin
+  // Visibilite globale du module pilotee par variable d'env publique
+  // (NEXT_PUBLIC_VIXUAL_TEST_LAB_VISIBLE === "true")
+  const isVisible =
+    process.env.NEXT_PUBLIC_VIXUAL_TEST_LAB_VISIBLE === "true"
 
-  // Acces reel uniquement pour le PATRON
-  const canAccess = isAuthed && isAdmin && isPatron
+  // Bouton visible uniquement quand le module est actif ET admin connecte
+  const showButton = isVisible && isAuthed && isAdmin
+
+  // Acces reel : module actif + admin + email PATRON
+  const canAccess = isVisible && isAuthed && isAdmin && isPatron
 
   // Message explicatif si bouton visible mais acces bloque
-  const blockedReason = !isAdmin
-    ? "Reserve aux administrateurs"
-    : !isPatron
-      ? "Reserve au PATRON uniquement"
-      : null
+  const blockedReason = !isVisible
+    ? "Module desactive"
+    : !isAdmin
+      ? "Reserve aux administrateurs"
+      : !isPatron
+        ? "Reserve au PATRON uniquement"
+        : null
 
   return {
-    isVisible: true,
+    isVisible,
     isAuthed,
     isAdmin,
     isPatron,

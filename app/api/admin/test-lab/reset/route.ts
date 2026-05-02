@@ -17,8 +17,6 @@ export async function POST(req: NextRequest) {
     return denyTestLabAccess()
   }
 
-  console.log("[TEST-LAB] Reset demandé par:", adminEmail)
-
   try {
     await sql`DELETE FROM test_lab_payloads`
     await sql`DELETE FROM test_lab_runs`

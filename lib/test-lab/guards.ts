@@ -13,9 +13,12 @@ import { NextResponse } from "next/server"
 /** Email officiel du PATRON VIXUAL — seul autorise sur /admin/test-lab. */
 export const PATRON_EMAIL = "jocelyndru@gmail.com"
 
+/**
+ * Active uniquement si la variable d'env serveur est explicitement "true".
+ * Permet de couper le module en production sans modifier le code.
+ */
 export function isTestLabEnabled(): boolean {
-  // Toujours actif pour le PATRON
-  return true
+  return process.env.VIXUAL_TEST_LAB_ENABLED === "true"
 }
 
 export function isAdminPatronEmail(email?: string | null): boolean {
@@ -23,12 +26,15 @@ export function isAdminPatronEmail(email?: string | null): boolean {
   return email.trim().toLowerCase() === PATRON_EMAIL
 }
 
+/** Alias court demande par le patch : `isAdminPatron`. */
+export const isAdminPatron = isAdminPatronEmail
+
 /**
- * Verifie que l'email fourni est bien celui du PATRON.
+ * Verifie que (1) le module est active ET (2) l'email est celui du PATRON.
  * SECURITE STRICTE : seul jocelyndru@gmail.com peut acceder au Test Lab.
  */
 export function assertTestLabAccess(email?: string | null): boolean {
-  return isAdminPatronEmail(email)
+  return isTestLabEnabled() && isAdminPatronEmail(email)
 }
 
 /**
