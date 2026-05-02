@@ -310,15 +310,17 @@ export default function HomePage() {
                     Regarde — Participe — Gagne
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div className={`grid grid-cols-1 ${platformVersion !== "V1" ? "md:grid-cols-2" : ""} gap-4 text-sm`}>
                   <div className="bg-slate-900/50 rounded-lg p-4">
                     <p className="text-amber-400 font-semibold mb-1">VIXUpoints</p>
                     <p className="text-white/60 text-xs">Debloquez des contenus, soutenez la plateforme, achetez des micro-contenus. Ils ne servent jamais a influencer les gains.</p>
                   </div>
-                  <div className="bg-slate-900/50 rounded-lg p-4">
-                    <p className="text-emerald-400 font-semibold mb-1">Paiement hybride</p>
-                    <p className="text-white/60 text-xs">Selon votre profil: euros uniquement, VIXUpoints + euros, ou VIXUpoints seuls. Equitable et transparent.</p>
-                  </div>
+                  {platformVersion !== "V1" && (
+                    <div className="bg-slate-900/50 rounded-lg p-4">
+                      <p className="text-emerald-400 font-semibold mb-1">Paiement hybride</p>
+                      <p className="text-white/60 text-xs">Selon votre profil: euros uniquement, VIXUpoints + euros, ou VIXUpoints seuls. Equitable et transparent.</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -522,17 +524,23 @@ export default function HomePage() {
                     Découvrez votre profil idéal
                   </h3>
                   <p className="text-white/60 mb-4">
-                    8 profils differents, 8 facons de participer a VIXUAL. Lequel vous correspond?
+                    {platformVersion === "V1"
+                      ? "4 profils differents, 4 facons de participer a VIXUAL. Lequel vous correspond?"
+                      : "8 profils differents, 8 facons de participer a VIXUAL. Lequel vous correspond?"}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <Badge className="bg-slate-500/20 text-slate-300 border-slate-500/30">Invite</Badge>
                     <Badge className="bg-teal-500/20 text-teal-300 border-teal-500/30">Visiteur</Badge>
                     <Badge className="bg-rose-500/20 text-rose-300 border-rose-500/30">Porteur</Badge>
-                    <Badge className="bg-sky-500/20 text-sky-300 border-sky-500/30">Infoporteur</Badge>
-                    <Badge className="bg-violet-500/20 text-violet-300 border-violet-500/30">Podcasteur</Badge>
                     <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30">Contributeur</Badge>
-                    <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">Contribu-lecteur</Badge>
-                    <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">Auditeur</Badge>
+                    {platformVersion !== "V1" && (
+                      <>
+                        <Badge className="bg-sky-500/20 text-sky-300 border-sky-500/30">Infoporteur</Badge>
+                        <Badge className="bg-violet-500/20 text-violet-300 border-violet-500/30">Podcasteur</Badge>
+                        <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">Contribu-lecteur</Badge>
+                        <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">Auditeur</Badge>
+                      </>
+                    )}
                   </div>
                 </div>
                 <Link href="/guide-profiles">

@@ -1,9 +1,22 @@
+"use client"
+
 import { Info } from "lucide-react"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 
 export function ContributionDisclaimer({ compact = false }: { compact?: boolean }) {
-  if (compact) return (
-    <p className="text-white/35 text-[10px] flex items-start gap-1"><Info className="h-3 w-3 shrink-0 mt-0.5" />Le gain n&apos;est pas garanti et depend du classement final. Cette contribution n&apos;est pas un investissement au sens de l&apos;AMF.</p>
-  )
+  const platformVersion = usePlatformVersion()
+
+  if (compact) {
+    return (
+      <p className="text-white/35 text-[10px] flex items-start gap-1">
+        <Info className="h-3 w-3 shrink-0 mt-0.5" />
+        {platformVersion === "V1"
+          ? "Le gain n'est pas garanti et depend du classement final. Cette contribution n'est pas un investissement."
+          : "Le gain n'est pas garanti et depend du classement final. Cette contribution n'est pas un investissement au sens de l'AMF."}
+      </p>
+    )
+  }
+
   return (
     <div className="bg-slate-900/40 border border-white/10 rounded-lg p-3 flex items-start gap-2">
       <Info className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />

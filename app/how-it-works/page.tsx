@@ -23,6 +23,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { VisualHeader } from "@/components/visual-header"
 import { Footer } from "@/components/footer"
 import { InvestSimulator } from "@/components/invest-simulator"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 
 const STEPS = [
   {
@@ -195,7 +196,20 @@ const ROLES = [
   },
 ]
 
+// Profils visibles selon la version active
+const V1_ROLE_TITLES = new Set<string>(["Invite", "Visiteur", "Porteur", "Contributeur"])
+
+function getVisibleRoles(version: "V1" | "V2" | "V3") {
+  if (version === "V1") {
+    return ROLES.filter(r => V1_ROLE_TITLES.has(r.title))
+  }
+  return ROLES
+}
+
 export default function HowItWorksPage() {
+  const platformVersion = usePlatformVersion()
+  const visibleRoles = getVisibleRoles(platformVersion)
+
   return (
     <div className="min-h-screen bg-slate-950">
       <VisualHeader />
@@ -268,7 +282,7 @@ export default function HowItWorksPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-              {ROLES.map((role) => (
+              {visibleRoles.map((role) => (
                 <Card
                   key={role.title}
                   className={`bg-slate-900/50 ${role.color} hover:border-emerald-500/50 transition-colors`}

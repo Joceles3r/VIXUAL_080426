@@ -1,8 +1,13 @@
+"use client"
+
 import Link from "next/link"
 import { VisualSlogan } from "@/components/vixual-slogan"
 import { Phone, Mail, MapPin, Users, MessageCircle, Lock, Heart } from "lucide-react"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 
 export function Footer() {
+  const platformVersion = usePlatformVersion()
+
   return (
     <footer className="bg-slate-950 border-t border-white/10 cinema-footer">
       <div className="container mx-auto px-4 py-12">
@@ -53,23 +58,25 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/guide-profiles" className="text-white/60 hover:text-emerald-400 transition-colors">
-                  Guide des 8 profils
+                  {platformVersion === "V1" ? "Guide des 4 profils" : "Guide des 8 profils"}
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Vixual Social */}
-          <div>
-            <h4 className="text-white font-semibold mb-4">Vixual Social</h4>
-            <Link 
-              href="/social" 
-              className="inline-flex items-center gap-2 text-sm text-teal-400 hover:text-teal-300 transition-colors"
-            >
-              <MessageCircle className="h-4 w-4" />
-              Acceder a Vixual Social
-            </Link>
-          </div>
+          {/* Vixual Social - V3 uniquement */}
+          {platformVersion === "V3" && (
+            <div>
+              <h4 className="text-white font-semibold mb-4">Vixual Social</h4>
+              <Link
+                href="/social"
+                className="inline-flex items-center gap-2 text-sm text-teal-400 hover:text-teal-300 transition-colors"
+              >
+                <MessageCircle className="h-4 w-4" />
+                Acceder a Vixual Social
+              </Link>
+            </div>
+          )}
 
           {/* Legal */}
           <div>
@@ -77,7 +84,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link href="/legal/terms" className="text-white/60 hover:text-emerald-400 transition-colors text-sm">
-                  Conditions d'utilisation
+                  Conditions d&apos;utilisation
                 </Link>
               </li>
               <li>
@@ -90,20 +97,22 @@ export function Footer() {
                   CGV
                 </Link>
               </li>
-              <li>
-                <Link href="/soutien-libre" className="text-rose-400 hover:text-rose-300 transition-colors text-sm inline-flex items-center gap-1">
-                  <Heart className="h-3 w-3" />
-                  Soutenir un createur
-                </Link>
-              </li>
+              {platformVersion !== "V1" && (
+                <li>
+                  <Link href="/soutien-libre" className="text-rose-400 hover:text-rose-300 transition-colors text-sm inline-flex items-center gap-1">
+                    <Heart className="h-3 w-3" />
+                    Soutenir un createur
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
 
           {/* Contact */}
           <div>
             <h4 className="text-white font-semibold mb-4">Contact</h4>
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="inline-flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
             >
               <Mail className="h-4 w-4" />
