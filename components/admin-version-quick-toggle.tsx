@@ -58,10 +58,10 @@ export function AdminVersionQuickToggle() {
         onClick={() => setOpen(!open)}
         className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-xs font-medium ${
           current === "V1"
-            ? "bg-fuchsia-500/10 border-fuchsia-500/30 text-fuchsia-300 hover:bg-fuchsia-500/20"
+            ? "bg-fuchsia-500/15 border-fuchsia-500/40 text-fuchsia-200 hover:bg-fuchsia-500/25 shadow-[0_0_15px_rgba(217,70,239,0.3)]"
             : current === "V2"
-            ? "bg-red-500/10 border-red-500/30 text-red-300 hover:bg-red-500/20"
-            : "bg-emerald-500/10 border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20"
+            ? "bg-red-500/15 border-red-500/40 text-red-200 hover:bg-red-500/25 shadow-[0_0_12px_rgba(229,9,20,0.25)]"
+            : "bg-emerald-500/15 border-emerald-500/40 text-emerald-200 hover:bg-emerald-500/25"
         }`}
         aria-label="Basculer entre les versions"
       >

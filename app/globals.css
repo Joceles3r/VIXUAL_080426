@@ -129,101 +129,229 @@
 }
 
 /* ─────────────────────────────────────────────────────────────────── */
-/* VIXUAL — THEMES PAR VERSION DE PLATEFORME                           */
+/* VIXUAL — THEMES IMMERSIFS PAR VERSION DE PLATEFORME                 */
+/* Le data-version sur <html> transforme automatiquement l'arriere-    */
+/* plan global de toutes les pages utilisant bg-slate-950.             */
 /* ─────────────────────────────────────────────────────────────────── */
 
-/* V1 — Lancement : purple+pink fluo, futuriste, minimaliste */
+/* ═══════════════ V1 — LANCEMENT FUTURISTE (purple + fuchsia fluo) ═══════════════ */
+
 [data-version="V1"] {
   --vx-accent: #d946ef;
   --vx-accent-bright: #f0abfc;
   --vx-accent-glow: #e879f9;
   --vx-secondary: #a855f7;
   --vx-secondary-bright: #c084fc;
-  --vx-bg-gradient-from: #1a0b2e;
-  --vx-bg-gradient-via: #0f0820;
-  --vx-bg-gradient-to: #1a0b2e;
-  --vx-card-bg: rgba(168, 85, 247, 0.05);
-  --vx-card-border: rgba(217, 70, 239, 0.25);
-  --vx-card-border-hover: rgba(217, 70, 239, 0.5);
   --vx-text-accent: #f0abfc;
-  --vx-glow-shadow: 0 0 20px rgba(217, 70, 239, 0.3);
-  --vx-glow-shadow-strong: 0 0 30px rgba(217, 70, 239, 0.5);
+  --vx-glow-shadow: 0 0 25px rgba(217, 70, 239, 0.35);
+  --vx-glow-shadow-strong: 0 0 40px rgba(217, 70, 239, 0.6);
+  --vx-bg-deep: #0a0118;
+  --vx-bg-mid: #1a0b2e;
+  --vx-bg-soft: #2a1245;
 }
 
-/* V2 — Croissance : rouge + noir, Netflix-like, soft & minimaliste */
-[data-version="V2"] {
-  --vx-accent: #dc2626;
-  --vx-accent-bright: #ef4444;
-  --vx-accent-glow: #f87171;
-  --vx-secondary: #991b1b;
-  --vx-secondary-bright: #b91c1c;
-  --vx-bg-gradient-from: #0a0a0a;
-  --vx-bg-gradient-via: #141414;
-  --vx-bg-gradient-to: #0a0a0a;
-  --vx-card-bg: rgba(20, 20, 20, 0.8);
-  --vx-card-border: rgba(220, 38, 38, 0.2);
-  --vx-card-border-hover: rgba(220, 38, 38, 0.5);
-  --vx-text-accent: #ef4444;
-  --vx-glow-shadow: 0 0 15px rgba(220, 38, 38, 0.2);
-  --vx-glow-shadow-strong: 0 0 25px rgba(220, 38, 38, 0.4);
+/* Override du bg-slate-950 → fond V1 immersif */
+[data-version="V1"] .bg-slate-950 {
+  background-color: #0a0118 !important;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(217, 70, 239, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 100%, rgba(168, 85, 247, 0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 0% 50%, rgba(232, 121, 249, 0.1) 0%, transparent 70%),
+    linear-gradient(180deg, #0a0118 0%, #1a0b2e 50%, #0a0118 100%);
 }
 
-/* V3 — Pleine puissance : palette emerald/teal d'origine */
-[data-version="V3"] {
-  --vx-accent: #10b981;
-  --vx-accent-bright: #34d399;
-  --vx-accent-glow: #6ee7b7;
-  --vx-secondary: #14b8a6;
-  --vx-secondary-bright: #2dd4bf;
-  --vx-bg-gradient-from: #020617;
-  --vx-bg-gradient-via: #0f172a;
-  --vx-bg-gradient-to: #020617;
-  --vx-card-bg: rgba(15, 23, 42, 0.5);
-  --vx-card-border: rgba(16, 185, 129, 0.2);
-  --vx-card-border-hover: rgba(16, 185, 129, 0.5);
-  --vx-text-accent: #34d399;
-  --vx-glow-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
-  --vx-glow-shadow-strong: 0 0 30px rgba(16, 185, 129, 0.4);
+/* Override du bg-slate-900 → cartes V1 */
+[data-version="V1"] .bg-slate-900,
+[data-version="V1"] .bg-slate-900\/60,
+[data-version="V1"] .bg-slate-900\/80 {
+  background-color: rgba(42, 18, 69, 0.6) !important;
+  backdrop-filter: blur(8px);
 }
 
-/* Classes utilitaires VIXUAL */
-.vx-bg-version {
-  background: linear-gradient(180deg, var(--vx-bg-gradient-from), var(--vx-bg-gradient-via), var(--vx-bg-gradient-to));
+/* Bordures slate → bordures fuchsia subtiles */
+[data-version="V1"] .border-white\/10,
+[data-version="V1"] .border-white\/15 {
+  border-color: rgba(217, 70, 239, 0.18) !important;
 }
-.vx-text-accent { color: var(--vx-text-accent); }
-.vx-bg-accent { background-color: var(--vx-accent); }
-.vx-bg-accent-soft { background-color: var(--vx-card-bg); }
-.vx-border-accent { border-color: var(--vx-card-border); }
-.vx-border-accent-hover:hover { border-color: var(--vx-card-border-hover); }
-.vx-glow { box-shadow: var(--vx-glow-shadow); }
-.vx-glow-strong { box-shadow: var(--vx-glow-shadow-strong); }
 
-/* V1 — animations futuristes : neon pulse */
-[data-version="V1"] .vx-neon-text {
-  text-shadow:
-    0 0 5px var(--vx-accent),
-    0 0 10px var(--vx-accent),
-    0 0 20px var(--vx-accent-glow);
+[data-version="V1"] section { position: relative; }
+
+[data-version="V1"] h1 {
+  text-shadow: 0 0 20px rgba(217, 70, 239, 0.4), 0 0 40px rgba(168, 85, 247, 0.2);
 }
-[data-version="V1"] .vx-neon-border {
-  box-shadow:
-    inset 0 0 10px rgba(217, 70, 239, 0.2),
-    0 0 15px rgba(217, 70, 239, 0.3);
+
+/* Conserver les emerald/teal d'origine en V1 mais les transformer en fuchsia/purple */
+[data-version="V1"] .from-emerald-400,
+[data-version="V1"] .text-emerald-400 { color: #f0abfc !important; }
+[data-version="V1"] .to-teal-400 { color: #c084fc !important; }
+[data-version="V1"] .from-emerald-400.to-teal-400,
+[data-version="V1"] .bg-gradient-to-r.from-emerald-400 {
+  background-image: linear-gradient(to right, #f0abfc, #c084fc) !important;
 }
+[data-version="V1"] .text-transparent.bg-clip-text.bg-gradient-to-r.from-emerald-400 {
+  background-image: linear-gradient(to right, #f0abfc, #c084fc) !important;
+}
+
+/* Boutons primaires emerald → fuchsia/purple */
+[data-version="V1"] .bg-emerald-600,
+[data-version="V1"] .bg-emerald-500 { background-color: #d946ef !important; }
+[data-version="V1"] .bg-emerald-600:hover,
+[data-version="V1"] .hover\:bg-emerald-500:hover { background-color: #c026d3 !important; }
+[data-version="V1"] .from-emerald-600 { --tw-gradient-from: #d946ef !important; }
+[data-version="V1"] .to-teal-600 { --tw-gradient-to: #a855f7 !important; }
+[data-version="V1"] .hover\:from-emerald-700:hover { --tw-gradient-from: #c026d3 !important; }
+[data-version="V1"] .hover\:to-teal-700:hover { --tw-gradient-to: #9333ea !important; }
+
+/* Soft glows fluo sur les sections */
+[data-version="V1"] .bg-emerald-500\/10,
+[data-version="V1"] .bg-emerald-500\/20 {
+  background-color: rgba(217, 70, 239, 0.12) !important;
+}
+[data-version="V1"] .border-emerald-500\/20,
+[data-version="V1"] .border-emerald-500\/30 {
+  border-color: rgba(217, 70, 239, 0.3) !important;
+}
+
+/* Scan lines tres subtil pour ambiance futuriste */
+[data-version="V1"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(217, 70, 239, 0.015) 2px,
+      rgba(217, 70, 239, 0.015) 3px
+    );
+  mix-blend-mode: screen;
+}
+
+[data-version="V1"] h1,
+[data-version="V1"] h2 {
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
 @keyframes vx-pulse-fluo {
   0%, 100% { box-shadow: 0 0 10px rgba(217, 70, 239, 0.4); }
   50% { box-shadow: 0 0 25px rgba(217, 70, 239, 0.7); }
 }
 [data-version="V1"] .vx-pulse { animation: vx-pulse-fluo 2.5s ease-in-out infinite; }
 
-/* V2 — feel Netflix soft */
+[data-version="V1"] .vx-neon-text {
+  text-shadow:
+    0 0 5px var(--vx-accent),
+    0 0 10px var(--vx-accent),
+    0 0 20px var(--vx-accent-glow);
+}
+
+/* ═══════════════ V2 — CROISSANCE NETFLIX (rouge + noir cinema) ═══════════════ */
+
+[data-version="V2"] {
+  --vx-accent: #e50914;
+  --vx-accent-bright: #f43f5e;
+  --vx-accent-glow: #ef4444;
+  --vx-secondary: #b91c1c;
+  --vx-secondary-bright: #dc2626;
+  --vx-text-accent: #ef4444;
+  --vx-glow-shadow: 0 4px 20px rgba(229, 9, 20, 0.2);
+  --vx-glow-shadow-strong: 0 8px 30px rgba(229, 9, 20, 0.35);
+  --vx-bg-deep: #000000;
+  --vx-bg-mid: #0a0a0a;
+  --vx-bg-soft: #141414;
+}
+
+/* Override du bg-slate-950 → fond V2 cinema profond */
+[data-version="V2"] .bg-slate-950 {
+  background-color: #000000 !important;
+  background-image:
+    radial-gradient(ellipse 100% 50% at 50% 0%, rgba(229, 9, 20, 0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(185, 28, 28, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #000000 0%, #0a0a0a 40%, #000000 100%);
+}
+
+/* Cartes Netflix : noir charbon avec subtil rouge */
+[data-version="V2"] .bg-slate-900,
+[data-version="V2"] .bg-slate-900\/60,
+[data-version="V2"] .bg-slate-900\/80 {
+  background: linear-gradient(135deg, #141414 0%, #1a0a0a 100%) !important;
+}
+
+/* Bordures sobres rouges */
+[data-version="V2"] .border-white\/10,
+[data-version="V2"] .border-white\/15 {
+  border-color: rgba(229, 9, 20, 0.12) !important;
+}
+
+/* Pas de glow sur les titres en V2 (ambiance cinema sobre) */
+[data-version="V2"] h1 { text-shadow: none; }
+
+/* Convertir emerald/teal → rouge Netflix */
+[data-version="V2"] .from-emerald-400,
+[data-version="V2"] .text-emerald-400 { color: #ef4444 !important; }
+[data-version="V2"] .to-teal-400 { color: #f87171 !important; }
+[data-version="V2"] .from-emerald-400.to-teal-400,
+[data-version="V2"] .bg-gradient-to-r.from-emerald-400 {
+  background-image: linear-gradient(to right, #ef4444, #f87171) !important;
+}
+[data-version="V2"] .text-transparent.bg-clip-text.bg-gradient-to-r.from-emerald-400 {
+  background-image: linear-gradient(to right, #ef4444, #f87171) !important;
+}
+
+/* Boutons primaires emerald → rouge Netflix */
+[data-version="V2"] .bg-emerald-600,
+[data-version="V2"] .bg-emerald-500 { background-color: #e50914 !important; }
+[data-version="V2"] .bg-emerald-600:hover,
+[data-version="V2"] .hover\:bg-emerald-500:hover { background-color: #b91c1c !important; }
+[data-version="V2"] .from-emerald-600 { --tw-gradient-from: #e50914 !important; }
+[data-version="V2"] .to-teal-600 { --tw-gradient-to: #b91c1c !important; }
+[data-version="V2"] .hover\:from-emerald-700:hover { --tw-gradient-from: #b91c1c !important; }
+[data-version="V2"] .hover\:to-teal-700:hover { --tw-gradient-to: #991b1b !important; }
+
+/* Sections highlight rouge */
+[data-version="V2"] .bg-emerald-500\/10,
+[data-version="V2"] .bg-emerald-500\/20 {
+  background-color: rgba(229, 9, 20, 0.08) !important;
+}
+[data-version="V2"] .border-emerald-500\/20,
+[data-version="V2"] .border-emerald-500\/30 {
+  border-color: rgba(229, 9, 20, 0.25) !important;
+}
+
+[data-version="V2"] h1 {
+  letter-spacing: -0.03em;
+  font-weight: 800;
+}
+[data-version="V2"] h2 {
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
 [data-version="V2"] .vx-cinema-card {
   background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 10, 10, 0.85) 100%);
-  border: 1px solid rgba(220, 38, 38, 0.2);
+  border: 1px solid rgba(229, 9, 20, 0.15);
+  transition: all 0.3s ease;
 }
 [data-version="V2"] .vx-cinema-card:hover {
-  border-color: rgba(220, 38, 38, 0.5);
-  box-shadow: 0 8px 24px rgba(220, 38, 38, 0.15);
+  border-color: rgba(229, 9, 20, 0.5);
+  box-shadow: 0 8px 24px rgba(229, 9, 20, 0.15);
+  transform: translateY(-2px);
+}
+
+/* ═══════════════ V3 — PLEINE PUISSANCE (emerald/teal — etat actuel) ═══════════════ */
+/* La V3 ne definit aucun override : c'est le style par defaut de VIXUAL. */
+
+[data-version="V3"] {
+  --vx-accent: #10b981;
+  --vx-accent-bright: #34d399;
+  --vx-accent-glow: #6ee7b7;
+  --vx-secondary: #14b8a6;
+  --vx-secondary-bright: #2dd4bf;
+  --vx-text-accent: #34d399;
 }
 
 .dark {
