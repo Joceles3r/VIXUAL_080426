@@ -20,8 +20,9 @@ export function useTestLabAccess() {
   const isVisible =
     process.env.NEXT_PUBLIC_VIXUAL_TEST_LAB_VISIBLE === "true"
 
-  // Bouton visible uniquement quand le module est actif ET admin connecte
-  const showButton = isVisible && isAuthed && isAdmin
+  // Bouton visible uniquement pour le PATRON connecte (les autres admins
+  // ne voient meme pas le module pour eviter toute confusion).
+  const showButton = isVisible && isAuthed && isAdmin && isPatron
 
   // Acces reel : module actif + admin + email PATRON
   const canAccess = isVisible && isAuthed && isAdmin && isPatron

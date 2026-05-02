@@ -71,8 +71,16 @@ let cachedVersion: PlatformVersion | null = null
 let cacheExpiry = 0
 const CACHE_TTL_MS = 30_000
 
-// Version actuelle par defaut: V3 (Pleine puissance)
-const DEFAULT_VERSION: PlatformVersion = "V3"
+// Version par defaut pilotee par variable d'env serveur.
+// VIXUAL_PLATFORM_DEFAULT_VERSION = "V1" | "V2" | "V3" (defaut: V1 pour ne pas exposer V3 en public).
+const PUBLIC_DEFAULT_VERSION: PlatformVersion =
+  process.env.VIXUAL_PLATFORM_DEFAULT_VERSION === "V3"
+    ? "V3"
+    : process.env.VIXUAL_PLATFORM_DEFAULT_VERSION === "V2"
+      ? "V2"
+      : "V1"
+
+const DEFAULT_VERSION: PlatformVersion = PUBLIC_DEFAULT_VERSION
 
 export async function getPlatformVersion(): Promise<PlatformVersion> {
   const now = Date.now()
