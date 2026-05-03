@@ -43,26 +43,38 @@ export function AdminVersionQuickToggle() {
     try {
       const res = await fetch("/api/platform/version", {
         method: "POST",
+        cache: "no-store",
         headers: {
           "Content-Type": "application/json",
           "x-admin-email": user?.email ?? "",
         },
         body: JSON.stringify({ version, reason: "Bascule rapide via toggle admin" }),
       })
-      if (res.ok) {
-        // 1. Theme instantane (CSS via data-version sur <html>)
-        if (typeof document !== "undefined") {
-          document.documentElement.setAttribute("data-version", version)
-        }
-        // 2. Invalider le cache pour que tous les usePlatformVersion repompent
-        invalidatePlatformVersionCache(version)
-        // 3. Mettre a jour l'etat local
-        setCurrent(version)
-        setOpen(false)
-        // 4. Soft refresh : re-execute les RSC sans recharger la page
-        //    => l'utilisateur reste connecte, aucun flash blanc
-        router.refresh()
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        console.error("[v0] Bascule de version refusee:", res.status, data)
+        return
       }
+
+      // 1. Appliquer le theme CSS immediatement (sans attendre React)
+      if (typeof document !== "undefined") {
+        document.documentElement.setAttribute("data-version", version)
+      }
+
+      // 2. Notifier TOUS les hooks usePlatformVersion deja montes
+      //    => ils se re-rendent instantanement avec la nouvelle version
+      invalidatePlatformVersionCache(version)
+
+      // 3. Mettre a jour l'etat local du toggle
+      setCurrent(version)
+      setOpen(false)
+
+      // 4. Rafraichir les Server Components pour les pages cote serveur
+      //    (la session reste intacte : pas de full reload)
+      router.refresh()
+    } catch (err) {
+      console.error("[v0] Erreur bascule version:", err)
     } finally {
       setLoading(null)
     }
