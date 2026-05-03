@@ -1,9 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { useAuth } from "@/lib/auth-context"
 import { ChevronDown, Rocket, Users, Sparkles, Check } from "lucide-react"
 import type { PlatformVersion } from "@/lib/platform/version"
+import { invalidatePlatformVersionCache } from "@/hooks/use-platform-version"
 
 const VERSIONS_INFO = [
   { id: "V1" as const, label: "V1 - Lancement", icon: Rocket, color: "fuchsia" },
@@ -13,6 +15,7 @@ const VERSIONS_INFO = [
 
 export function AdminVersionQuickToggle() {
   const { user, isAdmin } = useAuth()
+  const router = useRouter()
   const [current, setCurrent] = useState<PlatformVersion>("V3")
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState<PlatformVersion | null>(null)
@@ -21,7 +24,14 @@ export function AdminVersionQuickToggle() {
     if (!isAdmin) return
     fetch("/api/platform/version")
       .then((r) => r.json())
-      .then((d) => setCurrent((d.version as PlatformVersion) ?? "V3"))
+      .then((d) => {
+        const v = (d.version as PlatformVersion) ?? "V3"
+        setCurrent(v)
+        // Aligner l'attribut data-version au montage (au cas ou)
+        if (typeof document !== "undefined") {
+          document.documentElement.setAttribute("data-version", v)
+        }
+      })
       .catch(() => {})
   }, [isAdmin])
 
@@ -40,9 +50,18 @@ export function AdminVersionQuickToggle() {
         body: JSON.stringify({ version, reason: "Bascule rapide via toggle admin" }),
       })
       if (res.ok) {
+        // 1. Theme instantane (CSS via data-version sur <html>)
+        if (typeof document !== "undefined") {
+          document.documentElement.setAttribute("data-version", version)
+        }
+        // 2. Invalider le cache pour que tous les usePlatformVersion repompent
+        invalidatePlatformVersionCache(version)
+        // 3. Mettre a jour l'etat local
         setCurrent(version)
         setOpen(false)
-        setTimeout(() => window.location.reload(), 200)
+        // 4. Soft refresh : re-execute les RSC sans recharger la page
+        //    => l'utilisateur reste connecte, aucun flash blanc
+        router.refresh()
       }
     } finally {
       setLoading(null)

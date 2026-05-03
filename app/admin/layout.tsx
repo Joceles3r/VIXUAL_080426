@@ -92,8 +92,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Admin header */}
         <div className="p-5 border-b border-amber-500/30 bg-gradient-to-r from-amber-500/10 to-transparent">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/30 to-rose-500/20 border border-amber-500/50 flex items-center justify-center">
-              <Crown className="h-6 w-6 text-amber-400" />
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 border border-amber-300 flex items-center justify-center shadow-lg shadow-amber-500/30">
+              <Crown className="h-7 w-7 text-amber-950 fill-amber-950" strokeWidth={2.2} />
             </div>
             <div>
               <p className="text-sm font-bold text-amber-400">ADMIN / PATRON</p>

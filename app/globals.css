@@ -203,12 +203,17 @@
     inset 0 0 10px rgba(217, 70, 239, 0.1) !important;
 }
 
-/* V1 — Cards avec rounded : liseré dégradé fuchsia → purple */
+/* V1 — Cards avec rounded : ring fuchsia (compatible border-radius)
+   On evite border-image qui IGNORE border-radius et laisse des coins
+   carres visibles aux 4 angles des cartes arrondies. */
 [data-version="V1"] .rounded-xl.border,
 [data-version="V1"] .rounded-2xl.border,
 [data-version="V1"] .rounded-3xl.border {
-  background-clip: padding-box;
-  border-image: linear-gradient(135deg, rgba(232, 121, 249, 0.5), rgba(168, 85, 247, 0.3)) 1;
+  border-color: rgba(232, 121, 249, 0.45) !important;
+  box-shadow:
+    0 0 0 1px rgba(232, 121, 249, 0.18),
+    0 0 18px rgba(217, 70, 239, 0.2),
+    inset 0 0 8px rgba(217, 70, 239, 0.06) !important;
 }
 
 [data-version="V1"] section { position: relative; }
@@ -345,12 +350,15 @@
     0 4px 16px rgba(229, 9, 20, 0.18) !important;
 }
 
-/* V2 — Cards arrondies : liseré dégradé rouge sombre → rouge clair */
+/* V2 — Cards arrondies : ring rouge cinema (compatible border-radius)
+   border-image ne respecte pas border-radius => on utilise box-shadow. */
 [data-version="V2"] .rounded-xl.border,
 [data-version="V2"] .rounded-2xl.border,
 [data-version="V2"] .rounded-3xl.border {
-  background-clip: padding-box;
-  border-image: linear-gradient(135deg, rgba(229, 9, 20, 0.4), rgba(127, 29, 29, 0.25)) 1;
+  border-color: rgba(229, 9, 20, 0.3) !important;
+  box-shadow:
+    0 0 0 1px rgba(229, 9, 20, 0.15),
+    0 4px 14px rgba(229, 9, 20, 0.12) !important;
 }
 
 /* Pas de glow sur les titres en V2 (ambiance cinema sobre) */

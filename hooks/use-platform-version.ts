@@ -33,3 +33,12 @@ export function isAtLeastVersion(current: PlatformVersion, required: PlatformVer
   const order = { V1: 1, V2: 2, V3: 3 }
   return order[current] >= order[required]
 }
+
+/**
+ * Force le rafraichissement immediat de la version (utilise apres une
+ * bascule admin pour que tous les hooks usePlatformVersion repompent).
+ */
+export function invalidatePlatformVersionCache(newVersion?: PlatformVersion) {
+  cachedVersion = newVersion ?? null
+  cacheExpiry = newVersion ? Date.now() + CACHE_TTL_MS : 0
+}
