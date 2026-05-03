@@ -323,42 +323,48 @@
   background: linear-gradient(135deg, #141414 0%, #1a0a0a 100%) !important;
 }
 
-/* Bordures sobres : liseré rouge cinéma V2 */
+/* Bordures sobres : liseré rouge cinéma V2 (renforce pour camoufler les angles) */
 [data-version="V2"] .border-white\/10,
 [data-version="V2"] .border-white\/15,
 [data-version="V2"] .border-white\/20 {
-  border-color: rgba(229, 9, 20, 0.35) !important;
+  border-color: rgba(239, 68, 68, 0.55) !important;
   box-shadow:
-    0 0 0 1px rgba(229, 9, 20, 0.12),
-    0 2px 8px rgba(229, 9, 20, 0.1) !important;
+    0 0 0 1px rgba(239, 68, 68, 0.25),
+    0 0 14px rgba(229, 9, 20, 0.22),
+    inset 0 0 8px rgba(229, 9, 20, 0.08) !important;
 }
 
 /* V2 — Liseré rouge cinéma sur toutes les Cards et conteneurs arrondis */
 [data-version="V2"] .border:not([class*="border-red"]):not([class*="border-rose"]) {
-  border-color: rgba(229, 9, 20, 0.3) !important;
+  border-color: rgba(239, 68, 68, 0.5) !important;
   box-shadow:
-    0 0 0 1px rgba(229, 9, 20, 0.1),
-    0 2px 10px rgba(229, 9, 20, 0.08) !important;
+    0 0 0 1px rgba(239, 68, 68, 0.2),
+    0 0 16px rgba(229, 9, 20, 0.2),
+    inset 0 0 6px rgba(229, 9, 20, 0.06) !important;
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 /* Au survol : highlight rouge plus marqué en V2 (effet Netflix) */
 [data-version="V2"] .border:not([class*="border-red"]):not([class*="border-rose"]):hover {
-  border-color: rgba(239, 68, 68, 0.55) !important;
+  border-color: rgba(248, 113, 113, 0.75) !important;
   box-shadow:
-    0 0 0 1px rgba(239, 68, 68, 0.2),
-    0 4px 16px rgba(229, 9, 20, 0.18) !important;
+    0 0 0 1px rgba(248, 113, 113, 0.35),
+    0 0 24px rgba(229, 9, 20, 0.4),
+    inset 0 0 10px rgba(229, 9, 20, 0.1) !important;
 }
 
 /* V2 — Cards arrondies : ring rouge cinema (compatible border-radius)
-   border-image ne respecte pas border-radius => on utilise box-shadow. */
+   On utilise box-shadow (qui respecte border-radius) avec un glow
+   exterieur rouge suffisamment intense pour gommer les angles
+   d'aliasing visibles autour des coins arrondis. */
 [data-version="V2"] .rounded-xl.border,
 [data-version="V2"] .rounded-2xl.border,
 [data-version="V2"] .rounded-3xl.border {
-  border-color: rgba(229, 9, 20, 0.3) !important;
+  border-color: rgba(239, 68, 68, 0.55) !important;
   box-shadow:
-    0 0 0 1px rgba(229, 9, 20, 0.15),
-    0 4px 14px rgba(229, 9, 20, 0.12) !important;
+    0 0 0 1px rgba(239, 68, 68, 0.28),
+    0 0 20px rgba(229, 9, 20, 0.28),
+    inset 0 0 8px rgba(229, 9, 20, 0.07) !important;
 }
 
 /* Pas de glow sur les titres en V2 (ambiance cinema sobre) */
@@ -416,7 +422,7 @@
   transform: translateY(-2px);
 }
 
-/* ═══════════════ V3 — PLEINE PUISSANCE (emerald/teal — etat actuel) ═══════════════ */
+/* ═══════════════ V3 — PLEINE PUISSANCE (emerald/teal — etat actuel) ════��══════════ */
 /* La V3 ne definit aucun override : c'est le style par defaut de VIXUAL. */
 
 [data-version="V3"] {
