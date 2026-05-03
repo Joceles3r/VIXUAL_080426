@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import { VersionGuardServer } from "@/components/version-guard-server"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { ArchivesHero } from "@/components/archives-statistiques/archives-hero"
 import { TopProjectsGrid } from "@/components/archives-statistiques/top-projects-grid"

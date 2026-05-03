@@ -26,7 +26,7 @@ import {
   Share2,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { useAuth } from "@/lib/auth-context"
 import {

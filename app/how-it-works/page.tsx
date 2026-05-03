@@ -20,7 +20,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { InvestSimulator } from "@/components/invest-simulator"
 import { usePlatformVersion } from "@/hooks/use-platform-version"

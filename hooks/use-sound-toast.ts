@@ -8,7 +8,7 @@
  */
 
 import { useCallback } from "react"
-import { useToast, toast as baseToast } from "./use-toast"
+import { useToast, toast as baseToast } from "@/components/ui/use-toast"
 import { useSounds } from "@/lib/sounds"
 
 export function useSoundToast() {

@@ -20,7 +20,7 @@ export function ErrorBoundaryClient({ children, fallback }: ErrorBoundaryClientP
         // Log to external service in production (Sentry, LogRocket, etc.)
         if (process.env.NODE_ENV === "production") {
           console.error("[VIXUAL] Global error:", error.message)
-          // TODO: Send to error tracking service
+          // NOTE post-Bunny: Send to error tracking service
         }
       }}
     >

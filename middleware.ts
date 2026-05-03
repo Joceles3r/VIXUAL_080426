@@ -23,7 +23,7 @@ function classifyRoute(pathname: string): RouteClass {
   return "standard";
 }
 
-// ── Rate limit configs (mirrored from lib/rate-limit.ts for edge) ──
+// ── Rate limit configs (edge runtime, in-memory bucket) ──
 const RATE_CONFIGS: Record<RouteClass, { max: number; window: number }> = {
   standard: { max: 60, window: 60 },
   auth: { max: 10, window: 60 },

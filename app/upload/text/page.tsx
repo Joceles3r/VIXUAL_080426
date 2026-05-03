@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Progress } from "@/components/ui/progress"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { useAuth } from "@/lib/auth-context"
 import { TEXT_CATEGORIES } from "@/lib/mock-data"

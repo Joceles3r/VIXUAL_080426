@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { ReportButton } from "@/components/report-button"
 import { TrafficLight } from "@/components/traffic-light"

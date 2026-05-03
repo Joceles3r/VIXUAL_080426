@@ -271,7 +271,7 @@ async function handlePayoutFailed(payout: Stripe.Payout) {
     failureMessage: payout.failure_message 
   });
   
-  // TODO: Notify admin and affected user
+  // NOTE post-Bunny: Notify admin and affected user
 }
 
 /**

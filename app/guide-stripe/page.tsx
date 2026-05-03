@@ -24,7 +24,7 @@ import {
   ExternalLink,
   AlertCircle,
 } from "lucide-react"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 
 const PAYER_STEPS = [

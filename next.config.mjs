@@ -19,12 +19,12 @@ const nextConfig = {
   },
 
   typescript: {
-    // Ignore TypeScript errors during build - fix progressively
-    ignoreBuildErrors: true,
+    // VIXUAL compile à 0 erreur — toute régression doit faire échouer le build
+    ignoreBuildErrors: false,
   },
 
   eslint: {
-    // Ignore ESLint errors during build
+    // ESLint reste tolérant pendant la phase de stabilisation
     ignoreDuringBuilds: true,
   },
 
@@ -40,7 +40,9 @@ const nextConfig = {
         protocol: "https",
         hostname: "*.b-cdn.net",
       },
-      // Images de développement uniquement — supprimer en production
+      // DEV ONLY — Images mock pour le Labo Tests et le seed homepage.
+      // À supprimer dès que tous les contenus passent par Bunny.net.
+      // Ne PAS retirer avant migration des mock-data vers du contenu réel.
       {
         protocol: "https",
         hostname: "images.unsplash.com",

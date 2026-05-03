@@ -5,7 +5,7 @@ import { ArrowRight, Film, FileText, Mic, Users, TrendingUp, Shield, Star, Award
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { VisualSlogan } from "@/components/vixual-slogan"
 import { ContentCard } from "@/components/content-card"

@@ -1,8 +1,8 @@
 "use client"
 
 import { VersionGuard } from "@/components/version-guard"
-import VisualSocialFeed from "@/components/visual-social-feed"
-import { VisualHeader } from "@/components/visual-header"
+import VisualSocialFeed from "@/components/vixual-social-feed"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { TrafficLight } from "@/components/traffic-light"
 import { Card, CardContent } from "@/components/ui/card"

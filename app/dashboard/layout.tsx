@@ -23,7 +23,7 @@ import {
   Sparkles,
   Ticket,
 } from "lucide-react"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { NotificationsBell } from "@/components/notifications-bell"
 import { LevelUpCelebration } from "@/components/level-up-celebration"
 import { useAuth } from "@/lib/auth-context"
