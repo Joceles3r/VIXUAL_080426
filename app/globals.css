@@ -168,10 +168,47 @@
   backdrop-filter: blur(8px);
 }
 
-/* Bordures slate → bordures fuchsia subtiles */
+/* Bordures slate → liseré fuchsia lumineux V1 */
 [data-version="V1"] .border-white\/10,
-[data-version="V1"] .border-white\/15 {
-  border-color: rgba(217, 70, 239, 0.18) !important;
+[data-version="V1"] .border-white\/15,
+[data-version="V1"] .border-white\/20 {
+  border-color: rgba(232, 121, 249, 0.45) !important;
+  box-shadow:
+    0 0 0 1px rgba(232, 121, 249, 0.15),
+    0 0 12px rgba(217, 70, 239, 0.18),
+    inset 0 0 8px rgba(217, 70, 239, 0.08) !important;
+}
+
+/* V1 — Liseré lumineux fuchsia sur toutes les Cards et conteneurs arrondis */
+[data-version="V1"] [class*="rounded-xl"],
+[data-version="V1"] [class*="rounded-2xl"],
+[data-version="V1"] [class*="rounded-3xl"] {
+  position: relative;
+}
+
+[data-version="V1"] .border:not([class*="border-emerald"]):not([class*="border-fuchsia"]):not([class*="border-purple"]) {
+  border-color: rgba(232, 121, 249, 0.4) !important;
+  box-shadow:
+    0 0 0 1px rgba(232, 121, 249, 0.12),
+    0 0 14px rgba(217, 70, 239, 0.15) !important;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Au survol : intensifier le glow fuchsia en V1 */
+[data-version="V1"] .border:not([class*="border-emerald"]):not([class*="border-fuchsia"]):not([class*="border-purple"]):hover {
+  border-color: rgba(240, 171, 252, 0.7) !important;
+  box-shadow:
+    0 0 0 1px rgba(240, 171, 252, 0.25),
+    0 0 22px rgba(217, 70, 239, 0.35),
+    inset 0 0 10px rgba(217, 70, 239, 0.1) !important;
+}
+
+/* V1 — Cards avec rounded : liseré dégradé fuchsia → purple */
+[data-version="V1"] .rounded-xl.border,
+[data-version="V1"] .rounded-2xl.border,
+[data-version="V1"] .rounded-3xl.border {
+  background-clip: padding-box;
+  border-image: linear-gradient(135deg, rgba(232, 121, 249, 0.5), rgba(168, 85, 247, 0.3)) 1;
 }
 
 [data-version="V1"] section { position: relative; }
@@ -281,10 +318,39 @@
   background: linear-gradient(135deg, #141414 0%, #1a0a0a 100%) !important;
 }
 
-/* Bordures sobres rouges */
+/* Bordures sobres : liseré rouge cinéma V2 */
 [data-version="V2"] .border-white\/10,
-[data-version="V2"] .border-white\/15 {
-  border-color: rgba(229, 9, 20, 0.12) !important;
+[data-version="V2"] .border-white\/15,
+[data-version="V2"] .border-white\/20 {
+  border-color: rgba(229, 9, 20, 0.35) !important;
+  box-shadow:
+    0 0 0 1px rgba(229, 9, 20, 0.12),
+    0 2px 8px rgba(229, 9, 20, 0.1) !important;
+}
+
+/* V2 — Liseré rouge cinéma sur toutes les Cards et conteneurs arrondis */
+[data-version="V2"] .border:not([class*="border-red"]):not([class*="border-rose"]) {
+  border-color: rgba(229, 9, 20, 0.3) !important;
+  box-shadow:
+    0 0 0 1px rgba(229, 9, 20, 0.1),
+    0 2px 10px rgba(229, 9, 20, 0.08) !important;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Au survol : highlight rouge plus marqué en V2 (effet Netflix) */
+[data-version="V2"] .border:not([class*="border-red"]):not([class*="border-rose"]):hover {
+  border-color: rgba(239, 68, 68, 0.55) !important;
+  box-shadow:
+    0 0 0 1px rgba(239, 68, 68, 0.2),
+    0 4px 16px rgba(229, 9, 20, 0.18) !important;
+}
+
+/* V2 — Cards arrondies : liseré dégradé rouge sombre → rouge clair */
+[data-version="V2"] .rounded-xl.border,
+[data-version="V2"] .rounded-2xl.border,
+[data-version="V2"] .rounded-3xl.border {
+  background-clip: padding-box;
+  border-image: linear-gradient(135deg, rgba(229, 9, 20, 0.4), rgba(127, 29, 29, 0.25)) 1;
 }
 
 /* Pas de glow sur les titres en V2 (ambiance cinema sobre) */
