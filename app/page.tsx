@@ -152,7 +152,8 @@ export default function HomePage() {
                 {" "}- acces aux contenus gratuits, sans inscription
               </p>
 
-              {/* Bloc Comment fonctionne - 3 etapes simples */}
+              {/* Bloc Comment fonctionne - 3 etapes simples (cache en V1, allege en V2) */}
+              {platformVersion !== "V1" && (
               <div className="mt-12 p-6 rounded-2xl bg-gradient-to-r from-slate-900/80 via-emerald-900/20 to-slate-900/80 border border-emerald-500/20">
                 <h3 className="text-lg font-semibold text-white mb-4">Comment fonctionne VIXUAL :</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -177,13 +178,17 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Bandeau gains potentiels */}
-              <div className="mt-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
-                <p className="text-amber-200 text-sm text-center">
-                  <Wallet className="h-4 w-4 inline-block mr-2" />
-                  Certains utilisateurs peuvent generer des gains selon leur participation et les performances des projets.
-                </p>
-              </div>
+              )}
+
+              {/* Bandeau gains potentiels - V2/V3 uniquement */}
+              {platformVersion !== "V1" && (
+                <div className="mt-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                  <p className="text-amber-200 text-sm text-center">
+                    <Wallet className="h-4 w-4 inline-block mr-2" />
+                    Certains utilisateurs peuvent generer des gains selon leur participation et les performances des projets.
+                  </p>
+                </div>
+              )}
 
               {/* Entrees rapides */}
               <div className="mt-8 flex flex-wrap justify-center gap-3">

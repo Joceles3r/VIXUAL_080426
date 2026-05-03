@@ -210,6 +210,12 @@ export default function HowItWorksPage() {
   const platformVersion = usePlatformVersion()
   const visibleRoles = getVisibleRoles(platformVersion)
 
+  // V1 : masquer la mention "paiement hybride" qui anticipe la V2/V3
+  const filterFeatures = (features: string[]): string[] => {
+    if (platformVersion !== "V1") return features
+    return features.filter((f) => !f.toLowerCase().includes("paiement hybride"))
+  }
+
   return (
     <div className="min-h-screen bg-slate-950">
       <VisualHeader />
@@ -304,7 +310,7 @@ export default function HowItWorksPage() {
                   <CardContent>
                     <p className="text-white/70 mb-4">{role.description}</p>
                     <ul className="space-y-2">
-                      {role.features.map((feature) => (
+                      {filterFeatures(role.features).map((feature) => (
                         <li
                           key={feature}
                           className="flex items-center gap-2 text-sm text-white/80"

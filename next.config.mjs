@@ -5,6 +5,19 @@ const nextConfig = {
     root: import.meta.dirname,
   },
 
+  // Production hardening
+  reactStrictMode: true,
+  poweredByHeader: false,
+  compress: true,
+
+  // Strip console.* en production (sauf error/warn pour le monitoring)
+  compiler: {
+    removeConsole:
+      process.env.NODE_ENV === "production"
+        ? { exclude: ["error", "warn"] }
+        : false,
+  },
+
   typescript: {
     // Ignore TypeScript errors during build - fix progressively
     ignoreBuildErrors: true,
@@ -34,6 +47,7 @@ const nextConfig = {
       },
     ],
     formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 60,
   },
 
   // Security headers (additional to middleware)
