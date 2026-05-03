@@ -60,21 +60,27 @@ const ADMIN_NAV = [
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const { user, isAdmin, isAuthed } = useAuth()
+  const { user, isAdmin, isAuthed, isLoading } = useAuth()
   const router = useRouter()
   const testLab = useTestLabAccess()
 
   useEffect(() => {
-    // Redirect non-admin users after a brief check
+    // FIX BASCULE V1/V2/V3 :
+    // Ne JAMAIS rediriger tant que la restauration de session est en cours.
+    // Sinon `router.refresh()` (declenche par le toggle de version) demonte
+    // brievement le AuthProvider, isAuthed redevient false ~10ms et la
+    // redirection vers /login se declenche => deconnexion silencieuse.
+    if (isLoading) return
+
     if (!isAuthed) {
       router.replace("/login")
     } else if (!isAdmin) {
       router.replace("/dashboard")
     }
-  }, [isAuthed, isAdmin, router])
+  }, [isAuthed, isAdmin, isLoading, router])
 
-  // Gate: show nothing while checking or if not admin
-  if (!isAuthed || !isAdmin) {
+  // Loader pendant la restauration de session OU si non-admin (avant redirection)
+  if (isLoading || !isAuthed || !isAdmin) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center">
         <div className="text-center">

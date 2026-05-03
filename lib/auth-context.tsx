@@ -92,6 +92,7 @@ interface AuthContextType {
   user: User | null
   isAuthed: boolean
   isAdmin: boolean
+  isLoading: boolean
   roles: VixualRole[]
   login: (email: string, password: string) => Promise<void>
   logout: () => void
@@ -251,6 +252,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user,
         isAuthed,
         isAdmin,
+        isLoading,
         roles,
         login,
         logout,

@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { useAuth } from "@/lib/auth-context"
 import { ChevronDown, Rocket, Users, Sparkles, Check } from "lucide-react"
 import type { PlatformVersion } from "@/lib/platform/version"
@@ -15,7 +14,6 @@ const VERSIONS_INFO = [
 
 export function AdminVersionQuickToggle() {
   const { user, isAdmin } = useAuth()
-  const router = useRouter()
   const [current, setCurrent] = useState<PlatformVersion>("V3")
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState<PlatformVersion | null>(null)
@@ -64,15 +62,13 @@ export function AdminVersionQuickToggle() {
 
       // 2. Notifier TOUS les hooks usePlatformVersion deja montes
       //    => ils se re-rendent instantanement avec la nouvelle version
+      //    (pas besoin de router.refresh() : risque de redirection /login
+      //     pendant la fenetre de restauration de session AuthProvider).
       invalidatePlatformVersionCache(version)
 
       // 3. Mettre a jour l'etat local du toggle
       setCurrent(version)
       setOpen(false)
-
-      // 4. Rafraichir les Server Components pour les pages cote serveur
-      //    (la session reste intacte : pas de full reload)
-      router.refresh()
     } catch (err) {
       console.error("[v0] Erreur bascule version:", err)
     } finally {
