@@ -56,12 +56,23 @@ export function HomeV1() {
             <div className="max-w-3xl mx-auto text-center">
               <div className="flex items-center justify-center gap-4 mb-6">
                 <TrafficLight size="lg" className="hidden sm:flex" />
-                <h1 className="text-4xl md:text-6xl font-bold text-white text-balance vx-neon-text">
-                  Regarde{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-300 to-fuchsia-300">
-                    Soutiens
-                  </span>{" "}
-                  Cree
+                <h1
+                  className="text-4xl md:text-6xl font-bold text-white text-balance"
+                  style={{
+                    textShadow:
+                      "0 0 12px rgba(217, 70, 239, 0.18), 0 0 24px rgba(217, 70, 239, 0.08)",
+                  }}
+                >
+                  Contribuez aux{" "}
+                  <span
+                    className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 to-purple-300"
+                    style={{
+                      filter:
+                        "drop-shadow(0 0 4px rgba(217, 70, 239, 0.15))",
+                    }}
+                  >
+                    talents de demain
+                  </span>
                 </h1>
                 <TrafficLight size="lg" className="hidden sm:flex" />
               </div>
