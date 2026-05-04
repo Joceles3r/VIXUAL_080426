@@ -30,12 +30,9 @@ export {
 // ── Payout Configuration ──
 export {
   CAUTION_EUR,
-  STRIPE_FEE_PERCENT,
-  PLATFORM_FEE_PERCENT,
-  CREATOR_SHARE,
   VIXUPOINTS_PER_EUR,
-  MIN_PAYOUT_EUR,
   INVESTMENT_TIERS_EUR,
+  CONTRIBUTION_TIERS_EUR,
 } from "../payout/constants";
 
 // ── Trust Configuration ──
@@ -49,16 +46,15 @@ export {
 export {
   isFeatureEnabled,
   getEnabledFeatures,
-  shouldRolloutFeature,
-  type FeatureFlagKey,
+  type FeatureFlag,
 } from "../feature-flags";
 
 // ── Branding ──
 export {
   APP_NAME,
+  APP_SLOGAN,
   APP_TAGLINE,
   APP_DESCRIPTION,
-  PATRON_EMAIL,
   VIDEO_BRANDING,
   OFFICIAL_URLS,
   VERSION_INFO,

@@ -1,4 +1,4 @@
--- VISUAL: Security Patch -- Add verification level, risk flags, step-up auth, and withdrawal policy columns
+-- VIXUAL (ex-VISUAL): Security Patch -- Add verification level, risk flags, step-up auth, and withdrawal policy columns
 -- This migration is safe to re-run (uses IF NOT EXISTS / ADD COLUMN IF NOT EXISTS)
 
 -- Verification level (0=basique, 1=standard, 2=fort KYC)

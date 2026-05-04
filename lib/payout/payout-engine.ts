@@ -1,5 +1,5 @@
 /**
- * VISUAL Payout Engine V3 -- Strategy-based orchestrator
+ * VIXUAL Payout Engine V3 -- Strategy-based orchestrator
  *
  * Changes from V2:
  * - Delegates category-specific logic to Strategy classes (FilmStrategy, PodcastStrategy, etc.)

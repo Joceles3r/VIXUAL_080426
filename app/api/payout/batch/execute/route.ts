@@ -11,9 +11,9 @@ import { sql } from "@/lib/db";
 import { adminGuard } from "@/lib/admin-guard";
 import { apiError, ErrorCodes, withErrorHandler } from "@/lib/api-errors";
 import { simulateBatch, getCurrentMonth, isTodayBatchDay } from "@/lib/payout/batch";
-import { generateIdempotencyKey } from "@/lib/visual-rules-engine";
+import { generateIdempotencyKey } from "@/lib/vixual-rules-engine";
 
-export const POST = withErrorHandler(async (req: Request) => {
+export const POST = withErrorHandler(async (req: any): Promise<any> => {
   const body = await req.json();
   const { email, month, forceExecution } = body;
 

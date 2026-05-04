@@ -3,12 +3,12 @@
 /**
  * Sound-enhanced toast hook
  * 
- * Wraps useToast with automatic VISUAL jingle playback
+ * Wraps useToast with automatic VIXUAL jingle playback
  * based on toast type (success, error, default)
  */
 
 import { useCallback } from "react"
-import { useToast, toast as baseToast } from "./use-toast"
+import { useToast, toast as baseToast } from "@/components/ui/use-toast"
 import { useSounds } from "@/lib/sounds"
 
 export function useSoundToast() {

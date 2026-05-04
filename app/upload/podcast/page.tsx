@@ -1,5 +1,6 @@
 "use client"
 
+import { VersionGuard } from "@/components/version-guard"
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -32,7 +33,7 @@ import {
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Progress } from "@/components/ui/progress"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { useAuth } from "@/lib/auth-context"
 import { PODCAST_CATEGORIES } from "@/lib/mock-data"
@@ -44,7 +45,7 @@ export default function UploadPodcastPage() {
   const [isUploading, setIsUploading] = useState(false)
   const [cautionLoading, setCautionLoading] = useState(false)
 
-  const hasPaidCaution = user?.depositStatus?.podcaster10 ?? false
+  const hasPaidCaution = user?.depositStatus?.podcasteur10 ?? false
   const [uploadProgress, setUploadProgress] = useState(0)
   const [formData, setFormData] = useState({
     title: "",
@@ -69,7 +70,7 @@ export default function UploadPodcastPage() {
     router.push("/dashboard/projects?type=podcast")
   }
 
-  if (!user || !user.roles.includes("podcaster")) {
+  if (!user || !user.roles.includes("podcasteur")) {
     return (
       <div className="min-h-screen bg-slate-950">
         <VisualHeader />
@@ -101,6 +102,7 @@ export default function UploadPodcastPage() {
   }
 
   return (
+    <VersionGuard requiredVersion="V2">
     <div className="min-h-screen bg-slate-950">
       <VisualHeader />
 
@@ -476,5 +478,6 @@ export default function UploadPodcastPage() {
 
       <Footer />
     </div>
+    </VersionGuard>
   )
 }

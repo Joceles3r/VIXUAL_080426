@@ -5,12 +5,13 @@ import { ArrowRight, Film, FileText, Mic, Users, TrendingUp, Shield, Star, Award
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { VisualSlogan } from "@/components/vixual-slogan"
 import { ContentCard } from "@/components/content-card"
 import { TrafficLight } from "@/components/traffic-light"
 import { ALL_CONTENTS } from "@/lib/mock-data"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 
 const FEATURED_CONTENTS = ALL_CONTENTS.slice(0, 4)
 
@@ -60,6 +61,8 @@ const STATS = [
 ]
 
 export default function HomePage() {
+  const platformVersion = usePlatformVersion()
+
   return (
     <div className="min-h-screen bg-slate-950">
       <VisualHeader />
@@ -75,9 +78,21 @@ export default function HomePage() {
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex items-center justify-center gap-4 md:gap-6 mb-4">
                 <TrafficLight size="lg" className="hidden sm:flex" />
-                <h1 className="text-4xl md:text-6xl font-bold text-white text-balance">
+                <h1
+                  className={`text-4xl md:text-6xl font-bold text-white text-balance ${
+                    platformVersion === "V1" ? "vx-neon-text" : ""
+                  }`}
+                >
                   Contribuez aux{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
+                  <span
+                    className={
+                      platformVersion === "V1"
+                        ? "text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 to-purple-300 [text-shadow:none] [filter:drop-shadow(0_0_6px_rgba(217,70,239,0.18))]"
+                        : platformVersion === "V2"
+                        ? "text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-rose-400"
+                        : "text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400"
+                    }
+                  >
                     talents de demain
                   </span>
                 </h1>
@@ -85,9 +100,25 @@ export default function HomePage() {
               </div>
 
               {/* Slogan signature */}
-              <div className="mb-8">
+              <div className="mb-4">
                 <VisualSlogan size="base" opacity="high" withLines />
               </div>
+              <p className="text-white/45 text-sm italic mb-4">Vois-les avant tout le monde.</p>
+
+              {platformVersion === "V1" && (
+                <div className="mb-6">
+                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-300 text-xs font-medium vx-pulse">
+                    Phase de lancement - VIXUAL nouvelle generation, 4 profils essentiels
+                  </span>
+                </div>
+              )}
+              {platformVersion === "V2" && (
+                <div className="mb-6">
+                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-medium">
+                    Phase de croissance - createurs video, ecrits et podcasts desormais disponibles
+                  </span>
+                </div>
+              )}
 
               <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto text-pretty">
                 VIXUAL, la première plateforme de streaming participative pour les films, écrits et podcasts. Soutenez les créateurs en contribuant à leur succès.
@@ -121,7 +152,8 @@ export default function HomePage() {
                 {" "}- acces aux contenus gratuits, sans inscription
               </p>
 
-              {/* Bloc Comment fonctionne - 3 etapes simples */}
+              {/* Bloc Comment fonctionne - 3 etapes simples (cache en V1, allege en V2) */}
+              {platformVersion !== "V1" && (
               <div className="mt-12 p-6 rounded-2xl bg-gradient-to-r from-slate-900/80 via-emerald-900/20 to-slate-900/80 border border-emerald-500/20">
                 <h3 className="text-lg font-semibold text-white mb-4">Comment fonctionne VIXUAL :</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -146,13 +178,17 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Bandeau gains potentiels */}
-              <div className="mt-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
-                <p className="text-amber-200 text-sm text-center">
-                  <Wallet className="h-4 w-4 inline-block mr-2" />
-                  Certains utilisateurs peuvent generer des gains selon leur participation et les performances des projets.
-                </p>
-              </div>
+              )}
+
+              {/* Bandeau gains potentiels - V2/V3 uniquement */}
+              {platformVersion !== "V1" && (
+                <div className="mt-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                  <p className="text-amber-200 text-sm text-center">
+                    <Wallet className="h-4 w-4 inline-block mr-2" />
+                    Certains utilisateurs peuvent generer des gains selon leur participation et les performances des projets.
+                  </p>
+                </div>
+              )}
 
               {/* Entrees rapides */}
               <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -291,15 +327,17 @@ export default function HomePage() {
                     Regarde — Participe — Gagne
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div className={`grid grid-cols-1 ${platformVersion !== "V1" ? "md:grid-cols-2" : ""} gap-4 text-sm`}>
                   <div className="bg-slate-900/50 rounded-lg p-4">
                     <p className="text-amber-400 font-semibold mb-1">VIXUpoints</p>
                     <p className="text-white/60 text-xs">Debloquez des contenus, soutenez la plateforme, achetez des micro-contenus. Ils ne servent jamais a influencer les gains.</p>
                   </div>
-                  <div className="bg-slate-900/50 rounded-lg p-4">
-                    <p className="text-emerald-400 font-semibold mb-1">Paiement hybride</p>
-                    <p className="text-white/60 text-xs">Selon votre profil: euros uniquement, VIXUpoints + euros, ou VIXUpoints seuls. Equitable et transparent.</p>
-                  </div>
+                  {platformVersion !== "V1" && (
+                    <div className="bg-slate-900/50 rounded-lg p-4">
+                      <p className="text-emerald-400 font-semibold mb-1">Paiement hybride</p>
+                      <p className="text-white/60 text-xs">Selon votre profil: euros uniquement, VIXUpoints + euros, ou VIXUpoints seuls. Equitable et transparent.</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -503,17 +541,23 @@ export default function HomePage() {
                     Découvrez votre profil idéal
                   </h3>
                   <p className="text-white/60 mb-4">
-                    8 profils differents, 8 facons de participer a VIXUAL. Lequel vous correspond?
+                    {platformVersion === "V1"
+                      ? "4 profils differents, 4 facons de participer a VIXUAL. Lequel vous correspond?"
+                      : "8 profils differents, 8 facons de participer a VIXUAL. Lequel vous correspond?"}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <Badge className="bg-slate-500/20 text-slate-300 border-slate-500/30">Invite</Badge>
                     <Badge className="bg-teal-500/20 text-teal-300 border-teal-500/30">Visiteur</Badge>
                     <Badge className="bg-rose-500/20 text-rose-300 border-rose-500/30">Porteur</Badge>
-                    <Badge className="bg-sky-500/20 text-sky-300 border-sky-500/30">Infoporteur</Badge>
-                    <Badge className="bg-violet-500/20 text-violet-300 border-violet-500/30">Podcasteur</Badge>
                     <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30">Contributeur</Badge>
-                    <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">Contribu-lecteur</Badge>
-                    <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">Auditeur</Badge>
+                    {platformVersion !== "V1" && (
+                      <>
+                        <Badge className="bg-sky-500/20 text-sky-300 border-sky-500/30">Infoporteur</Badge>
+                        <Badge className="bg-violet-500/20 text-violet-300 border-violet-500/30">Podcasteur</Badge>
+                        <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">Contribu-lecteur</Badge>
+                        <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">Auditeur</Badge>
+                      </>
+                    )}
                   </div>
                 </div>
                 <Link href="/guide-profiles">

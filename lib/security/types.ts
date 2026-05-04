@@ -1,5 +1,5 @@
 /**
- * VISUAL -- Security & Identity Verification Types
+ * VIXUAL -- Security & Identity Verification Types
  *
  * Levels:
  *   0 = basique (email verifie + anti-bot)

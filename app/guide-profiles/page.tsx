@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -12,9 +13,21 @@ import {
   Play, Gift, Zap, CheckCircle, AlertCircle, ArrowRight, BookOpen, Mic, Headphones, LogIn, Target
 } from "lucide-react"
 
-type ProfileKey = "guest" | "visitor" | "porter" | "infoporter" | "podcaster" | "contributor" | "contribureader" | "listener"
+type ProfileKey = "guest" | "visitor" | "creator" | "infoporteur" | "podcasteur" | "contributor" | "contribu_lecteur" | "auditeur"
 
-const PROFILES = {
+const PROFILES: Record<string, {
+  title: string
+  subtitle: string
+  icon: any
+  color: string
+  textColor: string
+  description: string
+  features: string[]
+  restrictions: string[]
+  cta: string
+  nextStep: string
+  advantage?: string
+}> = {
   guest: {
     title: "Invité",
     subtitle: "Exploration gratuite",
@@ -42,31 +55,28 @@ const PROFILES = {
 
   visitor: {
     title: "Visiteur",
-    subtitle: "Accès complet aux contenus",
+    subtitle: "Découvrir, accumuler, débloquer, progresser",
     icon: Crown,
     color: "bg-emerald-500/20 border-emerald-500/40",
     textColor: "text-emerald-300",
-    description: "Profitez du paiement hybride, participez à Vixual Social et gagnez des VIXUpoints.",
+    description: "Votre parcours VIXUAL en quatre temps : découvrir les contenus, accumuler des VIXUpoints, débloquer votre Pass Découverte, progresser jusqu'à la conversion en euros.",
     features: [
-      "Accès à tous les extraits et contenus gratuits",
-      "Paiement hybride: 30% euros + 70% VIXUpoints",
-      "Participation à Vixual Social (mini-réseau)",
-      "Accumulation de VIXUpoints via interactions",
-      "Échange: 2500 VIXUpoints = 25€",
-      "Limite max 2500 VIXUpoints en caisse"
+      "Découvrir : accès libre à tous les extraits",
+      "Accumuler : gagner des VIXUpoints en participant",
+      "Débloquer : Pass Découverte quotidien (1 contenu complet gratuit)",
+      "Progresser : conversion à partir de 2 500 VIXUpoints (= 25€)",
     ],
     restrictions: [
-      "Pas de création de contenu",
-      "Limite de VIXUpoints fixée (2500 max)",
-      "Pas de gains directs de projets",
-      "Pas accès au withdrawal si dépasse 2500"
+      "Pas de création de contenu (devenir Porteur/Infoporteur/Podcasteur)",
+      "Plafond VIXUpoints en caisse selon votre profil",
+      "Gains directs de projets réservés aux profils Contributeurs",
     ],
-    cta: "S'inscrire comme Visiteur",
-    nextStep: "Accédez au paiement hybride et à Vixual Social",
-    advantage: "Les VIXUpoints peuvent être utilisés comme cagnotte pour acheter du contenu ou échangés contre 25€ minimum"
+    cta: "Commencer l'aventure Visiteur",
+    nextStep: "Découvrez, accumulez et progressez à votre rythme",
+    advantage: "Un parcours simple : regarder des extraits, participer, débloquer du contenu gratuit, convertir vos points en euros"
   },
 
-  porter: {
+  creator: {
     title: "Porteur",
     subtitle: "Créateur de contenu audiovisuel",
     icon: Film,
@@ -93,7 +103,7 @@ const PROFILES = {
     advantage: "Gagnez entre 5% et 40% des contributions selon votre classement"
   },
 
-  infoporter: {
+  infoporteur: {
     title: "Infoporteur",
     subtitle: "Créateur de contenu littéraire",
     icon: BookOpen,
@@ -120,7 +130,7 @@ const PROFILES = {
     advantage: "Touchez des Contribu-lecteurs qui aiment votre style"
   },
 
-  podcaster: {
+  podcasteur: {
     title: "Podcasteur",
     subtitle: "Créateur de contenu audio",
     icon: Mic,
@@ -174,7 +184,7 @@ const PROFILES = {
     advantage: "Gagnez entre 1% et 40% des pools de contribution selon votre classement"
   },
 
-  contribureader: {
+  contribu_lecteur: {
     title: "Contribu-lecteur",
     subtitle: "Soutenant de contenu littéraire",
     icon: Heart,
@@ -201,7 +211,7 @@ const PROFILES = {
     advantage: "Gagnez entre 1% et 40% en soutenant les meilleurs contenus littéraires"
   },
 
-  listener: {
+  auditeur: {
     title: "Auditeur",
     subtitle: "Soutenant de contenu audio",
     icon: Headphones,
@@ -229,9 +239,18 @@ const PROFILES = {
   }
 }
 
+// Profils disponibles selon la version de la plateforme
+const PROFILES_BY_VERSION: Record<"V1" | "V2" | "V3", ProfileKey[]> = {
+  V1: ["guest", "visitor", "creator", "contributor"],
+  V2: ["guest", "visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
+  V3: ["guest", "visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
+}
+
 export default function GuideProfilesPage() {
   const router = useRouter()
   const [selectedProfile, setSelectedProfile] = useState<ProfileKey | null>(null)
+  const platformVersion = usePlatformVersion()
+  const visibleProfileKeys = PROFILES_BY_VERSION[platformVersion]
 
   const profile = selectedProfile ? PROFILES[selectedProfile] : null
   const IconComponent = profile?.icon
@@ -280,7 +299,7 @@ export default function GuideProfilesPage() {
 
             {/* Profile Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-              {Object.entries(PROFILES).map(([key, prof]) => {
+              {Object.entries(PROFILES).filter(([key]) => visibleProfileKeys.includes(key as ProfileKey)).map(([key, prof]) => {
                 const Prof = prof.icon
                 return (
                   <button

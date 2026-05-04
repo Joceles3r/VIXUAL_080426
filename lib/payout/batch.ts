@@ -1,5 +1,5 @@
 /**
- * VISUAL - Batch Payout Module (Server-only)
+ * VIXUAL - Batch Payout Module (Server-only)
  *
  * Orchestrates monthly batch payouts across all categories.
  * Flow: simulate -> review -> execute
@@ -16,7 +16,7 @@ import { sql } from "@/lib/db";
 import { computePayoutAllocations } from "./payout-engine";
 import type { PayoutSimulation } from "./payout-engine";
 import type { PayoutCategory, PayoutEngineInput } from "./types";
-import { generateIdempotencyKey, isBatchDay } from "@/lib/visual-rules-engine";
+import { generateIdempotencyKey, isBatchDay } from "@/lib/vixual-rules-engine";
 
 // ── Types ──
 
@@ -153,13 +153,14 @@ async function simulateCategory(
       LIMIT 100
     `;
 
+    // VERROU FINAL: cles officielles
     const top10Investors = investors.slice(0, 10).map((inv: Record<string, unknown>) => ({
       userId: inv.user_id as string,
-      role: (inv.role as string) || "investor",
+      role: (inv.role as string) || "contributor",
     }));
     const inv11to100 = investors.slice(10, 100).map((inv: Record<string, unknown>) => ({
       userId: inv.user_id as string,
-      role: (inv.role as string) || "investor",
+      role: (inv.role as string) || "contributor",
     }));
 
     // Get top creators
@@ -172,9 +173,9 @@ async function simulateCategory(
     const top10Creators = creators.length > 0
       ? creators.map((c: Record<string, unknown>) => ({
           userId: c.user_id as string,
-          role: (c.role as string) || "porter",
+          role: (c.role as string) || "creator",
         }))
-      : [{ userId: "unknown-creator", role: "porter" as const }];
+      : [{ userId: "unknown-creator", role: "creator" as const }];
 
     // Pad arrays to 10 if needed
     while (top10Investors.length < 10 && investors.length > 0) {

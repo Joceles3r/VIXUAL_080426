@@ -7,16 +7,17 @@
 
 export type ContentType = "video" | "podcast" | "text"
 
+// VERROU FINAL: Cles officielles uniquement
 export type VIXUALSocialRole =
   | "guest"
   | "visitor"
   | "minor_visitor"
-  | "porter"
+  | "creator"
   | "contributor"
-  | "infoporter"
-  | "contribureader"
-  | "podcaster"
-  | "auditor"
+  | "infoporteur"
+  | "contribu_lecteur"
+  | "podcasteur"
+  | "auditeur"
 
 export type SocialStatus = "visible" | "hidden" | "pending" | "deleted"
 
@@ -33,7 +34,8 @@ export type SocialTag =
   | "investissement"
   | "spoiler"
 
-export const VISUAL_SOCIAL_TAGS: SocialTag[] = [
+// Tags officiels du feed social VIXUAL
+export const VIXUAL_SOCIAL_TAGS: SocialTag[] = [
   "avis",
   "question",
   "amelioration",
@@ -71,7 +73,7 @@ export const TAG_COLORS: Record<SocialTag, string> = {
   scenario:        "bg-orange-500/20 text-orange-400 border-orange-500/30",
   son:             "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
   montage:         "bg-teal-500/20 text-teal-400 border-teal-500/30",
-  investissement:  "bg-amber-500/20 text-amber-400 border-amber-500/30",
+  investissement:  "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
   spoiler:         "bg-slate-500/20 text-slate-400 border-slate-500/30",
 }
 
@@ -83,7 +85,7 @@ export const TAG_CATEGORIES = [
 
 // VIXUpoints desactives en V1 pour eviter le farming
 // avant que la moderation et l'anti-spam soient stables
-export const VISUAL_SOCIAL_ENABLE_VISUPOINTS_V1 = false
+export const VIXUAL_SOCIAL_ENABLE_VIXUPOINTS_V1 = false
 
 // ─── Post type ───
 
@@ -141,8 +143,12 @@ export interface VIXUALSocialProvider {
 // ─── Feature flag ───
 
 export function isVIXUALSocialEnabled(): boolean {
+  // VERROU FINAL: uniquement VIXUAL_SOCIAL_ENABLED, aucun fallback legacy
   const raw =
-    (typeof process !== "undefined" && (process.env.NEXT_PUBLIC_VISUAL_SOCIAL_ENABLED ?? process.env.VISUAL_SOCIAL_ENABLED)) ||
+    (typeof process !== "undefined" && (
+      process.env.NEXT_PUBLIC_VIXUAL_SOCIAL_ENABLED ??
+      process.env.VIXUAL_SOCIAL_ENABLED
+    )) ||
     "0"
   return raw === "1" || raw.toLowerCase() === "true"
 }
@@ -157,7 +163,7 @@ export const REPORT_THRESHOLD_HIDE = 3
 export function normalizeTags(tags: string[]): SocialTag[] {
   const cleaned = tags
     .map((t) => t.trim().toLowerCase().replace(/^#/, "") as SocialTag)
-    .filter((t) => VISUAL_SOCIAL_TAGS.includes(t))
+    .filter((t) => VIXUAL_SOCIAL_TAGS.includes(t))
   return Array.from(new Set(cleaned)).slice(0, MAX_TAGS_PER_POST)
 }
 
@@ -174,21 +180,22 @@ export function assertCreateIsValid(p: CreateParams) {
 
 // ─── Role config ───
 
+// VERROU FINAL: Cles officielles uniquement
 export const ROLE_SOCIAL_CONFIG: Record<string, {
   canPost: boolean
   canReact: boolean
   badgeColor: string
   badgeLabel: string
 }> = {
-  guest:          { canPost: false, canReact: false, badgeColor: "bg-slate-600",   badgeLabel: "Invit\u00e9" },
-  visitor:        { canPost: true,  canReact: true,  badgeColor: "bg-emerald-600", badgeLabel: "Visiteur" },
-  minor_visitor:  { canPost: true,  canReact: true,  badgeColor: "bg-emerald-600", badgeLabel: "Visiteur" },
-  listener:       { canPost: true,  canReact: true,  badgeColor: "bg-sky-600",     badgeLabel: "Auditeur" },
-  investireader:  { canPost: true,  canReact: true,  badgeColor: "bg-indigo-600",  badgeLabel: "Investi-lecteur" },
-  porter:         { canPost: true,  canReact: true,  badgeColor: "bg-red-600",     badgeLabel: "Porteur" },
-  infoporter:     { canPost: true,  canReact: true,  badgeColor: "bg-sky-600",     badgeLabel: "Infoporteur" },
-  podcaster:      { canPost: true,  canReact: true,  badgeColor: "bg-purple-600",  badgeLabel: "Podcasteur" },
-  investor:       { canPost: true,  canReact: true,  badgeColor: "bg-amber-600",   badgeLabel: "Investisseur" },
+  guest:            { canPost: false, canReact: false, badgeColor: "bg-slate-600",   badgeLabel: "Invite" },
+  visitor:          { canPost: true,  canReact: true,  badgeColor: "bg-emerald-600", badgeLabel: "Visiteur" },
+  minor_visitor:    { canPost: true,  canReact: true,  badgeColor: "bg-emerald-600", badgeLabel: "Visiteur" },
+  creator:          { canPost: true,  canReact: true,  badgeColor: "bg-rose-600",    badgeLabel: "Createur" },
+  contributor:      { canPost: true,  canReact: true,  badgeColor: "bg-emerald-600", badgeLabel: "Contributeur" },
+  infoporteur:      { canPost: true,  canReact: true,  badgeColor: "bg-sky-600",     badgeLabel: "Infoporteur" },
+  podcasteur:       { canPost: true,  canReact: true,  badgeColor: "bg-violet-600",  badgeLabel: "Podcasteur" },
+  auditeur:         { canPost: true,  canReact: true,  badgeColor: "bg-purple-600",  badgeLabel: "Auditeur" },
+  contribu_lecteur: { canPost: true,  canReact: true,  badgeColor: "bg-amber-600",   badgeLabel: "Contribu-lecteur" },
 }
 
 // ─── Time utils ───
@@ -225,54 +232,54 @@ function pastISO(hoursAgo: number) {
 
 const MOCK_AUTHORS: { name: string; role: VIXUALSocialRole }[] = [
   { name: "Marie C.", role: "visitor" },
-  { name: "Lucas D.", role: "porter" },
-  { name: "Sophie M.", role: "investor" },
-  { name: "Thomas B.", role: "listener" },
-  { name: "Julie R.", role: "podcaster" },
-  { name: "Alex P.", role: "infoporter" },
+  { name: "Lucas D.", role: "creator" },
+  { name: "Sophie M.", role: "contributor" },
+  { name: "Thomas B.", role: "auditeur" },
+  { name: "Julie R.", role: "podcasteur" },
+  { name: "Alex P.", role: "infoporteur" },
   { name: "Camille V.", role: "visitor" },
-  { name: "Nathan L.", role: "porter" },
+  { name: "Nathan L.", role: "creator" },
 ]
 
 const MOCK_GLOBAL_POSTS: SocialPost[] = [
   {
     id: "p_g1", contentType: "global", contentId: null,
     authorUserId: "u1", authorName: "Marie C.", authorRole: "visitor",
-    body: "Je viens de d\u00e9couvrir un court-m\u00e9trage incroyable sur VISUAL. La photographie est magnifique, chaque plan raconte une histoire. Bravo au porteur !",
+    body: "Je viens de d\u00e9couvrir un court-m\u00e9trage incroyable sur VIXUAL. La photographie est magnifique, chaque plan raconte une histoire. Bravo au porteur !",
     tags: ["avis"], parentId: null, depth: 0, status: "visible",
     likeCount: 12, replyCount: 2, reportCount: 0, createdAtISO: pastISO(2),
   },
   {
     id: "p_g1r1", contentType: "global", contentId: null,
-    authorUserId: "u2", authorName: "Lucas D.", authorRole: "porter",
+    authorUserId: "u2", authorName: "Lucas D.", authorRole: "creator",
     body: "Merci beaucoup ! \u00c7a fait plaisir d'avoir des retours aussi positifs de la communaut\u00e9.",
     tags: ["avis"], parentId: "p_g1", depth: 1, status: "visible",
     likeCount: 5, replyCount: 0, reportCount: 0, createdAtISO: pastISO(1),
   },
   {
     id: "p_g2", contentType: "global", contentId: null,
-    authorUserId: "u3", authorName: "Sophie M.", authorRole: "investor",
+    authorUserId: "u3", authorName: "Sophie M.", authorRole: "contributor",
     body: "Premi\u00e8re fois que j'investis sur un projet documentaire. Le pitch m'a convaincu d\u00e8s les premi\u00e8res lignes. H\u00e2te de voir le r\u00e9sultat final !",
     tags: ["investissement"], parentId: null, depth: 0, status: "visible",
     likeCount: 8, replyCount: 1, reportCount: 0, createdAtISO: pastISO(5),
   },
   {
     id: "p_g2r1", contentType: "global", contentId: null,
-    authorUserId: "u4", authorName: "Thomas B.", authorRole: "listener",
+    authorUserId: "u4", authorName: "Thomas B.", authorRole: "auditeur",
     body: "Pareil ici, le documentaire sur l'art urbain est vraiment prometteur. Belle s\u00e9lection ce mois-ci.",
     tags: ["avis"], parentId: "p_g2", depth: 1, status: "visible",
     likeCount: 3, replyCount: 0, reportCount: 0, createdAtISO: pastISO(4),
   },
   {
     id: "p_g3", contentType: "global", contentId: null,
-    authorUserId: "u5", authorName: "Julie R.", authorRole: "podcaster",
+    authorUserId: "u5", authorName: "Julie R.", authorRole: "podcasteur",
     body: "En tant que podcasteuse, VIXUAL Social c'est exactement ce qu'il manquait pour \u00e9changer avec notre communaut\u00e9. Des retours structur\u00e9s par tags, c'est top !",
     tags: ["idee", "amelioration"], parentId: null, depth: 0, status: "visible",
     likeCount: 15, replyCount: 0, reportCount: 0, createdAtISO: pastISO(8),
   },
   {
     id: "p_g4", contentType: "global", contentId: null,
-    authorUserId: "u6", authorName: "Alex P.", authorRole: "infoporter",
+    authorUserId: "u6", authorName: "Alex P.", authorRole: "infoporteur",
     body: "Mon article sur les techniques de narration documentaire a re\u00e7u beaucoup de retours constructifs gr\u00e2ce aux tags #question. Continuez !",
     tags: ["question", "scenario"], parentId: null, depth: 0, status: "visible",
     likeCount: 7, replyCount: 0, reportCount: 0, createdAtISO: pastISO(12),
@@ -280,14 +287,14 @@ const MOCK_GLOBAL_POSTS: SocialPost[] = [
   {
     id: "p_g5", contentType: "global", contentId: null,
     authorUserId: "u7", authorName: "Camille V.", authorRole: "visitor",
-    body: "Apr\u00e8s 6 mois sur VISUAL, je suis pass\u00e9e de simple visiteuse \u00e0 investisseuse. La communaut\u00e9 ici est vraiment unique. Merci pour tout !",
+    body: "Apres 6 mois sur VIXUAL, je suis passee de simple visiteuse a contributrice. La communaute ici est vraiment unique. Merci pour tout !",
     tags: ["avis"], parentId: null, depth: 0, status: "visible",
     likeCount: 20, replyCount: 0, reportCount: 0, createdAtISO: pastISO(18),
   },
   {
     id: "p_g6", contentType: "global", contentId: null,
-    authorUserId: "u8", authorName: "Nathan L.", authorRole: "porter",
-    body: "Mon projet vient d'atteindre 75% de financement ! Merci \u00e0 tous les investisseurs. Le tournage commence dans 3 semaines.",
+    authorUserId: "u8", authorName: "Nathan L.", authorRole: "creator",
+    body: "Mon projet vient d'atteindre 75% de financement ! Merci a tous les contributeurs. Le tournage commence dans 3 semaines.",
     tags: ["investissement", "casting"], parentId: null, depth: 0, status: "visible",
     likeCount: 25, replyCount: 0, reportCount: 0, createdAtISO: pastISO(24),
   },
@@ -303,15 +310,15 @@ const MOCK_CONTENT_POSTS: SocialPost[] = [
   },
   {
     id: "p_c1r1", contentType: "video", contentId: "content-1",
-    authorUserId: "u2", authorName: "Lucas D.", authorRole: "porter",
-    body: "Oui, il travaille sur un nouveau projet ! Restez connect\u00e9s, l'annonce arrive bient\u00f4t sur VISUAL.",
+    authorUserId: "u2", authorName: "Lucas D.", authorRole: "creator",
+    body: "Oui, il travaille sur un nouveau projet ! Restez connect\u00e9s, l'annonce arrive bient\u00f4t sur VIXUAL.",
     tags: ["avis"], parentId: "p_c1", depth: 1, status: "visible",
     likeCount: 3, replyCount: 0, reportCount: 0, createdAtISO: pastISO(2),
   },
   {
     id: "p_c2", contentType: "video", contentId: "content-1",
-    authorUserId: "u3", authorName: "Sophie M.", authorRole: "investor",
-    body: "J'ai investi dans ce projet et je ne regrette pas. La qualit\u00e9 de production est largement au-dessus de ce que j'attendais pour un premier film.",
+    authorUserId: "u3", authorName: "Sophie M.", authorRole: "contributor",
+    body: "J'ai contribue a ce projet et je ne regrette pas. La qualite de production est largement au-dessus de ce que j'attendais pour un premier film.",
     tags: ["investissement", "avis"], parentId: null, depth: 0, status: "visible",
     likeCount: 9, replyCount: 0, reportCount: 0, createdAtISO: pastISO(6),
   },
@@ -416,5 +423,4 @@ export function getVIXUALSocialProvider(deps?: Record<string, unknown>): VIXUALS
   return isVIXUALSocialEnabled() ? createDbProvider(deps ?? {}) : createMockProvider()
 }
 
-/** @deprecated Alias for backward compatibility - use getVIXUALSocialProvider */
-export const getVisualSocialProvider = getVIXUALSocialProvider;
+

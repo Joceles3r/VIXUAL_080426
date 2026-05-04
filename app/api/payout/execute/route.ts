@@ -20,11 +20,11 @@ export const POST = withErrorHandler(async (req: Request) => {
     const body = await req.json();
     const { contentId, adminSecret } = body;
 
-    // Admin secret protection - no dev bypass allowed
-    const expectedSecret = process.env.VISUAL_ADMIN_SECRET;
+    // VERROU FINAL: uniquement VIXUAL_ADMIN_SECRET, aucun fallback legacy
+    const expectedSecret = process.env.VIXUAL_ADMIN_SECRET;
     if (!expectedSecret) {
-      console.error("[VIXUAL Payout] VISUAL_ADMIN_SECRET not configured");
-      return apiError(ErrorCodes.ERR_SERVER_ERROR, "Server configuration error", 503);
+      console.error("[VIXUAL Payout] VIXUAL_ADMIN_SECRET not configured");
+      return apiError(ErrorCodes.ERR_INTERNAL, "Server configuration error", 503);
     }
     if (adminSecret !== expectedSecret) {
       return apiError(ErrorCodes.ERR_UNAUTHORIZED, "Unauthorized", 401);
@@ -75,29 +75,29 @@ export const POST = withErrorHandler(async (req: Request) => {
       payoutCategory = "podcasts";
     }
 
-    // Determine roles based on category
-    const roleMap: Record<PayoutCategory, { investor: "investor" | "investireader" | "listener"; creator: "porter" | "infoporter" | "podcaster" }> = {
-      films: { investor: "investor", creator: "porter" },
-      voix_info: { investor: "investireader", creator: "infoporter" },
-      livres: { investor: "investireader", creator: "infoporter" },
-      podcasts: { investor: "listener", creator: "podcaster" },
+    // Determine roles based on category - VERROU FINAL: cles officielles uniquement
+    const roleMap: Record<PayoutCategory, { contributor: "contributor" | "contribu_lecteur" | "auditeur"; creator: "creator" | "infoporteur" | "podcasteur" }> = {
+      films: { contributor: "contributor", creator: "creator" },
+      voix_info: { contributor: "contribu_lecteur", creator: "infoporteur" },
+      livres: { contributor: "contribu_lecteur", creator: "infoporteur" },
+      podcasts: { contributor: "auditeur", creator: "podcasteur" },
     };
     const roles = roleMap[payoutCategory];
 
     // Build the payout engine input
     const cycleId = `cycle_${contentId}_${Date.now()}`;
 
-    // TOP10 investors (first 10 ranked by total investment)
-    const top10Investors = investments.slice(0, 10).map((inv: Record<string, unknown>) => ({
+    // TOP10 contributors (first 10 ranked by total contribution)
+    const top10Contributors = investments.slice(0, 10).map((inv: Record<string, unknown>) => ({
       userId: inv.user_id as string,
-      role: roles.investor,
+      role: roles.contributor,
     }));
 
     // Pad to 10 if needed (engine expects exactly 10 for films)
-    while (top10Investors.length < 10) {
-      top10Investors.push({
-        userId: `placeholder_inv_${top10Investors.length}`,
-        role: roles.investor,
+    while (top10Contributors.length < 10) {
+      top10Contributors.push({
+        userId: `placeholder_contrib_${top10Contributors.length}`,
+        role: roles.contributor,
       });
     }
 
@@ -113,19 +113,19 @@ export const POST = withErrorHandler(async (req: Request) => {
       });
     }
 
-    // Investors ranks 11-100
-    const investors11to100 = investments.slice(10, 100).map((inv: Record<string, unknown>) => ({
+    // Contributors ranks 11-100
+    const contributors11to100 = investments.slice(10, 100).map((inv: Record<string, unknown>) => ({
       userId: inv.user_id as string,
-      role: roles.investor,
+      role: roles.contributor,
     }));
 
     const engineInput: PayoutEngineInput = {
       cycleId,
       category: payoutCategory,
       grossEligibleCents,
-      top10Investors,
+      top10Investors: top10Contributors,
       top10Creators,
-      investors11to100,
+      investors11to100: contributors11to100,
       closedAtIso: new Date().toISOString(),
     };
 

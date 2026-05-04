@@ -3,7 +3,7 @@ import { neon } from "@neondatabase/serverless";
 const sql = neon(process.env.DATABASE_URL);
 
 async function migrate() {
-  console.log("=== VISUAL Migration 006: Stripe Webhook Logs & Queue ===");
+  console.log("=== VIXUAL Migration 006: Stripe Webhook Logs & Queue ===");
 
   // 1) stripe_webhook_logs table (upgraded from basic webhook_events)
   console.log("[1/3] Creating stripe_webhook_logs table...");

@@ -6,7 +6,7 @@
  * IMPORTANT: This file must ONLY run on the server (route handlers, server actions).
  */
 
-// FIX A — Correction du nom de variable (VISUAL → VIXUAL) + ajout fallback PATRON
+// FIX A — Ajout fallback PATRON pour le developpement (VIXUAL_ADMIN_EMAIL)
 // SECURITY: Le fallback est desactive en production
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 const PATRON_FALLBACK_EMAIL = "jocelyndru@gmail.com";

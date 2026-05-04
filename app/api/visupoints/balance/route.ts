@@ -10,10 +10,10 @@ import { apiError, ErrorCodes, withErrorHandler } from "@/lib/api-errors";
 import {
   DAILY_VIXUPOINTS_CAP,
   PROFILE_VIXUPOINTS_CONFIG,
-  MINOR_VISUPOINTS_CAP,
+  MINOR_VIXUPOINTS_CAP,
   canWithdraw,
-  canConvertVisupoints,
-  detectVisupointsAbuse,
+  canConvertVixupoints,
+  detectVixupointsAbuse,
 } from "@/lib/vixupoints-engine";
 
 export const GET = withErrorHandler(async (req: Request) => {
@@ -63,10 +63,10 @@ export const GET = withErrorHandler(async (req: Request) => {
     (Date.now() - new Date(user.created_at).getTime()) / (1000 * 60 * 60 * 24)
   );
 
-  const abuse = detectVisupointsAbuse(dailyEarnings, balance, accountAgeDays);
+  const abuse = detectVixupointsAbuse(dailyEarnings, balance, accountAgeDays);
 
   const withdrawCheck = canWithdraw(isMinor, user.kyc_verified ?? false);
-  const convertCheck = canConvertVisupoints(isMinor);
+  const convertCheck = canConvertVixupoints(isMinor);
 
   return NextResponse.json({
     userId,
@@ -76,7 +76,7 @@ export const GET = withErrorHandler(async (req: Request) => {
     caps: {
       daily: { limit: DAILY_VIXUPOINTS_CAP, used: dailyEarned, remaining: Math.max(0, DAILY_VIXUPOINTS_CAP - dailyEarned) },
       profile: { capType: profileConfig.capType, limit: profileConfig.cap === Infinity ? null : profileConfig.cap, remaining: profileConfig.cap === Infinity ? null : Math.max(0, profileConfig.cap - balance) },
-      minor: isMinor ? { limit: MINOR_VISUPOINTS_CAP, remaining: Math.max(0, MINOR_VISUPOINTS_CAP - balance) } : null,
+      minor: isMinor ? { limit: MINOR_VIXUPOINTS_CAP, remaining: Math.max(0, MINOR_VIXUPOINTS_CAP - balance) } : null,
     },
     permissions: {
       canUseVixupoints: profileConfig.canUseVixupoints,

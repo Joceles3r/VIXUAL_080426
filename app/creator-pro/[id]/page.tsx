@@ -26,7 +26,7 @@ import {
   Share2,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { useAuth } from "@/lib/auth-context"
 import {
@@ -40,10 +40,11 @@ import {
   CREATOR_LEVELS,
 } from "@/lib/creator-progression"
 
+// VERROU FINAL: cles officielles
 const creatorTypeConfig: Record<CreatorType, { label: string; icon: typeof Film; color: string }> = {
-  porter: { label: "Porteur", icon: Film, color: "purple" },
-  infoporter: { label: "Infoporteur", icon: FileText, color: "sky" },
-  podcaster: { label: "Podcasteur", icon: Mic, color: "emerald" },
+  creator: { label: "Createur", icon: Film, color: "purple" },
+  infoporteur: { label: "Infoporteur", icon: FileText, color: "sky" },
+  podcasteur: { label: "Podcasteur", icon: Mic, color: "emerald" },
 }
 
 // Mock featured contents for the PRO page
@@ -90,7 +91,7 @@ export default function CreatorProPage({ params }: { params: Promise<{ id: strin
     const timer = setTimeout(() => {
       // Mock: simulate fetching creator data
       const creatorId = resolvedParams.id
-      const creatorType: CreatorType = "porter" // Default to porter for demo
+      const creatorType: CreatorType = "creator" // Default to creator for demo
       const progress = getMockCreatorProgress(creatorId, creatorType)
       const stats = getMockCreatorStats(creatorId, creatorType)
       

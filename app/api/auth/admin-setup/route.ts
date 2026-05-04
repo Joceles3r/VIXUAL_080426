@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { neon } from "@neondatabase/serverless"
+import { sql } from "@/lib/db"
 import bcrypt from "bcryptjs"
 
 const PATRON_EMAIL = "jocelyndru@gmail.com"
@@ -48,9 +48,6 @@ export async function POST(request: NextRequest) {
 
     // Hash password with bcrypt
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS)
-
-    // Connect to database
-    const sql = neon(process.env.DATABASE_URL!)
 
     // Check if user exists
     const existingUser = await sql`

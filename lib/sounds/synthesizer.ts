@@ -1,7 +1,7 @@
 /**
- * VISUAL Sound Synthesizer
+ * VIXUAL Sound Synthesizer
  * 
- * Génère les jingles VISUAL via Web Audio API
+ * Génère les jingles VIXUAL via Web Audio API
  * Aucun fichier externe requis - sons générés dynamiquement
  * 
  * Tonalité : Sol (G) comme note de base
@@ -107,11 +107,11 @@ function playShimmer(
 }
 
 // ══════════════════════════════════════════════════════════════
-// JINGLES VISUAL
+// JINGLES VIXUAL
 // ══════════════════════════════════════════════════════════════
 
 /**
- * VISUAL Spark - Jingle principal (~2s)
+ * VIXUAL Spark - Jingle principal (~2s)
  * Structure: pling → pling-plong → whoom
  * Notes: G5 → G5-C6 → C6+E6+G6 (accord)
  */
@@ -132,7 +132,7 @@ function playSpark(ctx: AudioContext, masterVolume: number) {
 }
 
 /**
- * VISUAL Pulse - Mini notification (~0.6s)
+ * VIXUAL Pulse - Mini notification (~0.6s)
  * Structure: pling-ting
  */
 function playPulse(ctx: AudioContext, masterVolume: number) {
@@ -144,7 +144,7 @@ function playPulse(ctx: AudioContext, masterVolume: number) {
 }
 
 /**
- * VISUAL Win - Gain utilisateur (~1.2s)
+ * VIXUAL Win - Gain utilisateur (~1.2s)
  * Structure: ting → ta-da
  * Notes: C6 → G6 → C7
  */
@@ -164,7 +164,7 @@ function playWin(ctx: AudioContext, masterVolume: number) {
 }
 
 /**
- * VISUAL Boost - Projet populaire (~1.4s)
+ * VIXUAL Boost - Projet populaire (~1.4s)
  * Structure: pulse → rising tone → sparkle
  */
 function playBoost(ctx: AudioContext, masterVolume: number) {
@@ -244,7 +244,7 @@ export async function playSound(name: SoundName, masterVolume = 0.7): Promise<vo
       player(ctx, masterVolume)
     }
   } catch (err) {
-    console.warn("[VISUAL Sound] Failed to play sound:", name, err)
+    console.warn("[VIXUAL Sound] Failed to play sound:", name, err)
   }
 }
 

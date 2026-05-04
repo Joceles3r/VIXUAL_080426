@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { VisualSlogan } from "@/components/vixual-slogan"
 import {

@@ -1,114 +1,184 @@
 /**
- * VIXUAL — lib/stripe.ts  (version mise à jour)
+ * VIXUAL — lib/stripe.ts  (finale)
  *
- * Ce fichier remplace l'ancienne version qui lisait directement process.env.
- * La configuration est maintenant chargée depuis :
- *   1. La base de données (table stripe_config) — priorité
- *   2. Les variables d'environnement (.env.local) — fallback
+ * La configuration Stripe est chargée exclusivement côté serveur.
+ *
+ * Ordre de résolution :
+ *   1. Base de données (table stripe_config) — SOURCE DE VÉRITÉ
+ *   2. Variables d'environnement (.env.local / Vercel env) — fallback
+ *
+ * Principe : toute opération Stripe doit passer par getStripeClient() (async).
+ * Le client sync historique (`stripe` / `getStripeSafe`) est conservé
+ * UNIQUEMENT pour la compatibilité et n'est utilisable que si une variable
+ * d'environnement STRIPE_*_SECRET_KEY est définie.
  *
  * SERVER ONLY.
  */
 import "server-only";
 import Stripe from "stripe";
-import { getStripeConfig } from "./stripe-config";
+import { getStripeConfig, getStripeConfigFresh } from "./stripe-config";
 
-// ── Client Stripe (initialisé de façon lazy pour permettre la config DB) ──
+// ── Version API Stripe officiellement supportée par VIXUAL ───────────────────
+
+const STRIPE_API_VERSION: Stripe.LatestApiVersion = "2026-01-28.clover";
+
+// ── Client Stripe asynchrone (recommandé) ─────────────────────────────────────
 
 let _stripeClient: Stripe | null = null;
-let _clientMode: string | null = null;
+let _clientFingerprint: string | null = null;
 
 /**
- * Retourne une instance Stripe configurée avec les clés actives.
- * Utilise un singleton invalidé si le mode change.
+ * Returns a Stripe instance configured with active keys (DB then env).
+ * FOR CRITICAL PATH (webhooks, payments): Use { fresh: true } for 100% freshness.
+ * For other operations: Uses getStripeConfig() (DB with env fallback).
+ *
+ * @param options.fresh - If true, forces DB read ignoring env fallback (for critical path)
  */
-export async function getStripeClient(): Promise<Stripe> {
-  const config = await getStripeConfig();
+export async function getStripeClient(options?: { fresh?: boolean }): Promise<Stripe> {
+  // Use fresh config for critical path operations
+  const config = options?.fresh
+    ? await getStripeConfigFresh()
+    : await getStripeConfig();
 
-  // Re-create client if mode or key changed
-  if (!_stripeClient || _clientMode !== config.secretKey) {
-    if (!config.secretKey) {
-      throw new Error(
-        "[VIXUAL] Aucune clé secrète Stripe configurée. " +
-          "Ajoutez vos clés depuis l'Admin → Config Stripe, " +
-          "ou définissez STRIPE_TEST_SECRET_KEY dans .env.local"
-      );
-    }
-    _stripeClient = new Stripe(config.secretKey, {
-      apiVersion: "2025-04-30.basil",
+  if (!config.secretKey) {
+    throw new Error(
+      "[VIXUAL] Aucune cle secrete Stripe configuree. " +
+        "Ajoutez vos cles depuis l'Admin -> Config Stripe, " +
+        "ou definissez STRIPE_TEST_SECRET_KEY dans .env.local"
+    );
+  }
+
+  // For fresh requests, always create new instance (no caching for maximum freshness)
+  if (options?.fresh) {
+    return new Stripe(config.secretKey, {
+      apiVersion: STRIPE_API_VERSION,
       typescript: true,
     });
-    _clientMode = config.secretKey;
+  }
+
+  // Fingerprint = secretKey + mode pour detecter changement de configuration
+  const fingerprint = `${config.mode}:${config.secretKey}`;
+  if (!_stripeClient || _clientFingerprint !== fingerprint) {
+    _stripeClient = new Stripe(config.secretKey, {
+      apiVersion: STRIPE_API_VERSION,
+      typescript: true,
+    });
+    _clientFingerprint = fingerprint;
   }
 
   return _stripeClient;
 }
 
-/**
- * Instance synchrone (compatible avec le code existant).
- * Lit depuis process.env comme avant pour ne pas casser les imports existants.
- * À terme, migrer vers getStripeClient().
- */
+/** Alias pour getStripeClient (compatibilité avec anciens imports). */
+export const getStripe = getStripeClient;
+
+// ── Client Stripe synchrone (LEGACY - env only) ───────────────────────────────
+//
+// Ne doit être utilisé que par du code legacy qui ne peut pas être async.
+// Sur les chemins critiques (paiements, webhooks, payouts), toujours préférer
+// getStripeClient() pour bénéficier de la config DB modifiable depuis l'Admin.
+
 const legacySecretKey =
   process.env.STRIPE_TEST_SECRET_KEY ||
   process.env.STRIPE_SECRET_KEY ||
   process.env.STRIPE_LIVE_SECRET_KEY;
 
-// Fallback gracieux si aucune clé n'est encore configurée
 const _stripeSync = legacySecretKey
   ? new Stripe(legacySecretKey, {
-      apiVersion: "2025-04-30.basil",
+      apiVersion: STRIPE_API_VERSION,
       typescript: true,
     })
   : null;
 
+/**
+ * @deprecated Préférez `getStripeClient()` qui lit la configuration depuis la DB.
+ * N'utiliser que pour du code legacy incompatible async.
+ */
 export const stripe = _stripeSync as Stripe;
 
 /**
- * Safe Stripe getter - throws if Stripe is not configured
- * Use this instead of `stripe` directly for safer access
+ * Getter sync safe : lève une exception explicite si aucune clé env n'est
+ * configurée. Préférez `getStripeClient()` dès que possible.
+ *
+ * @deprecated Use getStripeClient() for DB-aware access.
  */
 export function getStripeSafe(): Stripe {
   if (!_stripeSync) {
     throw new Error(
-      "[VIXUAL] Stripe non configure. Ajoutez vos cles depuis Admin → Config Stripe " +
-      "ou definissez STRIPE_SECRET_KEY dans les variables d'environnement."
+      "[VIXUAL] Stripe sync non configuré. " +
+      "Pour les paiements runtime, utilisez getStripeClient() (async). " +
+      "Sinon définissez STRIPE_SECRET_KEY dans les variables d'environnement."
     );
   }
   return _stripeSync;
 }
 
+// ── Helpers de statut de configuration ────────────────────────────────────────
+
 /**
- * Check if Stripe is configured (sync - uses env vars)
+ * Check sync (uniquement via env vars).
+ * @deprecated Préférez isStripeConfiguredAsync().
  */
 export function isStripeConfigured(): boolean {
   return _stripeSync !== null;
 }
 
 /**
- * Check if Stripe is configured (async - uses DB config)
+ * Check async (DB puis env). Source de vérité.
  */
 export async function isStripeConfiguredAsync(): Promise<boolean> {
-  const config = await getStripeConfig();
-  return !!config.secretKey;
+  try {
+    const config = await getStripeConfig();
+    return !!config.secretKey && config.secretKey.startsWith("sk_");
+  } catch {
+    return false;
+  }
 }
 
 /**
- * Get webhook secret (async - from DB config)
+ * Récupère le webhook secret actif (DB puis env).
  */
 export async function getWebhookSecret(): Promise<string> {
   const config = await getStripeConfig();
   return config.webhookSecret;
 }
 
-// ── Webhook secret (sync fallback) ────────────────────────────────────────────
+// ── Webhook secret synchrone (legacy env) ─────────────────────────────────────
 
+/** @deprecated Préférez getWebhookSecret() (async DB-aware). */
 export const STRIPE_WEBHOOK_SECRET =
   process.env.STRIPE_TEST_WEBHOOK_SECRET ||
   process.env.STRIPE_WEBHOOK_SECRET ||
   process.env.STRIPE_LIVE_WEBHOOK_SECRET;
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// ── Mode / environnement ──────────────────────────────────────────────────────
 
+/**
+ * Récupère le mode Stripe actif de façon asynchrone (DB > env).
+ */
+export async function getStripeModeAsync(): Promise<{
+  isTest: boolean;
+  environment: "TEST" | "LIVE";
+  source: "database" | "environment";
+  warning: string;
+}> {
+  const config = await getStripeConfig();
+  const isTest = config.mode === "test";
+  return {
+    isTest,
+    environment: (isTest ? "TEST" : "LIVE") as "TEST" | "LIVE",
+    source: config.source,
+    warning: isTest
+      ? "MODE TEST - Aucune transaction réelle"
+      : "MODE LIVE - Transactions réelles actives",
+  };
+}
+
+/**
+ * Version synchrone (basée sur env var NEXT_PUBLIC_STRIPE_TEST_MODE).
+ * Utile pour le rendu UI qui n'est pas async. Pour la logique métier
+ * critique, préférez getStripeModeAsync().
+ */
 export function getStripeMode() {
   const isTest = process.env.NEXT_PUBLIC_STRIPE_TEST_MODE !== "false";
   return {
@@ -120,6 +190,8 @@ export function getStripeMode() {
   };
 }
 
+// ── Logging standardisé ───────────────────────────────────────────────────────
+
 export function logStripeEvent(event: string, data: Record<string, unknown>) {
   const mode = getStripeMode();
   const prefix = mode.isTest ? "[STRIPE TEST]" : "[STRIPE LIVE]";
@@ -128,8 +200,3 @@ export function logStripeEvent(event: string, data: Record<string, unknown>) {
     ...data,
   });
 }
-
-/**
- * Alias pour getStripeClient (compatibilité avec anciens imports)
- */
-export const getStripe = getStripeClient;

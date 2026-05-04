@@ -5,7 +5,7 @@ const sql = neon(process.env.DATABASE_URL);
 async function migrate() {
   console.log("[004] PackPatch V1 migration starting...");
 
-  // 1. VISUpoints transactions table (for daily cap tracking + audit)
+  // 1. VIXUpoints transactions table (for daily cap tracking + audit)
   await sql`
     CREATE TABLE IF NOT EXISTS visupoints_transactions (
       id SERIAL PRIMARY KEY,
@@ -63,7 +63,7 @@ async function migrate() {
   `;
   console.log("[004] Extended payout_cycles for batch support");
 
-  // 5. Indexes for VISUpoints daily cap queries
+  // 5. Indexes for VIXUpoints daily cap queries
   await sql`
     CREATE INDEX IF NOT EXISTS idx_visupoints_tx_user_date
     ON visupoints_transactions (user_id, created_at)

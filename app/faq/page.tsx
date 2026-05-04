@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -264,8 +265,34 @@ const FAQ_CATEGORIES = [
   }
 ]
 
+// Sections masquees en V1 (concepts trop avances pour le lancement)
+const V1_HIDDEN_FAQ_TITLES = new Set<string>([
+  "Porteur / Infoporteur / Podcasteur - Créateurs",
+  "Contribu-lecteur - Livres & Articles",
+  "Auditeur - Podcasts",
+  "VIXUpoints et Paiement hybride",
+  "Utilisateur Actif - Suivi et Gains",
+])
+
+// Sections masquees en V2 (reservees V3)
+const V2_HIDDEN_FAQ_TITLES = new Set<string>([
+  "Utilisateur Actif - Suivi et Gains",
+])
+
+function getFaqSectionsForVersion(version: "V1" | "V2" | "V3") {
+  if (version === "V1") {
+    return FAQ_CATEGORIES.filter(s => !V1_HIDDEN_FAQ_TITLES.has(s.title))
+  }
+  if (version === "V2") {
+    return FAQ_CATEGORIES.filter(s => !V2_HIDDEN_FAQ_TITLES.has(s.title))
+  }
+  return FAQ_CATEGORIES
+}
+
 export default function FAQPage() {
   const router = useRouter()
+  const platformVersion = usePlatformVersion()
+  const visibleSections = getFaqSectionsForVersion(platformVersion)
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
@@ -299,16 +326,22 @@ export default function FAQPage() {
             <TrafficLight size="md" />
           </div>
           <p className="text-slate-400 max-w-2xl mx-auto">
-            Parcourez nos sections pour trouver les reponses a vos questions sur VIXUAL et ses 8 profils (1 Invite non inscrit + 7 inscrits).
+            {platformVersion === "V1"
+              ? "Parcourez nos sections pour trouver les reponses a vos questions sur VIXUAL et ses 4 profils essentiels."
+              : "Parcourez nos sections pour trouver les reponses a vos questions sur VIXUAL et ses 8 profils (1 Invite non inscrit + 7 inscrits)."}
           </p>
         </div>
 
         {/* FAQ Sections */}
         <div className="space-y-8">
-          {FAQ_CATEGORIES.map((category, idx) => (
+          {visibleSections.map((category, idx) => (
             <Card key={idx} className="bg-slate-800/30 border-slate-700/30">
               <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-emerald-300 mb-4">{category.title}</h3>
+                <h3 className="text-lg font-semibold text-emerald-300 mb-4">
+                  {platformVersion === "V1" && category.title === "Les 8 profils"
+                    ? "Les 4 profils (phase 1)"
+                    : category.title}
+                </h3>
                 <Accordion type="single" collapsible className="space-y-2">
                   {category.items.map((item, qIdx) => (
                     <AccordionItem key={qIdx} value={`${idx}-${qIdx}`} className="border-slate-700/50">

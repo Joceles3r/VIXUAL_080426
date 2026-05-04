@@ -12,8 +12,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAuth } from "@/lib/auth-context"
 import {
-  CAUTION_EUR, STRIPE_CONFIG, VISUPOINTS_PER_EUR,
-  VISUPOINTS_CONVERSION_THRESHOLD,
+  CAUTION_EUR, STRIPE_CONFIG, VIXUPOINTS_PER_EUR,
+  VIXUPOINTS_CONVERSION_THRESHOLD,
 } from "@/lib/payout/constants"
 import { SecurityGate } from "@/components/security/security-gate"
 import { VerificationBadges } from "@/components/security/verification-badges"
@@ -65,7 +65,8 @@ const TX_ICONS: Record<string, string> = {
 const MOCK_WALLET = {
   availableCents: 18_42, pendingCents: 4_50, totalEarnedCents: 156_80, totalWithdrawnCents: 45_00,
 }
-const MOCK_VISUPOINTS = { balance: 1200, cap: 5000, todayEarned: 15 }
+// VERROU FINAL: mock VIXUpoints (alias UI)
+const MOCK_VIXUPOINTS = { balance: 1200, cap: 5000, todayEarned: 15 }
 const MOCK_TRANSACTIONS = [
   { id: "tx1", type: "video_sale", amountCents: 1000, description: "Vente vid\u00e9o : L'Odyss\u00e9e des \u00c9toiles", status: "completed", createdAt: "2026-03-03" },
   { id: "tx2", type: "return", amountCents: 400, description: "Retour contribution : Murmures de la For\u00eat", status: "completed", createdAt: "2026-03-02" },
@@ -117,7 +118,7 @@ export default function WalletPage() {
   const wallet = data?.wallet || MOCK_WALLET
   const transactions = data?.transactions || MOCK_TRANSACTIONS
   const stripeConnect = data?.stripeConnect || { status: "not_started", chargesEnabled: false, payoutsEnabled: false, hasAccount: false }
-  const visupoints = data?.visupoints || MOCK_VISUPOINTS
+  const visupoints = data?.visupoints || MOCK_VIXUPOINTS
   const pendingWithdrawals = data?.pendingWithdrawals || MOCK_PENDING_WITHDRAWALS
   const isLoading = !data && !error && !!user
 
@@ -156,7 +157,7 @@ export default function WalletPage() {
     } catch { /* silent */ } finally { setConnectLoading(false) }
   }, [user, mutate])
 
-  const handlePayCaution = useCallback(async (cautionType: "creator" | "investor") => {
+  const handlePayCaution = useCallback(async (cautionType: "creator" | "contributor") => {
     if (!user) return
     setCautionLoading(cautionType)
     try {
@@ -168,6 +169,11 @@ export default function WalletPage() {
       if (result.error) {
         toast({ title: "Erreur", description: result.error, variant: "destructive" })
       } else {
+        // Si l'API retourne une URL de checkout Stripe, on redirige
+        if (result.url) {
+          window.location.href = result.url
+          return
+        }
         toast({ title: "Caution initialisee", description: `Caution ${cautionType === "creator" ? "Createur" : "Contributeur"} : paiement en cours de traitement.` })
         mutate()
       }
@@ -393,8 +399,10 @@ export default function WalletPage() {
             {/* Caution section */}
             <div className="space-y-2 pt-2">
               <p className="text-white/50 text-xs font-medium uppercase tracking-wider">{"Cautions"}</p>
-              {(["creator", "investor"] as const).map((type) => {
-                const paid = type === "creator" ? data?.cautions?.creatorPaid : data?.cautions?.investorPaid
+              {(["creator", "contributor"] as const).map((type) => {
+                const paid = type === "creator"
+                  ? data?.cautions?.creatorPaid
+                  : (data?.cautions?.contributorPaid ?? data?.cautions?.investorPaid)
                 const label = type === "creator" ? "Cr\u00e9ateur" : "Contributeur"
                 const sub = type === "creator" ? "Porteur / Infoporteur / Podcasteur" : "Contributeur / Contribu-lecteur / Auditeur"
                 const amount = CAUTION_EUR[type]
@@ -457,7 +465,7 @@ export default function WalletPage() {
         </Card>
       )}
 
-      {/* SECTION 6 + 7 : VISUPOINTS + GRAPHIQUES */}
+      {/* SECTION 6 + 7 : VIXUPOINTS + GRAPHIQUES */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* VIXUpoints */}
         <Card className="bg-gradient-to-br from-amber-900/10 to-amber-800/5 border-amber-500/20">
@@ -479,14 +487,14 @@ export default function WalletPage() {
                 <p className="text-white/40 text-xs">{"gagn\u00e9s aujourd'hui"}</p>
               </div>
               <div className="bg-black/20 rounded-lg p-3 text-center">
-                <p className="text-white font-bold text-lg">{VISUPOINTS_CONVERSION_THRESHOLD.toLocaleString("fr-FR")}</p>
+                <p className="text-white font-bold text-lg">{VIXUPOINTS_CONVERSION_THRESHOLD.toLocaleString("fr-FR")}</p>
                 <p className="text-white/40 text-xs">{"seuil conversion"}</p>
               </div>
             </div>
-            {visupoints.balance >= VISUPOINTS_CONVERSION_THRESHOLD && (
+            {visupoints.balance >= VIXUPOINTS_CONVERSION_THRESHOLD && (
               <div className="flex items-center gap-2 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
                 <Sparkles className="h-4 w-4 text-emerald-400" />
-                <p className="text-emerald-400 text-xs font-medium">{"Conversion disponible : "}{Math.floor(visupoints.balance / VISUPOINTS_PER_EUR)}{" \u20ac"}</p>
+                <p className="text-emerald-400 text-xs font-medium">{"Conversion disponible : "}{Math.floor(visupoints.balance / VIXUPOINTS_PER_EUR)}{" \u20ac"}</p>
               </div>
             )}
           </CardContent>
@@ -623,7 +631,7 @@ export default function WalletPage() {
                 <Award className="h-5 w-5 text-amber-400" />
               </div>
               <div>
-                <p className="text-white font-medium text-sm">{"Classement VISUAL"}</p>
+                <p className="text-white font-medium text-sm">{"Classement VIXUAL"}</p>
                 <p className="text-white/40 text-xs">{"Top investisseurs ce mois"}</p>
               </div>
             </div>
@@ -709,7 +717,7 @@ export default function WalletPage() {
             </div>
             <div className="flex items-start gap-2">
               <AlertCircle className="h-3.5 w-3.5 mt-0.5 shrink-0 text-white/20" />
-              <span>{"Gains non garantis. Les retours d\u00e9pendent de la performance des projets soutenus. VISUAL n'est pas un jeu de hasard."}</span>
+              <span>{"Gains non garantis. Les retours d\u00e9pendent de la performance des projets soutenus. VIXUAL n'est pas un jeu de hasard."}</span>
             </div>
           </div>
         </CardContent>

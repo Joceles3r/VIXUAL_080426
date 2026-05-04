@@ -9,17 +9,17 @@ import { Coins, Euro, AlertCircle, CheckCircle, Info } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { VIXUPOINTS_PER_EUR } from "@/lib/payout/constants"
 
-// ─── Types ───
+// ─── Types (VERROU FINAL: cles officielles) ───
 
 export type PaymentProfile = 
   | "visitor_minor" 
   | "visitor_adult" 
   | "contributor" 
-  | "contribureader" 
-  | "auditor" 
-  | "porter" 
-  | "infoporter" 
-  | "podcaster"
+  | "contribu_lecteur" 
+  | "auditeur" 
+  | "creator" 
+  | "infoporteur" 
+  | "podcasteur"
 
 export interface HybridPaymentProps {
   priceEur: number
@@ -36,7 +36,7 @@ export interface PaymentOption {
   isValid: boolean
 }
 
-/** Configuration des profils pour le paiement */
+/** Configuration des profils pour le paiement - VERROU FINAL */
 const PROFILE_PAYMENT_CONFIG: Record<PaymentProfile, {
   canUseVixupoints: boolean
   canPayEuros: boolean
@@ -46,11 +46,11 @@ const PROFILE_PAYMENT_CONFIG: Record<PaymentProfile, {
   visitor_minor: { canUseVixupoints: true, canPayEuros: false, canUseHybrid: false, label: "Visiteur mineur" },
   visitor_adult: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, label: "Visiteur majeur" },
   contributor: { canUseVixupoints: false, canPayEuros: true, canUseHybrid: false, label: "Contributeur" },
-  contribureader: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, label: "Contribu-lecteur" },
-  auditor: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, label: "Auditeur" },
-  porter: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, label: "Porteur" },
-  infoporter: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, label: "Infoporteur" },
-  podcaster: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, label: "Podcasteur" },
+  contribu_lecteur: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, label: "Contribu-lecteur" },
+  auditeur: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, label: "Auditeur" },
+  creator: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, label: "Createur" },
+  infoporteur: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, label: "Infoporteur" },
+  podcasteur: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, label: "Podcasteur" },
 }
 
 // ─── Components ───
@@ -202,7 +202,7 @@ export function HybridPaymentSelector({
     )
   }
 
-  // Cas: Paiement hybride disponible (visitor_adult, contribureader, auditor)
+  // Cas: Paiement hybride disponible (visitor_adult, contribu_lecteur, auditeur)
   return (
     <Card className={cn("bg-slate-800/50 border-slate-700", className)}>
       <CardHeader className="pb-2">

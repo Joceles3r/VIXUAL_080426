@@ -13,63 +13,41 @@ import { ALL_CONTENTS } from "@/lib/mock-data";
  */
 export async function POST(request: NextRequest) {
   try {
-    const { searchParams } = request.nextUrl;
-    const contentId = searchParams.get("contentId");
+    const contentId = request.nextUrl.searchParams.get("contentId")
+    if (!contentId) return apiError(ErrorCodes.ERR_INVALID_INPUT, "contentId required", 400)
+    const content = ALL_CONTENTS.find(c => c.id === contentId)
+    if (!content) return apiError(ErrorCodes.ERR_CONTENT_NOT_FOUND, "Content not found", 404)
 
-    if (!contentId) {
-      return apiError(ErrorCodes.ERR_INVALID_INPUT, "contentId query param required", 400);
+    const signals: any = {
+      contentId: content.id,
+      contentType: content.contentType,
+      currentInvestment: content.currentInvestment,
+      investmentGoal: content.investmentGoal,
+      investorCount: content.investorCount ?? content.contributorCount,
+      totalVotes: content.totalVotes,
+      likes: 0, comments: 0, shares: 0, favourites: 0,
+      avgCompletionRate: 0.5,
+      daysSincePublished: Math.floor((Date.now() - new Date(content.createdAt).getTime()) / 86400000),
+      recentInvestmentEur: 0, viewGrowthRate: 0,
+      creatorTrustScore: 60, creatorVerified: false,
+      creatorGoldPass: (content as any).goldPass ?? false,
+      currentWave: 1,
     }
 
-    // Find content in mock data
-    const content = ALL_CONTENTS.find((c) => c.id === contentId);
-    if (!content) {
-      return apiError(ErrorCodes.ERR_NOT_FOUND, "Content not found", 404);
-    }
-
-    // Compute VIXUAL Score
-    const score = computeVisualScore(content);
-
-    // Upsert into discovery_scores table
+    const score: any = computeVisualScore(signals)
     await sql`
-      INSERT INTO discovery_scores (
-        content_id, visual_score, score_investment, score_engagement, score_longevity,
-        score_momentum, score_community, score_creator, wave_level, badge, rank,
-        is_top_100, detected_manipulation, snapshot_data, computed_at
-      )
-      VALUES (
-        ${contentId}, ${score.visualScore}, ${score.scores.investment},
-        ${score.scores.engagement}, ${score.scores.longevity}, ${score.scores.momentum},
-        ${score.scores.community}, ${score.scores.creator}, ${score.waveLevel},
-        ${score.badge}, ${score.rank || null}, ${score.isTop100},
-        ${score.detectedManipulation}, ${JSON.stringify(score)}, NOW()
-      )
+      INSERT INTO discovery_scores (content_id, visual_score, snapshot_data, computed_at)
+      VALUES (${contentId}, ${score.total ?? 0}, ${JSON.stringify(score)}, NOW())
       ON CONFLICT (content_id) DO UPDATE SET
         visual_score = EXCLUDED.visual_score,
-        score_investment = EXCLUDED.score_investment,
-        score_engagement = EXCLUDED.score_engagement,
-        score_longevity = EXCLUDED.score_longevity,
-        score_momentum = EXCLUDED.score_momentum,
-        score_community = EXCLUDED.score_community,
-        score_creator = EXCLUDED.score_creator,
-        wave_level = EXCLUDED.wave_level,
-        badge = EXCLUDED.badge,
-        rank = EXCLUDED.rank,
-        is_top_100 = EXCLUDED.is_top_100,
-        detected_manipulation = EXCLUDED.detected_manipulation,
         snapshot_data = EXCLUDED.snapshot_data,
         computed_at = NOW(),
         updated_at = NOW()
-    `;
-
-    return NextResponse.json({
-      success: true,
-      contentId,
-      ...score,
-    });
-  } catch (error: unknown) {
-    console.error("[VIXUAL API] Discovery score error:", error);
-    const message = error instanceof Error ? error.message : "Internal server error";
-    return apiError(ErrorCodes.ERR_INTERNAL, message, 500);
+    `
+    return NextResponse.json({ success: true, contentId, score })
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : "Internal"
+    return apiError(ErrorCodes.ERR_INTERNAL, msg, 500)
   }
 }
 

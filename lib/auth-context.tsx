@@ -54,13 +54,14 @@ export interface User {
   vixupointsCap: number
   parentConsent: ParentConsent
   kycVerified: boolean
+  // VERROU FINAL: cles officielles uniquement
   depositStatus?: {
-    porter10: boolean
+    creator10: boolean
     contributor20: boolean
-    infoporter10: boolean
-    contribureader20: boolean
-    podcaster10: boolean
-    listener20: boolean
+    infoporteur10: boolean
+    contribu_lecteur20: boolean
+    podcasteur10: boolean
+    auditeur20: boolean
   }
   stripeConnect?: {
     accountId?: string
@@ -91,6 +92,7 @@ interface AuthContextType {
   user: User | null
   isAuthed: boolean
   isAdmin: boolean
+  isLoading: boolean
   roles: VixualRole[]
   login: (email: string, password: string) => Promise<void>
   logout: () => void
@@ -113,12 +115,12 @@ const MOCK_USER: User = {
   parentConsent: DEFAULT_PARENT_CONSENT,
   kycVerified: false,
   depositStatus: {
-    porter10: false,
+    creator10: false,
     contributor20: false,
-    infoporter10: false,
-    contribureader20: false,
-    podcaster10: false,
-    listener20: false,
+    infoporteur10: false,
+    contribu_lecteur20: false,
+    podcasteur10: false,
+    auditeur20: false,
   },
   stripeConnect: {
     status: "not_started",
@@ -144,12 +146,41 @@ const MOCK_USER: User = {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Restore session on mount
+  useEffect(() => {
+    async function restoreSession() {
+      try {
+        const response = await fetch("/api/auth/me")
+        const data = await response.json()
+        
+        if (data.user) {
+          setUser({
+            ...MOCK_USER,
+            id: data.user.id,
+            name: data.user.name,
+            email: data.user.email?.toLowerCase(),
+            roles: data.user.roles || (data.user.role ? [data.user.role] : ["visitor"]),
+          })
+        }
+      } catch (error) {
+        console.error("[VIXUAL Auth] Session restore failed:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    
+    restoreSession()
+  }, [])
 
   const isAuthed = user !== null
   const roles: VixualRole[] = user?.roles ?? ["guest"]
   // Admin est un flag prive derive de l'email, pas un role de profil
-  const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL?.toLowerCase()
-  const isAdmin = !!(user?.email && adminEmail && user.email.toLowerCase() === adminEmail)
+  // Utilise NEXT_PUBLIC_ADMIN_EMAIL ou fallback vers jocelyndru@gmail.com (patron)
+  const PATRON_EMAIL = "jocelyndru@gmail.com"
+  const adminEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL?.toLowerCase() || PATRON_EMAIL)
+  const isAdmin = !!(user?.email && user.email.toLowerCase() === adminEmail)
 
   const login = async (email: string, password: string) => {
     // Real authentication via secure API
@@ -165,13 +196,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw new Error(data.error || "Echec de connexion")
     }
 
-    // Set user from API response
+    // Set user from API response - store email for isAdmin check
+    const userEmail = data.user.email?.toLowerCase() || email.toLowerCase()
     setUser({
       ...MOCK_USER,
       id: data.user.id,
       name: data.user.name,
-      email: data.user.email,
-      roles: data.user.roles || ["visitor"],
+      email: userEmail,
+      roles: data.user.roles || (data.user.role ? [data.user.role] : ["visitor"]),
     })
   }
 
@@ -220,6 +252,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user,
         isAuthed,
         isAdmin,
+        isLoading,
         roles,
         login,
         logout,

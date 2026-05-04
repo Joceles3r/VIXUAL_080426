@@ -190,7 +190,7 @@ export function getCurrentTopProjects(limit: number = 10, category?: "video" | "
   let contents = [...ALL_CONTENTS]
   
   if (category) {
-    contents = contents.filter(c => c.type === category)
+    contents = contents.filter(c => c.contentType === category)
   }
   
   // Sort by simulated score
@@ -297,7 +297,7 @@ export async function getPublicArchivesAndStats() {
  * Get project detail for archive page
  */
 export function getArchiveProjectDetail(slug: string): PublicProjectStats | null {
-  const content = ALL_CONTENTS.find(c => c.id === slug || c.slug === slug)
+  const content = ALL_CONTENTS.find(c => c.id === slug)
   if (!content) return null
   return mapToPublicProjectStats(content, Math.floor(Math.random() * 10) + 1)
 }

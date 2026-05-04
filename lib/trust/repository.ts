@@ -1,5 +1,5 @@
 /**
- * VISUAL Trust Score -- Database Repository (Server-only)
+ * VIXUAL Trust Score -- Database Repository (Server-only)
  */
 import "server-only";
 

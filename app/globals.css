@@ -128,6 +128,312 @@
   --sidebar-ring: oklch(0.65 0.19 160);
 }
 
+/* ─────────────────────────────────────────────────────────────────── */
+/* VIXUAL — THEMES IMMERSIFS PAR VERSION DE PLATEFORME                 */
+/* Le data-version sur <html> transforme automatiquement l'arriere-    */
+/* plan global de toutes les pages utilisant bg-slate-950.             */
+/* ─────────────────────────────────────────────────────────────────── */
+
+/* ═══════════════ V1 — LANCEMENT FUTURISTE (purple + fuchsia fluo) ═══════════════ */
+
+[data-version="V1"] {
+  --vx-accent: #d946ef;
+  --vx-accent-bright: #f0abfc;
+  --vx-accent-glow: #e879f9;
+  --vx-secondary: #a855f7;
+  --vx-secondary-bright: #c084fc;
+  --vx-text-accent: #f0abfc;
+  --vx-glow-shadow: 0 0 25px rgba(217, 70, 239, 0.35);
+  --vx-glow-shadow-strong: 0 0 40px rgba(217, 70, 239, 0.6);
+  --vx-bg-deep: #0a0118;
+  --vx-bg-mid: #1a0b2e;
+  --vx-bg-soft: #2a1245;
+}
+
+/* Override du bg-slate-950 → fond V1 immersif */
+[data-version="V1"] .bg-slate-950 {
+  background-color: #0a0118 !important;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(217, 70, 239, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 100%, rgba(168, 85, 247, 0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 0% 50%, rgba(232, 121, 249, 0.1) 0%, transparent 70%),
+    linear-gradient(180deg, #0a0118 0%, #1a0b2e 50%, #0a0118 100%);
+}
+
+/* Override du bg-slate-900 → cartes V1 */
+[data-version="V1"] .bg-slate-900,
+[data-version="V1"] .bg-slate-900\/60,
+[data-version="V1"] .bg-slate-900\/80 {
+  background-color: rgba(42, 18, 69, 0.6) !important;
+  backdrop-filter: blur(8px);
+}
+
+/* Bordures slate → liseré fuchsia lumineux V1 */
+[data-version="V1"] .border-white\/10,
+[data-version="V1"] .border-white\/15,
+[data-version="V1"] .border-white\/20 {
+  border-color: rgba(232, 121, 249, 0.45) !important;
+  box-shadow:
+    0 0 0 1px rgba(232, 121, 249, 0.15),
+    0 0 12px rgba(217, 70, 239, 0.18),
+    inset 0 0 8px rgba(217, 70, 239, 0.08) !important;
+}
+
+/* V1 — Liseré lumineux fuchsia sur toutes les Cards et conteneurs arrondis */
+[data-version="V1"] [class*="rounded-xl"],
+[data-version="V1"] [class*="rounded-2xl"],
+[data-version="V1"] [class*="rounded-3xl"] {
+  position: relative;
+}
+
+[data-version="V1"] .border:not([class*="border-emerald"]):not([class*="border-fuchsia"]):not([class*="border-purple"]) {
+  border-color: rgba(232, 121, 249, 0.4) !important;
+  box-shadow:
+    0 0 0 1px rgba(232, 121, 249, 0.12),
+    0 0 14px rgba(217, 70, 239, 0.15) !important;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Au survol : intensifier le glow fuchsia en V1 */
+[data-version="V1"] .border:not([class*="border-emerald"]):not([class*="border-fuchsia"]):not([class*="border-purple"]):hover {
+  border-color: rgba(240, 171, 252, 0.7) !important;
+  box-shadow:
+    0 0 0 1px rgba(240, 171, 252, 0.25),
+    0 0 22px rgba(217, 70, 239, 0.35),
+    inset 0 0 10px rgba(217, 70, 239, 0.1) !important;
+}
+
+/* V1 — Cards avec rounded : ring fuchsia (compatible border-radius)
+   On evite border-image qui IGNORE border-radius et laisse des coins
+   carres visibles aux 4 angles des cartes arrondies. */
+[data-version="V1"] .rounded-xl.border,
+[data-version="V1"] .rounded-2xl.border,
+[data-version="V1"] .rounded-3xl.border {
+  border-color: rgba(232, 121, 249, 0.45) !important;
+  box-shadow:
+    0 0 0 1px rgba(232, 121, 249, 0.18),
+    0 0 18px rgba(217, 70, 239, 0.2),
+    inset 0 0 8px rgba(217, 70, 239, 0.06) !important;
+}
+
+[data-version="V1"] section { position: relative; }
+
+[data-version="V1"] h1 {
+  text-shadow: 0 0 20px rgba(217, 70, 239, 0.4), 0 0 40px rgba(168, 85, 247, 0.2);
+}
+
+/* Conserver les emerald/teal d'origine en V1 mais les transformer en fuchsia/purple */
+[data-version="V1"] .from-emerald-400,
+[data-version="V1"] .text-emerald-400 { color: #f0abfc !important; }
+[data-version="V1"] .to-teal-400 { color: #c084fc !important; }
+[data-version="V1"] .from-emerald-400.to-teal-400,
+[data-version="V1"] .bg-gradient-to-r.from-emerald-400 {
+  background-image: linear-gradient(to right, #f0abfc, #c084fc) !important;
+}
+[data-version="V1"] .text-transparent.bg-clip-text.bg-gradient-to-r.from-emerald-400 {
+  background-image: linear-gradient(to right, #f0abfc, #c084fc) !important;
+}
+
+/* Boutons primaires emerald → fuchsia/purple */
+[data-version="V1"] .bg-emerald-600,
+[data-version="V1"] .bg-emerald-500 { background-color: #d946ef !important; }
+[data-version="V1"] .bg-emerald-600:hover,
+[data-version="V1"] .hover\:bg-emerald-500:hover { background-color: #c026d3 !important; }
+[data-version="V1"] .from-emerald-600 { --tw-gradient-from: #d946ef !important; }
+[data-version="V1"] .to-teal-600 { --tw-gradient-to: #a855f7 !important; }
+[data-version="V1"] .hover\:from-emerald-700:hover { --tw-gradient-from: #c026d3 !important; }
+[data-version="V1"] .hover\:to-teal-700:hover { --tw-gradient-to: #9333ea !important; }
+
+/* Soft glows fluo sur les sections */
+[data-version="V1"] .bg-emerald-500\/10,
+[data-version="V1"] .bg-emerald-500\/20 {
+  background-color: rgba(217, 70, 239, 0.12) !important;
+}
+[data-version="V1"] .border-emerald-500\/20,
+[data-version="V1"] .border-emerald-500\/30 {
+  border-color: rgba(217, 70, 239, 0.3) !important;
+}
+
+/* Scan lines tres subtil pour ambiance futuriste */
+[data-version="V1"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(217, 70, 239, 0.015) 2px,
+      rgba(217, 70, 239, 0.015) 3px
+    );
+  mix-blend-mode: screen;
+}
+
+[data-version="V1"] h1,
+[data-version="V1"] h2 {
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+@keyframes vx-pulse-fluo {
+  0%, 100% { box-shadow: 0 0 10px rgba(217, 70, 239, 0.4); }
+  50% { box-shadow: 0 0 25px rgba(217, 70, 239, 0.7); }
+}
+[data-version="V1"] .vx-pulse { animation: vx-pulse-fluo 2.5s ease-in-out infinite; }
+
+[data-version="V1"] .vx-neon-text {
+  text-shadow:
+    0 0 5px var(--vx-accent),
+    0 0 10px var(--vx-accent),
+    0 0 20px var(--vx-accent-glow);
+}
+
+/* ═══════════════ V2 — CROISSANCE NETFLIX (rouge + noir cinema) ═══════════════ */
+
+[data-version="V2"] {
+  --vx-accent: #e50914;
+  --vx-accent-bright: #f43f5e;
+  --vx-accent-glow: #ef4444;
+  --vx-secondary: #b91c1c;
+  --vx-secondary-bright: #dc2626;
+  --vx-text-accent: #ef4444;
+  --vx-glow-shadow: 0 4px 20px rgba(229, 9, 20, 0.2);
+  --vx-glow-shadow-strong: 0 8px 30px rgba(229, 9, 20, 0.35);
+  --vx-bg-deep: #000000;
+  --vx-bg-mid: #0a0a0a;
+  --vx-bg-soft: #141414;
+}
+
+/* Override du bg-slate-950 → fond V2 cinema profond */
+[data-version="V2"] .bg-slate-950 {
+  background-color: #000000 !important;
+  background-image:
+    radial-gradient(ellipse 100% 50% at 50% 0%, rgba(229, 9, 20, 0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(185, 28, 28, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #000000 0%, #0a0a0a 40%, #000000 100%);
+}
+
+/* Cartes Netflix : noir charbon avec subtil rouge */
+[data-version="V2"] .bg-slate-900,
+[data-version="V2"] .bg-slate-900\/60,
+[data-version="V2"] .bg-slate-900\/80 {
+  background: linear-gradient(135deg, #141414 0%, #1a0a0a 100%) !important;
+}
+
+/* Bordures sobres : liseré rouge cinéma V2 (renforce pour camoufler les angles) */
+[data-version="V2"] .border-white\/10,
+[data-version="V2"] .border-white\/15,
+[data-version="V2"] .border-white\/20 {
+  border-color: rgba(239, 68, 68, 0.55) !important;
+  box-shadow:
+    0 0 0 1px rgba(239, 68, 68, 0.25),
+    0 0 14px rgba(229, 9, 20, 0.22),
+    inset 0 0 8px rgba(229, 9, 20, 0.08) !important;
+}
+
+/* V2 — Liseré rouge cinéma sur toutes les Cards et conteneurs arrondis */
+[data-version="V2"] .border:not([class*="border-red"]):not([class*="border-rose"]) {
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  box-shadow:
+    0 0 0 1px rgba(239, 68, 68, 0.2),
+    0 0 16px rgba(229, 9, 20, 0.2),
+    inset 0 0 6px rgba(229, 9, 20, 0.06) !important;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Au survol : highlight rouge plus marqué en V2 (effet Netflix) */
+[data-version="V2"] .border:not([class*="border-red"]):not([class*="border-rose"]):hover {
+  border-color: rgba(248, 113, 113, 0.75) !important;
+  box-shadow:
+    0 0 0 1px rgba(248, 113, 113, 0.35),
+    0 0 24px rgba(229, 9, 20, 0.4),
+    inset 0 0 10px rgba(229, 9, 20, 0.1) !important;
+}
+
+/* V2 — Cards arrondies : ring rouge cinema (compatible border-radius)
+   On utilise box-shadow (qui respecte border-radius) avec un glow
+   exterieur rouge suffisamment intense pour gommer les angles
+   d'aliasing visibles autour des coins arrondis. */
+[data-version="V2"] .rounded-xl.border,
+[data-version="V2"] .rounded-2xl.border,
+[data-version="V2"] .rounded-3xl.border {
+  border-color: rgba(239, 68, 68, 0.55) !important;
+  box-shadow:
+    0 0 0 1px rgba(239, 68, 68, 0.28),
+    0 0 20px rgba(229, 9, 20, 0.28),
+    inset 0 0 8px rgba(229, 9, 20, 0.07) !important;
+}
+
+/* Pas de glow sur les titres en V2 (ambiance cinema sobre) */
+[data-version="V2"] h1 { text-shadow: none; }
+
+/* Convertir emerald/teal → rouge Netflix */
+[data-version="V2"] .from-emerald-400,
+[data-version="V2"] .text-emerald-400 { color: #ef4444 !important; }
+[data-version="V2"] .to-teal-400 { color: #f87171 !important; }
+[data-version="V2"] .from-emerald-400.to-teal-400,
+[data-version="V2"] .bg-gradient-to-r.from-emerald-400 {
+  background-image: linear-gradient(to right, #ef4444, #f87171) !important;
+}
+[data-version="V2"] .text-transparent.bg-clip-text.bg-gradient-to-r.from-emerald-400 {
+  background-image: linear-gradient(to right, #ef4444, #f87171) !important;
+}
+
+/* Boutons primaires emerald → rouge Netflix */
+[data-version="V2"] .bg-emerald-600,
+[data-version="V2"] .bg-emerald-500 { background-color: #e50914 !important; }
+[data-version="V2"] .bg-emerald-600:hover,
+[data-version="V2"] .hover\:bg-emerald-500:hover { background-color: #b91c1c !important; }
+[data-version="V2"] .from-emerald-600 { --tw-gradient-from: #e50914 !important; }
+[data-version="V2"] .to-teal-600 { --tw-gradient-to: #b91c1c !important; }
+[data-version="V2"] .hover\:from-emerald-700:hover { --tw-gradient-from: #b91c1c !important; }
+[data-version="V2"] .hover\:to-teal-700:hover { --tw-gradient-to: #991b1b !important; }
+
+/* Sections highlight rouge */
+[data-version="V2"] .bg-emerald-500\/10,
+[data-version="V2"] .bg-emerald-500\/20 {
+  background-color: rgba(229, 9, 20, 0.08) !important;
+}
+[data-version="V2"] .border-emerald-500\/20,
+[data-version="V2"] .border-emerald-500\/30 {
+  border-color: rgba(229, 9, 20, 0.25) !important;
+}
+
+[data-version="V2"] h1 {
+  letter-spacing: -0.03em;
+  font-weight: 800;
+}
+[data-version="V2"] h2 {
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+[data-version="V2"] .vx-cinema-card {
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 10, 10, 0.85) 100%);
+  border: 1px solid rgba(229, 9, 20, 0.15);
+  transition: all 0.3s ease;
+}
+[data-version="V2"] .vx-cinema-card:hover {
+  border-color: rgba(229, 9, 20, 0.5);
+  box-shadow: 0 8px 24px rgba(229, 9, 20, 0.15);
+  transform: translateY(-2px);
+}
+
+/* ═══════════════ V3 — PLEINE PUISSANCE (emerald/teal — etat actuel) ════��══════════ */
+/* La V3 ne definit aucun override : c'est le style par defaut de VIXUAL. */
+
+[data-version="V3"] {
+  --vx-accent: #10b981;
+  --vx-accent-bright: #34d399;
+  --vx-accent-glow: #6ee7b7;
+  --vx-secondary: #14b8a6;
+  --vx-secondary-bright: #2dd4bf;
+  --vx-text-accent: #34d399;
+}
+
 .dark {
   --background: oklch(0.07 0.015 260);
   --foreground: oklch(0.98 0 0);

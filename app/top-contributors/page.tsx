@@ -1,5 +1,6 @@
 "use client"
 
+import { VersionGuard } from "@/components/version-guard"
 import { useState, useMemo } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -84,6 +85,7 @@ export default function TopContributorsPage() {
   const avgScore = contributors.reduce((sum, c) => sum + c.score, 0) / contributors.length
   
   return (
+    <VersionGuard requiredVersion="V2">
     <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
       {/* Header sticky */}
       <div className="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-xl border-b border-slate-800/50">
@@ -300,5 +302,6 @@ export default function TopContributorsPage() {
         </Card>
       </div>
     </main>
+    </VersionGuard>
   )
 }

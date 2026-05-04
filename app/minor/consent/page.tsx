@@ -51,7 +51,7 @@ export default function MinorConsentPage() {
           </div>
           <h1 className="text-2xl font-bold text-white">{"Autorisation parentale requise"}</h1>
           <p className="text-white/50 text-sm max-w-sm mx-auto">
-            {"En tant que mineur (seize ou dix-sept ans), vous devez obtenir l'autorisation d'un parent ou tuteur l\u00e9gal pour utiliser VISUAL."}
+            {"En tant que mineur (seize ou dix-sept ans), vous devez obtenir l'autorisation d'un parent ou tuteur l\u00e9gal pour utiliser VIXUAL."}
           </p>
         </div>
 

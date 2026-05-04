@@ -1,5 +1,5 @@
 /**
- * VISUAL Trust Score -- Type Definitions
+ * VIXUAL Trust Score -- Type Definitions
  *
  * 4-level system based on a 0-100 score.
  */

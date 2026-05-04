@@ -1,9 +1,9 @@
 "use client"
 
 /**
- * VISUAL Sound Provider
+ * VIXUAL Sound Provider
  * 
- * Fournit le contexte audio global pour l'application VISUAL.
+ * Fournit le contexte audio global pour l'application VIXUAL.
  * Gère l'état on/off, le volume, et fournit les fonctions de lecture.
  */
 

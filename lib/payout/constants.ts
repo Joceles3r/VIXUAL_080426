@@ -159,27 +159,25 @@ export const VIXUPOINTS_PER_EUR = 100;
 /** Retrait minimum en euros (correspondant au seuil) */
 export const VIXUPOINTS_MIN_WITHDRAW_EUR = VIXUPOINTS_CONVERSION_THRESHOLD / VIXUPOINTS_PER_EUR; // 25 EUR
 
-// ─── Backward Compatibility Aliases ───
+// ─── Backward Compatibility Aliases (contribution/investment seulement) ───
+// VERROU FINAL: VISUPOINTS_* legacy aliases SUPPRIMES, utilisez VIXUPOINTS_*
 export const INVESTMENT_TIERS_EUR = CONTRIBUTION_TIERS_EUR;
 export type InvestmentTierEur = ContributionTierEur;
 export const INVESTMENT_TO_VOTES = CONTRIBUTION_TO_VOTES;
 export const getVotesForInvestment = getVotesForContribution;
-export const INVESTMENT_TO_VISUPOINTS = CONTRIBUTION_TO_VIXUPOINTS;
-export const getVisupointsForInvestment = getVixupointsForContribution;
-export const VISUPOINTS_CONVERSION_THRESHOLD = VIXUPOINTS_CONVERSION_THRESHOLD;
-export const VISUPOINTS_PER_EUR = VIXUPOINTS_PER_EUR;
-export const VISUPOINTS_MIN_WITHDRAW_EUR = VIXUPOINTS_MIN_WITHDRAW_EUR;
+export const INVESTMENT_TO_VIXUPOINTS = CONTRIBUTION_TO_VIXUPOINTS;
+export const getVixupointsForInvestment = getVixupointsForContribution;
 
 /**
  * Convertit des VIXUpoints en euros.
  * @returns { eurosConverted, pointsRemaining, eligibleForConversion }
  */
-export function convertVisupoints(points: number): {
+export function convertVixupoints(points: number): {
   eurosConverted: number;
   pointsRemaining: number;
   eligibleForConversion: boolean;
 } {
-  if (points < VISUPOINTS_CONVERSION_THRESHOLD) {
+  if (points < VIXUPOINTS_CONVERSION_THRESHOLD) {
     return {
       eurosConverted: 0,
       pointsRemaining: points,
@@ -187,8 +185,8 @@ export function convertVisupoints(points: number): {
     };
   }
 
-  const eurosConverted = Math.floor(points / VISUPOINTS_PER_EUR);
-  const pointsRemaining = points - VISUPOINTS_PER_EUR * eurosConverted;
+  const eurosConverted = Math.floor(points / VIXUPOINTS_PER_EUR);
+  const pointsRemaining = points - VIXUPOINTS_PER_EUR * eurosConverted;
 
   return {
     eurosConverted,
@@ -197,7 +195,9 @@ export function convertVisupoints(points: number): {
   };
 }
 
-// ──────────────────────────────────────────────
+// VERROU FINAL: convertVisupoints alias SUPPRIME, utilisez convertVixupoints
+
+// ────────────────────────────��─────────────────
 // 6. REPARTITION DES GAINS PAR CATEGORIE
 // ──────────────────────────────────────────────
 // Source doc: "Vixual - Formules Mathematiques et Repartitions Completes Optimisees"
@@ -259,11 +259,9 @@ export const PODCASTS_POT_INVESTORS_PERCENT = 30;
 export const PODCASTS_POT_Vixual_PERCENT = 20;
 export const PODCASTS_POT_BONUS_PERCENT = 10;
 
-// Backward compatibility aliases
-/** @deprecated Use FILMS_Vixual_BPS instead */
-export const FILMS_VISUAL_BPS = FILMS_Vixual_BPS;
-/** @deprecated Use PODCASTS_POT_Vixual_PERCENT instead */
-export const PODCASTS_POT_VISUAL_PERCENT = PODCASTS_POT_Vixual_PERCENT;
+// VERROU FINAL: cles VIXUAL officielles
+export const FILMS_VIXUAL_BPS = FILMS_Vixual_BPS;
+export const PODCASTS_POT_VIXUAL_PERCENT = PODCASTS_POT_Vixual_PERCENT;
 
 /**
  * Detail du bonus 10% Podcasts (source: README payout-engine V2)
@@ -312,9 +310,9 @@ export const CREATOR_11_100_PERCENT = 0;
 
 // ─── 6F. CATEGORY SPLITS (pour affichage + settlement) ───
 
-export type VisualCategory = "films" | "voix_info" | "livres" | "podcasts";
+export type VixualCategory = "films" | "voix_info" | "livres" | "podcasts";
 
-export const CATEGORY_SPLITS: Record<VisualCategory, {
+export const CATEGORY_SPLITS: Record<VixualCategory, {
   label: string;
   frequency: string;
   splits: { label: string; percent: number; color: string }[];
@@ -323,9 +321,9 @@ export const CATEGORY_SPLITS: Record<VisualCategory, {
     label: "Films / Videos / Documentaires",
     frequency: "Configurable (admin)",
     splits: [
-      { label: "Investisseurs TOP 10", percent: FILMS_INVESTOR_TOP10_PERCENT, color: "emerald" },
-      { label: "Porteurs TOP 10", percent: FILMS_CREATOR_TOP10_PERCENT, color: "teal" },
-      { label: "Investisseurs rangs 11-100", percent: FILMS_INVESTOR_11_100_PERCENT, color: "sky" },
+      { label: "Contributeurs TOP 10", percent: FILMS_INVESTOR_TOP10_PERCENT, color: "emerald" },
+      { label: "Createurs TOP 10", percent: FILMS_CREATOR_TOP10_PERCENT, color: "teal" },
+      { label: "Contributeurs rangs 11-100", percent: FILMS_INVESTOR_11_100_PERCENT, color: "sky" },
       { label: "Vixual (plateforme)", percent: FILMS_Vixual_PERCENT, color: "slate" },
     ],
   },
@@ -342,7 +340,7 @@ export const CATEGORY_SPLITS: Record<VisualCategory, {
     frequency: "Mensuel (1er du mois)",
     splits: [
       { label: "Auteurs TOP 10", percent: LIVRES_POT_AUTHORS_TOP10_PERCENT, color: "amber" },
-      { label: "Investi-lecteurs gagnants", percent: LIVRES_POT_INVESTIREADERS_PERCENT, color: "sky" },
+      { label: "Contribu-lecteurs gagnants", percent: LIVRES_POT_INVESTIREADERS_PERCENT, color: "sky" },
     ],
   },
   podcasts: {
@@ -386,15 +384,15 @@ export const CREATOR_QUOTAS = {
   films: { maxDuration: Infinity, perQuarter: 1, priceEur: 7, label: "Films (> 30 min)" },
 } as const;
 
-// ──────────────────────────────────────────────
+// ────────────�����─────────────────────────────����──
 // 7. VENTE D'ARTICLE (Infoporteur) - 70/30
 // ──────────────────────────────────────────────
 
 /** Part de l'auteur sur la vente d'un article */
 export const ARTICLE_SALE_AUTHOR_PERCENT = 70;
 
-/** Part de Vixual sur la vente d'un article */
-export const ARTICLE_SALE_Vixual_PERCENT = 30;
+/** Part de VIXUAL sur la vente d'un article */
+export const ARTICLE_SALE_VIXUAL_PERCENT = 30;
 
 /**
  * Calcule la repartition pour une vente d'article.
@@ -402,11 +400,11 @@ export const ARTICLE_SALE_Vixual_PERCENT = 30;
  */
 export function computeArticleSale(priceEurCents: number): {
   authorCents: number;
-  visualCents: number;
+  vixualCents: number;
 } {
   const authorCents = Math.floor((priceEurCents * ARTICLE_SALE_AUTHOR_PERCENT) / 100);
-  const visualCents = priceEurCents - authorCents;
-  return { authorCents, visualCents };
+  const vixualCents = priceEurCents - authorCents;
+  return { authorCents, vixualCents };
 }
 
 // ──────────────────────────────────────────────
@@ -448,47 +446,52 @@ export const MINOR_MIN_AGE = 16;
 /** Age de majorite (deblocage retrait/invest/conversion) */
 export const MAJORITY_AGE = 18;
 /** Plafond VIXUpoints pour les mineurs (16-17 ans) */
-export const MINOR_VISUPOINTS_CAP = 10_000;
+export const MINOR_VIXUPOINTS_CAP = 10_000;
 /** Equivalent en euros du plafond mineur */
-export const MINOR_VISUPOINTS_CAP_EUR = MINOR_VISUPOINTS_CAP / VISUPOINTS_PER_EUR; // 100 EUR
+export const MINOR_VIXUPOINTS_CAP_EUR = MINOR_VIXUPOINTS_CAP / VIXUPOINTS_PER_EUR; // 100 EUR
 /** Seuil conversion majeur : 2500 VIXUpoints */
-export const ADULT_VISUPOINTS_CONVERSION_THRESHOLD = VISUPOINTS_CONVERSION_THRESHOLD;
+export const ADULT_VIXUPOINTS_CONVERSION_THRESHOLD = VIXUPOINTS_CONVERSION_THRESHOLD;
+
+// VERROU FINAL: aliases VISUPOINTS_* SUPPRIMES, utilisez VIXUPOINTS_*
 
 // ──────────────────────────────────────────────
-// 11. VISUPOINTS - PLAFONDS PAR PROFIL
+// 11. VIXUPOINTS - PLAFONDS PAR PROFIL
 // ──────────────────────────────────────────────
 
-export type VisupointsProfileKey =
+// VERROU FINAL: Cles officielles uniquement
+export type VixupointsProfileKey =
   | "guest"
   | "visitor"
   | "visitor_minor"
-  | "auditor"
-  | "investireader"
-  | "porter"
-  | "infoporter"
-  | "podcaster"
-  | "investor";
+  | "creator"
+  | "contributor"
+  | "infoporteur"
+  | "podcasteur"
+  | "auditeur"
+  | "contribu_lecteur";
 
-export const VISUPOINTS_PROFILE_CAPS: Record<VisupointsProfileKey, {
+// VERROU FINAL: Cles officielles uniquement, plus d'anciens alias
+export const VIXUPOINTS_PROFILE_CAPS: Record<VixupointsProfileKey, {
   label: string;
   cap: number | null; // null = ne gagne pas
   capType: "total" | "monthly" | "none";
   convertible: boolean;
   objective: string;
 }> = {
-  guest:          { label: "Invit\u00e9",              cap: null,   capType: "none",    convertible: false, objective: "Acquisition" },
-  visitor:        { label: "Visiteur majeur",      cap: 2_500,  capType: "total",   convertible: true,  objective: "Inciter \u00e0 investir" },
-  visitor_minor:  { label: "Visiteur mineur (16\u201317)", cap: 10_000, capType: "total",   convertible: false, objective: "Fid\u00e9lisation long terme" },
-  auditor:        { label: "Auditeur",             cap: 2_500,  capType: "total",   convertible: true,  objective: "Encourager \u00e9coute" },
-  investireader:  { label: "Investi-lecteur",      cap: 2_500,  capType: "total",   convertible: true,  objective: "Lecture active" },
-  porter:         { label: "Porteur",              cap: 1_000,  capType: "monthly", convertible: false, objective: "Boost visibilit\u00e9" },
-  infoporter:     { label: "Infoporteur",          cap: 1_000,  capType: "monthly", convertible: false, objective: "Boost article" },
-  podcaster:      { label: "Podcasteur",           cap: 1_000,  capType: "monthly", convertible: false, objective: "Mise en avant" },
-  investor:       { label: "Investisseur",         cap: null,   capType: "none",    convertible: false, objective: "R\u00e9mun\u00e9r\u00e9 via gains" },
+  guest:            { label: "Invite",                   cap: null,   capType: "none",    convertible: false, objective: "Acquisition" },
+  visitor:          { label: "Visiteur majeur",          cap: 2_500,  capType: "total",   convertible: true,  objective: "Inciter a contribuer" },
+  visitor_minor:    { label: "Visiteur mineur (16-17)",  cap: 10_000, capType: "total",   convertible: false, objective: "Fidelisation long terme" },
+  creator:          { label: "Createur",                 cap: 1_000,  capType: "monthly", convertible: false, objective: "Boost visibilite" },
+  contributor:      { label: "Contributeur",             cap: null,   capType: "none",    convertible: false, objective: "Remunere via gains" },
+  infoporteur:      { label: "Infoporteur",              cap: 1_000,  capType: "monthly", convertible: false, objective: "Boost article" },
+  podcasteur:       { label: "Podcasteur",               cap: 1_000,  capType: "monthly", convertible: false, objective: "Mise en avant" },
+  auditeur:         { label: "Auditeur",                 cap: 2_500,  capType: "total",   convertible: true,  objective: "Encourager ecoute" },
+  contribu_lecteur: { label: "Contribu-lecteur",         cap: 2_500,  capType: "total",   convertible: true,  objective: "Lecture active" },
 };
 
-/** Maximum journalier recommand\u00e9 */
-export const VISUPOINTS_MAX_DAILY = 60;
+/** Maximum journalier recommande */
+export const VIXUPOINTS_MAX_DAILY = 60;
+// VERROU FINAL: VISUPOINTS_MAX_DAILY alias SUPPRIME
 
 // ──────────────────────────────────────────────
 // 12. ENGAGEMENT REDIRECT ENGINE

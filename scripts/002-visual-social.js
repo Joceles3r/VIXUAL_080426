@@ -3,7 +3,7 @@ import { neon } from "@neondatabase/serverless";
 const sql = neon(process.env.DATABASE_URL);
 
 async function migrate() {
-  console.log("Starting VISUAL Social migration (002)...");
+  console.log("Starting VIXUAL Social migration (002)...");
 
   // ── 1. social_posts table ──
   await sql`
@@ -108,7 +108,7 @@ async function migrate() {
   }
   console.log("OK: seeded official tags");
 
-  console.log("VISUAL Social migration (002) complete!");
+  console.log("VIXUAL Social migration (002) complete!");
 }
 
 migrate().catch((err) => {

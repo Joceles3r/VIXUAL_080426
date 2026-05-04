@@ -28,7 +28,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { useAuth } from "@/lib/auth-context"
 import { MOCK_INVESTMENTS, MOCK_TRANSACTIONS, USER_RANKINGS, LEADERBOARD_CATEGORIES } from "@/lib/mock-data"
-import { MINOR_VIXUPOINTS_CAP } from "@/lib/vixupoints-engine"
+import { MINOR_VIXUPOINTS_CAP } from "@/lib/payout/constants"
 import { ParentalConsentForm } from "@/components/parental-consent-form"
 import { CommunityCharter } from "@/components/community-charter"
 import { ReportButton } from "@/components/report-button"
@@ -91,15 +91,16 @@ export default function DashboardPage() {
     )
   }
 
+  // VERROU FINAL: cles officielles uniquement
   const isVisitor = roles.includes("visitor")
-  const isPorter = roles.includes("porter")
-  const isContributor = roles.includes("contributor") || roles.includes("investor")
-  const isInfoporter = roles.includes("infoporter")
-  const isContribuReader = roles.includes("contribu_reader") || roles.includes("investireader")
-  const isPodcaster = roles.includes("podcaster")
-  const isListener = roles.includes("listener")
-  const hasCreatorRole = isPorter || isInfoporter || isPodcaster
-  const hasContributorRole = isContributor || isContribuReader || isListener
+  const isCreator = roles.includes("creator")
+  const isContributor = roles.includes("contributor")
+  const isInfoporteur = roles.includes("infoporteur")
+  const isContribuLecteur = roles.includes("contribu_lecteur")
+  const isPodcasteur = roles.includes("podcasteur")
+  const isAuditeur = roles.includes("auditeur")
+  const hasCreatorRole = isCreator || isInfoporteur || isPodcasteur
+  const hasContributorRole = isContributor || isContribuLecteur || isAuditeur
 
   return (
     <div className="space-y-8">
@@ -290,16 +291,16 @@ export default function DashboardPage() {
       {hasCreatorRole && user?.id && (
         <CreatorProgressCard 
           userId={user.id}
-          creatorType={isPorter ? "porter" : isInfoporter ? "infoporter" : "podcaster"}
+          creatorType={isCreator ? "creator" : isInfoporteur ? "infoporteur" : "podcasteur"}
         />
       )}
 
       {/* Caution Reminder */}
       {hasCreatorRole &&
         user?.depositStatus &&
-        ((!user.depositStatus.porter10 && isPorter) ||
-          (!user.depositStatus.infoporter10 && isInfoporter) ||
-          (!user.depositStatus.podcaster10 && isPodcaster)) && (
+        ((!user.depositStatus.creator10 && isCreator) ||
+          (!user.depositStatus.infoporteur10 && isInfoporteur) ||
+          (!user.depositStatus.podcasteur10 && isPodcasteur)) && (
           <Card className="bg-amber-500/10 border-amber-500/30">
             <CardContent className="p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-3">
@@ -340,7 +341,7 @@ export default function DashboardPage() {
                   {"Compte mineur (16\u201317 ans)"}
                 </p>
                 <p className="text-white/50 text-xs">
-                  {"Plafond : " + MINOR_VISUPOINTS_CAP.toLocaleString() + " VIXUpoints (100\u20ac). Investissements et retraits bloqu\u00e9s jusqu'\u00e0 18 ans."}
+                  {"Plafond : " + MINOR_VIXUPOINTS_CAP.toLocaleString() + " VIXUpoints (100\u20ac). Contributions et retraits bloques jusqu'a 18 ans."}
                 </p>
               </div>
             </div>
@@ -411,10 +412,10 @@ export default function DashboardPage() {
           </div>
           <ReportButton
             targetId="general"
-            targetType="other"
+            targetType="content"
             targetName="Signalement depuis le tableau de bord"
             variant="full"
-            size="default"
+            size="sm"
           />
         </CardContent>
       </Card>
@@ -434,14 +435,14 @@ export default function DashboardPage() {
                   {user?.visupoints || 0}
                   {user?.isMinor && (
                     <span className="text-sm font-normal text-white/40 ml-1">
-                      {"/ " + MINOR_VISUPOINTS_CAP.toLocaleString()}
+                      {"/ " + MINOR_VIXUPOINTS_CAP.toLocaleString()}
                     </span>
                   )}
                 </p>
                 {user?.isMinor && (
                   <div className="mt-2">
                     <Progress
-                      value={((user.visupoints || 0) / MINOR_VISUPOINTS_CAP) * 100}
+                      value={((user.visupoints || 0) / MINOR_VIXUPOINTS_CAP) * 100}
                       className="h-1.5 bg-white/10"
                     />
                   </div>
@@ -583,7 +584,7 @@ export default function DashboardPage() {
           </Card>
         </Link>
 
-        {isPorter && (
+        {isCreator && (
           <Link href="/upload">
             <Card className="bg-slate-900/50 border-white/10 hover:border-red-500/50 transition-colors cursor-pointer h-full">
               <CardContent className="p-6 flex items-center gap-4">
@@ -591,7 +592,7 @@ export default function DashboardPage() {
                   <Upload className="h-6 w-6 text-red-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-white">Déposer une vidéo</h3>
+                  <h3 className="font-semibold text-white">Deposer une video</h3>
                   <p className="text-sm text-white/60">
                     Publiez votre contenu audiovisuel
                   </p>
@@ -602,7 +603,7 @@ export default function DashboardPage() {
           </Link>
         )}
 
-        {isInfoporter && (
+        {isInfoporteur && (
           <Link href="/upload/text">
             <Card className="bg-slate-900/50 border-white/10 hover:border-amber-500/50 transition-colors cursor-pointer h-full">
               <CardContent className="p-6 flex items-center gap-4">
@@ -610,9 +611,9 @@ export default function DashboardPage() {
                   <FileText className="h-6 w-6 text-amber-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-white">{"Déposer un écrit"}</h3>
+                  <h3 className="font-semibold text-white">{"Deposer un ecrit"}</h3>
                   <p className="text-sm text-white/60">
-                    {"Publiez votre contenu littéraire"}
+                    {"Publiez votre contenu litteraire"}
                   </p>
                 </div>
                 <ArrowRight className="h-5 w-5 text-white/40" />
@@ -621,7 +622,7 @@ export default function DashboardPage() {
           </Link>
         )}
 
-        {isPodcaster && (
+        {isPodcasteur && (
           <Link href="/upload/podcast">
             <Card className="bg-slate-900/50 border-white/10 hover:border-purple-500/50 transition-colors cursor-pointer h-full">
               <CardContent className="p-6 flex items-center gap-4">
@@ -629,9 +630,9 @@ export default function DashboardPage() {
                   <Mic className="h-6 w-6 text-purple-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-white">{"Déposer un podcast"}</h3>
+                  <h3 className="font-semibold text-white">{"Deposer un podcast"}</h3>
                   <p className="text-sm text-white/60">
-                    {"Publiez vos épisodes audio"}
+                    {"Publiez vos episodes audio"}
                   </p>
                 </div>
                 <ArrowRight className="h-5 w-5 text-white/40" />
@@ -668,10 +669,10 @@ export default function DashboardPage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-white">
-                    Passer au niveau sup\u00e9rieur
+                    Passer au niveau superieur
                   </h3>
                   <p className="text-sm text-white/60">
-                    Devenez cr\u00e9ateur ou investisseur
+                    Devenez createur ou contributeur
                   </p>
                 </div>
                 <ArrowRight className="h-5 w-5 text-white/40" />
@@ -1012,7 +1013,7 @@ export default function DashboardPage() {
                 </span>
                 <span className="text-white/40">Prochain: Argent</span>
               </div>
-              <Link href="/dashboard/visupoints">
+              <Link href="/dashboard/vixupoints">
                 <Button
                   variant="outline"
                   className="w-full bg-transparent border-amber-500/50 text-amber-400 hover:bg-amber-600/20"

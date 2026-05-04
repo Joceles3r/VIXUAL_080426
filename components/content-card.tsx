@@ -1,3 +1,8 @@
+/**
+ * COMPOSANT STRUCTUREL VIXUAL
+ * Carte de contenu utilisee par toutes les listes/feeds.
+ * Modifier avec prudence : impact visuel global.
+ */
 "use client"
 
 import Image from "next/image"
@@ -14,7 +19,7 @@ import { useAuth } from "@/lib/auth-context"
 import { ReportButton } from "@/components/report-button"
 import type { Content } from "@/lib/mock-data"
 
-/* ---------- VISUAL Badges ---------- */
+/* ---------- VIXUAL Badges ---------- */
 function getVisualBadges(content: Content) {
   const badges: { label: string; icon: typeof Flame; bg: string }[] = []
   const daysSinceCreation = Math.floor(
@@ -66,7 +71,7 @@ export function ContentCard({ content }: ContentCardProps) {
             {badgeConfig.label}
           </Badge>
 
-          {/* VISUAL badges row */}
+          {/* VIXUAL badges row */}
           {badges.length > 0 && (
             <div className="absolute top-10 left-3 flex gap-1">
               {badges.slice(0, 2).map((b) => (
@@ -137,9 +142,9 @@ export function ContentCard({ content }: ContentCardProps) {
             <Progress value={progressPercent} className="h-2 bg-slate-800" />
             <div className="flex justify-between text-xs text-white/60">
               <span className="text-emerald-400 font-medium">
-                {content.currentInvestment.toLocaleString()}{"\u20ac"}
+                {content.currentInvestment.toLocaleString("fr-FR")}{"\u20ac"}
               </span>
-              <span>sur {content.investmentGoal.toLocaleString()}{"\u20ac"}</span>
+              <span>sur {content.investmentGoal.toLocaleString("fr-FR")}{"\u20ac"}</span>
             </div>
           </div>
 
@@ -165,7 +170,7 @@ export function ContentCard({ content }: ContentCardProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1 text-sm text-white/60">
               <Users className="h-4 w-4" />
-              <span>{content.investorCount} investisseurs</span>
+              <span>{content.investorCount} contributeurs</span>
             </div>
             {isAuthed && (
               <div onClick={(e) => e.preventDefault()}>

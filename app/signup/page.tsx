@@ -13,17 +13,24 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAuth } from "@/lib/auth-context"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 
-const BENEFITS = [
-  "Acces aux contenus gratuits",
-  "Gagnez des VIXUpoints",
-  "Suivez vos createurs preferes",
-  "Devenez Contributeur, Contribu-lecteur, Auditeur ou Createur (Porteur, Infoporteur, Podcasteur)",
-]
+function getBenefits(version: "V1" | "V2" | "V3") {
+  return [
+    "Acces aux contenus gratuits",
+    "Gagnez des VIXUpoints",
+    "Suivez vos createurs preferes",
+    version === "V1"
+      ? "Devenez Contributeur ou Createur (Porteur)"
+      : "Devenez Contributeur, Contribu-lecteur, Auditeur ou Createur (Porteur, Infoporteur, Podcasteur)",
+  ]
+}
 
 export default function SignupPage() {
   const router = useRouter()
   const { signup } = useAuth()
+  const platformVersion = usePlatformVersion()
+  const benefits = getBenefits(platformVersion)
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [acceptTerms, setAcceptTerms] = useState(false)
@@ -123,6 +130,7 @@ export default function SignupPage() {
             <CardTitle className="text-2xl text-white">
               {"Créer un compte"}
             </CardTitle>
+            <p className="text-white/55 text-sm italic mt-2 text-center">Vois-les avant tout le monde.</p>
             <p className="text-white/60 mt-2">
               Rejoignez VIXUAL et devenez Visiteur gratuitement
             </p>
@@ -134,7 +142,7 @@ export default function SignupPage() {
                 En tant que Visiteur, vous bénéficiez de :
               </p>
               <ul className="space-y-1">
-                {BENEFITS.map((benefit) => (
+                {benefits.map((benefit) => (
                   <li
                     key={benefit}
                     className="flex items-center gap-2 text-sm text-white/70"

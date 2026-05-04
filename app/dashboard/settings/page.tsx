@@ -52,10 +52,11 @@ import { useAuth } from "@/lib/auth-context"
 import { useToast } from "@/components/ui/use-toast"
 import { CAUTION_EUR } from "@/lib/payout/constants"
 
+// VERROU FINAL: cles officielles
 const ROLE_UPGRADES = [
   {
-    role: "porter" as const,
-    label: "Porteur",
+    role: "creator" as const,
+    label: "Createur",
     description: "Deposez des videos et contenus audiovisuels sur VIXUAL",
     icon: Film,
     color: "red",
@@ -63,7 +64,7 @@ const ROLE_UPGRADES = [
     cautionType: "creator" as const,
   },
   {
-    role: "infoporter" as const,
+    role: "infoporteur" as const,
     label: "Infoporteur",
     description: "Publiez vos ecrits : articles, histoires, livres",
     icon: FileText,
@@ -72,7 +73,7 @@ const ROLE_UPGRADES = [
     cautionType: "creator" as const,
   },
   {
-    role: "podcaster" as const,
+    role: "podcasteur" as const,
     label: "Podcasteur",
     description: "Deposez vos podcasts et emissions audio",
     icon: Mic,
@@ -90,7 +91,7 @@ const ROLE_UPGRADES = [
     cautionType: "contributor" as const,
   },
   {
-    role: "contribu_reader" as const,
+    role: "contribu_lecteur" as const,
     label: "Contribu-lecteur",
     description: "Contribuez aux contenus litteraires",
     icon: BookOpen,
@@ -99,7 +100,7 @@ const ROLE_UPGRADES = [
     cautionType: "contributor" as const,
   },
   {
-    role: "listener" as const,
+    role: "auditeur" as const,
     label: "Auditeur",
     description: "Contribuez aux podcasts et contenus audio",
     icon: Headphones,

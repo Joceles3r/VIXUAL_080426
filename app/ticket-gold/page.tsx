@@ -1,5 +1,6 @@
 "use client"
 
+import { VersionGuard } from "@/components/version-guard"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -19,7 +20,7 @@ import {
   Shield,
   XCircle,
 } from "lucide-react"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { TICKET_GOLD_CONFIG, TICKET_GOLD_UI } from "@/lib/ticket-gold/engine"
 
@@ -74,7 +75,7 @@ export default function TicketGoldPage() {
 
   const handlePurchase = async () => {
     setIsProcessing(true)
-    // TODO: Integrer avec Stripe pour le paiement reel
+    // NOTE post-Bunny: Integrer avec Stripe pour le paiement reel
     // Pour l'instant, redirection vers la page de selection de projet
     setTimeout(() => {
       router.push("/dashboard/projects?action=ticket-gold")
@@ -83,6 +84,7 @@ export default function TicketGoldPage() {
   }
 
   return (
+    <VersionGuard requiredVersion="V3">
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
       <VisualHeader />
 
@@ -249,5 +251,6 @@ export default function TicketGoldPage() {
 
       <Footer />
     </div>
+    </VersionGuard>
   )
 }

@@ -1,5 +1,5 @@
 /**
- * VISUAL Discovery Engine V1 — Database Migration
+ * VIXUAL Discovery Engine V1 — Database Migration
  * Creates: discovery_scores, diffusion_waves tables
  */
 import { neon } from "@neondatabase/serverless"
@@ -9,7 +9,7 @@ const sql = neon(process.env.DATABASE_URL)
 async function migrate() {
   console.log("[v0] Running Discovery Engine migration...")
 
-  // discovery_scores: stores computed VISUAL Score per content per cycle
+  // discovery_scores: stores computed VIXUAL Score per content per cycle
   await sql`
     CREATE TABLE IF NOT EXISTS discovery_scores (
       id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),

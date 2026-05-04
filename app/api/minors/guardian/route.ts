@@ -42,7 +42,7 @@ export const POST = withErrorHandler(async (req: Request) => {
       consent_text, status
     ) VALUES (
       ${minorUserId}::uuid, ${guardianName}, ${guardianEmail},
-      ${guardianPhone || null}, ${consentText || "Autorisation parentale standard VISUAL"},
+      ${guardianPhone || null}, ${consentText || "Autorisation parentale standard VIXUAL"},
       'pending'
     )
   `;

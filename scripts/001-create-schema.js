@@ -3,7 +3,7 @@ import { neon } from "@neondatabase/serverless";
 const sql = neon(process.env.DATABASE_URL);
 
 async function migrate() {
-  console.log("Starting VISUAL database migration...");
+  console.log("Starting VIXUAL database migration...");
 
   try {
     await sql`CREATE EXTENSION IF NOT EXISTS "pgcrypto"`;
@@ -175,7 +175,7 @@ async function migrate() {
   await sql`CREATE INDEX IF NOT EXISTS idx_contents_status ON contents(status)`;
   console.log("OK: all indexes created");
 
-  console.log("VISUAL database migration complete!");
+  console.log("VIXUAL database migration complete!");
 }
 
 migrate().catch((err) => {

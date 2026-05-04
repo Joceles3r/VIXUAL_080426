@@ -64,7 +64,7 @@ export async function getCreatorBySlug(slug: string): Promise<Creator | null> {
         stripe_account_id as "stripeAccountId",
         stripe_account_status as "stripeAccountStatus"
       FROM users
-      WHERE slug = ${slug} AND role IN ('porter', 'infoporter', 'podcaster')
+      WHERE slug = ${slug} AND role IN ('creator', 'infoporteur', 'podcasteur')
       LIMIT 1
     `;
     
@@ -95,7 +95,7 @@ export async function getFollowedCreators(userId: string): Promise<Creator[]> {
       FROM user_follows f
       JOIN users u ON f.followed_id = u.id
       WHERE f.follower_id = ${userId}
-        AND u.role IN ('porter', 'infoporter', 'podcaster')
+        AND u.role IN ('creator', 'infoporteur', 'podcasteur')
       ORDER BY f.created_at DESC
       LIMIT 20
     `;

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import useSWR from "swr"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -8,7 +9,6 @@ import {
   Bot,
   Brain,
   Activity,
-  TrendingUp,
   AlertTriangle,
   CheckCircle,
   Clock,
@@ -21,48 +21,49 @@ import {
   RefreshCw,
   ArrowUp,
   ArrowDown,
+  Inbox,
 } from "lucide-react"
-import { MOCK_EMPLOYEES, EMPLOYEE_FUNCTIONS } from "@/lib/admin/employees"
-import { MESSAGE_CATEGORIES, MESSAGE_PRIORITIES } from "@/lib/support/ai-support-engine"
+import { EMPLOYEE_FUNCTIONS } from "@/lib/admin/employees"
+import { MESSAGE_CATEGORIES } from "@/lib/support/ai-support-engine"
 
-// ==================== MOCK DATA ====================
+// ==================== DATA FETCHING ====================
 
-const AI_STATS = {
-  messagesProcessed: 1247,
-  autoReplied: 412,
-  escalated: 89,
-  avgConfidence: 0.87,
-  avgResponseTime: 0.8, // seconds
-  todayProcessed: 34,
-  todayAutoReplied: 12,
-  accuracyRate: 0.94,
+const fetcher = (url: string) => fetch(url).then(res => res.json())
+
+// ==================== TYPES ====================
+
+interface SupportStats {
+  messagesProcessed: number
+  autoReplied: number
+  escalated: number
+  avgConfidence: number
+  avgResponseTime: number
+  todayProcessed: number
+  todayAutoReplied: number
+  accuracyRate: number
 }
 
-const CATEGORY_STATS = [
-  { category: "payment", count: 156, autoReplied: 42, avgConfidence: 0.85 },
-  { category: "technical", count: 198, autoReplied: 31, avgConfidence: 0.78 },
-  { category: "account", count: 234, autoReplied: 98, avgConfidence: 0.91 },
-  { category: "general", count: 312, autoReplied: 187, avgConfidence: 0.94 },
-  { category: "content", count: 89, autoReplied: 12, avgConfidence: 0.82 },
-  { category: "stripe_onboarding", count: 145, autoReplied: 89, avgConfidence: 0.92 },
-  { category: "ticket_gold", count: 78, autoReplied: 45, avgConfidence: 0.89 },
-  { category: "abuse", count: 35, autoReplied: 0, avgConfidence: 0.76 },
-]
+interface CategoryStat {
+  category: string
+  count: number
+  autoReplied: number
+  avgConfidence: number
+}
 
-const TEAM_WORKLOAD = [
-  { team: "payment_support", tickets: 24, urgent: 3, employees: 2 },
-  { team: "technical_support", tickets: 31, urgent: 1, employees: 3 },
-  { team: "user_support", tickets: 18, urgent: 0, employees: 2 },
-  { team: "content_moderation", tickets: 12, urgent: 2, employees: 2 },
-  { team: "creator_support", tickets: 8, urgent: 1, employees: 1 },
-]
+interface TeamWorkload {
+  team: string
+  tickets: number
+  urgent: number
+  employees: number
+}
 
-const RECENT_ALERTS = [
-  { id: 1, type: "saturation", message: "Support technique sature (31 tickets)", time: "Il y a 5 min", severity: "warning" },
-  { id: 2, type: "spike", message: "Hausse des tickets paiement (+40%)", time: "Il y a 15 min", severity: "warning" },
-  { id: 3, type: "pattern", message: "Bug recurrent detecte: upload video", time: "Il y a 1h", severity: "info" },
-  { id: 4, type: "fraud", message: "Activite suspecte detectee: multi-comptes", time: "Il y a 2h", severity: "critical" },
-]
+interface Alert {
+  id: number
+  type: string
+  message: string
+  time: string
+  severity: "critical" | "warning" | "info"
+}
 
 // ==================== COMPONENTS ====================
 
@@ -113,7 +114,27 @@ function StatCard({
   )
 }
 
-function CategoryPerformanceCard({ stats }: { stats: typeof CATEGORY_STATS }) {
+function CategoryPerformanceCard({ stats }: { stats: CategoryStat[] }) {
+  if (stats.length === 0) {
+    return (
+      <Card className="bg-slate-900/50 border-white/10">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-white text-lg flex items-center gap-2">
+            <BarChart3 className="h-5 w-5 text-violet-400" />
+            Performance par categorie
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center py-8">
+            <BarChart3 className="h-10 w-10 text-white/20 mx-auto mb-3" />
+            <p className="text-white/50 text-sm">Aucune donnee disponible</p>
+            <p className="text-white/30 text-xs mt-1">Les statistiques apparaitront apres le premier ticket</p>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card className="bg-slate-900/50 border-white/10">
       <CardHeader className="pb-3">
@@ -153,7 +174,27 @@ function CategoryPerformanceCard({ stats }: { stats: typeof CATEGORY_STATS }) {
   )
 }
 
-function TeamWorkloadCard({ workload }: { workload: typeof TEAM_WORKLOAD }) {
+function TeamWorkloadCard({ workload }: { workload: TeamWorkload[] }) {
+  if (workload.length === 0) {
+    return (
+      <Card className="bg-slate-900/50 border-white/10">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-white text-lg flex items-center gap-2">
+            <Users className="h-5 w-5 text-sky-400" />
+            Charge par equipe
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center py-8">
+            <Users className="h-10 w-10 text-white/20 mx-auto mb-3" />
+            <p className="text-white/50 text-sm">Aucune equipe assignee</p>
+            <p className="text-white/30 text-xs mt-1">La charge de travail sera affichee ici</p>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card className="bg-slate-900/50 border-white/10">
       <CardHeader className="pb-3">
@@ -202,7 +243,7 @@ function TeamWorkloadCard({ workload }: { workload: typeof TEAM_WORKLOAD }) {
   )
 }
 
-function AlertsCard({ alerts }: { alerts: typeof RECENT_ALERTS }) {
+function AlertsCard({ alerts }: { alerts: Alert[] }) {
   const severityColors: Record<string, string> = {
     critical: "border-l-rose-500 bg-rose-500/10",
     warning: "border-l-amber-500 bg-amber-500/10",
@@ -215,12 +256,32 @@ function AlertsCard({ alerts }: { alerts: typeof RECENT_ALERTS }) {
     info: Activity,
   }
 
+  if (alerts.length === 0) {
+    return (
+      <Card className="bg-slate-900/50 border-white/10">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-white text-lg flex items-center gap-2">
+            <Shield className="h-5 w-5 text-amber-400" />
+            Alertes systeme
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center py-8">
+            <CheckCircle className="h-10 w-10 text-emerald-400/50 mx-auto mb-3" />
+            <p className="text-emerald-400 text-sm font-medium">Aucune alerte</p>
+            <p className="text-white/30 text-xs mt-1">Tout fonctionne normalement</p>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card className="bg-slate-900/50 border-white/10">
       <CardHeader className="pb-3">
         <CardTitle className="text-white text-lg flex items-center gap-2">
           <Shield className="h-5 w-5 text-amber-400" />
-          Alertes IA
+          Alertes systeme
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -248,15 +309,67 @@ function AlertsCard({ alerts }: { alerts: typeof RECENT_ALERTS }) {
   )
 }
 
+// ==================== EMPTY STATE ====================
+
+function EmptyDashboard() {
+  return (
+    <Card className="bg-slate-900/50 border-white/10">
+      <CardContent className="p-12 text-center">
+        <Inbox className="h-16 w-16 text-white/20 mx-auto mb-4" />
+        <h3 className="text-xl font-semibold text-white mb-2">Support IA en attente</h3>
+        <p className="text-white/60 max-w-md mx-auto mb-6">
+          Le moteur IA de support est pret. Les statistiques et analyses apparaitront
+          une fois que des tickets auront ete traites.
+        </p>
+        <div className="flex items-center justify-center gap-2">
+          <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
+            <Zap className="h-3 w-3 mr-1" />
+            Moteur IA actif
+          </Badge>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
 // ==================== MAIN PAGE ====================
 
 export default function AdminSupportPage() {
   const [isRefreshing, setIsRefreshing] = useState(false)
 
+  // Fetch real stats from API
+  const { data, error, isLoading, mutate } = useSWR<{
+    stats: SupportStats
+    categories: CategoryStat[]
+    workload: TeamWorkload[]
+    alerts: Alert[]
+  }>(
+    "/api/admin/support-stats",
+    fetcher,
+    { refreshInterval: 60000 } // Refresh every minute
+  )
+
+  // Default empty values
+  const stats: SupportStats = data?.stats || {
+    messagesProcessed: 0,
+    autoReplied: 0,
+    escalated: 0,
+    avgConfidence: 0,
+    avgResponseTime: 0,
+    todayProcessed: 0,
+    todayAutoReplied: 0,
+    accuracyRate: 0,
+  }
+  const categories = data?.categories || []
+  const workload = data?.workload || []
+  const alerts = data?.alerts || []
+
   const handleRefresh = () => {
     setIsRefreshing(true)
-    setTimeout(() => setIsRefreshing(false), 1000)
+    mutate().finally(() => setIsRefreshing(false))
   }
+
+  const hasData = stats.messagesProcessed > 0
 
   return (
     <div className="space-y-6">
@@ -274,9 +387,9 @@ export default function AdminSupportPage() {
             onClick={handleRefresh}
             variant="outline"
             className="border-white/20 text-white"
-            disabled={isRefreshing}
+            disabled={isRefreshing || isLoading}
           >
-            <RefreshCw className={`mr-2 h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`} />
+            <RefreshCw className={`mr-2 h-4 w-4 ${isRefreshing || isLoading ? "animate-spin" : ""}`} />
             Actualiser
           </Button>
           <Button variant="outline" className="border-white/20 text-white">
@@ -286,87 +399,125 @@ export default function AdminSupportPage() {
         </div>
       </div>
 
-      {/* Main Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard
-          title="Messages traites"
-          value={AI_STATS.messagesProcessed.toLocaleString()}
-          subtitle={`+${AI_STATS.todayProcessed} aujourd'hui`}
-          icon={MessageSquare}
-          color="sky"
-          trend={{ value: 12, positive: true }}
-        />
-        <StatCard
-          title="Auto-reponses"
-          value={AI_STATS.autoReplied.toLocaleString()}
-          subtitle={`${Math.round((AI_STATS.autoReplied / AI_STATS.messagesProcessed) * 100)}% du total`}
-          icon={Bot}
-          color="emerald"
-          trend={{ value: 8, positive: true }}
-        />
-        <StatCard
-          title="Escalades"
-          value={AI_STATS.escalated}
-          subtitle="vers humains"
-          icon={ArrowUp}
-          color="amber"
-        />
-        <StatCard
-          title="Precision IA"
-          value={`${Math.round(AI_STATS.accuracyRate * 100)}%`}
-          subtitle="taux de reussite"
-          icon={CheckCircle}
-          color="violet"
-          trend={{ value: 2, positive: true }}
-        />
-      </div>
-
-      {/* AI Performance */}
-      <Card className="bg-gradient-to-r from-emerald-500/10 to-sky-500/10 border-emerald-500/20">
-        <CardContent className="p-6">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center">
-              <Brain className="h-7 w-7 text-emerald-400" />
-            </div>
+      {/* Error state */}
+      {error && (
+        <Card className="bg-rose-500/10 border-rose-500/20">
+          <CardContent className="p-6 flex items-center gap-4">
+            <AlertTriangle className="h-8 w-8 text-rose-400" />
             <div>
-              <h2 className="text-xl font-bold text-white">Moteur IA Support</h2>
-              <p className="text-white/60">Triage automatique + reponses intelligentes</p>
+              <p className="text-rose-400 font-medium">Erreur de chargement</p>
+              <p className="text-white/60 text-sm">Impossible de recuperer les statistiques support</p>
             </div>
-            <Badge className="ml-auto bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
-              <Zap className="h-3 w-3 mr-1" />
-              Actif
-            </Badge>
-          </div>
-          
-          <div className="grid md:grid-cols-4 gap-4">
-            <div className="p-4 bg-white/5 rounded-lg text-center">
-              <p className="text-3xl font-bold text-white">{Math.round(AI_STATS.avgConfidence * 100)}%</p>
-              <p className="text-white/50 text-sm">Confiance moyenne</p>
-            </div>
-            <div className="p-4 bg-white/5 rounded-lg text-center">
-              <p className="text-3xl font-bold text-white">{AI_STATS.avgResponseTime}s</p>
-              <p className="text-white/50 text-sm">Temps de reponse</p>
-            </div>
-            <div className="p-4 bg-white/5 rounded-lg text-center">
-              <p className="text-3xl font-bold text-emerald-400">{AI_STATS.todayAutoReplied}</p>
-              <p className="text-white/50 text-sm">Auto-reponses aujourd&apos;hui</p>
-            </div>
-            <div className="p-4 bg-white/5 rounded-lg text-center">
-              <p className="text-3xl font-bold text-white">4</p>
-              <p className="text-white/50 text-sm">Agents IA actifs</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+            <Button onClick={handleRefresh} variant="outline" className="ml-auto">
+              Reessayer
+            </Button>
+          </CardContent>
+        </Card>
+      )}
 
-      {/* Grid: Categories + Workload + Alerts */}
-      <div className="grid lg:grid-cols-3 gap-6">
-        <CategoryPerformanceCard stats={CATEGORY_STATS} />
-        <TeamWorkloadCard workload={TEAM_WORKLOAD} />
-        <AlertsCard alerts={RECENT_ALERTS} />
-      </div>
+      {/* Loading state */}
+      {isLoading && (
+        <Card className="bg-slate-900/50 border-white/10">
+          <CardContent className="p-8 text-center">
+            <RefreshCw className="h-8 w-8 text-amber-400 mx-auto mb-4 animate-spin" />
+            <p className="text-white/60">Chargement des statistiques...</p>
+          </CardContent>
+        </Card>
+      )}
 
-      {/* AI Agents Status */}
+      {/* Main content */}
+      {!isLoading && !error && (
+        <>
+          {!hasData ? (
+            <EmptyDashboard />
+          ) : (
+            <>
+              {/* Main Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <StatCard
+                  title="Messages traites"
+                  value={stats.messagesProcessed.toLocaleString()}
+                  subtitle={`+${stats.todayProcessed} aujourd'hui`}
+                  icon={MessageSquare}
+                  color="sky"
+                />
+                <StatCard
+                  title="Auto-reponses"
+                  value={stats.autoReplied.toLocaleString()}
+                  subtitle={stats.messagesProcessed > 0 ? `${Math.round((stats.autoReplied / stats.messagesProcessed) * 100)}% du total` : "0%"}
+                  icon={Bot}
+                  color="emerald"
+                />
+                <StatCard
+                  title="Escalades"
+                  value={stats.escalated}
+                  subtitle="vers humains"
+                  icon={ArrowUp}
+                  color="amber"
+                />
+                <StatCard
+                  title="Precision IA"
+                  value={stats.accuracyRate > 0 ? `${Math.round(stats.accuracyRate * 100)}%` : "-"}
+                  subtitle="taux de reussite"
+                  icon={CheckCircle}
+                  color="violet"
+                />
+              </div>
+
+              {/* AI Performance */}
+              <Card className="bg-gradient-to-r from-emerald-500/10 to-sky-500/10 border-emerald-500/20">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center">
+                      <Brain className="h-7 w-7 text-emerald-400" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-white">Moteur IA Support</h2>
+                      <p className="text-white/60">Triage automatique + reponses intelligentes</p>
+                    </div>
+                    <Badge className="ml-auto bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
+                      <Zap className="h-3 w-3 mr-1" />
+                      Actif
+                    </Badge>
+                  </div>
+                  
+                  <div className="grid md:grid-cols-4 gap-4">
+                    <div className="p-4 bg-white/5 rounded-lg text-center">
+                      <p className="text-3xl font-bold text-white">
+                        {stats.avgConfidence > 0 ? `${Math.round(stats.avgConfidence * 100)}%` : "-"}
+                      </p>
+                      <p className="text-white/50 text-sm">Confiance moyenne</p>
+                    </div>
+                    <div className="p-4 bg-white/5 rounded-lg text-center">
+                      <p className="text-3xl font-bold text-white">
+                        {stats.avgResponseTime > 0 ? `${stats.avgResponseTime}s` : "-"}
+                      </p>
+                      <p className="text-white/50 text-sm">Temps de reponse</p>
+                    </div>
+                    <div className="p-4 bg-white/5 rounded-lg text-center">
+                      <p className="text-3xl font-bold text-emerald-400">{stats.todayAutoReplied}</p>
+                      <p className="text-white/50 text-sm">Auto-reponses aujourd&apos;hui</p>
+                    </div>
+                    <div className="p-4 bg-white/5 rounded-lg text-center">
+                      <p className="text-3xl font-bold text-white">4</p>
+                      <p className="text-white/50 text-sm">Agents IA actifs</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Grid: Categories + Workload + Alerts */}
+              <div className="grid lg:grid-cols-3 gap-6">
+                <CategoryPerformanceCard stats={categories} />
+                <TeamWorkloadCard workload={workload} />
+                <AlertsCard alerts={alerts} />
+              </div>
+            </>
+          )}
+        </>
+      )}
+
+      {/* AI Agents Status - always show */}
       <Card className="bg-slate-900/50 border-white/10">
         <CardHeader className="pb-3">
           <CardTitle className="text-white text-lg flex items-center gap-2">
@@ -377,21 +528,17 @@ export default function AdminSupportPage() {
         <CardContent>
           <div className="grid md:grid-cols-4 gap-4">
             {[
-              { name: "IA Triage", description: "Classification et priorite", status: "active", processed: 1247 },
-              { name: "IA Reponse", description: "Reponses automatiques", status: "active", processed: 412 },
-              { name: "IA Escalade", description: "Detection urgences", status: "active", processed: 89 },
-              { name: "IA Surveillance", description: "Detection anomalies", status: "active", processed: 156 },
+              { name: "IA Triage", description: "Classification et priorite", status: "active" },
+              { name: "IA Reponse", description: "Reponses automatiques", status: "active" },
+              { name: "IA Escalade", description: "Detection urgences", status: "active" },
+              { name: "IA Surveillance", description: "Detection anomalies", status: "active" },
             ].map((agent) => (
               <div key={agent.name} className="p-4 bg-white/5 rounded-lg border border-white/10">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-white font-medium">{agent.name}</span>
                   <Badge className="bg-emerald-500/20 text-emerald-400 text-xs">Actif</Badge>
                 </div>
-                <p className="text-white/50 text-xs mb-3">{agent.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-white/40 text-xs">Traites</span>
-                  <span className="text-white font-semibold">{agent.processed}</span>
-                </div>
+                <p className="text-white/50 text-xs">{agent.description}</p>
               </div>
             ))}
           </div>

@@ -1,3 +1,8 @@
+/**
+ * COMPOSANT STRUCTUREL VIXUAL
+ * Layout dashboard utilisateur (sidebar + nav).
+ * Modifier avec prudence : impact toutes les sous-routes /dashboard/*.
+ */
 "use client"
 
 import { ReactNode } from "react"
@@ -18,117 +23,132 @@ import {
   Sparkles,
   Ticket,
 } from "lucide-react"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
+import { NotificationsBell } from "@/components/notifications-bell"
+import { LevelUpCelebration } from "@/components/level-up-celebration"
 import { useAuth } from "@/lib/auth-context"
 import { cn } from "@/lib/utils"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 
-const SIDEBAR_ITEMS: { label: string; href: string; icon: any; roles: string[]; accent?: boolean }[] = [
+// VERROU FINAL: cles officielles uniquement
+const SIDEBAR_ITEMS: { label: string; href: string; icon: any; roles: string[]; accent?: boolean; minVersion?: "V1" | "V2" | "V3" }[] = [
   {
     label: "Tableau de bord",
     href: "/dashboard",
     icon: LayoutDashboard,
-    roles: ["visitor", "porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+    roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
   },
   {
     label: "Mes VIXUpoints",
-    href: "/dashboard/visupoints",
+    href: "/dashboard/vixupoints",
     icon: Star,
-    roles: ["visitor", "contribureader", "listener"],
+    roles: ["visitor", "contribu_lecteur", "auditeur"],
   },
   {
     label: "Pass Decouverte",
     href: "/dashboard/visitor",
     icon: Ticket,
-    roles: ["visitor", "contribureader", "listener"],
+    roles: ["visitor", "contribu_lecteur", "auditeur"],
     accent: true,
   },
   {
     label: "Mes favoris",
     href: "/dashboard/favorites",
     icon: Heart,
-    roles: ["visitor", "porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+    roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
   },
   {
     label: "Ma progression",
     href: "/dashboard/creator",
     icon: Sparkles,
-    roles: ["porter", "infoporter", "podcaster"],
+    roles: ["creator", "infoporteur", "podcasteur"],
     accent: true,
   },
   {
     label: "Mes projets (video)",
     href: "/dashboard/projects?type=video",
     icon: Film,
-    roles: ["porter"],
+    roles: ["creator"],
   },
   {
     label: "Mes ecrits",
     href: "/dashboard/projects?type=text",
     icon: FileText,
-    roles: ["infoporter"],
+    roles: ["infoporteur"],
+    minVersion: "V2",
   },
   {
     label: "Mes podcasts",
     href: "/dashboard/projects?type=podcast",
     icon: Mic,
-    roles: ["podcaster"],
+    roles: ["podcasteur"],
+    minVersion: "V2",
   },
   {
     label: "Mes contributions",
     href: "/dashboard/contributions",
     icon: Wallet,
-    roles: ["contributor", "contribureader", "listener"],
+    roles: ["contributor", "contribu_lecteur", "auditeur"],
   },
   {
     label: "Mon Wallet V3",
     href: "/dashboard/wallet",
     icon: Wallet2,
-    roles: ["porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+    roles: ["creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
     accent: true,
   },
   {
     label: "Historique",
     href: "/dashboard/history",
     icon: History,
-    roles: ["porter", "contributor", "infoporter", "contribureader", "podcaster", "listener"],
+    roles: ["creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
   },
   {
     label: "Deposer une video",
     href: "/upload",
     icon: Upload,
-    roles: ["porter"],
+    roles: ["creator"],
   },
   {
     label: "Deposer un ecrit",
     href: "/upload/text",
     icon: Upload,
-    roles: ["infoporter"],
+    roles: ["infoporteur"],
+    minVersion: "V2",
   },
   {
     label: "Deposer un podcast",
     href: "/upload/podcast",
     icon: Upload,
-    roles: ["podcaster"],
+    roles: ["podcasteur"],
+    minVersion: "V2",
   },
   {
     label: "Parametres",
     href: "/dashboard/settings",
     icon: Settings,
-    roles: ["visitor", "porter", "investor", "infoporter", "investireader", "podcaster", "listener"],
+    roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
   },
 ]
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const { roles, isAuthed } = useAuth()
+  const platformVersion = usePlatformVersion()
 
-  const visibleItems = SIDEBAR_ITEMS.filter(
-    (item) => item.roles.some((r) => roles.includes(r as any)) || !isAuthed
-  )
+  const visibleItems = SIDEBAR_ITEMS.filter((item) => {
+    const roleMatch = item.roles.some((r) => roles.includes(r as any)) || !isAuthed
+    const versionMatch = !item.minVersion || ({ V1: 1, V2: 2, V3: 3 }[platformVersion] >= { V1: 1, V2: 2, V3: 3 }[item.minVersion])
+    return roleMatch && versionMatch
+  })
 
   return (
     <div className="min-h-screen bg-slate-950">
+      <LevelUpCelebration />
       <VisualHeader />
+      <div className="fixed top-4 right-4 z-50">
+        <NotificationsBell />
+      </div>
 
       <div className="flex pt-20">
         {/* Sidebar */}

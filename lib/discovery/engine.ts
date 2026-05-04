@@ -58,7 +58,7 @@ export function computeVisualScore(signals: ProjectSignals): VisualScoreBreakdow
   if (signals.hasTicketGoldActive) trustScore = Math.min(trustScore + 5, 100)
 
   // 5% — AI quality bonus (heuristic: completeness of project signals)
-  // If investor count > 10 AND completion rate > 0.5 AND trust > 60 => full bonus
+  // If contributor count > 10 AND completion rate > 0.5 AND trust > 60 => full bonus
   const qualityBonus =
     signals.investorCount > 10 && signals.avgCompletionRate > 0.5 && signals.creatorTrustScore > 60
       ? 100
@@ -135,7 +135,7 @@ export function detectManipulation(signals: ProjectSignals): ManipulationCheck {
     flags.push("ABNORMAL_TRAFFIC")
   }
 
-  // Coordinated investments: very high avg investment per investor
+  // Coordinated contributions: very high avg contribution per contributor
   const avgInvestmentPerInvestor =
     signals.investorCount > 0 ? signals.currentInvestment / signals.investorCount : 0
   if (avgInvestmentPerInvestor > 15 && signals.daysSincePublished <= 7) {
@@ -290,7 +290,7 @@ export function rankProjectsFromMock(contents: Content[]): RankedProject[] {
       comments: Math.round(c.totalVotes * 0.15),
       shares: Math.round(c.totalVotes * 0.10),
       favourites: Math.round(c.totalVotes * 0.15),
-      // Completion: correlated with free vs paid and investor count
+      // Completion: correlated with free vs paid and contributor count
       avgCompletionRate: c.isFree
         ? Math.min(0.3 + c.investorCount / 100, 0.85)
         : Math.min(0.5 + c.investorCount / 120, 0.95),
@@ -360,7 +360,7 @@ export function rankProjectsFromMock(contents: Content[]): RankedProject[] {
 export function getTop100ByCategory(
   contentType?: string,
   limit: number = 100,
-): (RankedProject & { score: VisualScoreBreakdown; scores: Record<string, number> })[] {
+): (Omit<RankedProject, "score"> & { score: VisualScoreBreakdown; scores: Record<string, number> })[] {
   // Rank all projects
   let ranked = rankProjectsFromMock(ALL_CONTENTS)
 

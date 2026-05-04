@@ -56,7 +56,7 @@ export const POST = withErrorHandler(async (req: Request) => {
     body = JSON.parse(rawBody)
   } catch {
     console.error("[BUNNY WEBHOOK] Invalid JSON body")
-    return apiError(ErrorCodes.ERR_INVALID_BODY, "Invalid JSON body", 400)
+    return apiError(ErrorCodes.ERR_INVALID_INPUT, "Invalid JSON body", 400)
   }
   
   // Verify webhook signature (required in production)
@@ -69,7 +69,7 @@ export const POST = withErrorHandler(async (req: Request) => {
     if (!signature) {
       console.warn("[BUNNY WEBHOOK] Missing signature header")
       if (isProduction) {
-        return apiError(ErrorCodes.ERR_INVALID_SIGNATURE, "Missing webhook signature", 403)
+        return apiError(ErrorCodes.ERR_UNAUTHORIZED, "Missing webhook signature", 403)
       }
       // Allow in dev without signature but log warning
       console.warn("[BUNNY WEBHOOK] DEV MODE: Allowing request without signature")
@@ -78,7 +78,7 @@ export const POST = withErrorHandler(async (req: Request) => {
       
       if (!isValid) {
         console.error("[BUNNY WEBHOOK] Invalid signature detected - possible spoofing attempt")
-        return apiError(ErrorCodes.ERR_INVALID_SIGNATURE, "Invalid webhook signature", 403)
+        return apiError(ErrorCodes.ERR_UNAUTHORIZED, "Invalid webhook signature", 403)
       }
       
       console.log("[BUNNY WEBHOOK] Signature verified successfully")
@@ -86,7 +86,7 @@ export const POST = withErrorHandler(async (req: Request) => {
   } else if (isProduction) {
     console.error("[BUNNY WEBHOOK] CRITICAL: No BUNNY_WEBHOOK_SECRET configured in production!")
     // In production without secret, reject all webhooks for security
-    return apiError(ErrorCodes.ERR_SERVER_ERROR, "Webhook not configured", 500)
+    return apiError(ErrorCodes.ERR_INTERNAL, "Webhook not configured", 500)
   } else {
     console.warn("[BUNNY WEBHOOK] DEV MODE: No webhook secret configured - accepting all requests")
   }
@@ -112,7 +112,7 @@ export const POST = withErrorHandler(async (req: Request) => {
     5: "error",
   }
   
-  const statusText = statusMap[Status] || "unknown"
+  const statusText = (statusMap as Record<number, string>)[Status as number] || "unknown"
   
   // Mettre à jour le statut de la vidéo dans la base de données
   try {
@@ -188,7 +188,7 @@ export const POST = withErrorHandler(async (req: Request) => {
   } catch (error) {
     console.error("[BUNNY WEBHOOK] Database error:", error)
     return apiError(
-      ErrorCodes.ERR_DATABASE_ERROR,
+      ErrorCodes.ERR_DATABASE,
       "Failed to update video status",
       500
     )

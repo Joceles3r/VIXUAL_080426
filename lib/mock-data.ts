@@ -2,7 +2,7 @@ import type { InvestmentTierEur } from "@/lib/payout/constants"
 import {
   INVESTMENT_TIERS_EUR,
   getVotesForInvestment,
-  getVisupointsForInvestment,
+  getVixupointsForInvestment,
   CAUTION_EUR,
 } from "@/lib/payout/constants"
 
@@ -68,6 +68,23 @@ export const VERIFIED_CREATORS_NAMES = [
 
 export function isVerifiedCreator(creatorName: string): boolean {
   return VERIFIED_CREATORS_NAMES.includes(creatorName)
+}
+
+/**
+ * Vérifie si un créateur a le statut "Créateur Gold" (badge premium VIXUAL).
+ * En production, ce statut viendra de la DB (table users.is_gold_creator).
+ * En attendant, la liste des créateurs Gold est hardcodée ici.
+ *
+ * Note : ce badge est distinct de "Ticket Gold" (boost projet 48h, V3).
+ */
+const GOLD_CREATORS = new Set<string>([
+  "Marie Stellaire",
+  "Karim Ondes",
+  // Ajouter ici les noms/IDs des créateurs Gold au fur et à mesure
+]);
+
+export function isGoldCreator(creatorName: string): boolean {
+  return GOLD_CREATORS.has(creatorName);
 }
 
 // Filtre les contenus des créateurs Gold
@@ -142,7 +159,7 @@ export const MOCK_INVESTMENTS: Investment[] = [
     contentType: "video",
     amount: 15,
     votes: getVotesForInvestment(15),         // 9 votes
-    visupointsEarned: getVisupointsForInvestment(15), // 80 pts
+    vixupointsEarned: getVixupointsForInvestment(15), // 80 pts
     date: "2026-01-20",
     status: "active",
     returns: 2.5,
@@ -154,7 +171,7 @@ export const MOCK_INVESTMENTS: Investment[] = [
     contentType: "text",
     amount: 10,
     votes: getVotesForInvestment(10),         // 7 votes
-    visupointsEarned: getVisupointsForInvestment(10), // 50 pts
+    vixupointsEarned: getVixupointsForInvestment(10), // 50 pts
     date: "2026-01-22",
     status: "active",
     returns: 1.8,
@@ -166,7 +183,7 @@ export const MOCK_INVESTMENTS: Investment[] = [
     contentType: "video",
     amount: 5,
     votes: getVotesForInvestment(5),          // 4 votes
-    visupointsEarned: getVisupointsForInvestment(5),  // 25 pts
+    vixupointsEarned: getVixupointsForInvestment(5),  // 25 pts
     date: "2026-02-05",
     status: "active",
     returns: 0.6,
@@ -178,7 +195,7 @@ export const MOCK_INVESTMENTS: Investment[] = [
     contentType: "text",
     amount: 20,
     votes: getVotesForInvestment(20),         // 10 votes
-    visupointsEarned: getVisupointsForInvestment(20), // 110 pts
+    vixupointsEarned: getVixupointsForInvestment(20), // 110 pts
     date: "2026-02-10",
     status: "completed",
     returns: 5.2,
@@ -190,8 +207,8 @@ export const MOCK_TRANSACTIONS: Transaction[] = [
   {
     id: "tr0",
     type: "caution",
-    description: `Caution Contributeur (${CAUTION_EUR.investor}EUR)`,
-    amount: -CAUTION_EUR.investor,
+    description: `Caution Contributeur (${CAUTION_EUR.contributor}EUR)`,
+    amount: -CAUTION_EUR.contributor,
     date: "2026-01-15",
     status: "completed",
   },

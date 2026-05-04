@@ -51,7 +51,7 @@ function VerifyContent() {
                 <div>
                   <p className="text-emerald-400 font-bold text-lg">{"Autorisation valid\u00e9e"}</p>
                   <p className="text-white/50 text-sm mt-2">
-                    {"Merci. Votre validation parentale est enregistr\u00e9e. L'\u00e9quipe VISUAL va finaliser le contr\u00f4le."}
+                    {"Merci. Votre validation parentale est enregistr\u00e9e. L'\u00e9quipe VIXUAL va finaliser le contr\u00f4le."}
                   </p>
                 </div>
               </>
@@ -64,7 +64,7 @@ function VerifyContent() {
                 <div>
                   <p className="text-red-400 font-bold text-lg">{"Lien invalide ou expir\u00e9"}</p>
                   <p className="text-white/50 text-sm mt-2">
-                    {"Merci de relancer la demande d'autorisation parentale depuis votre compte VISUAL."}
+                    {"Merci de relancer la demande d'autorisation parentale depuis votre compte VIXUAL."}
                   </p>
                 </div>
               </>

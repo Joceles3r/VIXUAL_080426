@@ -2,8 +2,8 @@ import "server-only"
 import { NextResponse, type NextRequest } from "next/server"
 import { stripeConnectService } from "@/lib/integrations/stripe/stripe-connect-service"
 import { sql } from "@/lib/db"
-import { verifyAdminRole } from "@/lib/admin/roles"
-import { stripe, logStripeEvent } from "@/lib/stripe"
+import { isPatron } from "@/lib/admin/roles"
+import { logStripeEvent } from "@/lib/stripe"
 
 /**
  * VIXUAL Admin API - Stripe Connect Dashboard
@@ -17,14 +17,13 @@ export async function GET(req: NextRequest) {
   const adminEmail = searchParams.get("email")
   const action = searchParams.get("action") || "stats"
 
-  // Verify admin role
+  // Verify admin role (PATRON for now - extend to roles when role system ready)
   if (!adminEmail) {
     return NextResponse.json({ error: "Email requis" }, { status: 401 })
   }
 
-  const roleCheck = await verifyAdminRole(adminEmail, ["patron", "adjoint"])
-  if (!roleCheck.authorized) {
-    return NextResponse.json({ error: "Acces non autorise" }, { status: 403 })
+  if (!isPatron(adminEmail)) {
+    return NextResponse.json({ error: "Acces reserve au PATRON" }, { status: 403 })
   }
 
   try {
@@ -55,14 +54,13 @@ export async function POST(req: NextRequest) {
   const body = await req.json()
   const { email, action, ...params } = body
 
-  // Verify admin role
+  // Verify admin role (PATRON only for now)
   if (!email) {
     return NextResponse.json({ error: "Email requis" }, { status: 401 })
   }
 
-  const roleCheck = await verifyAdminRole(email, ["patron", "adjoint"])
-  if (!roleCheck.authorized) {
-    return NextResponse.json({ error: "Acces non autorise" }, { status: 403 })
+  if (!isPatron(email)) {
+    return NextResponse.json({ error: "Acces reserve au PATRON" }, { status: 403 })
   }
 
   try {
@@ -95,14 +93,13 @@ export async function PATCH(req: NextRequest) {
   const body = await req.json()
   const { email, payoutId, status } = body
 
-  // Verify admin role
+  // Verify admin role (PATRON only for now)
   if (!email) {
     return NextResponse.json({ error: "Email requis" }, { status: 401 })
   }
 
-  const roleCheck = await verifyAdminRole(email, ["patron", "adjoint"])
-  if (!roleCheck.authorized) {
-    return NextResponse.json({ error: "Acces non autorise" }, { status: 403 })
+  if (!isPatron(email)) {
+    return NextResponse.json({ error: "Acces reserve au PATRON" }, { status: 403 })
   }
 
   try {

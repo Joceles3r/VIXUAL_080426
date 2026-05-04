@@ -1,7 +1,7 @@
 /**
  * VIXUAL TICKET GOLD ENGINE
  * 
- * Remplace le Gold Pass par un systeme plus simple et equitable:
+ * Systeme de boost temporaire simple et equitable:
  * - 5EUR par ticket
  * - Boost de visibilite pendant 48h
  * - Maximum 1 ticket par mois par projet
@@ -19,8 +19,8 @@ export interface TicketGold {
   projectId: string;
   userId: string;
   purchasedAt: Date;
-  activatedAt: Date;
-  expiresAt: Date;
+  activatedAt?: Date;
+  expiresAt?: Date;
   isActive: boolean;
   boostMultiplier: number;
   stripePaymentId?: string;
@@ -84,7 +84,7 @@ export function canPurchaseTicketGold(
   
   // Trouver le ticket actif pour ce projet
   const activeTicket = existingTickets.find(
-    t => t.projectId === projectId && t.isActive && new Date(t.expiresAt) > now
+    t => t.projectId === projectId && t.isActive && t.expiresAt && new Date(t.expiresAt) > now
   );
   
   if (activeTicket) {
@@ -183,7 +183,7 @@ export function calculateBoostedVisibility(
 export function checkAndExpireTickets(tickets: TicketGold[]): TicketGold[] {
   const now = new Date();
   return tickets.map(ticket => {
-    if (ticket.isActive && new Date(ticket.expiresAt) <= now) {
+    if (ticket.isActive && ticket.expiresAt && new Date(ticket.expiresAt) <= now) {
       return { ...ticket, isActive: false };
     }
     return ticket;

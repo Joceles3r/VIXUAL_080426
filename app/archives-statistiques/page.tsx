@@ -1,5 +1,6 @@
 import { Metadata } from "next"
-import { VisualHeader } from "@/components/visual-header"
+import { VersionGuardServer } from "@/components/version-guard-server"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { ArchivesHero } from "@/components/archives-statistiques/archives-hero"
 import { TopProjectsGrid } from "@/components/archives-statistiques/top-projects-grid"
@@ -23,6 +24,7 @@ export default async function ArchivesStatistiquesPage() {
   const bestProgressions = getBestProgressions(6)
 
   return (
+    <VersionGuardServer requiredVersion="V2">
     <div className="min-h-screen bg-slate-950">
       <VisualHeader />
       
@@ -85,5 +87,6 @@ export default async function ArchivesStatistiquesPage() {
       
       <Footer />
     </div>
+    </VersionGuardServer>
   )
 }

@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import useSWR from "swr"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -12,116 +13,19 @@ import {
   CheckCircle,
   User,
   MessageSquare,
-  Filter,
   Search,
   Bot,
-  Send,
-  ArrowRight,
-  XCircle,
   Eye,
   UserCog,
+  Inbox,
+  RefreshCw,
 } from "lucide-react"
 import { MOCK_EMPLOYEES, EMPLOYEE_ROLES } from "@/lib/admin/employees"
 import { MESSAGE_CATEGORIES, MESSAGE_PRIORITIES, type SupportMessage } from "@/lib/support/ai-support-engine"
 
-// ==================== MOCK DATA ====================
+// ==================== DATA FETCHING ====================
 
-const MOCK_MESSAGES: SupportMessage[] = [
-  {
-    id: "msg-001",
-    userId: "user-123",
-    category: "payment",
-    priority: "urgent",
-    subject: "Paiement bloque depuis 3 jours",
-    body: "Bonjour, mon paiement de 150EUR est bloque depuis 3 jours. Stripe m'indique une erreur mais je ne comprends pas. Pouvez-vous m'aider ?",
-    status: "new",
-    aiConfidence: 0.92,
-    aiAutoReplied: false,
-    createdAt: new Date("2026-04-05T10:30:00"),
-    updatedAt: new Date("2026-04-05T10:30:00"),
-  },
-  {
-    id: "msg-002",
-    userId: "user-456",
-    category: "account",
-    priority: "important",
-    subject: "Impossible de changer mon profil",
-    body: "Je souhaite passer de Visiteur a Contributeur mais le bouton ne fonctionne pas. J'ai essaye plusieurs fois.",
-    status: "in_progress",
-    assignedEmployeeId: "emp-003",
-    aiConfidence: 0.85,
-    aiAutoReplied: false,
-    createdAt: new Date("2026-04-05T09:15:00"),
-    updatedAt: new Date("2026-04-05T11:00:00"),
-  },
-  {
-    id: "msg-003",
-    userId: "user-789",
-    category: "general",
-    priority: "normal",
-    subject: "Comment fonctionne le Ticket Gold ?",
-    body: "Bonjour, je voudrais comprendre comment fonctionne le Ticket Gold et si c'est interessant pour mon projet.",
-    status: "resolved",
-    assignedEmployeeId: "emp-003",
-    aiConfidence: 0.95,
-    aiAutoReplied: true,
-    createdAt: new Date("2026-04-04T14:20:00"),
-    updatedAt: new Date("2026-04-04T14:21:00"),
-  },
-  {
-    id: "msg-004",
-    userId: "user-321",
-    category: "content",
-    priority: "important",
-    subject: "Signalement contenu inapproprie",
-    body: "Je signale la video ID-V456 qui contient des propos discriminatoires. Merci de verifier rapidement.",
-    status: "new",
-    aiConfidence: 0.88,
-    aiAutoReplied: false,
-    createdAt: new Date("2026-04-05T08:45:00"),
-    updatedAt: new Date("2026-04-05T08:45:00"),
-  },
-  {
-    id: "msg-005",
-    userId: "user-654",
-    category: "technical",
-    priority: "normal",
-    subject: "Bug upload video",
-    body: "Quand j'essaie d'uploader une video de plus de 500Mo, la page se bloque. Navigateur Chrome derniere version.",
-    status: "in_progress",
-    assignedEmployeeId: "emp-004",
-    aiConfidence: 0.78,
-    aiAutoReplied: false,
-    createdAt: new Date("2026-04-05T07:30:00"),
-    updatedAt: new Date("2026-04-05T10:00:00"),
-  },
-  {
-    id: "msg-006",
-    userId: "user-987",
-    category: "stripe_onboarding",
-    priority: "normal",
-    subject: "Aide activation Stripe",
-    body: "Je ne comprends pas comment activer mon compte Stripe. Quels documents dois-je fournir ?",
-    status: "new",
-    aiConfidence: 0.94,
-    aiAutoReplied: true,
-    createdAt: new Date("2026-04-05T06:00:00"),
-    updatedAt: new Date("2026-04-05T06:01:00"),
-  },
-  {
-    id: "msg-007",
-    userId: "user-111",
-    category: "abuse",
-    priority: "urgent",
-    subject: "Suspicion de fraude",
-    body: "Je pense qu'un utilisateur cree plusieurs comptes pour voter artificiellement. Pseudo: FakeUser123",
-    status: "new",
-    aiConfidence: 0.82,
-    aiAutoReplied: false,
-    createdAt: new Date("2026-04-05T11:00:00"),
-    updatedAt: new Date("2026-04-05T11:00:00"),
-  },
-]
+const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 // ==================== COMPONENTS ====================
 
@@ -168,7 +72,6 @@ function MessageRow({
   return (
     <div className="p-4 bg-slate-900/50 rounded-lg border border-white/10 hover:border-white/20 transition-all">
       <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-        {/* Priority indicator */}
         <div className="flex items-center gap-3">
           <Badge className={`${priorityColors[message.priority]} border`}>
             {priorityConfig.label}
@@ -178,7 +81,6 @@ function MessageRow({
           </Badge>
         </div>
 
-        {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-white font-medium truncate">{message.subject}</span>
@@ -195,11 +97,10 @@ function MessageRow({
               {message.userId}
             </span>
             <span>{categoryConfig?.label}</span>
-            <span>{message.createdAt.toLocaleDateString("fr-FR")}</span>
+            <span>{new Date(message.createdAt).toLocaleDateString("fr-FR")}</span>
           </div>
         </div>
 
-        {/* Assigned to */}
         <div className="flex items-center gap-2 min-w-[150px]">
           {assignedEmployee ? (
             <div className="flex items-center gap-2">
@@ -215,7 +116,6 @@ function MessageRow({
           )}
         </div>
 
-        {/* AI Confidence */}
         <div className="w-20 text-center">
           <div className="text-xs text-white/40 mb-1">Confiance IA</div>
           <div className={`text-sm font-medium ${message.aiConfidence > 0.9 ? "text-emerald-400" : message.aiConfidence > 0.8 ? "text-amber-400" : "text-rose-400"}`}>
@@ -223,7 +123,6 @@ function MessageRow({
           </div>
         </div>
 
-        {/* Actions */}
         <div className="flex gap-2">
           <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-white/50 hover:text-white" onClick={onView}>
             <Eye className="h-4 w-4" />
@@ -327,10 +226,35 @@ function AssignModal({
   )
 }
 
+// ==================== EMPTY STATE ====================
+
+function EmptyState() {
+  return (
+    <Card className="bg-slate-900/50 border-white/10">
+      <CardContent className="p-12 text-center">
+        <Inbox className="h-16 w-16 text-white/20 mx-auto mb-4" />
+        <h3 className="text-xl font-semibold text-white mb-2">Aucun message en attente</h3>
+        <p className="text-white/60 max-w-md mx-auto">
+          La boite de reception est vide. Les nouveaux messages de support apparaitront ici
+          une fois que les utilisateurs auront soumis des demandes.
+        </p>
+      </CardContent>
+    </Card>
+  )
+}
+
 // ==================== MAIN PAGE ====================
 
 export default function AdminMessagesPage() {
-  const [messages, setMessages] = useState<SupportMessage[]>(MOCK_MESSAGES)
+  // Fetch real messages from API (returns empty array if no data)
+  const { data, error, isLoading, mutate } = useSWR<{ messages: SupportMessage[] }>(
+    "/api/support/tickets",
+    fetcher,
+    { refreshInterval: 30000 } // Refresh every 30s
+  )
+
+  const messages = data?.messages || []
+  
   const [activeTab, setActiveTab] = useState<"all" | "urgent" | "important" | "normal" | "resolved">("all")
   const [searchQuery, setSearchQuery] = useState("")
   const [showAssignModal, setShowAssignModal] = useState(false)
@@ -356,20 +280,31 @@ export default function AdminMessagesPage() {
   const normalCount = messages.filter(m => m.priority === "normal" && m.status !== "resolved" && m.status !== "closed").length
   const autoRepliedCount = messages.filter(m => m.aiAutoReplied).length
 
-  const handleAssign = (employeeId: string) => {
+  const handleAssign = async (employeeId: string) => {
     if (selectedMessage) {
-      setMessages(messages.map(m => 
-        m.id === selectedMessage.id 
-          ? { ...m, assignedEmployeeId: employeeId, status: "in_progress" as const }
-          : m
-      ))
+      // Call API to assign
+      try {
+        await fetch(`/api/support/tickets/${selectedMessage.id}/assign`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ employeeId }),
+        })
+        mutate() // Refresh data
+      } catch (err) {
+        console.error("Failed to assign ticket:", err)
+      }
     }
   }
 
-  const handleResolve = (messageId: string) => {
-    setMessages(messages.map(m => 
-      m.id === messageId ? { ...m, status: "resolved" as const } : m
-    ))
+  const handleResolve = async (messageId: string) => {
+    try {
+      await fetch(`/api/support/tickets/${messageId}/resolve`, {
+        method: "POST",
+      })
+      mutate() // Refresh data
+    } catch (err) {
+      console.error("Failed to resolve ticket:", err)
+    }
   }
 
   const tabs = [
@@ -383,12 +318,23 @@ export default function AdminMessagesPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-white flex items-center gap-3">
-          <Mail className="h-7 w-7 text-amber-400" />
-          Messages Support
-        </h1>
-        <p className="text-white/60 mt-1">Boite de reception intelligente VIXUAL</p>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+            <Mail className="h-7 w-7 text-amber-400" />
+            Messages Support
+          </h1>
+          <p className="text-white/60 mt-1">Boite de reception VIXUAL</p>
+        </div>
+        <Button
+          onClick={() => mutate()}
+          variant="outline"
+          className="border-white/20 text-white"
+          disabled={isLoading}
+        >
+          <RefreshCw className={`mr-2 h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
+          Actualiser
+        </Button>
       </div>
 
       {/* Stats Cards */}
@@ -435,7 +381,6 @@ export default function AdminMessagesPage() {
       <Card className="bg-slate-900/50 border-white/10">
         <CardContent className="p-4">
           <div className="flex flex-col md:flex-row gap-4">
-            {/* Tabs */}
             <div className="flex gap-1 overflow-x-auto pb-2 md:pb-0">
               {tabs.map((tab) => (
                 <button
@@ -453,7 +398,6 @@ export default function AdminMessagesPage() {
               ))}
             </div>
             
-            {/* Search */}
             <div className="relative flex-1 md:max-w-xs">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
               <Input
@@ -467,29 +411,58 @@ export default function AdminMessagesPage() {
         </CardContent>
       </Card>
 
-      {/* Messages List */}
-      <div className="space-y-3">
-        {filteredMessages.map((message) => (
-          <MessageRow
-            key={message.id}
-            message={message}
-            onAssign={() => {
-              setSelectedMessage(message)
-              setShowAssignModal(true)
-            }}
-            onView={() => setSelectedMessage(message)}
-            onResolve={() => handleResolve(message.id)}
-          />
-        ))}
-      </div>
-
-      {filteredMessages.length === 0 && (
+      {/* Loading state */}
+      {isLoading && (
         <Card className="bg-slate-900/50 border-white/10">
           <CardContent className="p-8 text-center">
-            <Mail className="h-12 w-12 text-white/20 mx-auto mb-4" />
-            <p className="text-white/60">Aucun message trouve</p>
+            <RefreshCw className="h-8 w-8 text-amber-400 mx-auto mb-4 animate-spin" />
+            <p className="text-white/60">Chargement des messages...</p>
           </CardContent>
         </Card>
+      )}
+
+      {/* Error state */}
+      {error && (
+        <Card className="bg-rose-500/10 border-rose-500/20">
+          <CardContent className="p-8 text-center">
+            <AlertTriangle className="h-8 w-8 text-rose-400 mx-auto mb-4" />
+            <p className="text-rose-400">Erreur de chargement des messages</p>
+            <Button onClick={() => mutate()} className="mt-4" variant="outline">
+              Reessayer
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Messages List or Empty State */}
+      {!isLoading && !error && (
+        <>
+          {filteredMessages.length > 0 ? (
+            <div className="space-y-3">
+              {filteredMessages.map((message) => (
+                <MessageRow
+                  key={message.id}
+                  message={message}
+                  onAssign={() => {
+                    setSelectedMessage(message)
+                    setShowAssignModal(true)
+                  }}
+                  onView={() => setSelectedMessage(message)}
+                  onResolve={() => handleResolve(message.id)}
+                />
+              ))}
+            </div>
+          ) : messages.length === 0 ? (
+            <EmptyState />
+          ) : (
+            <Card className="bg-slate-900/50 border-white/10">
+              <CardContent className="p-8 text-center">
+                <Search className="h-12 w-12 text-white/20 mx-auto mb-4" />
+                <p className="text-white/60">Aucun message ne correspond a votre recherche</p>
+              </CardContent>
+            </Card>
+          )}
+        </>
       )}
 
       {/* Assign Modal */}

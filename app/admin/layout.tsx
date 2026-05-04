@@ -1,3 +1,8 @@
+/**
+ * COMPOSANT STRUCTUREL VIXUAL
+ * Layout admin / patron (gate role admin + sidebar).
+ * Modifier avec prudence : impact toutes les sous-routes /admin/*.
+ */
 "use client"
 
 import { useAuth } from "@/lib/auth-context"
@@ -26,8 +31,11 @@ import {
   Mail,
   Bot,
   UsersRound,
+  FlaskConical,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useTestLabAccess } from "@/lib/test-lab/use-test-lab-access"
+import { AdminVersionQuickToggle } from "@/components/admin-version-quick-toggle"
 
 const ADMIN_NAV = [
   { label: "Tableau de bord", href: "/admin", icon: BarChart3 },
@@ -52,20 +60,27 @@ const ADMIN_NAV = [
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const { user, isAdmin, isAuthed } = useAuth()
+  const { user, isAdmin, isAuthed, isLoading } = useAuth()
   const router = useRouter()
+  const testLab = useTestLabAccess()
 
   useEffect(() => {
-    // Redirect non-admin users after a brief check
+    // FIX BASCULE V1/V2/V3 :
+    // Ne JAMAIS rediriger tant que la restauration de session est en cours.
+    // Sinon `router.refresh()` (declenche par le toggle de version) demonte
+    // brievement le AuthProvider, isAuthed redevient false ~10ms et la
+    // redirection vers /login se declenche => deconnexion silencieuse.
+    if (isLoading) return
+
     if (!isAuthed) {
       router.replace("/login")
     } else if (!isAdmin) {
       router.replace("/dashboard")
     }
-  }, [isAuthed, isAdmin, router])
+  }, [isAuthed, isAdmin, isLoading, router])
 
-  // Gate: show nothing while checking or if not admin
-  if (!isAuthed || !isAdmin) {
+  // Loader pendant la restauration de session OU si non-admin (avant redirection)
+  if (isLoading || !isAuthed || !isAdmin) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center">
         <div className="text-center">
@@ -83,13 +98,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Admin header */}
         <div className="p-5 border-b border-amber-500/30 bg-gradient-to-r from-amber-500/10 to-transparent">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/30 to-rose-500/20 border border-amber-500/50 flex items-center justify-center">
-              <Crown className="h-6 w-6 text-amber-400" />
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 border border-amber-300 flex items-center justify-center shadow-lg shadow-amber-500/30">
+              <Crown className="h-7 w-7 text-amber-950 fill-amber-950" strokeWidth={2.2} />
             </div>
             <div>
               <p className="text-sm font-bold text-amber-400">ADMIN / PATRON</p>
               <p className="text-xs text-white/50 truncate max-w-[130px]">{user?.email}</p>
             </div>
+          </div>
+          {/* Bascule rapide de version */}
+          <div className="mt-3 flex justify-end">
+            <AdminVersionQuickToggle />
           </div>
         </div>
 
@@ -146,6 +165,33 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               )}
             </Link>
           )})}
+
+          {/* Test Lab - TOUJOURS visible pour les admins */}
+          {testLab.showButton && (
+            <Link
+              href="/admin/test-lab"
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all mt-4 ${
+                testLab.canAccess
+                  ? "text-violet-100 bg-gradient-to-r from-violet-600/40 to-fuchsia-600/40 border-2 border-violet-400/60 hover:border-violet-300 hover:shadow-lg hover:shadow-violet-500/20 animate-pulse"
+                  : "text-violet-300/60 bg-violet-900/20 border border-violet-500/20 hover:bg-violet-800/30"
+              }`}
+            >
+              <FlaskConical className={`h-5 w-5 ${testLab.canAccess ? "text-violet-200" : "text-violet-400/50"}`} />
+              <div className="flex flex-col flex-1">
+                <span className="font-semibold">Laboratoire de Tests</span>
+                {testLab.blockedReason && (
+                  <span className="text-[10px] text-violet-400/60">{testLab.blockedReason}</span>
+                )}
+              </div>
+              <span className={`text-[10px] uppercase tracking-wider px-2 py-1 rounded font-bold ${
+                testLab.canAccess
+                  ? "bg-violet-500 text-white"
+                  : "bg-violet-800/50 text-violet-400/70"
+              }`}>
+                Patron
+              </span>
+            </Link>
+          )}
         </nav>
 
         {/* Bottom actions */}

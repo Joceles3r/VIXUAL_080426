@@ -1,5 +1,5 @@
 /**
- * VISUAL Trust Score -- Event Weights
+ * VIXUAL Trust Score -- Event Weights
  *
  * Positive deltas increase the score, negative deltas decrease it.
  * Score is always clamped between 0 and 100.

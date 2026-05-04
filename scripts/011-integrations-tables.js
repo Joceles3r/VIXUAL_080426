@@ -1,5 +1,5 @@
 /**
- * VISUAL Platform - Integrations Tables Migration
+ * VIXUAL Platform - Integrations Tables Migration
  * Adds tables for Stripe Connect and Bunny.net CDN integrations
  */
 

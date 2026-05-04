@@ -1,7 +1,8 @@
 "use client"
 
-import VisualSocialFeed from "@/components/visual-social-feed"
-import { VisualHeader } from "@/components/visual-header"
+import { VersionGuard } from "@/components/version-guard"
+import VisualSocialFeed from "@/components/vixual-social-feed"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { TrafficLight } from "@/components/traffic-light"
 import { Card, CardContent } from "@/components/ui/card"
@@ -11,7 +12,7 @@ import {
 } from "lucide-react"
 import {
   MAX_BODY_LENGTH, MAX_TAGS_PER_POST, MAX_POSTS_PER_DAY,
-  VISUAL_SOCIAL_ENABLE_VISUPOINTS_V1, REPORT_THRESHOLD_HIDE,
+  REPORT_THRESHOLD_HIDE,
   TAG_CATEGORIES, TAG_LABELS, TAG_COLORS,
 } from "@/lib/visual-social/hybrid"
 
@@ -80,7 +81,7 @@ function V1Notice() {
           Version 1
         </h3>
         <div className="space-y-1.5 text-xs text-white/40">
-          <p>{"Les VISUpoints sont temporairement d\u00e9sactiv\u00e9s sur VIXUAL Social en V1 pour garantir l'\u00e9quilibre du syst\u00e8me."}</p>
+          <p>{"Les VIXUpoints sont temporairement d\u00e9sactiv\u00e9s sur VIXUAL Social en V1 pour garantir l'\u00e9quilibre du syst\u00e8me."}</p>
           <p>{"Le mode fonctionne actuellement en mock (donn\u00e9es de d\u00e9monstration). La connexion \u00e0 la base de donn\u00e9es sera activ\u00e9e en V2."}</p>
           <p>{"Deux vues disponibles : le fil global (ici) et les discussions sous chaque contenu."}</p>
         </div>
@@ -91,6 +92,7 @@ function V1Notice() {
 
 export default function VixualSocialPage() {
   return (
+    <VersionGuard requiredVersion="V3">
     <div className="min-h-screen bg-slate-950">
       <VisualHeader />
       <main className="pt-20 pb-12">
@@ -144,5 +146,6 @@ export default function VixualSocialPage() {
       </main>
       <Footer />
     </div>
+    </VersionGuard>
   )
 }

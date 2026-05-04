@@ -76,7 +76,7 @@ export default function AdminRolesPage() {
       return;
     }
 
-    // TODO: Call API to create subordinate admin
+    // NOTE V2: Call API to create subordinate admin
     console.log(`Creating ${selectedRole}: ${name} (${email})`);
     
     setEmail('');

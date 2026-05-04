@@ -17,9 +17,12 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
-import VisualSocialFeed from "@/components/visual-social-feed"
+import VisualSocialFeed from "@/components/vixual-social-feed"
+import { CommentsSection } from "@/components/comments-section"
+import { VisibilityBoostButton } from "@/components/visibility-boost-button"
+import { ContributionDisclaimer } from "@/components/contribution-disclaimer"
 import { ALL_CONTENTS, isGoldCreator } from "@/lib/mock-data"
 import { useAuth } from "@/lib/auth-context"
 import { useToast } from "@/components/ui/use-toast"
@@ -48,7 +51,7 @@ function DynamicWatermark({ userId, contentId }: { userId: string; contentId: st
   )
 }
 
-/* ---------- VISUAL Badges ---------- */
+/* ---------- VIXUAL Badges ---------- */
 function getVisualBadges(content: typeof ALL_CONTENTS[0]) {
   const badges: { label: string; icon: typeof Flame; color: string; bg: string }[] = []
   const daysSinceCreation = Math.floor(
@@ -128,7 +131,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
   const isVideo = cType === "video"
   const isPodcast = cType === "podcast"
   const isGuest = !isAuthed
-  const canInvest = isAuthed && (roles.includes("investor") || roles.includes("investireader") || roles.includes("listener"))
+  const canInvest = isAuthed && (roles.includes("contributor") || roles.includes("contribu_lecteur") || roles.includes("auditeur"))
   const badges = getVisualBadges(content)
   const motivationalMsgs = getMotivationalMessages(content)
   const isGold = isGoldCreator(content.creatorName)
@@ -356,12 +359,12 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   {isPodcast && <><Mic className="h-3 w-3 mr-1" />Podcast</>}
                 </Badge>
 
-                {/* VISUAL + Gold badges */}
+                {/* VIXUAL + Gold badges */}
                 <div className="absolute top-12 left-4 z-30 flex flex-wrap gap-1">
                   {isGold && (
                     <Badge className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0 text-[10px] shadow-lg shadow-amber-500/20">
                       <Crown className="h-3 w-3 mr-1" />
-                      Gold Pass
+                      Créateur Gold
                     </Badge>
                   )}
                   {badges.map((b) => (
@@ -386,10 +389,11 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   <div className="flex-1 min-w-0">
                     <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1.5 text-balance">{content.title}</h1>
                     <div className="flex flex-wrap items-center gap-3 text-sm">
-                      <Link href="#" className="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
-                        {content.creatorName}
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-emerald-400 font-medium">{content.creatorName}</span>
                         {isGold && <Crown className="h-3.5 w-3.5 text-amber-400" />}
-                      </Link>
+                        <VisibilityBoostButton creatorId={content.creatorId} contentId={content.id} />
+                      </div>
                       <span className="text-white/30">|</span>
                       <span className="flex items-center gap-1 text-white/50">
                         {isVideo && <><Clock className="h-3.5 w-3.5" />{content.duration}</>}
@@ -455,8 +459,8 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                       {isFavorite ? "Favori" : "J'aime"}
                     </Button>
                     <SupportButton
-                      creatorId={content.creator.id || "creator-1"}
-                      creatorName={content.creator.name}
+                      creatorId={content.creatorId || "creator-1"}
+                      creatorName={content.creatorName}
                       projectId={content.id}
                       projectTitle={content.title}
                       variant="outline"
@@ -507,7 +511,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                 </CardContent>
               </Card>
 
-              {/* ---------- VISUAL SOCIAL THREAD ---------- */}
+              {/* ---------- VIXUAL SOCIAL THREAD ---------- */}
               <Card className="bg-slate-900/50 border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white flex items-center gap-2">
@@ -517,6 +521,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                 </CardHeader>
                 <CardContent className="p-4 sm:p-6">
                   <VisualSocialFeed mode="content" contentType={cType as ContentType} contentId={content.id} />
+                  <CommentsSection contentId={content.id} />
                 </CardContent>
               </Card>
 
@@ -727,12 +732,15 @@ export default function VideoPage({ params }: { params: { id: string } }) {
 
                       {/* Investment confirmation */}
                       {selectedAmount && !showInvestConfirm && (
-                        <Button
-                          onClick={() => setShowInvestConfirm(true)}
-                          className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white h-12 text-lg shadow-lg shadow-emerald-500/20"
-                        >
-                          Investir {selectedAmount}{"\u20ac"}
-                        </Button>
+                        <>
+                          <ContributionDisclaimer compact />
+                          <Button
+                            onClick={() => setShowInvestConfirm(true)}
+                            className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white h-12 text-lg shadow-lg shadow-emerald-500/20"
+                          >
+                            Investir {selectedAmount}{"\u20ac"}
+                          </Button>
+                        </>
                       )}
 
                       {!selectedAmount && (
@@ -800,7 +808,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                         </Link>
                         <p className="text-xs text-white/40 text-center mt-2">{"Caution remboursable en cas de r\u00e9siliation"}</p>
                       </div>
-                      <Link href="/dashboard/visupoints">
+                      <Link href="/dashboard/vixupoints">
                         <Button variant="outline" className="w-full bg-transparent border-amber-500/30 text-amber-400 hover:bg-amber-600/10">
                           <Star className="h-4 w-4 mr-2" />
                           Gagner des VIXUpoints en partageant
@@ -826,7 +834,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   {/* Legal */}
                   <div className="pt-2 border-t border-white/5">
                     <p className="text-xs text-white/30 text-center">
-                      {"Investir comporte des risques. Les gains ne sont pas garantis. VISUAL n'est pas un jeu de hasard."}
+                      {"Investir comporte des risques. Les gains ne sont pas garantis. VIXUAL n'est pas un jeu de hasard."}
                     </p>
                   </div>
                 </CardContent>
@@ -846,20 +854,20 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                         <span className="font-medium text-white truncate">{content.creatorName}</span>
                         {isGold && <Crown className="h-3.5 w-3.5 text-amber-400 shrink-0" />}
                       </div>
-                      <div className="text-sm text-white/50">{"Cr\u00e9ateur VISUAL"}</div>
+                      <div className="text-sm text-white/50">{"Cr\u00e9ateur VIXUAL"}</div>
                     </div>
                   </div>
                   {isGold && (
                     <div className="flex items-center gap-1.5 p-2 bg-amber-500/5 rounded-lg border border-amber-500/10 mb-3">
                       <Trophy className="h-3.5 w-3.5 text-amber-400" />
-                      <span className="text-amber-400/80 text-[11px]">Membre Gold Pass</span>
+                      <span className="text-amber-400/80 text-[11px]">Créateur Gold</span>
                       <span className="text-white/20 mx-0.5">|</span>
                       <Shield className="h-3.5 w-3.5 text-emerald-400" />
                       <span className="text-emerald-400/80 text-[11px]">Trust : Excellent</span>
                     </div>
                   )}
                   <p className="text-white/40 text-xs mb-3">
-                    {"Votre projet peut trouver son public sur VISUAL."}
+                    {"Votre projet peut trouver son public sur VIXUAL."}
                   </p>
                   <Button variant="outline" className="w-full bg-transparent border-white/15 text-white/70 hover:bg-white/5 hover:text-white">
                     <Eye className="h-4 w-4 mr-2" />
@@ -868,10 +876,10 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                 </CardContent>
               </Card>
 
-              {/* --- Parcours VISUAL --- */}
+              {/* --- Parcours VIXUAL --- */}
               <Card className="bg-slate-900/30 border-white/5">
                 <CardContent className="p-4">
-                  <h4 className="text-white/50 text-xs font-semibold uppercase tracking-wider mb-3">Parcours VISUAL</h4>
+                  <h4 className="text-white/50 text-xs font-semibold uppercase tracking-wider mb-3">Parcours VIXUAL</h4>
                   <div className="space-y-2">
                     {[
                       { icon: Eye, label: "D\u00e9couvrir le projet", done: true },
@@ -896,7 +904,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
               <div className="flex items-center gap-2 p-3 rounded-lg bg-slate-900/30 border border-white/5">
                 <Shield className="h-4 w-4 text-emerald-500 shrink-0" />
                 <p className="text-white/40 text-[11px]">
-                  {"Sur VISUAL, chaque visionnage contribue \u00e0 soutenir les cr\u00e9ateurs."}
+                  {"Sur VIXUAL, chaque visionnage contribue \u00e0 soutenir les cr\u00e9ateurs."}
                 </p>
               </div>
             </div>

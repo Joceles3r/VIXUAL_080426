@@ -32,7 +32,7 @@ interface ReportButtonProps {
   /** Visual variant */
   variant?: "icon" | "full" | "minimal"
   /** Size */
-  size?: "sm" | "md"
+  size?: "sm" | "default"
 }
 
 export function ReportButton({
@@ -115,7 +115,7 @@ export function ReportButton({
         <Button
           onClick={() => setIsOpen(true)}
           variant="outline"
-          size={size}
+          size={(size as any) === "md" ? "default" : size}
           className="bg-red-500/5 border-red-500/20 text-red-400 hover:bg-red-500/15 hover:text-red-300 hover:border-red-500/40"
         >
           <AlertOctagon className="h-4 w-4 mr-2" />

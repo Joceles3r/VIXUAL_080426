@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Progress } from "@/components/ui/progress"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { useAuth } from "@/lib/auth-context"
 import { useToast } from "@/components/ui/use-toast"
@@ -44,7 +44,7 @@ export default function UploadVideoPage() {
   const [isUploading, setIsUploading] = useState(false)
   const [cautionLoading, setCautionLoading] = useState(false)
 
-  const hasPaidCaution = user?.depositStatus?.porter10 ?? false
+  const hasPaidCaution = user?.depositStatus?.creator10 ?? false
   const [uploadProgress, setUploadProgress] = useState(0)
   const [formData, setFormData] = useState({
     title: "",
@@ -60,17 +60,42 @@ export default function UploadVideoPage() {
     e.preventDefault()
     setIsUploading(true)
 
-    // Simulate upload progress
-    for (let i = 0; i <= 100; i += 10) {
-      await new Promise((resolve) => setTimeout(resolve, 200))
-      setUploadProgress(i)
+    // Real Bunny upload via API
+    if (!videoFile) {
+      toast({ title: "Aucun fichier selectionne", variant: "destructive" })
+      setIsUploading(false)
+      return
     }
+    const fd = new FormData()
+    fd.append("file", videoFile)
+    fd.append("contentType", "video")
+
+    const xhr = new XMLHttpRequest()
+    xhr.upload.addEventListener("progress", ev => {
+      if (ev.lengthComputable) setUploadProgress(Math.round((ev.loaded / ev.total) * 100))
+    })
+    const uploadResult = await new Promise<{ success: boolean; videoId?: string; error?: string }>(resolve => {
+      xhr.onload = () => {
+        try { resolve(xhr.status === 200 ? JSON.parse(xhr.responseText) : { success: false, error: "Upload failed" }) }
+        catch { resolve({ success: false, error: "Invalid response" }) }
+      }
+      xhr.onerror = () => resolve({ success: false, error: "Network error" })
+      xhr.open("POST", "/api/integrations/bunny/upload")
+      xhr.send(fd)
+    })
+
+    if (!uploadResult.success) {
+      toast({ title: uploadResult.error ?? "Erreur d'upload", variant: "destructive" })
+      setIsUploading(false)
+      return
+    }
+    // uploadResult.videoId a enregistrer en DB lors de la creation du contenu
 
     // Redirect to projects page
     router.push("/dashboard/projects?type=video")
   }
 
-  if (!user || !user.roles.includes("porter")) {
+  if (!user || !user.roles.includes("creator")) {
     return (
       <div className="min-h-screen bg-slate-950">
         <VisualHeader />

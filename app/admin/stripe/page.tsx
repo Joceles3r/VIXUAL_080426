@@ -195,6 +195,30 @@ export default function StripeConfigPage() {
     can_process_payments: boolean;
     warnings: string[];
     errors: string[];
+    stripe_connection_ok?: boolean;
+    stripe_account?: { id?: string; email?: string; country?: string } | null;
+    recent_events?: Array<{
+      id: string;
+      event_type: string;
+      processing_status: string;
+      error_message: string | null;
+      processed_at: string;
+    }>;
+    recent_errors?: Array<{
+      id: string;
+      event_type: string;
+      processing_status: string;
+      error_message: string | null;
+      processed_at: string;
+    }>;
+    event_stats?: { total_24h: number; processed_24h: number; failed_24h: number };
+    connect_stats?: {
+      total_accounts: number;
+      verified_accounts: number;
+      pending_accounts: number;
+      restricted_accounts: number;
+      disabled_accounts: number;
+    };
   } | null>(null)
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
   const [activeSection, setActiveSection] = useState<"test" | "live">("test")
@@ -545,6 +569,154 @@ export default function StripeConfigPage() {
         )}
       </div>
 
+      {/* ── Panneau Santé détaillé (affiché après test) ──────────────────── */}
+      {healthResult && (healthResult.event_stats || healthResult.connect_stats) && (
+        <Card className="bg-slate-900/60 border-sky-500/20">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base text-sky-300 flex items-center gap-2">
+              <Database className="h-5 w-5" />
+              Santé Stripe — Diagnostic détaillé
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-5">
+            {/* Stats webhooks 24h */}
+            {healthResult.event_stats && (
+              <div>
+                <div className="text-xs text-white/40 font-semibold mb-2 uppercase tracking-wide">
+                  Webhooks (24 dernières heures)
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="p-3 rounded-xl bg-slate-950/50 border border-white/10">
+                    <div className="text-2xl font-bold text-white">{healthResult.event_stats.total_24h}</div>
+                    <div className="text-xs text-white/40">Total reçus</div>
+                  </div>
+                  <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                    <div className="text-2xl font-bold text-emerald-300">{healthResult.event_stats.processed_24h}</div>
+                    <div className="text-xs text-emerald-400/70">Traités</div>
+                  </div>
+                  <div className={`p-3 rounded-xl border ${
+                    healthResult.event_stats.failed_24h > 0
+                      ? "bg-rose-500/10 border-rose-500/30"
+                      : "bg-slate-950/50 border-white/10"
+                  }`}>
+                    <div className={`text-2xl font-bold ${
+                      healthResult.event_stats.failed_24h > 0 ? "text-rose-300" : "text-white/60"
+                    }`}>
+                      {healthResult.event_stats.failed_24h}
+                    </div>
+                    <div className={`text-xs ${
+                      healthResult.event_stats.failed_24h > 0 ? "text-rose-400/70" : "text-white/40"
+                    }`}>
+                      Échecs
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Stats Stripe Connect */}
+            {healthResult.connect_stats && healthResult.connect_stats.total_accounts > 0 && (
+              <div>
+                <div className="text-xs text-white/40 font-semibold mb-2 uppercase tracking-wide">
+                  Comptes Stripe Connect
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                  <div className="p-2.5 rounded-lg bg-slate-950/50 border border-white/10 text-center">
+                    <div className="text-lg font-bold text-white">{healthResult.connect_stats.total_accounts}</div>
+                    <div className="text-[10px] text-white/40 uppercase">Total</div>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-center">
+                    <div className="text-lg font-bold text-emerald-300">{healthResult.connect_stats.verified_accounts}</div>
+                    <div className="text-[10px] text-emerald-400/70 uppercase">Vérifiés</div>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-center">
+                    <div className="text-lg font-bold text-amber-300">{healthResult.connect_stats.pending_accounts}</div>
+                    <div className="text-[10px] text-amber-400/70 uppercase">En attente</div>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-orange-500/10 border border-orange-500/20 text-center">
+                    <div className="text-lg font-bold text-orange-300">{healthResult.connect_stats.restricted_accounts}</div>
+                    <div className="text-[10px] text-orange-400/70 uppercase">Restreints</div>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-center">
+                    <div className="text-lg font-bold text-rose-300">{healthResult.connect_stats.disabled_accounts}</div>
+                    <div className="text-[10px] text-rose-400/70 uppercase">Désactivés</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Erreurs récentes */}
+            {healthResult.recent_errors && healthResult.recent_errors.length > 0 && (
+              <div>
+                <div className="text-xs text-rose-400 font-semibold mb-2 uppercase tracking-wide flex items-center gap-2">
+                  <AlertTriangle className="h-3.5 w-3.5" />
+                  Erreurs webhooks récentes
+                </div>
+                <div className="space-y-2">
+                  {healthResult.recent_errors.slice(0, 5).map((err) => (
+                    <div key={err.id} className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-xs">
+                      <div className="flex items-start justify-between gap-3 mb-1">
+                        <code className="text-rose-300 font-mono">{err.event_type}</code>
+                        <span className="text-rose-400/60 shrink-0">
+                          {new Date(err.processed_at).toLocaleString("fr-FR")}
+                        </span>
+                      </div>
+                      {err.error_message && (
+                        <div className="text-rose-300/80 font-mono text-[11px] mt-1 break-all">
+                          {err.error_message.slice(0, 200)}
+                          {err.error_message.length > 200 ? "…" : ""}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Derniers événements (si pas d'erreurs ou en complément) */}
+            {healthResult.recent_events && healthResult.recent_events.length > 0 && (
+              <div>
+                <div className="text-xs text-white/40 font-semibold mb-2 uppercase tracking-wide">
+                  Derniers événements webhook
+                </div>
+                <div className="space-y-1.5 max-h-48 overflow-y-auto">
+                  {healthResult.recent_events.slice(0, 10).map((ev) => (
+                    <div key={ev.id} className="flex items-center gap-2 text-xs p-2 rounded-lg bg-slate-950/40 border border-white/5">
+                      {ev.processing_status === "processed" ? (
+                        <CheckCircle className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                      ) : ev.processing_status === "failed" ? (
+                        <XCircle className="h-3.5 w-3.5 text-rose-400 shrink-0" />
+                      ) : (
+                        <RefreshCw className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+                      )}
+                      <code className="text-white/60 font-mono truncate flex-1">{ev.event_type}</code>
+                      <span className="text-white/30 shrink-0">
+                        {new Date(ev.processed_at).toLocaleTimeString("fr-FR")}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Warnings */}
+            {healthResult.warnings && healthResult.warnings.length > 0 && (
+              <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                <div className="text-amber-300 font-semibold text-xs mb-2 flex items-center gap-2">
+                  <AlertTriangle className="h-3.5 w-3.5" />
+                  Avertissements
+                </div>
+                <ul className="space-y-1 text-xs text-amber-200/80">
+                  {healthResult.warnings.map((w, i) => (
+                    <li key={i}>• {w}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
       {/* ── Statut des clés ─────────────────────────────────────────────── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
@@ -588,7 +760,7 @@ export default function StripeConfigPage() {
         </div>
       )}
 
-      {/* ── Tabs TEST / LIVE ─────────────────────────────────────────────── */}
+      {/* ── Tabs TEST / LIVE ─────────────────────���───────────────────────── */}
       <div className="flex rounded-xl bg-slate-900/60 border border-white/10 p-1 gap-1">
         {(["test", "live"] as const).map((section) => (
           <button

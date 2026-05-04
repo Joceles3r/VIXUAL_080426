@@ -29,12 +29,15 @@ import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/lib/auth-context"
 import { TrustBadge } from "@/components/trust-badge"
 
+// VERROU FINAL: cles officielles
 const ROLE_LABELS: Record<string, { label: string; color: string; icon: React.ElementType }> = {
   visitor: { label: "Visiteur", color: "bg-slate-500", icon: User },
-  porter: { label: "Porteur", color: "bg-red-500", icon: Film },
-  infoporter: { label: "Infoporteur", color: "bg-amber-500", icon: FileText },
+  creator: { label: "Createur", color: "bg-red-500", icon: Film },
+  infoporteur: { label: "Infoporteur", color: "bg-amber-500", icon: FileText },
   contributor: { label: "Contributeur", color: "bg-emerald-500", icon: TrendingUp },
-  contribureader: { label: "Contribu-lecteur", color: "bg-sky-500", icon: BookOpen },
+  contribu_lecteur: { label: "Contribu-lecteur", color: "bg-sky-500", icon: BookOpen },
+  podcasteur: { label: "Podcasteur", color: "bg-purple-500", icon: Film },
+  auditeur: { label: "Auditeur", color: "bg-violet-500", icon: TrendingUp },
 }
 
 export default function ProfilePage() {
@@ -337,7 +340,7 @@ export default function ProfilePage() {
                 <div className="flex items-center gap-3">
                   <Star className="h-5 w-5 text-emerald-400" />
                   <div>
-                    <p className="text-white font-medium">VISUAL Trust Score</p>
+                    <p className="text-white font-medium">VIXUAL Trust Score</p>
                     <p className="text-white/50 text-sm">{"Votre indice de confiance sur la plateforme"}</p>
                   </div>
                 </div>

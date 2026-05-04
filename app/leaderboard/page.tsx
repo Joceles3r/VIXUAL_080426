@@ -352,7 +352,7 @@ export default function LeaderboardPage() {
           ) : (
             projects.map((proj, idx) => (
               <ProjectCard
-                key={proj.id}
+                key={proj.contentId}
                 rank={idx + 1}
                 project={proj}
                 score={proj.score || { visualScore: 500, waveLevel: 1, scores: {} }}

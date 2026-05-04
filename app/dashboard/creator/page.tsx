@@ -39,7 +39,7 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/lib/auth-context"
-import { VisualHeader } from "@/components/visual-header"
+import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import {
   type CreatorProgressState,
@@ -86,9 +86,10 @@ const goalIconMap: Record<string, typeof Upload> = {
 }
 
 const creatorTypeConfig: Record<CreatorType, { label: string; icon: typeof Film; color: string }> = {
-  porter: { label: "Porteur", icon: Film, color: "purple" },
-  infoporter: { label: "Infoporteur", icon: FileText, color: "sky" },
-  podcaster: { label: "Podcasteur", icon: Mic, color: "emerald" },
+  // VERROU FINAL: cles officielles
+  creator: { label: "Createur", icon: Film, color: "purple" },
+  infoporteur: { label: "Infoporteur", icon: FileText, color: "sky" },
+  podcasteur: { label: "Podcasteur", icon: Mic, color: "emerald" },
 }
 
 export default function CreatorDashboardPage() {
@@ -105,12 +106,13 @@ export default function CreatorDashboardPage() {
   const [activeTab, setActiveTab] = useState("overview")
 
   // Determine creator type
-  const isPorter = roles.includes("porter")
-  const isInfoporter = roles.includes("infoporter")
-  const isPodcaster = roles.includes("podcaster")
-  const hasCreatorRole = isPorter || isInfoporter || isPodcaster
-  
-  const creatorType: CreatorType = isPorter ? "porter" : isInfoporter ? "infoporter" : "podcaster"
+  // VERROU FINAL: cles officielles
+  const isCreator = roles.includes("creator")
+  const isInfoporteur = roles.includes("infoporteur")
+  const isPodcasteur = roles.includes("podcasteur")
+  const hasCreatorRole = isCreator || isInfoporteur || isPodcasteur
+
+  const creatorType: CreatorType = isCreator ? "creator" : isInfoporteur ? "infoporteur" : "podcasteur"
   const creatorConfig = creatorTypeConfig[creatorType]
 
   useEffect(() => {

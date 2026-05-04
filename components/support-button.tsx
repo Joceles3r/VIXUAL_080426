@@ -1,3 +1,8 @@
+/**
+ * COMPOSANT STRUCTUREL VIXUAL
+ * Bouton de soutien (passerelle Stripe externe).
+ * Modifier avec prudence : impact paiement createurs.
+ */
 "use client"
 
 import { useState } from "react"
@@ -45,7 +50,7 @@ export function SupportButton({
   size = "default",
   className = "",
 }: SupportButtonProps) {
-  const { user, isAuthenticated } = useAuth()
+  const { user, isAuthed } = useAuth()
   const [open, setOpen] = useState(false)
   const [selectedAmount, setSelectedAmount] = useState<number | null>(500)
   const [customAmount, setCustomAmount] = useState("")
@@ -74,7 +79,7 @@ export function SupportButton({
       return
     }
 
-    if (!isAuthenticated) {
+    if (!isAuthed) {
       setError("Veuillez vous connecter pour soutenir")
       return
     }
@@ -101,12 +106,7 @@ export function SupportButton({
       }
 
       // Redirect to Stripe Checkout
-      const stripe = await stripePromise
-      if (stripe && data.sessionId) {
-        await stripe.redirectToCheckout({ sessionId: data.sessionId })
-      } else if (data.sessionUrl) {
-        window.location.href = data.sessionUrl
-      }
+      window.location.href = (data as any).url || `/checkout?session=${data.sessionId}`
     } catch (err) {
       setError(err instanceof Error ? err.message : "Une erreur est survenue")
     } finally {

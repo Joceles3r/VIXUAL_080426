@@ -3,7 +3,7 @@ import { neon } from "@neondatabase/serverless";
 const sql = neon(process.env.DATABASE_URL);
 
 async function migrate() {
-  console.log("=== VISUAL Migration 005: Universe Cycles (Rule of 100) ===");
+  console.log("=== VIXUAL Migration 005: Universe Cycles (Rule of 100) ===");
 
   // 1) pgcrypto extension
   console.log("[1/6] Ensuring pgcrypto extension...");

@@ -1,4 +1,4 @@
--- VISUAL - Database Schema V1
+-- VIXUAL - Database Schema V1 (ex-VISUAL, renomme dans le cadre du VERROU FINAL)
 -- Neon PostgreSQL
 
 -- Enable UUID generation
