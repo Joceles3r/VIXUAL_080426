@@ -10,6 +10,11 @@ import {
   LogIn,
   Shield,
   ChevronRight,
+  TrendingUp,
+  Scale,
+  Flame,
+  Sparkles,
+  Lock,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -125,8 +130,11 @@ export function HomeV1() {
                 )}
               </div>
 
-              <p className="text-white/40 text-sm">
-                Pas besoin de choisir un profil. Ton role evolue avec tes actions.
+              <p className="text-white/40 text-sm flex items-center justify-center gap-2 flex-wrap">
+                <Lock className="h-3.5 w-3.5 text-white/35" />
+                <span>
+                  Tu gardes le controle - Aucun engagement force - Ton role evolue avec tes actions
+                </span>
               </p>
             </div>
           </div>
@@ -139,13 +147,99 @@ export function HomeV1() {
               <Shield className="h-4 w-4 text-fuchsia-300 shrink-0" />
               <span>
                 <span className="text-fuchsia-200 font-medium">Pas de hasard.</span>
-                {" "}Regles transparentes. Tu restes maitre de tes actions.
+                {" "}Classement base sur l&apos;activite reelle. Tu restes maitre de tes actions.
               </span>
             </div>
           </div>
         </section>
 
-        {/* COMPRENDRE EN 30 SECONDES */}
+        {/* BLOCS DE CONFIANCE — reponses immediates aux 4 freins */}
+        <section className="py-12 bg-slate-950">
+          <div className="container mx-auto px-4">
+            {/* Comment ca marche - 4 etapes immediates, pas de scroll */}
+            <div className="max-w-2xl mx-auto text-center mb-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/25 text-fuchsia-200 text-xs font-medium mb-4">
+                <Sparkles className="h-3.5 w-3.5" />
+                Comprendre en 5 secondes
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 text-balance">
+                Comment ca marche ?
+              </h2>
+
+              <ol className="space-y-3 text-left max-w-md mx-auto">
+                {[
+                  "Tu regardes les projets qui t'inspirent",
+                  "Tu soutiens ceux que tu aimes (entre 2 et 20 EUR)",
+                  "Les meilleurs projets montent dans le classement",
+                  "Certains projets peuvent generer des gains",
+                ].map((step, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-3 p-3 rounded-lg bg-white/[0.02] border border-white/5"
+                  >
+                    <span className="flex-shrink-0 h-7 w-7 rounded-full bg-fuchsia-500/15 border border-fuchsia-500/30 text-fuchsia-200 text-sm font-semibold flex items-center justify-center">
+                      {i + 1}
+                    </span>
+                    <span className="text-white/85 text-sm leading-relaxed pt-0.5">
+                      {step}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+
+              <p className="text-xs text-white/50 mt-5">
+                Pas de hasard - Regles transparentes - Tu restes libre
+              </p>
+            </div>
+
+            {/* Argent clair + Risque clair - cote a cote */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto">
+              {/* Peux-tu gagner ? */}
+              <Card className="bg-emerald-500/5 border-emerald-500/25">
+                <CardContent className="p-6 text-center">
+                  <div className="h-10 w-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mx-auto mb-3">
+                    <TrendingUp className="h-5 w-5 text-emerald-300" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white mb-3">
+                    Est-ce que je peux gagner ?
+                  </h3>
+                  <p className="text-white/80 text-sm leading-relaxed mb-2">
+                    Tu soutiens un projet, il progresse dans le classement.
+                  </p>
+                  <p className="text-white/80 text-sm leading-relaxed mb-3">
+                    S&apos;il fait partie des meilleurs, des gains peuvent etre generes.
+                  </p>
+                  <p className="text-xs text-emerald-200/70">
+                    Tu choisis toujours combien tu participes.
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Peux-tu perdre ? */}
+              <Card className="bg-amber-500/5 border-amber-500/25">
+                <CardContent className="p-6 text-center">
+                  <div className="h-10 w-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center mx-auto mb-3">
+                    <Scale className="h-5 w-5 text-amber-300" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white mb-3">
+                    Est-ce que je peux perdre ?
+                  </h3>
+                  <p className="text-white/80 text-sm leading-relaxed mb-2">
+                    Oui. Tous les projets ne generent pas de gains.
+                  </p>
+                  <p className="text-white/80 text-sm leading-relaxed mb-3">
+                    C&apos;est un soutien, pas une garantie de retour.
+                  </p>
+                  <p className="text-xs text-amber-200/70">
+                    Tu decides toujours du montant que tu engages.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* COMPRENDRE EN 30 SECONDES - explication detaillee (deeper dive) */}
         <div id="comprendre">
           <QuickExplainer />
         </div>
@@ -229,14 +323,14 @@ export function HomeV1() {
                     Aide les projets que tu aimes. De 2 a 20 EUR. Tu deviens automatiquement contributeur.
                   </p>
                   <Link href="/explore">
-                    <Button
-                      variant="outline"
-                      className="w-full bg-transparent border-rose-500/30 text-rose-200 hover:bg-rose-500/10"
-                    >
-                      <Heart className="mr-2 h-4 w-4" />
-                      Choisir un projet
+                    <Button className="w-full bg-orange-500 hover:bg-orange-400 text-white font-semibold shadow-lg shadow-orange-900/30">
+                      <Flame className="mr-2 h-4 w-4" />
+                      Je soutiens un projet
                     </Button>
                   </Link>
+                  <p className="text-xs text-white/45 mt-2 text-center">
+                    Aucun engagement force
+                  </p>
                 </CardContent>
               </Card>
 
