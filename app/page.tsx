@@ -12,6 +12,7 @@ import { ContentCard } from "@/components/content-card"
 import { TrafficLight } from "@/components/traffic-light"
 import { ALL_CONTENTS } from "@/lib/mock-data"
 import { usePlatformVersion } from "@/hooks/use-platform-version"
+import { HomeV1 } from "@/components/home/home-v1"
 
 const FEATURED_CONTENTS = ALL_CONTENTS.slice(0, 4)
 
@@ -62,6 +63,13 @@ const STATS = [
 
 export default function HomePage() {
   const platformVersion = usePlatformVersion()
+
+  // V1 utilise un layout simplifie dedie (onboarding intelligent,
+  // 3 actions universelles, vocabulaire grand public). V2/V3 conservent
+  // leur layout historique ci-dessous.
+  if (platformVersion === "V1") {
+    return <HomeV1 />
+  }
 
   return (
     <div className="min-h-screen bg-slate-950">
