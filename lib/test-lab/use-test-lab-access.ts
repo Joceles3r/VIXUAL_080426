@@ -15,10 +15,12 @@ export function useTestLabAccess() {
   const email = user?.email?.trim().toLowerCase() ?? ""
   const isPatron = email === PATRON_EMAIL
 
-  // Visibilite globale du module pilotee par variable d'env publique
-  // (NEXT_PUBLIC_VIXUAL_TEST_LAB_VISIBLE === "true")
+  // Visibilite globale : ACTIVE par defaut pour le PATRON.
+  // La variable d'env publique sert de kill switch explicite : seule la
+  // valeur "false" coupe le module. La protection email PATRON reste
+  // l'unique gate de securite reelle.
   const isVisible =
-    process.env.NEXT_PUBLIC_VIXUAL_TEST_LAB_VISIBLE === "true"
+    process.env.NEXT_PUBLIC_VIXUAL_TEST_LAB_VISIBLE !== "false"
 
   // Bouton visible uniquement pour le PATRON connecte (les autres admins
   // ne voient meme pas le module pour eviter toute confusion).
