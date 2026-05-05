@@ -91,8 +91,10 @@ export function HomeV1() {
               </span>
 
               <p className="text-xl text-white/75 mb-8 max-w-2xl mx-auto text-pretty leading-relaxed">
-                VIXUAL est la premiere plateforme participative pour soutenir
-                les talents de demain. Tu regardes, tu choisis, tu participes.
+                VIXUAL est la premiere plateforme de{" "}
+                <span className="font-bold text-red-500">STREAMING</span>{" "}
+                participative pour soutenir les talents de demain. Tu regardes,
+                tu participes, tu gagnes !
               </p>
 
               {/* 3 CTA universels - aucune notion de profil */}
