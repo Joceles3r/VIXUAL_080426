@@ -14,18 +14,27 @@ interface RunResponse {
 }
 
 const DEFAULTS: TestScenarioConfig = {
-  name: "Lancement VIXUAL V1",
-  visitors: 20,
-  creators: 3,
-  contributors: 10,
+  name: "Lancement VIXUAL — Cycle mensuel complet",
+  visitors: 30,
+  creators: 5,
+  contributors: 15,
+  infoporteurs: 3,
+  podcasteurs: 3,
+  auditeurs: 8,
+  contribu_lecteurs: 8,
+  guests: 10,
   videos: 5,
-  podcasts: 2,
+  podcasts: 3,
   articles: 4,
   successfulPaymentsPercent: 80,
   failedPaymentsPercent: 20,
   durationMinutes: 30,
   enableStripeSimulation: true,
   enableBunnyMock: true,
+  enableTrustScoreEvolution: true,
+  enableVisibilityBoostSim: true,
+  enableMonthlyCycleClose: true,
+  simulatedDaysActive: 30,
 }
 
 export default function TestLabScenariosPage() {
@@ -134,50 +143,68 @@ export default function TestLabScenariosPage() {
           <div className="grid md:grid-cols-3 gap-3">
             <QuickScenarioButton
               label="Scenario leger"
-              desc="50 utilisateurs"
+              desc="~80 utilisateurs"
               onClick={() => setConfig({
                 ...config,
                 name: "Scenario leger",
                 visitors: 20,
                 creators: 2,
                 contributors: 5,
+                infoporteurs: 1,
+                podcasteurs: 1,
+                auditeurs: 3,
+                contribu_lecteurs: 3,
+                guests: 5,
                 videos: 2,
                 podcasts: 1,
                 articles: 2,
                 successfulPaymentsPercent: 85,
                 failedPaymentsPercent: 15,
+                simulatedDaysActive: 14,
               })}
             />
             <QuickScenarioButton
               label="Scenario lancement"
-              desc="250 utilisateurs"
+              desc="~400 utilisateurs"
               onClick={() => setConfig({
                 ...config,
                 name: "Scenario lancement",
                 visitors: 250,
                 creators: 10,
                 contributors: 60,
+                infoporteurs: 8,
+                podcasteurs: 8,
+                auditeurs: 25,
+                contribu_lecteurs: 25,
+                guests: 30,
                 videos: 20,
                 podcasts: 8,
                 articles: 15,
                 successfulPaymentsPercent: 88,
                 failedPaymentsPercent: 12,
+                simulatedDaysActive: 30,
               })}
             />
             <QuickScenarioButton
               label="Fort trafic"
-              desc="1 000 utilisateurs"
+              desc="~1 700 utilisateurs"
               onClick={() => setConfig({
                 ...config,
                 name: "Scenario fort trafic",
                 visitors: 1000,
                 creators: 50,
                 contributors: 250,
+                infoporteurs: 30,
+                podcasteurs: 30,
+                auditeurs: 100,
+                contribu_lecteurs: 100,
+                guests: 150,
                 videos: 100,
                 podcasts: 40,
                 articles: 80,
                 successfulPaymentsPercent: 90,
                 failedPaymentsPercent: 10,
+                simulatedDaysActive: 30,
               })}
             />
           </div>
@@ -212,6 +239,36 @@ export default function TestLabScenariosPage() {
               <NumberInput
                 value={config.contributors}
                 onChange={(v) => update("contributors", v)}
+              />
+            </Field>
+            <Field label="Infoporteurs">
+              <NumberInput
+                value={config.infoporteurs}
+                onChange={(v) => update("infoporteurs", v)}
+              />
+            </Field>
+            <Field label="Podcasteurs">
+              <NumberInput
+                value={config.podcasteurs}
+                onChange={(v) => update("podcasteurs", v)}
+              />
+            </Field>
+            <Field label="Auditeurs">
+              <NumberInput
+                value={config.auditeurs}
+                onChange={(v) => update("auditeurs", v)}
+              />
+            </Field>
+            <Field label="Contribu-lecteurs">
+              <NumberInput
+                value={config.contribu_lecteurs}
+                onChange={(v) => update("contribu_lecteurs", v)}
+              />
+            </Field>
+            <Field label="Invites (guests)">
+              <NumberInput
+                value={config.guests}
+                onChange={(v) => update("guests", v)}
               />
             </Field>
             <Field label="Videos">
@@ -253,6 +310,32 @@ export default function TestLabScenariosPage() {
                 onChange={(v) => update("enableBunnyMock", v)}
               />
             </Field>
+
+            <Field label="Trust Score (Niveau 1 -> 2 -> 3)">
+              <Toggle
+                checked={config.enableTrustScoreEvolution}
+                onChange={(v) => update("enableTrustScoreEvolution", v)}
+              />
+            </Field>
+            <Field label="Boost visibilite visiteur -> createur">
+              <Toggle
+                checked={config.enableVisibilityBoostSim}
+                onChange={(v) => update("enableVisibilityBoostSim", v)}
+              />
+            </Field>
+            <Field label="Cloture cycle mensuel (TOP 10 + redistribution)">
+              <Toggle
+                checked={config.enableMonthlyCycleClose}
+                onChange={(v) => update("enableMonthlyCycleClose", v)}
+              />
+            </Field>
+            <Field label="Jours simules d'activite">
+              <NumberInput
+                value={config.simulatedDaysActive}
+                onChange={(v) => update("simulatedDaysActive", v)}
+                min={1}
+              />
+            </Field>
           </div>
 
           <div className="flex flex-wrap gap-3 mt-6">
@@ -287,20 +370,132 @@ export default function TestLabScenariosPage() {
           <section className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-3">
             <h2 className="font-semibold">Resultat</h2>
             {response.success && response.result ? (
-              <div className="grid md:grid-cols-5 gap-3">
-                <Stat label="Profils" value={response.result.summary.usersCount} />
-                <Stat label="Contenus" value={response.result.summary.projectsCount} />
-                <Stat label="Transactions" value={response.result.summary.transactionsCount} />
-                <Stat
-                  label="Paiements OK"
-                  value={response.result.summary.successfulPayments}
-                  tone="emerald"
-                />
-                <Stat
-                  label="Paiements KO"
-                  value={response.result.summary.failedPayments}
-                  tone="rose"
-                />
+              <div className="space-y-4">
+                <div className="grid md:grid-cols-5 gap-3">
+                  <Stat label="Profils" value={response.result.summary.usersCount} />
+                  <Stat label="Contenus" value={response.result.summary.projectsCount} />
+                  <Stat label="Transactions" value={response.result.summary.transactionsCount} />
+                  <Stat
+                    label="Paiements OK"
+                    value={response.result.summary.successfulPayments}
+                    tone="emerald"
+                  />
+                  <Stat
+                    label="Paiements KO"
+                    value={response.result.summary.failedPayments}
+                    tone="rose"
+                  />
+                </div>
+
+                {/* Metriques economiques */}
+                <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
+                  <h3 className="text-emerald-300 text-sm font-semibold mb-3 uppercase tracking-wider">
+                    Metriques economiques
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                    <EconomicStat
+                      label="Revenu total"
+                      value={`${response.result.summary.totalRevenueEur} EUR`}
+                    />
+                    <EconomicStat
+                      label="Part Vixual"
+                      value={`${response.result.summary.vixualPlatformShareEur} EUR`}
+                    />
+                    <EconomicStat
+                      label="Reverse createurs"
+                      value={`${response.result.summary.creatorsRevenueEur} EUR`}
+                    />
+                    <EconomicStat
+                      label="Reserve technique"
+                      value={`${response.result.summary.reserveTechniqueEur} EUR`}
+                    />
+                  </div>
+                </div>
+
+                {/* Profils detailles */}
+                <div className="rounded-xl border border-violet-500/20 bg-violet-500/5 p-4">
+                  <h3 className="text-violet-300 text-sm font-semibold mb-3 uppercase tracking-wider">
+                    Repartition des 8 profils
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                    {Object.entries(response.result.summary.profileBreakdown).map(([role, count]) => (
+                      <div
+                        key={role}
+                        className="flex items-center justify-between rounded-lg bg-black/30 px-3 py-2 border border-white/5"
+                      >
+                        <span className="text-white/60 capitalize">
+                          {role.replace("_", "-")}
+                        </span>
+                        <span className="text-white font-semibold">{count}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Niveaux Trust Score */}
+                <div className="rounded-xl border border-sky-500/20 bg-sky-500/5 p-4">
+                  <h3 className="text-sky-300 text-sm font-semibold mb-3 uppercase tracking-wider">
+                    Niveaux utilisateurs (Trust Score)
+                  </h3>
+                  <div className="grid grid-cols-3 gap-3 text-xs">
+                    <EconomicStat label="Niveau 1" value={response.result.summary.level1Count} />
+                    <EconomicStat label="Niveau 2" value={response.result.summary.level2Count} />
+                    <EconomicStat label="Niveau 3" value={response.result.summary.level3Count} />
+                  </div>
+                </div>
+
+                {/* Boost visibilite */}
+                {response.result.summary.uniqueBoosters > 0 && (
+                  <div className="rounded-xl border border-fuchsia-500/20 bg-fuchsia-500/5 p-4">
+                    <h3 className="text-fuchsia-300 text-sm font-semibold mb-3 uppercase tracking-wider">
+                      Boost visibilite (V1)
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+                      <EconomicStat
+                        label="Visiteurs participants"
+                        value={response.result.summary.uniqueBoosters}
+                      />
+                      <EconomicStat
+                        label="Points VIXU depenses"
+                        value={response.result.summary.totalVisibilityPointsSpent}
+                      />
+                      <EconomicStat
+                        label="Coefficient Gini"
+                        value={response.result.summary.giniCoefficient.toFixed(3)}
+                        hint="0 = egalite, 1 = concentration"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* TOP 10 createurs */}
+                {response.result.summary.top10Creators.length > 0 && (
+                  <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
+                    <h3 className="text-amber-300 text-sm font-semibold mb-3 uppercase tracking-wider">
+                      TOP 10 createurs (cycle clos
+                      {response.result.summary.cycleClosedAt
+                        ? ` le ${new Date(response.result.summary.cycleClosedAt).toLocaleDateString("fr-FR")}`
+                        : ""}
+                      )
+                    </h3>
+                    <ol className="space-y-1 text-xs">
+                      {response.result.summary.top10Creators.map((c, i) => (
+                        <li
+                          key={c.creatorId}
+                          className="flex items-center justify-between rounded-lg bg-black/30 px-3 py-2 border border-white/5"
+                        >
+                          <span className="text-white/70">
+                            <span className="text-amber-300 font-bold mr-2">#{i + 1}</span>
+                            {c.creatorId}
+                          </span>
+                          <span className="text-white font-semibold">
+                            {c.revenueEur.toFixed(2)} EUR
+                          </span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
               </div>
             ) : (
               <p className="text-rose-300 text-sm">
@@ -421,6 +616,24 @@ function Stat({
     <div className="rounded-xl bg-black/30 border border-white/10 p-4">
       <p className="text-xs uppercase tracking-wider text-white/50">{label}</p>
       <p className={`text-2xl font-bold mt-1 ${toneClass}`}>{value}</p>
+    </div>
+  )
+}
+
+function EconomicStat({
+  label,
+  value,
+  hint,
+}: {
+  label: string
+  value: string | number
+  hint?: string
+}) {
+  return (
+    <div className="rounded-lg bg-black/30 border border-white/5 px-3 py-2">
+      <p className="text-[10px] uppercase tracking-wider text-white/50">{label}</p>
+      <p className="text-base font-bold text-white mt-0.5">{value}</p>
+      {hint && <p className="text-[10px] text-white/40 mt-0.5">{hint}</p>}
     </div>
   )
 }
