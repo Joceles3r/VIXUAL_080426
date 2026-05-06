@@ -354,7 +354,7 @@ export default function TermsOfUsePage() {
                     <ul className="space-y-1.5 text-xs text-white/50">
                       <li>{"Applicable aux rôles : Porteur, Infoporteur, Podcasteur"}</li>
                       <li>{"Versée une seule fois lors de l'activation du rôle créateur"}</li>
-                      <li>{"Traitée via Stripe, sécurisée et traçable"}</li>
+                      <li>{"Traitée via Stripe, sécuris��e et traçable"}</li>
                     </ul>
                   </div>
                   <div className="bg-black/30 rounded-xl p-5 border border-white/5">
@@ -505,75 +505,72 @@ export default function TermsOfUsePage() {
                   
                   <div className="space-y-4">
                     <div className="bg-emerald-500/10 rounded-xl p-4 border border-emerald-500/20">
-                      <p className="text-emerald-400 font-medium text-sm mb-2">{"Profils autorisés"}</p>
+                      <p className="text-emerald-400 font-medium text-sm mb-2">{"Module Equitable VIXUAL : VIXUpoints accessibles a tous"}</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                         <div className="flex items-center gap-2">
                           <CheckCircle className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                          <span className="text-white/70"><strong className="text-white/90">Visiteur majeur</strong> : VIXUpoints + paiement hybride</span>
+                          <span className="text-white/70"><strong className="text-white/90">Visiteur majeur</strong> : VIXUpoints + paiement hybride 70/30</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <CheckCircle className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                          <span className="text-white/70"><strong className="text-white/90">Visiteur mineur (16-17 ans)</strong> : VIXUpoints uniquement</span>
+                          <span className="text-white/70"><strong className="text-white/90">Visiteur mineur</strong> : VIXUpoints uniquement</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <CheckCircle className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                          <span className="text-white/70"><strong className="text-white/90">Contribu-lecteur</strong> : VIXUpoints + paiement hybride</span>
+                          <span className="text-white/70"><strong className="text-white/90">Contributeur</strong> : VIXUpoints + paiement hybride 70/30</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <CheckCircle className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                          <span className="text-white/70"><strong className="text-white/90">Auditeur</strong> : VIXUpoints + paiement hybride</span>
+                          <span className="text-white/70"><strong className="text-white/90">Contribu-lecteur</strong> : VIXUpoints + paiement hybride 70/30</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                          <span className="text-white/70"><strong className="text-white/90">Auditeur</strong> : VIXUpoints + paiement hybride 70/30</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                          <span className="text-white/70"><strong className="text-white/90">Createurs / Infoporteurs / Podcasteurs</strong> : VIXUpoints + boosts visibilite</span>
                         </div>
                       </div>
                     </div>
-                    
-                    <div className="bg-rose-500/10 rounded-xl p-4 border border-rose-500/20">
-                      <p className="text-rose-400 font-medium text-sm mb-2">{"Profils non éligibles aux VIXUpoints"}</p>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                        <div className="flex items-center gap-2">
-                          <Lock className="h-3.5 w-3.5 text-rose-400/60 shrink-0" />
-                          <span className="text-white/50">Contributeur</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Lock className="h-3.5 w-3.5 text-rose-400/60 shrink-0" />
-                          <span className="text-white/50">Porteur</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Lock className="h-3.5 w-3.5 text-rose-400/60 shrink-0" />
-                          <span className="text-white/50">Infoporteur</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Lock className="h-3.5 w-3.5 text-rose-400/60 shrink-0" />
-                          <span className="text-white/50">Podcasteur</span>
-                        </div>
+
+                    <div className="bg-sky-500/10 rounded-xl p-4 border border-sky-500/20">
+                      <p className="text-sky-400 font-medium text-sm mb-2">{"Regle TOP 100"}</p>
+                      <div className="flex items-start gap-2 text-xs">
+                        <Lock className="h-3.5 w-3.5 text-sky-400/80 shrink-0 mt-0.5" />
+                        <span className="text-white/70">
+                          {"Les VIXUpoints ne comptent JAMAIS pour le classement TOP 100. Le classement depend uniquement des contributions en euros et des regles officielles VIXUAL."}
+                        </span>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="bg-slate-800/50 rounded-lg p-3 mt-4 border border-white/5">
                     <p className="text-white/50 text-xs leading-relaxed">
-                      {"Les VIXUpoints ne peuvent en aucun cas être utilisés comme outil de contribution financière directe aux projets audiovisuels, ni comme mécanisme de gain financier. Ils constituent exclusivement un outil promotionnel interne et d'engagement communautaire."}
+                      {"Les VIXUpoints ne constituent ni une monnaie electronique, ni un crypto-actif, ni un placement financier, ni une garantie de gain. Ils ne peuvent en aucun cas etre utilises comme outil de contribution financiere directe aux projets ni comme mecanisme de gain. Ils constituent exclusivement un systeme interne d'avantages, de fidelite et d'engagement communautaire."}
                     </p>
                   </div>
                 </SubSection>
 
-                <SubSection title={"Paiement hybride (achat de contenu)"}>
+                <SubSection title={"Paiement hybride VIXUAL (regle officielle)"}>
                   <p className="text-white/60 text-sm leading-relaxed mb-3">
-                    {"Les VIXUpoints peuvent \u00eatre utilis\u00e9s pour l'achat de contenu sur la plateforme, selon un syst\u00e8me de paiement hybride :"}
+                    {"Le paiement hybride VIXUAL combine euros et VIXUpoints selon un ratio fixe et universel :"}
                   </p>
                   <div className="grid grid-cols-2 gap-3 mb-3">
                     <div className="bg-emerald-500/10 rounded-xl p-3 border border-emerald-500/15 text-center">
-                      <span className="text-emerald-400 font-bold text-xl">30%</span>
-                      <p className="text-white/50 text-xs mt-1">minimum en euros</p>
+                      <span className="text-emerald-400 font-bold text-xl">70%</span>
+                      <p className="text-white/50 text-xs mt-1">en euros</p>
                     </div>
                     <div className="bg-amber-500/10 rounded-xl p-3 border border-amber-500/15 text-center">
-                      <span className="text-amber-400 font-bold text-xl">70%</span>
-                      <p className="text-white/50 text-xs mt-1">maximum en VIXUpoints</p>
+                      <span className="text-amber-400 font-bold text-xl">30%</span>
+                      <p className="text-white/50 text-xs mt-1">en VIXUpoints</p>
                     </div>
                   </div>
                   <div className="space-y-1.5 text-xs text-white/50">
-                    <div className="flex gap-2 items-start"><CheckCircle className="h-3.5 w-3.5 text-emerald-400 mt-0.5 shrink-0" /><span>{"Le paiement 100% VIXUpoints n'est pas autoris\u00e9 afin de garantir un mod\u00e8le \u00e9conomique durable"}</span></div>
-                    <div className="flex gap-2 items-start"><CheckCircle className="h-3.5 w-3.5 text-emerald-400 mt-0.5 shrink-0" /><span>{"Bonus : 5% des points d\u00e9pens\u00e9s sont retourn\u00e9s (plafond mensuel : 200 points)"}</span></div>
-                    <div className="flex gap-2 items-start"><CheckCircle className="h-3.5 w-3.5 text-emerald-400 mt-0.5 shrink-0" /><span>{"Ce m\u00e9canisme assure le maintien du flux de r\u00e9mun\u00e9ration des cr\u00e9ateurs via Stripe"}</span></div>
+                    <div className="flex gap-2 items-start"><CheckCircle className="h-3.5 w-3.5 text-emerald-400 mt-0.5 shrink-0" /><span>{"Regle universelle V2/V3 : 70% euros + 30% VIXUpoints. Le paiement 100% VIXUpoints n'est pas autorise."}</span></div>
+                    <div className="flex gap-2 items-start"><CheckCircle className="h-3.5 w-3.5 text-emerald-400 mt-0.5 shrink-0" /><span>{"Cette regle protege l'economie VIXUAL et maintient une participation reelle equilibree."}</span></div>
+                    <div className="flex gap-2 items-start"><CheckCircle className="h-3.5 w-3.5 text-emerald-400 mt-0.5 shrink-0" /><span>{"Bonus : 5% des points depenses sont retournes (plafond mensuel : 200 points)."}</span></div>
+                    <div className="flex gap-2 items-start"><CheckCircle className="h-3.5 w-3.5 text-emerald-400 mt-0.5 shrink-0" /><span>{"Le paiement hybride est interdit en V1 (uniquement V2 et V3)."}</span></div>
                   </div>
                 </SubSection>
 

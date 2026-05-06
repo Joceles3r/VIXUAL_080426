@@ -45,12 +45,13 @@ const PROFILE_PAYMENT_CONFIG: Record<PaymentProfile, {
 }> = {
   visitor_minor: { canUseVixupoints: true, canPayEuros: false, canUseHybrid: false, label: "Visiteur mineur" },
   visitor_adult: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, label: "Visiteur majeur" },
-  contributor: { canUseVixupoints: false, canPayEuros: true, canUseHybrid: false, label: "Contributeur" },
+  // Patch "VIXUpoints equitables" : le contributeur peut utiliser le paiement hybride 70/30
+  contributor: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, label: "Contributeur" },
   contribu_lecteur: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, label: "Contribu-lecteur" },
   auditeur: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, label: "Auditeur" },
-  creator: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, label: "Createur" },
-  infoporteur: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, label: "Infoporteur" },
-  podcasteur: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, label: "Podcasteur" },
+  creator: { canUseVixupoints: true, canPayEuros: false, canUseHybrid: false, label: "Createur" },
+  infoporteur: { canUseVixupoints: true, canPayEuros: false, canUseHybrid: false, label: "Infoporteur" },
+  podcasteur: { canUseVixupoints: true, canPayEuros: false, canUseHybrid: false, label: "Podcasteur" },
 }
 
 // ─── Components ───
@@ -64,10 +65,12 @@ export function HybridPaymentSelector({
 }: HybridPaymentProps) {
   const config = PROFILE_PAYMENT_CONFIG[userProfile]
   const priceInPoints = priceEur * VIXUPOINTS_PER_EUR
-  
-  // Pour le paiement hybride, on utilise un slider
-  const maxPointsUsable = Math.min(userVixupoints, priceInPoints)
-  const [pointsToUse, setPointsToUse] = useState(config.canUseHybrid ? Math.floor(maxPointsUsable / 2) : 0)
+
+  // Regle officielle VIXUAL : 30% maximum en VIXUpoints, 70% minimum en euros
+  const HYBRID_RATIO_POINTS = 0.30
+  const maxPointsByRule = Math.floor(priceInPoints * HYBRID_RATIO_POINTS)
+  const maxPointsUsable = Math.min(userVixupoints, maxPointsByRule)
+  const [pointsToUse, setPointsToUse] = useState(config.canUseHybrid ? maxPointsUsable : 0)
   
   const eurosRemaining = useMemo(() => {
     const pointsValue = pointsToUse / VIXUPOINTS_PER_EUR
@@ -215,11 +218,11 @@ export function HybridPaymentSelector({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Info pedagogique */}
+        {/* Info pedagogique - REGLE OFFICIELLE VIXUAL */}
         <div className="bg-teal-500/10 border border-teal-500/30 rounded-lg p-3 flex items-start gap-2">
           <Info className="h-4 w-4 text-teal-400 mt-0.5 shrink-0" />
           <p className="text-xs text-teal-200">
-            Utilisez vos VIXUpoints pour reduire le montant en euros. Le systeme calcule automatiquement la meilleure combinaison.
+            Paiement hybride VIXUAL : <span className="font-semibold text-emerald-300">70% en euros</span> + <span className="font-semibold text-amber-300">30% en VIXUpoints</span>. Cela permet d&apos;utiliser tes points tout en gardant une participation reelle et equilibree.
           </p>
         </div>
 
@@ -295,16 +298,11 @@ export function HybridPaymentSelector({
             </Button>
           )}
 
-          {/* Option paiement complet en VIXUpoints si possible */}
-          {canAffordFullPoints && pointsToUse < priceInPoints && (
-            <Button 
-              variant="outline"
-              onClick={() => onPayment({ vixupointsUsed: priceInPoints, eurosUsed: 0, isHybrid: false, isValid: true })}
-              className="w-full border-amber-500/50 text-amber-300 hover:bg-amber-500/10"
-            >
-              Payer 100% en VIXUpoints ({priceInPoints} pts)
-            </Button>
-          )}
+          {/*
+            REGLE OFFICIELLE VIXUAL : pas de paiement 100% en VIXUpoints.
+            Le paiement hybride est strictement 70% euros + 30% VIXUpoints.
+            La FAQ Q4 le precise explicitement.
+          */}
         </div>
       </CardContent>
     </Card>

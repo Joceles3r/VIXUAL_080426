@@ -1,31 +1,47 @@
 /**
- * VIXUAL - VIXUpoints Engine
+ * VIXUAL - VIXUpoints Engine (Module Equitable)
  *
- * DEFINITION: Les VIXUpoints sont des points de participation attribues aux utilisateurs
- * pour leur activite positive sur la plateforme VIXUAL.
+ * DEFINITION OFFICIELLE :
+ * Les VIXUpoints sont un systeme interne d'avantages et de fidelite propre a VIXUAL.
+ * Ils ne constituent PAS une monnaie electronique, un crypto-actif, un placement
+ * financier, une garantie de gain, ou un systeme d'achat de classement.
  *
- * CONVERSION OFFICIELLE: 100 VIXUpoints = 1 EUR
+ * USAGES OFFICIELS :
+ *  - obtenir certains avantages,
+ *  - acceder a certaines fonctionnalites,
+ *  - utiliser le paiement hybride lorsqu'il est autorise,
+ *  - ameliorer l'experience utilisateur sur VIXUAL.
  *
- * Les VIXUpoints permettent:
- * - d'acceder a des contenus
- * - d'encourager la participation communautaire
- * - de soutenir indirectement les createurs
+ * REGLE TOP 100 (verrouillee) :
+ * Les VIXUpoints ne comptent JAMAIS pour le classement TOP 100.
+ * Le classement depend uniquement des contributions en euros et des regles
+ * officielles VIXUAL.
  *
- * Les VIXUpoints ne constituent PAS une monnaie, ni un produit financier.
+ * REGLE PAIEMENT HYBRIDE (universelle V2/V3) :
+ * 70% en euros + 30% en VIXUpoints.
  *
- * REGLES PAR PROFIL:
- * - Visiteur mineur: VIXUpoints UNIQUEMENT (pas d'euros, pas de paiement hybride)
- * - Visiteur majeur: VIXUpoints + Euros + Paiement hybride
- * - Contributeur: Euros UNIQUEMENT (pas de VIXUpoints, pas de paiement hybride)
- * - Contribu-lecteur: VIXUpoints + Euros + Paiement hybride
- * - Auditeur: VIXUpoints + Euros + Paiement hybride
- * - Porteur/Infoporteur/Podcasteur: NE beneficient PAS des VIXUpoints ni du paiement hybride
+ * STRUCTURE V1 / V2 / V3 :
+ *  - V1 (Decouverte) : bonus inscription, activite reguliere, avantages simples,
+ *    Pass Decouverte. Interdits : micro-packs, paiement hybride, conversion detaillee.
+ *  - V2 (Participation) : micro-packs, paiement hybride, conversion simplifiee,
+ *    boosts visibilite simples, wallet intermediaire.
+ *  - V3 (Complete) : wallet avance, historique, statistiques, boosts avances.
  *
- * LIMITES ANTI-ABUS:
- * - Maximum 100 VIXUpoints par jour
- * - Maximum 500 VIXUpoints par semaine
- * - Plafond mineur: 10 000 VIXUpoints
- * - Plafond visiteur majeur: 2 500 VIXUpoints
+ * REGLES PAR PROFIL :
+ *  - Visiteur (mineur) : gagne des points, avantages, Pass Decouverte (pas d'euros)
+ *  - Visiteur majeur : + paiement hybride 70/30 + micro-packs (V2/V3)
+ *  - Contributeur : VIXUpoints + paiement hybride 70/30 + fidelite
+ *  - Contribu-lecteur : VIXUpoints + paiement hybride + micro-packs
+ *  - Auditeur : VIXUpoints + paiement hybride + micro-packs
+ *  - Createur/Porteur/Infoporteur/Podcasteur : VIXUpoints + boosts visibilite
+ *    (jamais de boost de classement, votes ou TOP 100)
+ *
+ * SECURISATION :
+ *  - Plafond officiel : 20 000 VIXUpoints par utilisateur
+ *  - Expiration douce : 12 mois d'inactivite
+ *  - Maximum 100 VIXUpoints/jour, 500/semaine (anti-abus)
+ *  - Interdits : transfert entre utilisateurs, echange externe, speculation,
+ *    cash instantane, achat de classement, achat de votes.
  */
 
 // ─── Types ───
@@ -66,6 +82,10 @@ export interface UserVixupointsProfile {
 import { VIXUPOINTS_PER_EUR } from "@/lib/payout/constants"
 export { VIXUPOINTS_PER_EUR }
 
+/** Plafond officiel universel : 20 000 VIXUpoints par utilisateur */
+export const VIXUPOINTS_MAX_BALANCE = 20_000
+
+/** Plafonds historiques (compatibilite) */
 export const MINOR_VIXUPOINTS_CAP = 10_000
 export const ADULT_VISITOR_CAP = 2_500
 export const MINOR_MIN_AGE = 16
@@ -74,6 +94,60 @@ export const MAJORITY_AGE = 18
 /** Limites anti-abus */
 export const DAILY_VIXUPOINTS_CAP = 100    // Max 100 VIXUpoints par jour
 export const WEEKLY_VIXUPOINTS_CAP = 500   // Max 500 VIXUpoints par semaine
+
+/** Expiration douce : VIXUpoints expirent apres 12 mois d'inactivite */
+export const VIXUPOINTS_EXPIRY_MONTHS = 12
+
+/** Ratio officiel paiement hybride VIXUAL : 70% euros + 30% VIXUpoints */
+export const HYBRID_RATIO_EUR = 0.70
+export const HYBRID_RATIO_POINTS = 0.30
+
+/**
+ * REGLE TOP 100 :
+ * Les VIXUpoints ne comptent JAMAIS pour le classement TOP 100.
+ * Cette constante est utilisee comme verrou logique partout dans le code.
+ */
+export const VIXUPOINTS_AFFECT_TOP100 = false as const
+
+/**
+ * Versions de la plateforme et eligibilite des fonctionnalites VIXUpoints.
+ * - V1 : decouverte (pas de micro-packs, pas de paiement hybride)
+ * - V2 : participation (micro-packs + paiement hybride actives)
+ * - V3 : complete (wallet avance + boosts avances)
+ */
+export type PlatformVersion = "V1" | "V2" | "V3"
+
+export const VIXUPOINTS_FEATURES_BY_VERSION = {
+  V1: {
+    micropacks: false,
+    hybridPayment: false,
+    advancedBoost: false,
+    discoveryBoost: false,
+    walletAdvanced: false,
+  },
+  V2: {
+    micropacks: true,
+    hybridPayment: true,
+    advancedBoost: false,
+    discoveryBoost: true,
+    walletAdvanced: false,
+  },
+  V3: {
+    micropacks: true,
+    hybridPayment: true,
+    advancedBoost: true,
+    discoveryBoost: true,
+    walletAdvanced: true,
+  },
+} as const
+
+/** Verifie si une fonctionnalite VIXUpoints est active pour la version courante */
+export function isVixupointsFeatureEnabled(
+  version: PlatformVersion,
+  feature: keyof typeof VIXUPOINTS_FEATURES_BY_VERSION["V1"]
+): boolean {
+  return VIXUPOINTS_FEATURES_BY_VERSION[version]?.[feature] === true
+}
 
 /** Actions pour gagner des VIXUpoints (visiteurs mineurs) */
 export const VIXUPOINTS_ACTIONS = {
@@ -85,24 +159,35 @@ export const VIXUPOINTS_ACTIONS = {
   referralSignup: 40,       // Inscription via partage
 } as const
 
-/** Profile-based caps and permissions - VERROU FINAL: cles officielles */
+/**
+ * Profile-based caps and permissions - VERROU FINAL VIXUAL
+ *
+ * Plafond officiel universel : 20 000 VIXUpoints (VIXUPOINTS_MAX_BALANCE).
+ * Le paiement hybride 70/30 est ouvert aux contributeurs, contribu-lecteurs,
+ * auditeurs et visiteurs majeurs autorises (V2/V3 uniquement).
+ *
+ * Les createurs (porteur, infoporteur, podcasteur) gagnent des VIXUpoints
+ * pour les utiliser en boost de visibilite (jamais pour le classement).
+ */
 export const PROFILE_VIXUPOINTS_CONFIG: Record<string, {
   canUseVixupoints: boolean
   canPayEuros: boolean
   canUseHybrid: boolean
+  canBuyMicropacks: boolean
+  canUseVisibilityBoost: boolean
   cap: number
   capType: "total" | "monthly"
 }> = {
-  guest: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, cap: 0, capType: "total" },
-  visitor_minor: { canUseVixupoints: true, canPayEuros: false, canUseHybrid: false, cap: 10_000, capType: "total" },
-  visitor_adult: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, cap: 2_500, capType: "total" },
-  visitor: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, cap: 2_500, capType: "total" },
-  creator: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, cap: 0, capType: "total" },
-  contributor: { canUseVixupoints: false, canPayEuros: true, canUseHybrid: false, cap: 0, capType: "total" },
-  infoporteur: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, cap: 0, capType: "total" },
-  podcasteur: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, cap: 0, capType: "total" },
-  auditeur: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, cap: 2_500, capType: "total" },
-  contribu_lecteur: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, cap: 2_500, capType: "total" },
+  guest: { canUseVixupoints: false, canPayEuros: false, canUseHybrid: false, canBuyMicropacks: false, canUseVisibilityBoost: false, cap: 0, capType: "total" },
+  visitor_minor: { canUseVixupoints: true, canPayEuros: false, canUseHybrid: false, canBuyMicropacks: false, canUseVisibilityBoost: false, cap: 20_000, capType: "total" },
+  visitor_adult: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, canBuyMicropacks: true, canUseVisibilityBoost: false, cap: 20_000, capType: "total" },
+  visitor: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, canBuyMicropacks: true, canUseVisibilityBoost: false, cap: 20_000, capType: "total" },
+  creator: { canUseVixupoints: true, canPayEuros: false, canUseHybrid: false, canBuyMicropacks: false, canUseVisibilityBoost: true, cap: 20_000, capType: "total" },
+  contributor: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, canBuyMicropacks: false, canUseVisibilityBoost: false, cap: 20_000, capType: "total" },
+  infoporteur: { canUseVixupoints: true, canPayEuros: false, canUseHybrid: false, canBuyMicropacks: false, canUseVisibilityBoost: true, cap: 20_000, capType: "total" },
+  podcasteur: { canUseVixupoints: true, canPayEuros: false, canUseHybrid: false, canBuyMicropacks: false, canUseVisibilityBoost: true, cap: 20_000, capType: "total" },
+  auditeur: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, canBuyMicropacks: true, canUseVisibilityBoost: false, cap: 20_000, capType: "total" },
+  contribu_lecteur: { canUseVixupoints: true, canPayEuros: true, canUseHybrid: true, canBuyMicropacks: true, canUseVisibilityBoost: false, cap: 20_000, capType: "total" },
 }
 
 /** Message pedagogique VIXUAL */
@@ -116,21 +201,34 @@ export const VIXUPOINTS_LIMIT_WARNING = "Vous approchez de la limite de VIXUpoin
 
 export const VIXUPOINTS_CONVERSION_THRESHOLD = 2500
 export const VIXUPOINTS_MAX_DAILY = DAILY_VIXUPOINTS_CAP
+
+/**
+ * Plafond officiel unique : 20 000 VIXUpoints par utilisateur,
+ * applique a tous les profils (verrou economique VIXUAL).
+ */
 export const VIXUPOINTS_PROFILE_CAPS = {
-  visitor_minor: { cap: 10_000, maxDaily: 100, canWithdraw: false },
-  visitor_adult: { cap: 2_500, maxDaily: 100, canWithdraw: false },
-  visitor: { cap: 2_500, maxDaily: 100, canWithdraw: false },
-  auditeur: { cap: 2_500, maxDaily: 100, canWithdraw: true },
-  contribu_lecteur: { cap: 2_500, maxDaily: 100, canWithdraw: true },
+  visitor_minor: { cap: VIXUPOINTS_MAX_BALANCE, maxDaily: 100, canWithdraw: false },
+  visitor_adult: { cap: VIXUPOINTS_MAX_BALANCE, maxDaily: 100, canWithdraw: false },
+  visitor: { cap: VIXUPOINTS_MAX_BALANCE, maxDaily: 100, canWithdraw: false },
+  auditeur: { cap: VIXUPOINTS_MAX_BALANCE, maxDaily: 100, canWithdraw: true },
+  contribu_lecteur: { cap: VIXUPOINTS_MAX_BALANCE, maxDaily: 100, canWithdraw: true },
+  contributor: { cap: VIXUPOINTS_MAX_BALANCE, maxDaily: 100, canWithdraw: true },
+  creator: { cap: VIXUPOINTS_MAX_BALANCE, maxDaily: 100, canWithdraw: false },
+  infoporteur: { cap: VIXUPOINTS_MAX_BALANCE, maxDaily: 100, canWithdraw: false },
+  podcasteur: { cap: VIXUPOINTS_MAX_BALANCE, maxDaily: 100, canWithdraw: false },
 } as const
 
 /** Alias pour compatibilite avec creditVisupointsCapped */
 export const PROFILE_CAPS: Record<string, { cap: number }> = {
-  visitor_minor: { cap: 10_000 },
-  visitor_adult: { cap: 2_500 },
-  visitor: { cap: 2_500 },
-  auditeur: { cap: 2_500 },
-  contribu_lecteur: { cap: 2_500 },
+  visitor_minor: { cap: VIXUPOINTS_MAX_BALANCE },
+  visitor_adult: { cap: VIXUPOINTS_MAX_BALANCE },
+  visitor: { cap: VIXUPOINTS_MAX_BALANCE },
+  auditeur: { cap: VIXUPOINTS_MAX_BALANCE },
+  contribu_lecteur: { cap: VIXUPOINTS_MAX_BALANCE },
+  contributor: { cap: VIXUPOINTS_MAX_BALANCE },
+  creator: { cap: VIXUPOINTS_MAX_BALANCE },
+  infoporteur: { cap: VIXUPOINTS_MAX_BALANCE },
+  podcasteur: { cap: VIXUPOINTS_MAX_BALANCE },
 }
 
 // ─── Micro-Packs VIXUpoints ───
@@ -146,11 +244,18 @@ export interface VixupointsPack {
   description: string
 }
 
-/** Micro-packs officiels VIXUpoints */
+/**
+ * Micro-packs officiels VIXUpoints
+ *
+ * DECISION OFFICIELLE : suppression definitive du Pack 50 EUR.
+ * Packs autorises : Decouverte 5 EUR, Standard 10 EUR, Confort 20 EUR.
+ * Disponibles uniquement en V2 et V3 (interdits en V1) et reserves
+ * aux profils majeurs eligibles.
+ */
 export const VIXUPOINTS_PACKS: VixupointsPack[] = [
   {
-    id: "micro",
-    name: "Micro Pack",
+    id: "decouverte",
+    name: "Pack Decouverte",
     priceEur: 5,
     basePoints: 500,
     bonusPercent: 10,
@@ -158,8 +263,8 @@ export const VIXUPOINTS_PACKS: VixupointsPack[] = [
     description: "Ideal pour debloquer quelques contenus"
   },
   {
-    id: "starter",
-    name: "Starter Pack",
+    id: "standard",
+    name: "Pack Standard",
     priceEur: 10,
     basePoints: 1000,
     bonusPercent: 15,
@@ -168,36 +273,39 @@ export const VIXUPOINTS_PACKS: VixupointsPack[] = [
     description: "Le choix populaire pour les visiteurs actifs"
   },
   {
-    id: "creator",
-    name: "Creator Pack",
+    id: "confort",
+    name: "Pack Confort",
     priceEur: 20,
     basePoints: 2000,
     bonusPercent: 20,
     totalPoints: 2400,
     description: "Pour soutenir vos createurs preferes"
   },
-  {
-    id: "community",
-    name: "Community Pack",
-    priceEur: 50,
-    basePoints: 5000,
-    bonusPercent: 30,
-    totalPoints: 6500,
-    description: "Maximum de valeur pour les passionnes"
-  },
 ]
 
-/** Profils autorises a acheter des micro-packs - cles officielles */
+/**
+ * Profils autorises a acheter des micro-packs (utilisateurs majeurs uniquement).
+ * Les mineurs (visitor_minor) sont DESORMAIS interdits d'achat de micro-packs
+ * conformement au patch "VIXUpoints equitables".
+ */
 export const MICROPACKS_ELIGIBLE_PROFILES = [
-  "visitor_minor",
   "visitor_adult",
   "visitor",
   "auditeur",
   "contribu_lecteur",
 ] as const
 
-/** Verifie si un profil peut acheter des micro-packs */
-export function canBuyMicropacks(profile: string): boolean {
+/**
+ * Verifie si un profil peut acheter des micro-packs.
+ * Interdits en V1, reserves aux profils majeurs en V2/V3.
+ */
+export function canBuyMicropacks(
+  profile: string,
+  version: PlatformVersion = "V2",
+  isMinorUser: boolean = false
+): boolean {
+  if (isMinorUser) return false
+  if (!isVixupointsFeatureEnabled(version, "micropacks")) return false
   return MICROPACKS_ELIGIBLE_PROFILES.includes(profile as any)
 }
 
@@ -435,9 +543,10 @@ export interface EngagementRedirectResult {
   showPathB: boolean // Chemin B : evoluer vers profil avance
 }
 
-const ENGAGEMENT_INFO_THRESHOLD = 2_000
-const ENGAGEMENT_WARNING_THRESHOLD = 2_300
-const ENGAGEMENT_CRITICAL_THRESHOLD = 2_450
+// Seuils d'engagement adaptes au plafond officiel 20 000 VIXUpoints
+const ENGAGEMENT_INFO_THRESHOLD = 15_000
+const ENGAGEMENT_WARNING_THRESHOLD = 18_000
+const ENGAGEMENT_CRITICAL_THRESHOLD = 19_500
 
 /**
  * Moteur d'incitation a l'engagement.
@@ -445,7 +554,7 @@ const ENGAGEMENT_CRITICAL_THRESHOLD = 2_450
  * avec 2000+ VIXUpoints.
  *
  * Deux chemins proposes :
- * A) Consommer du contenu (paiement hybride 30% cash min / 70% VIXUpoints max)
+ * A) Consommer du contenu (paiement hybride VIXUAL : 70% euros + 30% VIXUpoints)
  * B) Evoluer vers un profil avance (Investisseur, Auditeur, etc.)
  */
 export function engagementRedirectEngine(
@@ -460,7 +569,7 @@ export function engagementRedirectEngine(
   if (vixupoints >= ENGAGEMENT_CRITICAL_THRESHOLD) {
     return {
       level: "critical",
-      title: "Vous approchez du plafond de 2 500 pts !",
+      title: "Vous approchez du plafond de 20 000 pts !",
       message: "Il est temps d'utiliser vos VIXUpoints : consommez du contenu ou passez au niveau sup\u00e9rieur pour d\u00e9bloquer plus de fonctionnalit\u00e9s.",
       showPathA: true,
       showPathB: true,
@@ -477,7 +586,7 @@ export function engagementRedirectEngine(
   }
   return {
     level: "info",
-    title: "Vous avez d\u00e9j\u00e0 2 000 VIXUpoints !",
+    title: "Vous avez d\u00e9j\u00e0 15 000 VIXUpoints !",
     message: "Saviez-vous que vous pouvez utiliser vos points pour acc\u00e9der \u00e0 du contenu ? D\u00e9couvrez les possibilit\u00e9s.",
     showPathA: true,
     showPathB: false,
@@ -486,7 +595,11 @@ export function engagementRedirectEngine(
 
 /**
  * Calcule le paiement hybride pour l'achat de contenu (Chemin A).
- * Minimum 30% en euros, maximum 70% en VIXUpoints.
+ *
+ * REGLE OFFICIELLE VIXUAL : 70% en euros + 30% en VIXUpoints.
+ * Cette regle est universelle (V2/V3) et protege l'economie VIXUAL en
+ * maintenant une majorite de paiement reel en euros.
+ *
  * Bonus : 5% des points depenses sont regagnes (max 200/mois).
  */
 export function computeHybridPurchase(
@@ -499,7 +612,8 @@ export function computeHybridPurchase(
   bonusEarned: number
   remainingPoints: number
 } {
-  const cashMinCents = Math.ceil(priceCents * 0.30)
+  // 70% minimum en euros, 30% maximum en VIXUpoints
+  const cashMinCents = Math.ceil(priceCents * HYBRID_RATIO_EUR)
   const pointsPartCents = priceCents - cashMinCents
   // 1 point = 1 centime (100 pts = 1 EUR)
   const pointsNeeded = pointsPartCents
@@ -518,6 +632,12 @@ export function computeHybridPurchase(
     remainingPoints: userPoints - pointsUsed,
   }
 }
+
+/**
+ * Message officiel UX a afficher dans tout selecteur de paiement hybride.
+ */
+export const HYBRID_PAYMENT_OFFICIAL_MESSAGE =
+  "Paiement hybride VIXUAL : 70% en euros + 30% en VIXUpoints. Cela permet d'utiliser tes points tout en gardant une participation reelle et equilibree."
 
 /** Deblocage automatique a la majorite (a appeler au login) */
 export function checkMajorityUnlock(

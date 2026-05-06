@@ -522,67 +522,83 @@ export default function CGVPage() {
               </Card>
             </Section>
 
-            {/* Article 12 - VIXUpoints et paiement hybride */}
+            {/* Article 12 - VIXUpoints et paiement hybride (Module Equitable) */}
             <Section num={12} title={"VIXUpoints et paiement hybride"} icon={Star}>
-              <P>{"Les VIXUpoints ne constituent pas une monnaie \u00e9lectronique et ne peuvent \u00eatre convertis librement en num\u00e9raire. Ils constituent un avantage promotionnel interne \u00e0 VIXUAL au sens de la directive 2009/110/CE. Le taux de r\u00e9f\u00e9rence est de cent VIXUpoints \u00e9quivalent un euro. Plafonds : mineurs (seize \u00e0 dix-huit ans) dix mille points (cent euros), majeurs deux mille cinq cents points."}</P>
+              <P>{"Les VIXUpoints sont un systeme interne d'avantages et de fidelite propre a VIXUAL. Ils ne constituent pas une monnaie electronique, un crypto-actif, un placement financier, une garantie de gain, ou un systeme d'achat de classement. Le plafond officiel est de 20 000 VIXUpoints par utilisateur. Les VIXUpoints expirent apres 12 mois d'inactivite."}</P>
 
               <Card className="bg-slate-800/40 border-white/5 mt-3 mb-3">
                 <CardContent className="pt-5 space-y-3">
-                  <p className="text-white font-medium text-sm">{"Paiement hybride pour l'achat de contenu"}</p>
+                  <p className="text-white font-medium text-sm">{"Regle officielle paiement hybride VIXUAL"}</p>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="bg-emerald-500/10 rounded-lg p-3 border border-emerald-500/15 text-center">
-                      <span className="text-emerald-400 font-bold text-lg">30%</span>
-                      <p className="text-white/40 text-xs mt-1">minimum en euros</p>
+                      <span className="text-emerald-400 font-bold text-lg">70%</span>
+                      <p className="text-white/40 text-xs mt-1">en euros</p>
                     </div>
                     <div className="bg-amber-500/10 rounded-lg p-3 border border-amber-500/15 text-center">
-                      <span className="text-amber-400 font-bold text-lg">70%</span>
-                      <p className="text-white/40 text-xs mt-1">maximum en VIXUpoints</p>
+                      <span className="text-amber-400 font-bold text-lg">30%</span>
+                      <p className="text-white/40 text-xs mt-1">en VIXUpoints</p>
                     </div>
                   </div>
                   <ul className="space-y-1.5 text-xs text-white/50">
-                    <Bullet>{"Le paiement int\u00e9gralement en VIXUpoints (100%) n'est pas autoris\u00e9 en version V1"}</Bullet>
-                    <Bullet>{"Bonus d'utilisation : 5% des points d\u00e9pens\u00e9s sont restitu\u00e9s (plafond : 200 pts/mois)"}</Bullet>
-                    <Bullet>{"Ce mod\u00e8le garantit la r\u00e9mun\u00e9ration effective des cr\u00e9ateurs via le flux Stripe"}</Bullet>
+                    <Bullet>{"Regle universelle : 70% euros + 30% VIXUpoints. Le paiement 100% en VIXUpoints n'est pas autorise."}</Bullet>
+                    <Bullet>{"Cette regle protege l'economie VIXUAL et maintient une participation reelle equilibree."}</Bullet>
+                    <Bullet>{"Le paiement hybride est disponible uniquement en V2 et V3 (interdit en V1)."}</Bullet>
                   </ul>
                 </CardContent>
               </Card>
 
-              {/* Regles d'eligibilite VIXUpoints et paiement hybride */}
-              <Card className="bg-emerald-500/5 border-emerald-500/20 mt-3 mb-3">
+              {/* TOP 100 verrouille */}
+              <Card className="bg-sky-500/5 border-sky-500/20 mt-3 mb-3">
                 <CardContent className="pt-5 space-y-3">
-                  <p className="text-emerald-400 font-semibold text-sm">{"Profils eligibles au paiement hybride (VIXUpoints + Euros)"}</p>
-                  <ul className="space-y-1.5 text-xs text-white/60">
-                    <Bullet>{"Visiteur majeur : peut utiliser le paiement hybride (30% euros min + 70% VIXUpoints max)"}</Bullet>
-                    <Bullet>{"Contribu-lecteur : peut utiliser le paiement hybride (gains inferieurs au Contributeur)"}</Bullet>
-                    <Bullet>{"Auditeur : peut utiliser le paiement hybride (gains inferieurs au Contributeur)"}</Bullet>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-amber-500/5 border-amber-500/20 mt-3 mb-3">
-                <CardContent className="pt-5 space-y-3">
-                  <p className="text-amber-400 font-semibold text-sm">{"Visiteurs mineurs : achat en VIXUpoints uniquement"}</p>
+                  <p className="text-sky-400 font-semibold text-sm">{"Regle officielle TOP 100"}</p>
                   <p className="text-white/60 text-xs leading-relaxed">
-                    {"Les visiteurs mineurs (16-18 ans) sont les seuls a pouvoir acheter du contenu sur VIXUAL exclusivement avec des VIXUpoints. Ce systeme est tres encadre : plafond de 10 000 VIXUpoints, pas d'acces aux euros, pas de paiement hybride, pas de retrait d'argent."}
+                    {"Les VIXUpoints ne comptent JAMAIS pour le classement TOP 100. Le classement depend uniquement des contributions en euros, des regles officielles VIXUAL et de l'activite reelle des projets."}
                   </p>
                 </CardContent>
               </Card>
 
+              {/* Eligibilite VIXUpoints universelle */}
+              <Card className="bg-emerald-500/5 border-emerald-500/20 mt-3 mb-3">
+                <CardContent className="pt-5 space-y-3">
+                  <p className="text-emerald-400 font-semibold text-sm">{"Eligibilite (Module Equitable VIXUAL)"}</p>
+                  <ul className="space-y-1.5 text-xs text-white/60">
+                    <Bullet>{"VIXUpoints accessibles a tous : visiteurs, contributeurs, contribu-lecteurs, auditeurs, createurs, infoporteurs, podcasteurs."}</Bullet>
+                    <Bullet>{"Paiement hybride 70/30 : ouvert aux contributeurs, contribu-lecteurs, auditeurs et visiteurs majeurs autorises."}</Bullet>
+                    <Bullet>{"Createurs / infoporteurs / podcasteurs : utilisent leurs VIXUpoints pour des boosts de visibilite (jamais de boost de classement)."}</Bullet>
+                    <Bullet>{"Les paiements en euros sont reserves aux utilisateurs majeurs."}</Bullet>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              {/* Micro-packs */}
+              <Card className="bg-amber-500/5 border-amber-500/20 mt-3 mb-3">
+                <CardContent className="pt-5 space-y-3">
+                  <p className="text-amber-400 font-semibold text-sm">{"Micro-packs officiels (V2/V3 uniquement, majeurs uniquement)"}</p>
+                  <ul className="space-y-1.5 text-xs text-white/60">
+                    <Bullet>{"Pack Decouverte : 5 EUR"}</Bullet>
+                    <Bullet>{"Pack Standard : 10 EUR"}</Bullet>
+                    <Bullet>{"Pack Confort : 20 EUR"}</Bullet>
+                    <Bullet>{"Le Pack 50 EUR a ete supprime definitivement (decision officielle VIXUAL)."}</Bullet>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              {/* Interdits */}
               <Card className="bg-rose-500/5 border-rose-500/20 mt-3 mb-3">
                 <CardContent className="pt-5 space-y-3">
-                  <p className="text-rose-400 font-semibold text-sm">{"Profils NON eligibles aux VIXUpoints et au paiement hybride"}</p>
+                  <p className="text-rose-400 font-semibold text-sm">{"Strictement interdits"}</p>
                   <ul className="space-y-1.5 text-xs text-white/60">
-                    <Bullet>{"Contributeur : remunere uniquement en euros via les gains classiques, ne cumule pas de VIXUpoints"}</Bullet>
-                    <Bullet>{"Porteur : createur de contenu audiovisuel, remunere en euros, ne cumule pas de VIXUpoints"}</Bullet>
-                    <Bullet>{"Infoporteur : createur de contenu litteraire, remunere en euros, ne cumule pas de VIXUpoints"}</Bullet>
-                    <Bullet>{"Podcasteur : createur de podcast, remunere en euros, ne cumule pas de VIXUpoints"}</Bullet>
+                    <Bullet>{"Transfert ou cession de VIXUpoints entre utilisateurs."}</Bullet>
+                    <Bullet>{"Echange externe, speculation, conversion en cash instantane."}</Bullet>
+                    <Bullet>{"Achat de classement, achat de votes, manipulation du TOP 100."}</Bullet>
+                    <Bullet>{"Spam, farming, multi-comptes, refresh abusifs, bots."}</Bullet>
                   </ul>
                 </CardContent>
               </Card>
 
               <div className="bg-slate-800/50 border border-white/10 rounded-lg p-3 mt-3">
                 <p className="text-white/50 text-xs leading-relaxed">
-                  {"Les VIXUpoints ne peuvent faire l'objet d'aucun transfert, cession, vente ou heritage. VIXUAL se reserve le droit de modifier le taux de conversion, les plafonds et les conditions d'utilisation des VIXUpoints avec un preavis de trente jours."}
+                  {"Les conversions sont traitees selon les regles officielles VIXUAL. VIXUAL se reserve le droit de modifier le taux de conversion, les plafonds et les conditions d'utilisation des VIXUpoints avec un preavis de trente jours."}
                 </p>
               </div>
             </Section>

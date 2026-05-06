@@ -121,11 +121,16 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/40 text-sm">
-            2026 VIXUAL. Tous droits reserves.
+        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col gap-3">
+          <p className="text-white/40 text-xs text-center md:text-left">
+            Les VIXUpoints sont un systeme interne d&apos;avantages et de fidelite propre a VIXUAL.
+            Ils ne constituent pas une monnaie electronique, un crypto-actif, ou une garantie de gain.
+            Ils ne comptent jamais pour le classement TOP 100.
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-white/40 text-sm">
+              2026 VIXUAL. Tous droits reserves.
+            </p>
             <span className="text-white/40 text-sm">
               Contribuer comporte des risques. Les gains ne sont pas garantis.
             </span>
