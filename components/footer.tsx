@@ -27,8 +27,8 @@ export function Footer() {
             <div className="mb-3">
               <VisualSlogan size="xs" opacity="medium" />
             </div>
-            <p className="text-white/60 max-w-md">
-              {"La plateforme de contribution participative pour les projets audiovisuels, litteraires et podcasts. Soutenez les createurs, contribuez a l'art."}
+            <p className="text-white/60 max-w-md leading-relaxed">
+              {"VIXUAL permet de soutenir des createurs et de decouvrir des projets originaux : films, podcasts, documentaires, livres et contenus independants."}
             </p>
           </div>
 
@@ -121,7 +121,20 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col gap-3">
+        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col gap-4">
+          {/* Bandeau de confiance officiel VIXUAL */}
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-white/55 text-xs text-center">
+            <span>Pas de hasard</span>
+            <span className="text-white/25" aria-hidden>
+              &bull;
+            </span>
+            <span>Regles transparentes</span>
+            <span className="text-white/25" aria-hidden>
+              &bull;
+            </span>
+            <span>Soutien reel aux createurs</span>
+          </div>
+
           <p className="text-white/40 text-xs text-center md:text-left">
             Les VIXUpoints sont un systeme interne d&apos;avantages et de fidelite propre a VIXUAL.
             Ils ne constituent pas une monnaie electronique, un crypto-actif, ou une garantie de gain.

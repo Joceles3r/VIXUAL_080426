@@ -10,7 +10,6 @@ import {
   LogIn,
   Shield,
   ChevronRight,
-  TrendingUp,
   Scale,
   Flame,
   Sparkles,
@@ -25,6 +24,7 @@ import { ContentCard } from "@/components/content-card"
 import { TrafficLight } from "@/components/traffic-light"
 import { QuickExplainer } from "@/components/onboarding/quick-explainer"
 import { ProgressiveHints } from "@/components/onboarding/progressive-hints"
+import { SuccessStories } from "@/components/success-stories/success-stories"
 import { useAuth } from "@/lib/auth-context"
 import { ALL_CONTENTS } from "@/lib/mock-data"
 
@@ -142,6 +142,28 @@ export function HomeV1() {
           </div>
         </section>
 
+        {/* POURQUOI VIXUAL ? — bloc emotionnel humain, juste sous le hero */}
+        <section className="py-12">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl mx-auto text-center space-y-4">
+              <h2 className="text-2xl md:text-3xl font-semibold text-white text-balance">
+                Pourquoi VIXUAL ?
+              </h2>
+              <p className="text-white/80 text-base md:text-lg leading-relaxed">
+                Chaque soutien aide directement des createurs a concretiser leurs projets.
+              </p>
+              <p className="text-white/65 text-base leading-relaxed">
+                Films, podcasts, livres, documentaires, creations originales et contenus
+                independants.
+              </p>
+              <p className="text-white/45 text-sm leading-relaxed pt-2">
+                Certaines participations peuvent aussi etre recompensees selon les regles
+                officielles de VIXUAL.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* MESSAGE DE RASSURANCE - Bandeau permanent V1 */}
         <section className="py-4 border-y border-fuchsia-500/15 bg-fuchsia-500/5">
           <div className="container mx-auto px-4">
@@ -149,7 +171,7 @@ export function HomeV1() {
               <Shield className="h-4 w-4 text-fuchsia-300 shrink-0" />
               <span>
                 <span className="text-fuchsia-200 font-medium">Pas de hasard.</span>
-                {" "}Classement base sur l&apos;activite reelle. Tu restes maitre de tes actions.
+                {" "}Regles transparentes. Soutien reel aux createurs.
               </span>
             </div>
           </div>
@@ -170,10 +192,10 @@ export function HomeV1() {
 
               <ol className="space-y-3 text-left max-w-md mx-auto">
                 {[
-                  "Tu regardes les projets qui t'inspirent",
+                  "Tu decouvres les projets qui t'inspirent",
                   "Tu soutiens ceux que tu aimes (entre 2 et 20 EUR)",
-                  "Les meilleurs projets montent dans le classement",
-                  "Certains projets peuvent generer des gains",
+                  "Tu aides directement des createurs a continuer",
+                  "Tu rejoins une communaute qui valorise la creation",
                 ].map((step, i) => (
                   <li
                     key={i}
@@ -194,22 +216,22 @@ export function HomeV1() {
               </p>
             </div>
 
-            {/* Argent clair + Risque clair - cote a cote */}
+            {/* Soutenir + Decouvrir - cartes emotionnelles, vocabulaire humain */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto">
-              {/* Peux-tu gagner ? */}
+              {/* A quoi sert mon soutien ? */}
               <Card className="bg-emerald-500/5 border-emerald-500/25">
                 <CardContent className="p-6 text-center">
                   <div className="h-10 w-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mx-auto mb-3">
-                    <TrendingUp className="h-5 w-5 text-emerald-300" />
+                    <Heart className="h-5 w-5 text-emerald-300" />
                   </div>
                   <h3 className="text-lg font-semibold text-white mb-3">
-                    Est-ce que je peux gagner ?
+                    A quoi sert mon soutien ?
                   </h3>
                   <p className="text-white/80 text-sm leading-relaxed mb-2">
-                    Tu soutiens un projet, il progresse dans le classement.
+                    Les soutiens aident directement les createurs a developper leurs projets.
                   </p>
                   <p className="text-white/80 text-sm leading-relaxed mb-3">
-                    S&apos;il fait partie des meilleurs, des gains peuvent etre generes.
+                    Tu rejoins une communaute qui valorise la creation independante.
                   </p>
                   <p className="text-xs text-emerald-200/70">
                     Tu choisis toujours combien tu participes.
@@ -217,20 +239,20 @@ export function HomeV1() {
                 </CardContent>
               </Card>
 
-              {/* Peux-tu perdre ? */}
+              {/* Suis-je libre ? */}
               <Card className="bg-amber-500/5 border-amber-500/25">
                 <CardContent className="p-6 text-center">
                   <div className="h-10 w-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center mx-auto mb-3">
                     <Scale className="h-5 w-5 text-amber-300" />
                   </div>
                   <h3 className="text-lg font-semibold text-white mb-3">
-                    Est-ce que je peux perdre ?
+                    Est-ce que je reste libre ?
                   </h3>
                   <p className="text-white/80 text-sm leading-relaxed mb-2">
-                    Oui. Tous les projets ne generent pas de gains.
+                    Oui. Aucun engagement force, aucun abonnement masque.
                   </p>
                   <p className="text-white/80 text-sm leading-relaxed mb-3">
-                    C&apos;est un soutien, pas une garantie de retour.
+                    Le soutien reste avant tout une aide aux createurs, pas une garantie de retour.
                   </p>
                   <p className="text-xs text-amber-200/70">
                     Tu decides toujours du montant que tu engages.
@@ -245,6 +267,9 @@ export function HomeV1() {
         <div id="comprendre">
           <QuickExplainer />
         </div>
+
+        {/* SUCCESS STORIES - humanisation, lien direct avec les createurs */}
+        <SuccessStories />
 
         {/* PROJETS EN VEDETTE - simple grille avec CTA "Soutenir" */}
         <section className="py-16 bg-slate-900/30">
@@ -285,7 +310,8 @@ export function HomeV1() {
                 Que veux-tu faire sur VIXUAL ?
               </h2>
               <p className="text-white/60 max-w-2xl mx-auto">
-                Trois actions, une plateforme. Pas de choix complexe : ton role s'active tout seul.
+                Decouvrir, soutenir, creer. Trois actions, une plateforme. Pas de choix
+                complexe : ton role s&apos;active tout seul au fil de tes envies.
               </p>
             </div>
 

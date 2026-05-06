@@ -20,19 +20,27 @@ const FAQ_CATEGORIES = [
     items: [
       {
         question: "Qu'est-ce que VIXUAL?",
-        answer: "VIXUAL est une plateforme de contribution participative dans les projets audiovisuels, littéraires et podcasts. Vous pouvez soutenir des créateurs, créer du contenu et potentiellement générer des revenus."
+        answer: "VIXUAL permet de soutenir des créateurs et de découvrir des projets originaux : films, podcasts, documentaires, livres et contenus indépendants. Certaines participations peuvent également être récompensées selon les règles officielles de la plateforme."
+      },
+      {
+        question: "Pourquoi soutenir un projet ?",
+        answer: "Les soutiens permettent aux créateurs de produire leurs contenus, développer leurs projets, améliorer leur qualité, et continuer à créer sur VIXUAL. Chaque soutien aide directement un créateur indépendant à concrétiser une œuvre."
+      },
+      {
+        question: "Les gains sont-ils garantis ?",
+        answer: "Non. Les soutiens servent avant tout à aider les créateurs. Certaines participations peuvent être récompensées selon les règles officielles VIXUAL, mais aucun gain n'est jamais garanti."
       },
       {
         question: "À qui s'adresse VIXUAL?",
-        answer: "VIXUAL s'adresse à tous ceux qui désirent publier leurs contenus audios/visuels/audiovisuels, amateurs comme professionnels. Que vous soyez créateur souhaitant monétiser vos oeuvres, ou spectateur/lecteur/auditeur souhaitant soutenir des projets créatifs, VIXUAL est fait pour vous."
+        answer: "VIXUAL s'adresse à tous ceux qui désirent publier leurs contenus audios/visuels/audiovisuels, amateurs comme professionnels. Que vous soyez créateur souhaitant diffuser vos œuvres, ou spectateur/lecteur/auditeur souhaitant soutenir des projets créatifs, VIXUAL est fait pour vous."
       },
       {
         question: "VIXUAL est-il un jeu de hasard?",
-        answer: "Non, VIXUAL n'est pas un jeu de hasard. C'est une plateforme de contribution participative. Les retours dépendent du succès réel des projets et non du hasard. Les gains ne sont pas garantis."
+        answer: "Non, VIXUAL n'est pas un jeu de hasard. C'est une plateforme de soutien et de diffusion de projets créatifs. Les éventuelles récompenses dépendent du succès réel des projets et des règles officielles de la plateforme, jamais du hasard."
       },
       {
         question: "Pourquoi 'Contribuer' et non 'Investir'?",
-        answer: "Nous utilisons le terme 'contribution' pour clarifier que c'est une participation financière à des projets créatifs, et non un investissement boursier ou financier. Cela mieux reflète la nature participative de la plateforme."
+        answer: "Nous utilisons le terme 'contribution' pour clarifier que c'est une participation à des projets créatifs, et non un investissement boursier ou financier. Cela reflète mieux la nature participative et humaine de la plateforme."
       }
     ]
   },
