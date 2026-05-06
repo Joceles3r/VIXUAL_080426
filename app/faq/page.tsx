@@ -200,7 +200,7 @@ const FAQ_CATEGORIES = [
       },
       {
         question: "Puis-je acheter des VIXUpoints?",
-        answer: "Oui, certains micro-packs VIXUAL sont disponibles pour les utilisateurs majeurs en V2 et V3 : Pack Decouverte (5 EUR), Pack Standard (10 EUR), Pack Confort (20 EUR). Le Pack 50 EUR a ete supprime definitivement. Les mineurs ne peuvent pas acheter de micro-packs."
+        answer: "Oui, certains micro-packs VIXUAL sont disponibles pour les utilisateurs majeurs en V2 et V3 : Pack Decouverte (5 EUR), Pack Standard (10 EUR), Pack Confort (20 EUR). Les mineurs ne peuvent pas acheter de micro-packs."
       },
       {
         question: "Quel est le plafond officiel des VIXUpoints?",
