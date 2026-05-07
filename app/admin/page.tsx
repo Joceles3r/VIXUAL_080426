@@ -182,6 +182,33 @@ export default function AdminPage() {
       {/* Test Lab Banner - Gros bouton voyant */}
       <TestLabBanner />
 
+      {/* Moderation Banner - Acces direct au moteur de moderation */}
+      <Link href="/admin/moderation" className="block mb-6">
+        <div className="relative overflow-hidden rounded-2xl border-2 border-rose-400/60 bg-gradient-to-r from-rose-900/40 via-red-900/30 to-rose-900/40 p-5 transition-all group hover:shadow-xl hover:shadow-rose-500/20">
+          <div className="relative flex items-center gap-5">
+            <div className="w-16 h-16 rounded-xl flex items-center justify-center bg-gradient-to-br from-rose-500 to-red-600 shadow-lg shadow-rose-500/30">
+              <ShieldAlert className="h-8 w-8 text-white" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-1">
+                <h3 className="text-xl font-bold text-white">Modération &amp; Alertes</h3>
+                <span className="text-xs uppercase tracking-wider px-2.5 py-1 rounded-full font-bold bg-rose-500 text-white">
+                  Patron Only
+                </span>
+              </div>
+              <p className="text-sm text-rose-200/80">
+                Tableau de bord des alertes du moteur de modération automatisé (Trust Score, fraude, promotions, bascule plateforme).
+              </p>
+            </div>
+            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-rose-500/20 text-rose-200 transition-transform group-hover:translate-x-1">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </Link>
+
       {/* Tabs */}
       <div className="flex gap-1 mb-8 bg-slate-900/50 p-1 rounded-xl border border-white/5 w-fit">
         {tabs.map((tab) => {
