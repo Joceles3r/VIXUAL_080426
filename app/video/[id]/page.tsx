@@ -422,10 +422,10 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   </div>
                 </div>
 
-                {/* Investissement minimum info */}
+                {/* Soutien minimum info */}
                 <div className="flex items-center gap-2 p-2.5 bg-white/[0.02] rounded-lg border border-white/5">
                   <CreditCard className="h-4 w-4 text-emerald-400 shrink-0" />
-                  <span className="text-white/60 text-xs">{"Investissement minimum : trois euros"}</span>
+                  <span className="text-white/60 text-xs">{"Soutien minimum : trois euros"}</span>
                   <span className="text-white/30 mx-1">-</span>
                   <span className="text-white/60 text-xs">{content.investorCount} investisseurs</span>
                   <span className="text-white/30 mx-1">-</span>
@@ -738,7 +738,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                             onClick={() => setShowInvestConfirm(true)}
                             className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white h-12 text-lg shadow-lg shadow-emerald-500/20"
                           >
-                            Investir {selectedAmount}{"\u20ac"}
+                            Soutenir {selectedAmount}{"\u20ac"}
                           </Button>
                         </>
                       )}
@@ -754,11 +754,11 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                         <div className="p-4 bg-emerald-500/5 border border-emerald-500/15 rounded-xl space-y-3">
                           <div className="text-center">
                             <CheckCircle className="h-8 w-8 text-emerald-400 mx-auto mb-2" />
-                            <p className="text-white font-semibold text-sm">Confirmer votre investissement</p>
+                            <p className="text-white font-semibold text-sm">Confirmer votre soutien</p>
                             <p className="text-emerald-400 font-bold text-2xl mt-1">{selectedAmount}{"\u20ac"}</p>
                           </div>
                           <p className="text-white/40 text-[11px] text-center">
-                            {"Investir comporte des risques. Les gains ne sont pas garantis."}
+                            {"Le soutien financier ne garantit pas de retour. Les gains éventuels dépendent du classement final du projet."}
                           </p>
                           <div className="flex gap-2">
                             <Button
@@ -795,7 +795,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                           <h4 className="text-white font-semibold text-sm">Soutenez les projets qui vous inspirent</h4>
                         </div>
                         <p className="text-white/60 text-sm mb-3">
-                          {"Investissez dans ce "}
+                          {"Soutenez ce "}
                           {isVideo ? "projet audiovisuel" : isPodcast ? "podcast" : "contenu litt\u00e9raire"}
                           {" et recevez des retours sur vos gains. Choisissez un montant entre deux et vingt euros."}
                         </p>
@@ -817,7 +817,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                     </div>
                   ) : (
                     <div className="text-center space-y-3">
-                      <p className="text-white/60 text-sm">{"Connectez-vous pour investir dans ce projet"}</p>
+                      <p className="text-white/60 text-sm">{"Connectez-vous pour soutenir ce projet"}</p>
                       <Link href="/signup">
                         <Button className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white">
                           {"Cr\u00e9er un compte"}
@@ -834,7 +834,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   {/* Legal */}
                   <div className="pt-2 border-t border-white/5">
                     <p className="text-xs text-white/30 text-center">
-                      {"Investir comporte des risques. Les gains ne sont pas garantis. VIXUAL n'est pas un jeu de hasard."}
+                      {"Le soutien financier ne garantit pas de retour. Les gains éventuels dépendent du classement final du projet. VIXUAL n'est pas un jeu de hasard ni un produit d'investissement au sens de l'AMF."}
                     </p>
                   </div>
                 </CardContent>
@@ -884,7 +884,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                     {[
                       { icon: Eye, label: "D\u00e9couvrir le projet", done: true },
                       { icon: Play, label: "Voir l'extrait gratuit", done: isPlaying || isUnlocked },
-                      { icon: Heart, label: "Soutenir / Investir", done: false },
+                      { icon: Heart, label: "Soutenir le projet", done: false },
                       { icon: Unlock, label: "Visionnage complet", done: isUnlocked },
                       { icon: Trophy, label: "Classement & gains", done: false },
                     ].map((step, i) => (

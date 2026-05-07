@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { VisualSlogan } from "@/components/vixual-slogan"
+import { VixualLogo } from "@/components/vixual-logo"
 import { Phone, Mail, MapPin, Users, MessageCircle, Lock, Heart } from "lucide-react"
 import { usePlatformVersion } from "@/hooks/use-platform-version"
 
@@ -15,14 +16,7 @@ export function Footer() {
           {/* Logo & Description */}
           <div className="col-span-1 lg:col-span-2">
             <Link href="/" className="inline-block mb-4">
-              <span className="text-2xl font-black tracking-tight">
-                <span className="text-red-500">V</span>
-                <span className="text-amber-400">I</span>
-                <span className="text-emerald-400">X</span>
-                <span className="text-teal-400">U</span>
-                <span className="text-sky-400">A</span>
-                <span className="text-indigo-400">L</span>
-              </span>
+              <VixualLogo size="md" />
             </Link>
             <div className="mb-3">
               <VisualSlogan size="xs" opacity="medium" />

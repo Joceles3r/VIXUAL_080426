@@ -60,7 +60,7 @@ export default function UploadVideoPage() {
     e.preventDefault()
     setIsUploading(true)
 
-    // Real Bunny upload via API
+    // Upload réel vers Bunny.net Storage Zone via XMLHttpRequest (progress events).
     if (!videoFile) {
       toast({ title: "Aucun fichier selectionne", variant: "destructive" })
       setIsUploading(false)

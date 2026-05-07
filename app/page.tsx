@@ -62,7 +62,7 @@ const STATS = [
 ]
 
 export default function HomePage() {
-  const platformVersion = usePlatformVersion()
+  const platformVersion = usePlatformVersion() as "V1" | "V2" | "V3"
 
   // V1 utilise un layout simplifie dedie (onboarding intelligent,
   // 3 actions universelles, vocabulaire grand public). V2/V3 conservent

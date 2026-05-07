@@ -11,6 +11,7 @@ import {
   Send, MessageCircle, HelpCircle, Briefcase 
 } from "lucide-react"
 import { Footer } from "@/components/footer"
+import { VixualLogo } from "@/components/vixual-logo"
 
 export default function ContactPage() {
   return (
@@ -19,14 +20,7 @@ export default function ContactPage() {
       <header className="border-b border-white/10 bg-slate-950/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl font-black tracking-tight">
-              <span className="text-red-500">V</span>
-              <span className="text-amber-400">I</span>
-              <span className="text-emerald-400">X</span>
-              <span className="text-teal-400">U</span>
-              <span className="text-sky-400">A</span>
-              <span className="text-indigo-400">L</span>
-            </span>
+            <VixualLogo size="md" />
           </Link>
           <Link href="/">
             <Button variant="ghost" className="text-white/70 hover:text-white">
