@@ -48,7 +48,12 @@ export function TrafficLight({ size = "md", className = "" }: TrafficLightProps)
   const { redLight, light, gap, padding, pole, housing } = sizeClasses[size]
 
   return (
-    <div className={`flex flex-col items-center ${className}`}>
+    <div
+      className={`flex flex-col items-center ${className}`}
+      title="Le feu VIXUAL symbolise la progression des projets creatifs."
+      role="img"
+      aria-label="Feu tricolore VIXUAL : symbole identitaire de la progression des projets creatifs"
+    >
       {/* Boitier du feu tricolore - Style fun avec gradient colore */}
       <div 
         className={`relative flex flex-col items-center ${gap} ${padding} ${housing} bg-gradient-to-b from-slate-700 via-slate-800 to-slate-900 shadow-2xl border-2 border-slate-500/60`}

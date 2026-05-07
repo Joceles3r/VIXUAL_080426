@@ -28,6 +28,7 @@ import { useAuth } from "@/lib/auth-context"
 import { useToast } from "@/components/ui/use-toast"
 import { usePlatformVersion } from "@/hooks/use-platform-version"
 import { INVESTMENT_TIERS_EUR } from "@/lib/payout/constants"
+import { ProjectImpactBlock } from "@/components/project/project-impact-block"
 import type { ContentType } from "@/lib/visual-social/hybrid"
 
 /* ---------- Motivational Messages ---------- */
@@ -577,7 +578,31 @@ export default function VideoPage({ params }: { params: { id: string } }) {
             {/* ==================== SIDEBAR ==================== */}
             <div className="space-y-5">
 
-              {/* --- Soutenir ce projet --- */}
+              {/* --- V1 : bloc emotionnel Impact + Progression + Objectif --- */}
+              {isV1 && (
+                <ProjectImpactBlock
+                  progressPercent={progressPercent}
+                  supportersCount={content.investorCount}
+                  creatorObjective={
+                    content.creatorObjective ??
+                    (cType === "video"
+                      ? "Finaliser la production de ce contenu video"
+                      : cType === "podcast"
+                      ? "Produire les prochains episodes du podcast"
+                      : "Finaliser l'ecriture et la diffusion")
+                  }
+                  category={
+                    cType === "video"
+                      ? "video"
+                      : cType === "podcast"
+                      ? "podcast"
+                      : "book"
+                  }
+                />
+              )}
+
+              {/* --- V2 / V3 : Soutenir ce projet (jauge financiere classique) --- */}
+              {!isV1 && (
               <Card className="bg-gradient-to-br from-emerald-950/50 to-teal-950/50 border-emerald-500/20">
                 <CardContent className="p-5">
                   <div className="flex items-center gap-2 mb-4">
@@ -613,21 +638,6 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   )}
                 </CardContent>
               </Card>
-
-              {/* --- V1 : message emotionnel simple, sans estimations TOP --- */}
-              {isV1 && (
-                <Card className="bg-gradient-to-br from-rose-900/20 to-fuchsia-900/20 border-rose-500/20">
-                  <CardContent className="p-5 text-center">
-                    <Heart className="h-6 w-6 text-rose-300 mx-auto mb-3" />
-                    <p className="text-white font-semibold text-sm mb-1.5">
-                      Ton soutien aide directement ce createur
-                    </p>
-                    <p className="text-white/65 text-xs leading-relaxed">
-                      Chaque participation aide ce projet a se developper
-                      et permet a ce createur de continuer.
-                    </p>
-                  </CardContent>
-                </Card>
               )}
 
               {/* --- V2 / V3 : Comprendre votre contribution avec estimations gains --- */}

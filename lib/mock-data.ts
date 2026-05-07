@@ -29,6 +29,12 @@ export interface Content {
   duration?: string // Pour les videos et podcasts
   wordCount?: number // Pour les ecrits
   episodeCount?: number // Pour les podcasts
+  /**
+   * Objectif actuel du createur (V1 humanisation projet).
+   * Ex: "Finaliser le montage du documentaire", "Mixage audio".
+   * Optionnel : un fallback est calcule par categorie si absent.
+   */
+  creatorObjective?: string
 }
 
 export interface Investment {

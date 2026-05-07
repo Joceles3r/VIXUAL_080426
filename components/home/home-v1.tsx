@@ -88,8 +88,13 @@ export function HomeV1() {
                 <VisualSlogan size="base" opacity="high" withLines />
               </div>
 
-              <p className="text-xl text-white/80 mb-3 max-w-2xl mx-auto text-pretty leading-relaxed">
-                Decouvre des createurs independants et soutiens les projets qui t&apos;inspirent.
+              <p className="text-xl text-white/85 mb-3 max-w-2xl mx-auto text-pretty leading-relaxed">
+                Soutiens des createurs independants et participe a une
+                communaute creative moderne.
+              </p>
+
+              <p className="text-base text-white/65 mb-3 max-w-xl mx-auto leading-relaxed">
+                Chaque soutien aide des projets a evoluer concretement.
               </p>
 
               <p className="text-sm text-white/50 mb-8 max-w-2xl mx-auto">

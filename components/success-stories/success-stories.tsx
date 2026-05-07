@@ -1,11 +1,16 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
-import { Quote, Film, BookOpen, Mic } from "lucide-react"
+import { Progress } from "@/components/ui/progress"
+import { Quote, Film, BookOpen, Mic, CheckCircle2 } from "lucide-react"
 
 /**
  * Module "Success Stories" — humanise VIXUAL en mettant en avant
  * la dimension creative et le lien direct entre soutien et creation.
+ *
+ * V1.1 : chaque story expose desormais un resultat concret et une
+ * progression visible pour renforcer l'impact emotionnel et la
+ * credibilite communautaire.
  *
  * Compatible V1 / V2 / V3. Volontairement simple, emotionnel, sans
  * chiffres financiers ni jargon. Les temoignages sont des compositions
@@ -18,6 +23,10 @@ type Story = {
   title: string
   quote: string
   author: string
+  /** Resultat concret du projet (V1.1 humanisation). */
+  result: string
+  /** Progression visible du projet en pourcentage (0-100). */
+  progress: number
 }
 
 const STORIES: Story[] = [
@@ -28,6 +37,8 @@ const STORIES: Story[] = [
     quote:
       "Sans les soutiens recus sur VIXUAL, nous n'aurions jamais pu finir le montage. Aujourd'hui le film tourne en festival.",
     author: "Realisatrice independante",
+    result: "Diffuse en festival - tournee en cours",
+    progress: 100,
   },
   {
     id: "podcast-doc",
@@ -36,6 +47,8 @@ const STORIES: Story[] = [
     quote:
       "La communaute VIXUAL a cru au projet avant tout le monde. Chaque soutien nous a aide a continuer, episode apres episode.",
     author: "Podcasteur",
+    result: "8 episodes publies - saison 2 en preparation",
+    progress: 92,
   },
   {
     id: "premier-roman",
@@ -44,6 +57,8 @@ const STORIES: Story[] = [
     quote:
       "J'ecrivais ce livre depuis des annees. Le soutien direct des lecteurs sur VIXUAL m'a permis de le finaliser et de le publier.",
     author: "Autrice",
+    result: "Roman publie - 3 800 lecteurs touches",
+    progress: 100,
   },
 ]
 
@@ -120,6 +135,30 @@ export function SuccessStories() {
                   <p className="text-white/75 text-sm italic leading-relaxed mb-4 flex-1">
                     &ldquo;{story.quote}&rdquo;
                   </p>
+
+                  {/* Resultat concret - V1.1 humanisation */}
+                  <div className={`flex items-start gap-2 px-3 py-2.5 rounded-lg border ${meta.iconBg} mb-3`}>
+                    <CheckCircle2 className={`h-4 w-4 ${meta.iconColor} shrink-0 mt-0.5`} />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[10px] uppercase tracking-wider text-white/50 font-medium mb-0.5">
+                        Resultat concret
+                      </p>
+                      <p className="text-white/85 text-xs leading-snug">
+                        {story.result}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Progression visible - V1.1 jauge communautaire */}
+                  <div className="space-y-1.5 mb-3">
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="text-white/55">Progression du projet</span>
+                      <span className={`${meta.iconColor} font-semibold tabular-nums`}>
+                        {story.progress}%
+                      </span>
+                    </div>
+                    <Progress value={story.progress} className="h-1.5 bg-slate-800" />
+                  </div>
 
                   <p className="text-white/50 text-xs">
                     &mdash; {story.author}

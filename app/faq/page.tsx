@@ -27,6 +27,14 @@ const FAQ_CATEGORIES = [
         answer: "Les soutiens permettent aux créateurs de produire leurs contenus, développer leurs projets, améliorer leur qualité, et continuer à créer sur VIXUAL. Chaque soutien aide directement un créateur indépendant à concrétiser une œuvre."
       },
       {
+        question: "À quoi servent les soutiens ?",
+        answer: "Les soutiens permettent aux créateurs de développer concrètement leurs projets et leurs contenus : tournage, montage, matériel, mixage audio, écriture, édition ou diffusion. Chaque participation aide un projet à évoluer concrètement et soutient une communauté créative indépendante."
+      },
+      {
+        question: "Pourquoi participer ?",
+        answer: "Pour découvrir des projets originaux, soutenir des créateurs et participer à une expérience communautaire moderne. Sur VIXUAL, participer ne se résume pas à un acte financier : c'est aussi explorer des contenus, suivre des créateurs, interagir avec la communauté et accompagner des projets dans leur évolution."
+      },
+      {
         question: "Les gains sont-ils garantis ?",
         answer: "Non. Les soutiens servent avant tout à aider les créateurs. Certaines participations peuvent être récompensées selon les règles officielles VIXUAL, mais aucun gain n'est jamais garanti."
       },
