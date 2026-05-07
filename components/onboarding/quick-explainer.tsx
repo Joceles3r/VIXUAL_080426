@@ -1,20 +1,21 @@
 "use client"
 
-import { Eye, Heart, Trophy, Sparkles } from "lucide-react"
+import { Eye, Heart, Users, Sparkles } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 
 /**
  * Module "Comprendre VIXUAL en 30 secondes".
  * Affiche par defaut sur la home V1 pour dissiper toute confusion.
  *
- * 4 etapes simples :
- *   1. Tu regardes des projets
- *   2. Tu soutiens ceux que tu aimes
- *   3. Les meilleurs montent dans le TOP 100
- *   4. Certains projets generent des gains
+ * 4 etapes simples (V1 simplification & first contact UX) :
+ *   1. Tu regardes des contenus creatifs
+ *   2. Tu soutiens les createurs que tu apprecies
+ *   3. Tu aides les projets a evoluer
+ *   4. Tu participes a une communaute creative
  *
- * Aucune mention d'investissement, de rendement, de prorata
- * ou de coefficient : vocabulaire grand public uniquement.
+ * Aucune mention de TOP 100, de cycles, de coefficients ou de gains :
+ * vocabulaire emotionnel et humain uniquement. La logique financiere
+ * detaillee reste reservee a V2 / V3.
  */
 export function QuickExplainer({
   className = "",
@@ -24,7 +25,7 @@ export function QuickExplainer({
   const steps = [
     {
       icon: Eye,
-      title: "Tu regardes des projets",
+      title: "Tu regardes des contenus creatifs",
       description: "Films, ecrits, podcasts. Acces libre, sans inscription.",
       color: "text-fuchsia-300",
       bg: "bg-fuchsia-500/10",
@@ -32,24 +33,24 @@ export function QuickExplainer({
     },
     {
       icon: Heart,
-      title: "Tu soutiens ceux que tu aimes",
-      description: "De 2 a 20 EUR. Tu choisis le projet, tu choisis le montant.",
+      title: "Tu soutiens les createurs que tu apprecies",
+      description: "Tu choisis le projet, tu choisis le montant.",
       color: "text-rose-300",
       bg: "bg-rose-500/10",
       border: "border-rose-500/30",
     },
     {
-      icon: Trophy,
-      title: "Les meilleurs montent au TOP",
-      description: "Les soutiens classent les projets dans le TOP 100.",
+      icon: Sparkles,
+      title: "Tu aides les projets a evoluer",
+      description: "Chaque soutien aide directement un createur a continuer.",
       color: "text-amber-300",
       bg: "bg-amber-500/10",
       border: "border-amber-500/30",
     },
     {
-      icon: Sparkles,
-      title: "Certains projets generent des gains",
-      description: "Selon ton implication. Regles claires, pas de hasard.",
+      icon: Users,
+      title: "Tu rejoins une communaute creative",
+      description: "Decouvre, partage, encourage les talents independants.",
       color: "text-emerald-300",
       bg: "bg-emerald-500/10",
       border: "border-emerald-500/30",
@@ -68,7 +69,7 @@ export function QuickExplainer({
               Comment fonctionne VIXUAL ?
             </h2>
             <p className="text-white/60 text-base md:text-lg max-w-2xl mx-auto text-pretty">
-              Pas de hasard. Regles transparentes. Tu restes maitre de tes actions.
+              Une plateforme creative ou tes soutiens font la difference.
             </p>
           </div>
 
@@ -100,8 +101,9 @@ export function QuickExplainer({
             ))}
           </div>
 
-          <p className="text-center text-white/40 text-sm mt-8 italic">
-            Simple. Transparent. Sans hasard.
+          <p className="text-center text-white/45 text-sm mt-8 italic max-w-md mx-auto leading-relaxed">
+            Certaines participations peuvent egalement etre recompensees selon
+            les regles officielles VIXUAL.
           </p>
         </div>
       </div>

@@ -26,6 +26,7 @@ import { ContributionDisclaimer } from "@/components/contribution-disclaimer"
 import { ALL_CONTENTS, isGoldCreator } from "@/lib/mock-data"
 import { useAuth } from "@/lib/auth-context"
 import { useToast } from "@/components/ui/use-toast"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 import { INVESTMENT_TIERS_EUR } from "@/lib/payout/constants"
 import type { ContentType } from "@/lib/visual-social/hybrid"
 
@@ -83,6 +84,8 @@ export default function VideoPage({ params }: { params: { id: string } }) {
   const { id } = params
   const { isAuthed, roles } = useAuth()
   const { toast } = useToast()
+  const platformVersion = usePlatformVersion()
+  const isV1 = platformVersion === "V1"
 
   // Guard against undefined or invalid IDs
   if (!id || id === "undefined" || id === "null") {
@@ -96,7 +99,8 @@ export default function VideoPage({ params }: { params: { id: string } }) {
   const [isUnlocked, setIsUnlocked] = useState(content.isFree)
   const [isFavorite, setIsFavorite] = useState(false)
   const [showUnlockConfirm, setShowUnlockConfirm] = useState(false)
-  const [selectedAmount, setSelectedAmount] = useState<number | null>(null)
+  // V1 simplification : montant suggere par defaut (5 EUR) pour reduire la friction.
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(5)
   const [showInvestConfirm, setShowInvestConfirm] = useState(false)
   const [showAllTiers, setShowAllTiers] = useState(false)
   const [isInvesting, setIsInvesting] = useState(false)
@@ -610,7 +614,24 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                 </CardContent>
               </Card>
 
-              {/* --- Comprendre votre contribution --- */}
+              {/* --- V1 : message emotionnel simple, sans estimations TOP --- */}
+              {isV1 && (
+                <Card className="bg-gradient-to-br from-rose-900/20 to-fuchsia-900/20 border-rose-500/20">
+                  <CardContent className="p-5 text-center">
+                    <Heart className="h-6 w-6 text-rose-300 mx-auto mb-3" />
+                    <p className="text-white font-semibold text-sm mb-1.5">
+                      Ton soutien aide directement ce createur
+                    </p>
+                    <p className="text-white/65 text-xs leading-relaxed">
+                      Chaque participation aide ce projet a se developper
+                      et permet a ce createur de continuer.
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* --- V2 / V3 : Comprendre votre contribution avec estimations gains --- */}
+              {!isV1 && (
               <Card className="bg-gradient-to-br from-emerald-900/20 to-teal-900/20 border-emerald-500/20">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-white flex items-center gap-2 text-sm">
@@ -672,19 +693,28 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   </div>
                 </CardContent>
               </Card>
+              )}
 
               {/* --- Investment Card --- */}
               <Card className="bg-slate-900/50 border-white/10 sticky top-28">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-white flex items-center gap-2 text-base">
-                    <TrendingUp className="h-5 w-5 text-emerald-400" />
-                    Contribuer au projet
+                    {isV1 ? (
+                      <Heart className="h-5 w-5 text-rose-400" />
+                    ) : (
+                      <TrendingUp className="h-5 w-5 text-emerald-400" />
+                    )}
+                    {isV1 ? "Soutenir ce projet" : "Contribuer au projet"}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {canInvest ? (
                     <div className="space-y-4">
-                      <p className="text-white/50 text-xs text-center">{"Choisissez votre montant de contribution"}</p>
+                      <p className="text-white/65 text-xs text-center leading-relaxed">
+                        {isV1
+                          ? "Ton soutien aide directement ce createur a developper son projet."
+                          : "Choisissez votre montant de contribution"}
+                      </p>
 
                       {/* Quick amounts */}
                       <div className="grid grid-cols-4 gap-2">

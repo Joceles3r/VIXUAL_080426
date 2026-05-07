@@ -8,7 +8,6 @@ import {
   Upload,
   Compass,
   LogIn,
-  Shield,
   ChevronRight,
   Scale,
   Flame,
@@ -68,7 +67,8 @@ export function HomeV1() {
                       "0 0 12px rgba(217, 70, 239, 0.18), 0 0 24px rgba(217, 70, 239, 0.08)",
                   }}
                 >
-                  Contribuez aux{" "}
+                  Regarde{" "}
+                  <span className="text-white/40 font-light">&middot;</span>{" "}
                   <span
                     className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 to-purple-300"
                     style={{
@@ -76,25 +76,26 @@ export function HomeV1() {
                         "drop-shadow(0 0 4px rgba(217, 70, 239, 0.15))",
                     }}
                   >
-                    talents de demain
-                  </span>
+                    Soutiens
+                  </span>{" "}
+                  <span className="text-white/40 font-light">&middot;</span>{" "}
+                  Participe
                 </h1>
                 <TrafficLight size="lg" className="hidden sm:flex" />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-6">
                 <VisualSlogan size="base" opacity="high" withLines />
               </div>
 
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-200 text-xs font-medium vx-pulse mb-6">
-                Phase de lancement - 4 profils essentiels, activation automatique
-              </span>
+              <p className="text-xl text-white/80 mb-3 max-w-2xl mx-auto text-pretty leading-relaxed">
+                Decouvre des createurs independants et soutiens les projets qui t&apos;inspirent.
+              </p>
 
-              <p className="text-xl text-white/75 mb-8 max-w-2xl mx-auto text-pretty leading-relaxed">
-                VIXUAL est la premiere plateforme de{" "}
-                <span className="font-bold text-red-500">STREAMING</span>{" "}
-                participative pour soutenir les talents de demain. Tu regardes,
-                tu participes, tu gagnes !
+              <p className="text-sm text-white/50 mb-8 max-w-2xl mx-auto">
+                Films <span className="text-white/30">&middot;</span> Podcasts{" "}
+                <span className="text-white/30">&middot;</span> Livres{" "}
+                <span className="text-white/30">&middot;</span> Creations originales
               </p>
 
               {/* 3 CTA universels - aucune notion de profil */}
@@ -164,14 +165,14 @@ export function HomeV1() {
           </div>
         </section>
 
-        {/* MESSAGE DE RASSURANCE - Bandeau permanent V1 */}
+        {/* MESSAGE DE RASSURANCE - Bandeau humain et communautaire */}
         <section className="py-4 border-y border-fuchsia-500/15 bg-fuchsia-500/5">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-center gap-3 text-white/70 text-sm flex-wrap text-center">
-              <Shield className="h-4 w-4 text-fuchsia-300 shrink-0" />
+              <Heart className="h-4 w-4 text-fuchsia-300 shrink-0" />
               <span>
-                <span className="text-fuchsia-200 font-medium">Pas de hasard.</span>
-                {" "}Regles transparentes. Soutien reel aux createurs.
+                <span className="text-fuchsia-200 font-medium">Une communaute creative.</span>
+                {" "}Tes soutiens aident directement les createurs independants.
               </span>
             </div>
           </div>
@@ -192,10 +193,10 @@ export function HomeV1() {
 
               <ol className="space-y-3 text-left max-w-md mx-auto">
                 {[
-                  "Tu decouvres les projets qui t'inspirent",
-                  "Tu soutiens ceux que tu aimes (entre 2 et 20 EUR)",
-                  "Tu aides directement des createurs a continuer",
-                  "Tu rejoins une communaute qui valorise la creation",
+                  "Tu regardes des contenus creatifs",
+                  "Tu soutiens les createurs que tu apprecies",
+                  "Tu aides les projets a evoluer",
+                  "Tu participes a une communaute creative",
                 ].map((step, i) => (
                   <li
                     key={i}
@@ -211,8 +212,9 @@ export function HomeV1() {
                 ))}
               </ol>
 
-              <p className="text-xs text-white/50 mt-5">
-                Pas de hasard - Regles transparentes - Tu restes libre
+              <p className="text-xs text-white/45 mt-5 leading-relaxed max-w-sm mx-auto">
+                Certaines participations peuvent egalement etre recompensees
+                selon les regles officielles VIXUAL.
               </p>
             </div>
 
