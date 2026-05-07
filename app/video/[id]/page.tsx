@@ -149,7 +149,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
     setIsUnlocked(true)
   }, [])
 
-  const handleInvest = useCallback(async () => {
+  const handleSupport = useCallback(async () => {
     if (!selectedAmount || isInvesting) return
     setIsInvesting(true)
     try {
@@ -762,7 +762,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                           </p>
                           <div className="flex gap-2">
                             <Button
-                              onClick={handleInvest}
+                              onClick={handleSupport}
                               disabled={isInvesting}
                               className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white disabled:opacity-60"
                             >

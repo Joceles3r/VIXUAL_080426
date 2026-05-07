@@ -476,7 +476,7 @@ export default function DashboardPage() {
                   <TrendingUp className="h-6 w-6 text-emerald-400" />
                 </div>
                 <div>
-                  <p className="text-white/60 text-sm">Investissements</p>
+                  <p className="text-white/60 text-sm">Soutiens</p>
                   <p className="text-2xl font-bold text-white">
                     {MOCK_INVESTMENTS.length}
                   </p>
@@ -693,7 +693,7 @@ export default function DashboardPage() {
                   {"R\u00f4les bloqu\u00e9s"}
                 </h3>
                 <p className="text-sm text-white/40">
-                  {"Investissement, retrait et conversion de VIXUpoints accessibles d\u00e8s 18 ans."}
+                  {"Soutien financier, retrait et conversion de VIXUpoints accessibles d\u00e8s 18 ans."}
                 </p>
               </div>
             </CardContent>
@@ -902,7 +902,7 @@ export default function DashboardPage() {
           <Card className="bg-slate-900/50 border-white/10">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-white">
-                Derniers investissements
+                Derniers soutiens
               </CardTitle>
               <Link href="/dashboard/investments">
                 <Button

@@ -60,7 +60,7 @@ export default function TermsOfUsePage() {
               <VisualSlogan size="sm" opacity="high" withLines />
             </div>
             <p className="text-lg text-white/60 max-w-2xl mx-auto">
-              {"Les présentes Conditions Générales d'Utilisation régissent l'accès et l'utilisation de la plateforme VIXUAL, combinant diffusion de contenus audiovisuels, littéraires et podcasts avec un système d'investissement participatif."}
+              {"Les présentes Conditions Générales d'Utilisation régissent l'accès et l'utilisation de la plateforme VIXUAL, combinant diffusion de contenus audiovisuels, littéraires et podcasts avec un système de soutien participatif aux créateurs indépendants."}
             </p>
             <p className="text-sm text-white/35 mt-4">
               {"Derni\u00e8re mise \u00e0 jour : quatre mars 2026 \u2014 Consolidation compl\u00e8te"}
@@ -94,7 +94,7 @@ export default function TermsOfUsePage() {
                     </li>
                     <li className="flex gap-2 items-start text-sm">
                       <TrendingUp className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" />
-                      <span className="text-white/60">{"L'investissement participatif dans ces contenus, avec un système de répartition des gains"}</span>
+                      <span className="text-white/60">{"Le soutien participatif aux créateurs (deux à vingt euros par projet) avec un système de récompenses lors de la clôture du cycle"}</span>
                     </li>
                   </ul>
                   <p className="text-white/50 text-sm mt-3">
@@ -153,11 +153,11 @@ export default function TermsOfUsePage() {
                     { term: "Porteur", def: "Créateur audiovisuel : dépose des vidéos et visuels sur la plateforme" },
                     { term: "Infoporteur", def: "Créateur littéraire : publie des écrits (articles, romans, essais, etc.)" },
                     { term: "Podcasteur", def: "Créateur podcast : dépose des podcasts, émissions audio, documentaires sonores" },
-                    { term: "Contributeur", def: "Inscrit qui investit de deux \u00e0 vingt euros par projet audiovisuel" },
-                    { term: "Contribu-lecteur", def: "Inscrit qui investit de deux \u00e0 vingt euros par contenu litt\u00e9raire" },
-                    { term: "Auditeur", def: "Inscrit qui investit de deux \u00e0 vingt euros par podcast" },
+                    { term: "Contributeur", def: "Inscrit qui soutient un projet audiovisuel à hauteur de deux à vingt euros" },
+                    { term: "Contribu-lecteur", def: "Inscrit qui soutient un contenu littéraire à hauteur de deux à vingt euros" },
+                    { term: "Auditeur", def: "Inscrit qui soutient un podcast à hauteur de deux à vingt euros" },
                     { term: "VIXUpoints", def: "Avantage promotionnel interne (cent points \u00e9quivalent un euro). Plafond et convertibilit\u00e9 variables selon le profil. Ne constitue pas une monnaie \u00e9lectronique." },
-                    { term: "Caution", def: "D\u00e9p\u00f4t unique remboursable (dix euros cr\u00e9ateurs, vingt euros investisseurs) garantissant l'engagement" },
+                    { term: "Caution", def: "D\u00e9p\u00f4t unique remboursable (dix euros cr\u00e9ateurs, vingt euros soutiens) garantissant l'engagement" },
                     { term: "Clôture", def: "Moment où les gains d'un contenu sont calculés et distribués selon les formules VIXUAL" },
                     { term: "Contenu", def: "Toute œuvre déposée : vidéo, écrit, podcast, incluant métadonnées et descriptions" },
                   ].map((d) => (
@@ -196,12 +196,12 @@ export default function TermsOfUsePage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
                     {[
                       { icon: Eye, color: "text-amber-400", bg: "bg-amber-500/15", border: "border-amber-500/20", role: "Visiteur", caution: "Aucune", desc: "Accède aux contenus gratuits, accumule des VIXUpoints, interagit avec la communauté" },
-                      { icon: Film, color: "text-red-400", bg: "bg-red-500/15", border: "border-red-500/20", role: "Porteur", caution: "Dix euros", desc: "D\u00e9pose des contenus audiovisuels, re\u00e7oit des investissements et des gains" },
-                      { icon: BookOpen, color: "text-sky-400", bg: "bg-sky-500/15", border: "border-sky-500/20", role: "Infoporteur", caution: "Dix euros", desc: "Publie des contenus litt\u00e9raires, re\u00e7oit des investissements et des gains" },
-                      { icon: Mic, color: "text-purple-400", bg: "bg-purple-500/15", border: "border-purple-500/20", role: "Podcasteur", caution: "Dix euros", desc: "D\u00e9pose des podcasts et \u00e9missions audio, re\u00e7oit des investissements et des gains" },
+                      { icon: Film, color: "text-red-400", bg: "bg-red-500/15", border: "border-red-500/20", role: "Porteur", caution: "Dix euros", desc: "D\u00e9pose des contenus audiovisuels, re\u00e7oit des soutiens et des gains" },
+                      { icon: BookOpen, color: "text-sky-400", bg: "bg-sky-500/15", border: "border-sky-500/20", role: "Infoporteur", caution: "Dix euros", desc: "Publie des contenus litt\u00e9raires, re\u00e7oit des soutiens et des gains" },
+                      { icon: Mic, color: "text-purple-400", bg: "bg-purple-500/15", border: "border-purple-500/20", role: "Podcasteur", caution: "Dix euros", desc: "D\u00e9pose des podcasts et \u00e9missions audio, re\u00e7oit des soutiens et des gains" },
                       { icon: TrendingUp, color: "text-emerald-400", bg: "bg-emerald-500/15", border: "border-emerald-500/20", role: "Contributeur", caution: "Vingt euros", desc: "Contribue de deux \u00e0 vingt euros par projet audiovisuel, partage les gains \u00e0 la cl\u00f4ture" },
                       { icon: BookOpen, color: "text-indigo-400", bg: "bg-indigo-500/15", border: "border-indigo-500/20", role: "Contribu-lecteur", caution: "Vingt euros", desc: "Contribue de deux \u00e0 vingt euros par contenu litt\u00e9raire, partage les gains \u00e0 la cl\u00f4ture" },
-                      { icon: Mic, color: "text-pink-400", bg: "bg-pink-500/15", border: "border-pink-500/20", role: "Auditeur", caution: "Vingt euros", desc: "Investit de deux \u00e0 vingt euros par podcast, partage les gains \u00e0 la cl\u00f4ture" },
+                      { icon: Mic, color: "text-pink-400", bg: "bg-pink-500/15", border: "border-pink-500/20", role: "Auditeur", caution: "Vingt euros", desc: "Soutient un podcast \u00e0 hauteur de deux \u00e0 vingt euros, partage les gains \u00e0 la cl\u00f4ture" },
                     ].map((r) => {
                       const IconComp = r.icon
                       return (
@@ -295,7 +295,7 @@ export default function TermsOfUsePage() {
               <SubSection title={"Restrictions du compte mineur"}>
                 <div className="space-y-2">
                   {[
-                    "Aucun investissement autoris\u00e9 avant l'\u00e2ge de 18 ans",
+                      "Aucun soutien financier en euros autoris\u00e9 avant l'\u00e2ge de 18 ans",
                     "Aucun retrait ni conversion de VIXUpoints en euros avant la majorit\u00e9",
                     "Les VIXUpoints accumul\u00e9s constituent un avantage promotionnel interne et ne repr\u00e9sentent pas une cr\u00e9ance financi\u00e8re exigible",
                     "Les VIXUpoints ne peuvent faire l'objet d'aucun transfert, cession ou vente",
@@ -312,7 +312,7 @@ export default function TermsOfUsePage() {
                 <div className="space-y-2">
                   {[
                     "Apr\u00e8s v\u00e9rification d'identit\u00e9 (KYC via Stripe Connect), l'utilisateur peut convertir ses VIXUpoints en cr\u00e9dit interne",
-                    "Le cr\u00e9dit peut \u00eatre utilis\u00e9 pour investir sur la plateforme ou faire l'objet d'un retrait bancaire",
+                      "Le cr\u00e9dit peut \u00eatre utilis\u00e9 pour soutenir des projets sur la plateforme ou faire l'objet d'un retrait bancaire",
                     "Le plafond de VIXUpoints est automatiquement lev\u00e9 au passage \u00e0 la majorit\u00e9",
                   ].map((item) => (
                     <div key={item} className="flex gap-2 items-start text-sm">
@@ -365,7 +365,7 @@ export default function TermsOfUsePage() {
                     </div>
                     <ul className="space-y-1.5 text-xs text-white/50">
                       <li>{"Applicable aux rôles : Contributeur, Contribu-lecteur, Auditeur"}</li>
-                      <li>{"Versée une seule fois lors de l'activation du rôle investisseur"}</li>
+                      <li>{"Versée une seule fois lors de l'activation d'un rôle de soutien (Contributeur, Contribu-lecteur, Auditeur)"}</li>
                       <li>{"Traitée via Stripe, sécurisée et traçable"}</li>
                     </ul>
                   </div>
@@ -443,20 +443,20 @@ export default function TermsOfUsePage() {
                   </div>
                 </SubSection>
 
-                <SubSection title="Avertissement sur les risques">
+                <SubSection title="Nature du soutien et absence de garantie de gain">
                   <div className="bg-amber-500/5 border border-amber-500/15 rounded-xl p-4">
                     <div className="flex items-start gap-3">
                       <AlertTriangle className="h-5 w-5 text-amber-400 mt-0.5 shrink-0" />
                       <div className="space-y-2">
                         <p className="text-amber-400/90 text-sm font-medium">
-                          {"Contribuer comporte des risques. Les gains ne sont pas garantis."}
+                          {"Aucun gain n'est garanti. Le soutien financier sur VIXUAL est avant tout une aide aux créateurs."}
                         </p>
                         <ul className="space-y-1.5 text-xs text-white/50">
-                          <li>{"La contribution sur VIXUAL n'est pas un produit financier réglementé au sens de la directive MiFID II"}</li>
+                          <li>{"Le soutien financier sur VIXUAL n'est pas un produit d'investissement au sens de l'AMF, ni un produit financier réglementé au sens de la directive MiFID II"}</li>
                           <li>{"Les performances passées d'un contenu ne garantissent pas les performances futures"}</li>
-                          <li>{"Le montant contribué peut ne générer aucun retour si le contenu ne rencontre pas son public"}</li>
-                          <li>{"VIXUAL n'est pas un intermédiaire financier agréé. Les contributions relèvent du financement participatif de projet"}</li>
-                          <li>{"L'inscrit reconnaît contribuer en connaissance de cause et ne pas engager de sommes qu'il ne peut se permettre de perdre"}</li>
+                          <li>{"Le montant soutenu peut ne générer aucune récompense si le contenu ne rencontre pas son public"}</li>
+                          <li>{"VIXUAL n'est pas un intermédiaire financier agréé. Les soutiens relèvent du financement participatif de projet (don avec contrepartie symbolique)"}</li>
+                          <li>{"L'inscrit reconnaît soutenir en connaissance de cause et ne pas engager de sommes qu'il ne peut se permettre de perdre"}</li>
                         </ul>
                       </div>
                     </div>
@@ -776,7 +776,7 @@ export default function TermsOfUsePage() {
                         "Héberger, stocker et diffuser le contenu sur la plateforme VIXUAL",
                         "Reproduire des extraits à des fins promotionnelles (bandes-annonces, aperçus)",
                         "Afficher le contenu dans les classements, recommandations et résultats de recherche",
-                        "Permettre aux investisseurs de consulter et voter sur le contenu",
+                            "Permettre aux soutiens de consulter et voter sur le contenu",
                       ].map((item) => (
                         <li key={item} className="flex gap-2 items-start">
                           <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-teal-400/40 shrink-0" />
@@ -845,7 +845,7 @@ export default function TermsOfUsePage() {
               <CardContent className="pt-6 space-y-4">
                 <SubSection title="Moyens de paiement">
                   <p className="text-white/60 text-sm leading-relaxed">
-                    {"Tous les paiements sur VIXUAL (cautions, investissements) sont traités par Stripe, prestataire de paiement certifié PCI-DSS niveau 1. VIXUAL ne stocke jamais les données bancaires (numéros de carte, IBAN) sur ses propres serveurs."}
+                    {"Tous les paiements sur VIXUAL (cautions, soutiens financiers) sont traités par Stripe, prestataire de paiement certifié PCI-DSS niveau 1. VIXUAL ne stocke jamais les données bancaires (numéros de carte, IBAN) sur ses propres serveurs."}
                   </p>
                 </SubSection>
 
@@ -972,8 +972,8 @@ export default function TermsOfUsePage() {
             </Card>
           </Section>
 
-          {/* 7bis. Interdiction auto-investissement */}
-          <Section num={0} title={"Interdiction d'auto-investissement"}>
+          {/* 7bis. Interdiction auto-soutien */}
+          <Section num={0} title={"Interdiction d'auto-soutien"}>
             <Card className="bg-red-500/5 border-red-500/15">
               <CardContent className="pt-6 space-y-3">
                 <div className="flex items-start gap-3">
@@ -982,10 +982,10 @@ export default function TermsOfUsePage() {
                   </div>
                   <div className="space-y-2">
                     <p className="text-white/70 text-sm leading-relaxed">
-                      {"Un utilisateur ne peut en aucun cas investir dans son propre projet. Cette r\u00e8gle est appliqu\u00e9e automatiquement par le syst\u00e8me."}
+                      {"Un utilisateur ne peut en aucun cas soutenir financi\u00e8rement son propre projet. Cette r\u00e8gle est appliqu\u00e9e automatiquement par le syst\u00e8me."}
                     </p>
                     <p className="text-white/50 text-xs leading-relaxed">
-                      {"En cas de tentative d'auto-investissement : annulation imm\u00e9diate de la transaction, recalcul des votes concern\u00e9s, et suspension possible du compte."}
+                      {"En cas de tentative d'auto-soutien : annulation imm\u00e9diate de la transaction, recalcul des votes concern\u00e9s, et suspension possible du compte."}
                     </p>
                   </div>
                 </div>
@@ -1015,7 +1015,7 @@ export default function TermsOfUsePage() {
                   ))}
                 </div>
                 <div className="space-y-2 text-sm text-white/60 leading-relaxed">
-                  <p>{"Exemples d'\u00e9v\u00e9nements positifs : KYC v\u00e9rifi\u00e9 (+15), premier investissement (+10), contenu valid\u00e9 (+8), email v\u00e9rifi\u00e9 (+5), connexion r\u00e9guli\u00e8re (+2 \u00e0 +5)."}</p>
+                  <p>{"Exemples d'\u00e9v\u00e9nements positifs : KYC v\u00e9rifi\u00e9 (+15), premier soutien (+10), contenu valid\u00e9 (+8), email v\u00e9rifi\u00e9 (+5), connexion r\u00e9guli\u00e8re (+2 \u00e0 +5)."}</p>
                   <p>{"Exemples d'\u00e9v\u00e9nements n\u00e9gatifs : fraude d\u00e9tect\u00e9e (-30), chargeback (-25), spam (-15), abus signal\u00e9 (-10), paiement \u00e9chou\u00e9 (-8), contenu rejet\u00e9 (-5)."}</p>
                 </div>
                 <p className="text-white/50 text-xs leading-relaxed">
@@ -1118,8 +1118,8 @@ export default function TermsOfUsePage() {
                     {[
                       { icon: Ban, text: "Manipulation des votes, des classements ou des VIXUpoints par des moyens frauduleux" },
                       { icon: Users, text: "Cr\u00e9ation de comptes multiples pour cumuler les cautions ou les gains" },
-                      { icon: XCircle, text: "Investissement fictif, blanchiment d'argent ou utilisation de fonds illicites" },
-                      { icon: Ban, text: "Auto-investissement : investir dans son propre projet (annulation + recalcul des votes)" },
+                          { icon: XCircle, text: "Soutien fictif, blanchiment d'argent ou utilisation de fonds illicites" },
+                          { icon: Ban, text: "Auto-soutien : soutenir financi\u00e8rement son propre projet (annulation + recalcul des votes)" },
                       { icon: AlertTriangle, text: "Racisme, homophobie, transphobie, antis\u00e9mitisme, haine religieuse et toute forme de discrimination" },
                       { icon: AlertTriangle, text: "Harc\u00e8lement, menaces, intimidation, injures ou insultes envers tout utilisateur" },
                       { icon: Lock, text: "Tentative d'accès non autorisé aux systèmes, API ou données de la plateforme" },
@@ -1233,7 +1233,7 @@ export default function TermsOfUsePage() {
                   <ul className="space-y-2 ml-2">
                     {[
                       "L'absence totale d'interruptions, d'erreurs ou de dysfonctionnements techniques",
-                      "La rentabilité de tout investissement réalisé sur la plateforme",
+                      "La rentabilité de tout soutien financier réalisé sur la plateforme",
                       "La qualité, l'exactitude ou la légalité des contenus déposés par les créateurs",
                       "La disponibilité permanente des services tiers (Stripe, hébergement, CDN)",
                     ].map((item) => (

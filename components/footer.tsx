@@ -139,7 +139,7 @@ export function Footer() {
               2026 VIXUAL. Tous droits reserves.
             </p>
             <span className="text-white/40 text-sm">
-              Contribuer comporte des risques. Les gains ne sont pas garantis.
+              Aucun gain n&apos;est garanti. Le soutien est avant tout une aide aux createurs.
             </span>
           </div>
         </div>

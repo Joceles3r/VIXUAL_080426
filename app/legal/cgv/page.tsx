@@ -192,7 +192,7 @@ export default function CGVPage() {
                   <p>{"VIXUAL agit en qualité d'intermédiaire technique entre les créateurs de contenus et les utilisateurs participants."}</p>
                 </HighlightCard>
                 <HighlightCard icon={Ban} title="Pas un établissement financier" color="red">
-                  <p>{"VIXUAL n'est ni une banque, ni un établissement financier, ni un prestataire de services d'investissement au sens du Code monétaire et financier."}</p>
+                  <p>{"VIXUAL n'est ni une banque, ni un établissement financier, ni un prestataire de services d'investissement au sens du Code monétaire et financier. Les soutiens financiers verses sur VIXUAL ne constituent pas des investissements au sens de l'AMF."}</p>
                 </HighlightCard>
                 <HighlightCard icon={Shield} title="Cadre juridique" color="emerald">
                   <p>{"VIXUAL opère dans le cadre du droit français et du règlement européen sur les services numériques (DSA)."}</p>
@@ -617,7 +617,7 @@ export default function CGVPage() {
               </HighlightCard>
 
               <HighlightCard icon={Hash} title={"Syst\u00e8me de tags pr\u00e9-approuv\u00e9s"} color="sky">
-                <p>{"Les tags sont exclusivement cr\u00e9\u00e9s et g\u00e9r\u00e9s par VIXUAL. Aucun utilisateur ne peut cr\u00e9er de tag personnalis\u00e9. Les tags V1 sont organis\u00e9s en 3 cat\u00e9gories : Retours (avis, question, am\u00e9lioration, bug, id\u00e9e), Cr\u00e9ation (casting, sc\u00e9nario, son, montage) et Autre (investissement, spoiler)."}</p>
+                <p>              {"Les tags sont exclusivement cr\u00e9\u00e9s et g\u00e9r\u00e9s par VIXUAL. Aucun utilisateur ne peut cr\u00e9er de tag personnalis\u00e9. Les tags V1 sont organis\u00e9s en 3 cat\u00e9gories : Retours (avis, question, am\u00e9lioration, bug, id\u00e9e), Cr\u00e9ation (casting, sc\u00e9nario, son, montage) et Autre (soutien, spoiler)."}</p>
               </HighlightCard>
 
               <HighlightCard icon={Star} title={"Interactions et VIXUpoints (V1)"} color="amber">

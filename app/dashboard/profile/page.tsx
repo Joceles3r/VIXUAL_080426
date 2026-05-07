@@ -59,7 +59,7 @@ export default function ProfilePage() {
 
   const stats = [
     { label: "Projets soutenus", value: "12", icon: Star },
-    { label: "Total investi", value: "245€", icon: TrendingUp },
+    { label: "Total soutenu", value: "245€", icon: TrendingUp },
     { label: "VIXUpoints", value: "1,850", icon: Award },
     { label: "Membre depuis", value: "Jan 2026", icon: Calendar },
   ]

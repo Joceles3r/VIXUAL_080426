@@ -413,8 +413,10 @@ export default function HowItWorksPage() {
 
               <div className="mt-8 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg">
                     <p className="text-amber-200 text-sm text-center">
-                  Attention : Contribuer comporte des risques. Les gains ne sont
-                  pas garantis. VIXUAL n'est pas un jeu de hasard.
+                  Important : aucun gain n'est garanti. Soutenir un projet sur
+                  VIXUAL est avant tout une aide aux createurs. Les recompenses
+                  eventuelles dependent du classement final. VIXUAL n'est ni un
+                  jeu de hasard, ni un produit d'investissement au sens de l'AMF.
                 </p>
               </div>
             </div>

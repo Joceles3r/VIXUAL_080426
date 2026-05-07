@@ -220,7 +220,7 @@ export default function AdminPage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { label: "Utilisateurs", value: stats?.totalUsers.toLocaleString() || "--", icon: Users, color: "text-blue-400", bg: "bg-blue-500/15" },
-              { label: "Investissements", value: stats?.totalInvestments.toLocaleString() || "--", icon: TrendingUp, color: "text-emerald-400", bg: "bg-emerald-500/15" },
+              { label: "Soutiens", value: stats?.totalInvestments.toLocaleString() || "--", icon: TrendingUp, color: "text-emerald-400", bg: "bg-emerald-500/15" },
               { label: "Revenus totaux", value: stats ? `${stats.totalRevenue.toLocaleString()} EUR` : "--", icon: DollarSign, color: "text-amber-400", bg: "bg-amber-500/15" },
               { label: "Projets actifs", value: stats?.activeProjects.toString() || "--", icon: Film, color: "text-purple-400", bg: "bg-purple-500/15" },
             ].map((stat) => (
@@ -284,7 +284,7 @@ export default function AdminPage() {
               <div className="space-y-3">
                 {[
                   { text: "Nouveau Porteur inscrit : Lucas Nature", time: "Il y a deux minutes", icon: Film, color: "text-red-400" },
-                  { text: "Investissement de quinze euros sur 'L'Odyssee des Etoiles'", time: "Il y a huit minutes", icon: TrendingUp, color: "text-emerald-400" },
+                  { text: "Soutien de quinze euros sur 'L'Odyssee des Etoiles'", time: "Il y a huit minutes", icon: TrendingUp, color: "text-emerald-400" },
                   { text: "Paiement de mille deux cent quarante euros trait\u00e9 pour Marie Stellaire", time: "Il y a vingt-trois minutes", icon: DollarSign, color: "text-amber-400" },
                   { text: "Nouvel article publie par Pierre Michel", time: "Il y a quarante-cinq minutes", icon: FileText, color: "text-sky-400" },
                   { text: "Nouveau podcast de Karim Ondes", time: "Il y a une heure", icon: Mic, color: "text-purple-400" },
@@ -929,8 +929,8 @@ export default function AdminPage() {
                     {[
                       "Simulation obligatoire avant chaque paiement",
                       "Idempotency keys sur chaque webhook Stripe",
-                      "Auto-investissement interdit (guard serveur)",
-                      "KYC obligatoire avant investissement",
+                      "Auto-soutien interdit (guard serveur)",
+                      "KYC obligatoire avant soutien financier",
                       "Plafond mineur cinq cents euros (sans consentement parental)",
                       "Stripe Connect charges_enabled requis",
                       "Integrity check = sum(users) + platform == gross",
@@ -986,7 +986,7 @@ export default function AdminPage() {
               <div className="space-y-3">
                 {[
                   { user: "Marie Stellaire", type: "Retrait", amount: "-350,00 \u20ac", status: "valid\u00e9", statusColor: "bg-emerald-500/20 text-emerald-400", time: "Il y a trois minutes" },
-                  { user: "Lucas Nature", type: "Gain investissement", amount: "+120,50 \u20ac", status: "cr\u00e9dit\u00e9", statusColor: "bg-emerald-500/20 text-emerald-400", time: "Il y a sept minutes" },
+                  { user: "Lucas Nature", type: "Gain soutien", amount: "+120,50 \u20ac", status: "cr\u00e9dit\u00e9", statusColor: "bg-emerald-500/20 text-emerald-400", time: "Il y a sept minutes" },
                   { user: "F\u00e9lix Cin\u00e9ma", type: "Retrait", amount: "-1 200,00 \u20ac", status: "en revue", statusColor: "bg-amber-500/20 text-amber-400", time: "Il y a douze minutes" },
                   { user: "Sophie Drama", type: "Conversion VIXUpoints", amount: "+25,00 \u20ac", status: "cr\u00e9dit\u00e9", statusColor: "bg-emerald-500/20 text-emerald-400", time: "Il y a vingt minutes" },
                   { user: "Karim Ondes", type: "Caution rembours\u00e9e", amount: "-10,00 \u20ac", status: "rembours\u00e9", statusColor: "bg-sky-500/20 text-sky-400", time: "Il y a trente-cinq minutes" },
@@ -1087,7 +1087,7 @@ export default function AdminPage() {
               <CardContent className="space-y-3">
                 {[
                   { label: "Wallets cr\u00e9ateurs", value: "98 200 \u20ac", pct: 52, color: "bg-red-400" },
-                  { label: "Wallets investisseurs", value: "67 450 \u20ac", pct: 36, color: "bg-emerald-400" },
+                  { label: "Wallets soutiens", value: "67 450 \u20ac", pct: 36, color: "bg-emerald-400" },
                   { label: "Cautions bloqu\u00e9es", value: "18 700 \u20ac", pct: 10, color: "bg-amber-400" },
                   { label: "VIXUpoints (valeur)", value: "3 428 \u20ac", pct: 2, color: "bg-purple-400" },
                 ].map((f) => (
