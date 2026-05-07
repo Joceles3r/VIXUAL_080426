@@ -39,8 +39,8 @@ const FAQ_CATEGORIES = [
         answer: "Non, VIXUAL n'est pas un jeu de hasard. C'est une plateforme de soutien et de diffusion de projets créatifs. Les éventuelles récompenses dépendent du succès réel des projets et des règles officielles de la plateforme, jamais du hasard."
       },
       {
-        question: "Pourquoi 'Contribuer' et non 'Investir'?",
-        answer: "Nous utilisons le terme 'contribution' pour clarifier que c'est une participation à des projets créatifs, et non un investissement boursier ou financier. Cela reflète mieux la nature participative et humaine de la plateforme."
+        question: "Pourquoi parler de 'soutien' et non d''investissement' ?",
+        answer: "Sur VIXUAL, vous soutenez des createurs et leurs projets. Le mot 'soutien' decrit fidelement ce que vous faites : aider un projet a aboutir. Certaines participations peuvent etre recompensees selon les regles officielles VIXUAL — ce n'est pas un produit d'investissement boursier ou financier au sens de l'AMF."
       }
     ]
   },

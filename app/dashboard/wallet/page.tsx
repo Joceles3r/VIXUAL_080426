@@ -92,7 +92,7 @@ const MOCK_REVENUE_BY_TYPE = [
   { type: "Vid\u00e9os", amount: 68_00, color: "bg-red-500", pct: 43 },
   { type: "Podcasts", amount: 42_00, color: "bg-purple-500", pct: 27 },
   { type: "\u00c9crits", amount: 28_00, color: "bg-sky-500", pct: 18 },
-  { type: "Investissements", amount: 18_80, color: "bg-emerald-500", pct: 12 },
+  { type: "Soutiens", amount: 18_80, color: "bg-emerald-500", pct: 12 },
 ]
 const MOCK_INSIGHTS = [
   "Vos gains ont augment\u00e9 de vingt-quatre pour cent ce mois.",
@@ -213,7 +213,7 @@ export default function WalletPage() {
             </div>
             {"Mon Wallet"}
           </h1>
-          <p className="text-white/50 mt-1">{"Centre financier VIXUAL \u2014 g\u00e9rez vos gains, investissements et retraits"}</p>
+          <p className="text-white/50 mt-1">{"Centre financier VIXUAL \u2014 g\u00e9rez vos gains, soutiens et retraits"}</p>
         </div>
         <VerificationBadges
           verificationLevel={user?.kycVerified ? 2 : 0}
@@ -571,7 +571,7 @@ export default function WalletPage() {
               <p className="text-4xl font-bold text-cyan-400">{"~ "}{formatCents(passiveEstimate)}{" \u20ac"}</p>
               <p className="text-white/30 text-xs mt-1">{"par mois"}</p>
             </div>
-            <p className="text-white/40 text-xs text-center">{"Bas\u00e9 sur votre historique d'investissements et retours moyens des trois derniers mois."}</p>
+            <p className="text-white/40 text-xs text-center">{"Bas\u00e9 sur votre historique de soutiens et recompenses moyennes des trois derniers mois."}</p>
           </CardContent>
         </Card>
 
@@ -632,7 +632,7 @@ export default function WalletPage() {
               </div>
               <div>
                 <p className="text-white font-medium text-sm">{"Classement VIXUAL"}</p>
-                <p className="text-white/40 text-xs">{"Top investisseurs ce mois"}</p>
+                <p className="text-white/40 text-xs">{"Top contributeurs ce mois"}</p>
               </div>
             </div>
             <div className="text-right">

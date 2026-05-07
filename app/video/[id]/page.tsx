@@ -427,7 +427,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   <CreditCard className="h-4 w-4 text-emerald-400 shrink-0" />
                   <span className="text-white/60 text-xs">{"Soutien minimum : trois euros"}</span>
                   <span className="text-white/30 mx-1">-</span>
-                  <span className="text-white/60 text-xs">{content.investorCount} investisseurs</span>
+                  <span className="text-white/60 text-xs">{content.investorCount} soutiens</span>
                   <span className="text-white/30 mx-1">-</span>
                   <span className="text-emerald-400 text-xs font-medium">{content.currentInvestment.toLocaleString()}{"\u20ac"} sur {content.investmentGoal.toLocaleString()}{"\u20ac"}</span>
                 </div>
@@ -598,7 +598,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
 
                   <div className="flex items-center justify-center gap-2 py-2.5 bg-slate-800/50 rounded-lg mb-4">
                     <Users className="h-4 w-4 text-emerald-400" />
-                    <span className="text-white/80 text-sm font-medium">{content.investorCount} investisseurs</span>
+                    <span className="text-white/80 text-sm font-medium">{content.investorCount} soutiens</span>
                   </div>
 
                   {/* Motivational */}

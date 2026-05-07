@@ -215,7 +215,7 @@ export const MOCK_TRANSACTIONS: Transaction[] = [
   {
     id: "tr1",
     type: "investment",
-    description: "Investissement 15EUR - L'Odyssee des Etoiles (9 votes, +80 pts)",
+    description: "Soutien 15EUR - L'Odyssee des Etoiles (9 votes, +80 pts)",
     amount: -15,
     date: "2026-01-20",
     status: "completed",
@@ -223,7 +223,7 @@ export const MOCK_TRANSACTIONS: Transaction[] = [
   {
     id: "tr2",
     type: "investment",
-    description: "Investissement 10EUR - Chroniques du Temps Perdu (7 votes, +50 pts)",
+    description: "Soutien 10EUR - Chroniques du Temps Perdu (7 votes, +50 pts)",
     amount: -10,
     date: "2026-01-22",
     status: "completed",
@@ -231,7 +231,7 @@ export const MOCK_TRANSACTIONS: Transaction[] = [
   {
     id: "tr3",
     type: "return",
-    description: "Retour sur investissement - L'Odyssee des Etoiles",
+    description: "Recompense - L'Odyssee des Etoiles",
     amount: 2.5,
     date: "2026-02-01",
     status: "completed",
@@ -239,7 +239,7 @@ export const MOCK_TRANSACTIONS: Transaction[] = [
   {
     id: "tr4",
     type: "investment",
-    description: "Investissement 5EUR - Murmures de la Foret (4 votes, +25 pts)",
+    description: "Soutien 5EUR - Murmures de la Foret (4 votes, +25 pts)",
     amount: -5,
     date: "2026-02-05",
     status: "completed",
@@ -247,7 +247,7 @@ export const MOCK_TRANSACTIONS: Transaction[] = [
   {
     id: "tr5",
     type: "investment",
-    description: "Investissement 20EUR - Pages d'Amour (10 votes, +110 pts)",
+    description: "Soutien 20EUR - Pages d'Amour (10 votes, +110 pts)",
     amount: -20,
     date: "2026-02-10",
     status: "completed",
@@ -255,7 +255,7 @@ export const MOCK_TRANSACTIONS: Transaction[] = [
   {
     id: "tr6",
     type: "return",
-    description: "Retour sur investissement - Pages d'Amour (rang 4, 3.41% de G)",
+    description: "Recompense - Pages d'Amour (rang 4, 3.41% de G)",
     amount: 5.2,
     date: "2026-02-15",
     status: "completed",
@@ -300,15 +300,15 @@ export const PODCAST_CATEGORIES = [
 export const FAQ_ITEMS = [
   {
     question: "Qu'est-ce que VIXUAL ?",
-    answer: "VIXUAL est une plateforme d'investissement participatif dans les projets audiovisuels, litteraires et podcasts. Vous pouvez soutenir des createurs et potentiellement recevoir des retours sur vos investissements.",
+    answer: "VIXUAL est une plateforme de streaming participative dediee aux createurs independants : films, livres et podcasts. Vous regardez/lisez/ecoutez librement, vous soutenez les projets que vous aimez, et certaines participations sont recompensees selon les regles officielles VIXUAL.",
   },
   {
-    question: "Comment fonctionne l'investissement ?",
-    answer: "Vous choisissez un projet qui vous interesse, selectionnez un montant entre 2 EUR et 20 EUR (tranches : 2, 3, 4, 5, 6, 8, 10, 12, 15, 20 EUR), et devenez investisseur. Si le projet genere des revenus, vous recevez une part proportionnelle a votre investissement.",
+    question: "Comment fonctionne le soutien a un projet ?",
+    answer: "Vous choisissez un projet qui vous interesse et un montant entre 2 EUR et 20 EUR (tranches : 2, 3, 4, 5, 6, 8, 10, 12, 15, 20 EUR). Votre soutien aide directement le createur. Si le projet se classe dans le TOP 10/100 a la cloture du cycle, vous recevez une part des gains redistribues. Aucun gain n'est garanti — ce n'est pas un produit d'investissement au sens de l'AMF.",
   },
   {
     question: "Qu'est-ce que la caution ?",
-    answer: "La caution est un depot unique (10 EUR pour les createurs : Porteur, Infoporteur, Podcasteur ; 20 EUR pour les investisseurs : Contributeur, Contribu-lecteur, Auditeur) qui garantit votre engagement. Elle est remboursable en cas de resiliation.",
+    answer: "La caution est un depot unique (10 EUR pour les createurs : Porteur, Infoporteur, Podcasteur ; 20 EUR pour les soutiens : Contributeur, Contribu-lecteur, Auditeur) qui garantit votre engagement. Elle est remboursable en cas de resiliation.",
   },
   {
     question: "Comment retirer mes gains ?",
@@ -319,8 +319,8 @@ export const FAQ_ITEMS = [
     answer: "Les VIXUpoints sont des points de fidélité que vous gagnez en utilisant la plateforme : parrainages, partages, commentaires, etc. Ils débloquent des avantages exclusifs.",
   },
   {
-    question: "Puis-je être créateur ET investisseur ?",
-    answer: "Absolument ! Vous pouvez cumuler plusieurs rôles sur VIXUAL. Chaque rôle nécessite sa propre caution.",
+    question: "Puis-je etre createur ET soutien ?",
+    answer: "Absolument ! Vous pouvez cumuler plusieurs roles sur VIXUAL. Chaque role necessite sa propre caution.",
   },
 ]
 
@@ -335,19 +335,19 @@ export const HOW_IT_WORKS_STEPS = [
   {
     step: 2,
     title: "Choisissez votre rôle",
-    description: "Devenez Porteur pour créer du contenu audiovisuel, Infoporteur pour publier des écrits, ou Contributeur pour soutenir des projets.",
+    description: "Devenez Createur pour publier des films, livres ou podcasts, ou Contributeur pour soutenir les projets que vous aimez.",
     icon: "layers",
   },
   {
     step: 3,
     title: "Payez votre caution",
-    description: "10€ pour les créateurs, 20€ pour les investisseurs. Cette caution est remboursable si vous résiliez votre compte.",
+    description: "10€ pour les créateurs, 20€ pour les soutiens (Contributeur, Contribu-lecteur, Auditeur). Cette caution est remboursable si vous résiliez votre compte.",
     icon: "shield",
   },
   {
     step: 4,
     title: "Participez et gagnez",
-    description: "Créez ou investissez dans des projets. Suivez vos statistiques et retirez vos gains via Stripe Connect.",
+    description: "Créez ou soutenez des projets. Suivez vos statistiques et retirez vos gains via Stripe Connect.",
     icon: "trending-up",
   },
 ]

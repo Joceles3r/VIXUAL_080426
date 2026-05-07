@@ -14,7 +14,7 @@ type MinorAction = "invest" | "withdraw" | "stripe_connect" | "visupoints_spend"
 const BLOCKED_ACTIONS: Record<MinorAction, { code: string; message: string }> = {
   invest: {
     code: ErrorCodes.ERR_MINOR_NO_EURO,
-    message: "Les utilisateurs mineurs ne peuvent pas investir en euros. Seuls les VIXUpoints sont disponibles.",
+    message: "Les utilisateurs mineurs ne peuvent pas effectuer de soutien financier en euros. Seuls les VIXUpoints sont disponibles.",
   },
   withdraw: {
     code: ErrorCodes.ERR_MINOR_WITHDRAW_BLOCKED,

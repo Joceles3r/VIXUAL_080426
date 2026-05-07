@@ -76,7 +76,7 @@ const ROLES = [
     ],
     restrictions: [
       "Aucun VIXUpoint",
-      "Aucun gain ni investissement",
+      "Aucun gain ni soutien financier",
       "Pas de participation a la communaute",
       "Pas de favoris ni de commentaires",
     ],
@@ -104,7 +104,7 @@ const ROLES = [
   {
     title: "Porteur",
     subtitle: "Createur audiovisuel",
-    description: "Deposez vos videos et visuels, recevez des investissements",
+    description: "Deposez vos videos et visuels, recevez des soutiens",
     features: [
       "Depot de contenu video",
       "Statistiques detaillees",
@@ -560,11 +560,11 @@ export default function HowItWorksPage() {
         </section>
       </main>
 
-      {/* Simulateur d'investissement */}
+      {/* Simulateur de soutien */}
       <section className="py-16 cinema-section">
         <div className="container mx-auto px-4 max-w-xl">
           <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-8 text-balance">
-            {"Simulez votre investissement"}
+            {"Simulez votre soutien"}
           </h2>
           <InvestSimulator />
         </div>

@@ -3,9 +3,9 @@
  */
 
 export const APP_NAME = "VIXUAL"
-export const APP_SLOGAN = "Regarde-Participe-Gagne"
-export const APP_TAGLINE = "La premiere plateforme de streaming participative"
-export const APP_DESCRIPTION = "VIXUAL, la premiere plateforme de streaming participative pour les films, ecrits et podcasts. Soutenez les createurs en contribuant a leur succes."
+export const APP_SLOGAN = "Regarde-Soutiens-Participe"
+export const APP_TAGLINE = "Plateforme de streaming participative dediee aux createurs independants"
+export const APP_DESCRIPTION = "VIXUAL est une plateforme de streaming participative permettant de decouvrir et soutenir des createurs independants : films, ecrits et podcasts."
 
 // Messages juridiques recommandes
 export const LEGAL_MESSAGES = {
@@ -20,7 +20,7 @@ export const LEGAL_MESSAGES = {
 export const VIDEO_BRANDING = {
   watermarkText: "Propulse par VIXUAL",
   introText: "VIXUAL presente",
-  outroText: "Regarde - Participe - Gagne | vixual.com",
+  outroText: "Regarde - Soutiens - Participe | vixual.com",
   youtubeChannelSuffix: "| Propulse par VIXUAL",
 }
 

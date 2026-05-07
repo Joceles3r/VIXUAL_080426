@@ -128,7 +128,7 @@ function EngagementBanner({ redirect }: { redirect: EngagementRedirectResult }) 
                     <p className="text-white font-medium text-sm">{"Chemin B \u2014 \u00c9voluer de profil"}</p>
                   </div>
                   <p className="text-white/50 text-xs leading-relaxed mb-3">
-                    {"Passez au profil Contributeur pour d\u00e9bloquer les fonctionnalit\u00e9s avanc\u00e9es : investir dans des projets, voter, et percevoir des gains."}
+                    {"Passez au profil Contributeur pour d\u00e9bloquer les fonctionnalit\u00e9s avanc\u00e9es : soutenir des projets, voter, et percevoir des gains."}
                   </p>
                   <div className="bg-purple-500/10 rounded-lg p-3">
                     <p className="text-purple-400 font-medium text-sm mb-1">{"Bonus \u00e9volution"}</p>
@@ -343,7 +343,7 @@ export default function VisupointsPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Lock className="h-3.5 w-3.5 text-amber-400 shrink-0" />
-                  {"Aucun retrait, investissement ni conversion avant la majorit\u00e9"}
+                  {"Aucun retrait, soutien financier ni conversion avant la majorit\u00e9"}
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />

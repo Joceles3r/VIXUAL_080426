@@ -116,7 +116,7 @@ export function VerificationBadges({
               </Badge>
             </TooltipTrigger>
             <TooltipContent className="bg-slate-900 border-white/10 text-white text-xs max-w-60">
-              {"Email verifie. Completez la verification telephone ou 2FA pour investir et retirer."}
+              {"Email verifie. Completez la verification telephone ou 2FA pour soutenir et retirer."}
             </TooltipContent>
           </Tooltip>
         )}

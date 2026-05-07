@@ -268,7 +268,7 @@ export default function TopContributorsPage() {
                 
                 <div className="pt-2 border-t border-slate-700 mt-4">
                   <p className="text-xs text-slate-500">
-                    Ce systeme evite qu'un seul gros investissement domine le classement et favorise l'engagement regulier.
+                    Ce systeme evite qu'un seul gros soutien domine le classement et favorise l'engagement regulier.
                   </p>
                 </div>
               </div>

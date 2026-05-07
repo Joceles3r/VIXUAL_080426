@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, Film, FileText, Mic, Users, TrendingUp, Shield, Star, Award, CreditCard, Wallet, Upload, Eye, Euro, Trophy } from "lucide-react"
+import { ArrowRight, Film, FileText, Mic, Users, TrendingUp, Shield, Star, Award, CreditCard, Wallet, Upload, Eye, Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -331,8 +331,12 @@ export default function HomePage() {
             <div className="mt-12 max-w-3xl mx-auto">
               <div className="bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-emerald-500/10 rounded-2xl p-6 border border-emerald-500/20">
                 <div className="text-center mb-4">
-                  <p className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
-                    Regarde — Participe — Gagne
+                  <p className="text-2xl font-bold inline-flex items-baseline gap-2">
+                    <span className="text-red-500">Regarde</span>
+                    <span className="text-white/40">—</span>
+                    <span className="text-amber-400">Soutiens</span>
+                    <span className="text-white/40">—</span>
+                    <span className="text-emerald-400">Participe</span>
                   </p>
                 </div>
                 <div className={`grid grid-cols-1 ${platformVersion !== "V1" ? "md:grid-cols-2" : ""} gap-4 text-sm`}>
@@ -385,28 +389,28 @@ export default function HomePage() {
                 </Card>
               ))}
               
-              {/* Encart special - Regarde Participe Gagne */}
+              {/* Encart special - Regarde Soutiens Participe */}
               <Card className="bg-slate-900/50 border-white/10 hover:border-white/30 transition-colors">
                 <CardContent className="p-6 flex flex-col items-center justify-center h-full">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                      <Eye className="h-5 w-5 text-white" />
+                    <div className="w-10 h-10 rounded-full bg-red-500/15 flex items-center justify-center">
+                      <Eye className="h-5 w-5 text-red-400" />
                     </div>
-                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                      <Euro className="h-5 w-5 text-white" />
+                    <div className="w-10 h-10 rounded-full bg-amber-500/15 flex items-center justify-center">
+                      <Heart className="h-5 w-5 text-amber-400" />
                     </div>
-                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                      <Trophy className="h-5 w-5 text-white" />
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/15 flex items-center justify-center">
+                      <Users className="h-5 w-5 text-emerald-400" />
                     </div>
                   </div>
-                  <h3 className="text-lg font-semibold text-white text-center mb-1">
+                  <h3 className="text-lg font-semibold text-red-400 text-center mb-1">
                     Regarde
                   </h3>
-                  <h3 className="text-lg font-semibold text-white text-center mb-1">
-                    Participe
+                  <h3 className="text-lg font-semibold text-amber-400 text-center mb-1">
+                    Soutiens
                   </h3>
-                  <h3 className="text-lg font-semibold text-white text-center">
-                    Gagne
+                  <h3 className="text-lg font-semibold text-emerald-400 text-center">
+                    Participe
                   </h3>
                 </CardContent>
               </Card>
@@ -497,10 +501,10 @@ export default function HomePage() {
                     <Star className="h-8 w-8 text-sky-400" />
                   </div>
                   <h3 className="text-xl font-semibold text-white mb-2">
-                    3. Contribuez et gagnez
+                    3. Soutenez et participez
                   </h3>
                   <p className="text-white/60">
-                    Soutenez les createurs et recevez des retours
+                    Soutenez les createurs que vous appreciez et rejoignez la communaute
                   </p>
                 </div>
               </div>

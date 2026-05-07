@@ -7,6 +7,14 @@ interface VisualSloganProps {
   opacity?: "low" | "medium" | "high"
 }
 
+/**
+ * Slogan officiel VIXUAL : "Regarde - Soutiens - Participe"
+ *
+ * Couleurs alignees sur le logo (feu tricolore) :
+ *   Regarde  -> rouge
+ *   Soutiens -> jaune
+ *   Participe -> vert
+ */
 export function VisualSlogan({
   size = "xs",
   className,
@@ -20,9 +28,9 @@ export function VisualSlogan({
   }
 
   const opacityMap = {
-    low: { regarde: "from-red-500/50 to-amber-400/50", participe: "from-emerald-400/50 to-teal-400/50", gagne: "from-sky-400/50 to-indigo-400/50", dash: "text-white/20" },
-    medium: { regarde: "from-red-500/70 to-amber-400/70", participe: "from-emerald-400/70 to-teal-400/70", gagne: "from-sky-400/70 to-indigo-400/70", dash: "text-white/30" },
-    high: { regarde: "from-red-500 to-amber-400", participe: "from-emerald-400 to-teal-400", gagne: "from-sky-400 to-indigo-400", dash: "text-white/40" },
+    low: { regarde: "text-red-500/55", soutiens: "text-amber-400/55", participe: "text-emerald-400/55", dash: "text-white/20" },
+    medium: { regarde: "text-red-500/80", soutiens: "text-amber-400/80", participe: "text-emerald-400/80", dash: "text-white/30" },
+    high: { regarde: "text-red-500", soutiens: "text-amber-400", participe: "text-emerald-400", dash: "text-white/40" },
   }
 
   const colors = opacityMap[opacity]
@@ -35,32 +43,11 @@ export function VisualSlogan({
         className
       )}
     >
-      <span
-        className={cn(
-          "text-transparent bg-clip-text bg-gradient-to-r",
-          colors.regarde
-        )}
-      >
-        Regarde
-      </span>
+      <span className={colors.regarde}>Regarde</span>
       <span className={cn(colors.dash, "mx-0.5")}>{"\u2013"}</span>
-      <span
-        className={cn(
-          "text-transparent bg-clip-text bg-gradient-to-r",
-          colors.participe
-        )}
-      >
-        Participe
-      </span>
+      <span className={colors.soutiens}>Soutiens</span>
       <span className={cn(colors.dash, "mx-0.5")}>{"\u2013"}</span>
-      <span
-        className={cn(
-          "text-transparent bg-clip-text bg-gradient-to-r",
-          colors.gagne
-        )}
-      >
-        Gagne
-      </span>
+      <span className={colors.participe}>Participe</span>
     </span>
   )
 

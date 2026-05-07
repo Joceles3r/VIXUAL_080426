@@ -3,7 +3,7 @@
  * Version: V1
  * 
  * Moteur de récompense par la visibilité.
- * Slogan: VIXUAL — Regarde-Participe-Gagne
+ * Slogan: VIXUAL — Regarde-Soutiens-Participe
  * 
  * La visibilité devient une récompense:
  * - plus saine que l'argent

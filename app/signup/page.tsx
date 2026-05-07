@@ -216,7 +216,7 @@ export default function SignupPage() {
                   <div className="flex items-start gap-2 p-2.5 bg-amber-500/10 border border-amber-500/25 rounded-lg">
                     <ShieldAlert className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                     <p className="text-amber-400/90 text-xs leading-relaxed">
-                      {"Vous avez entre 16 et 17 ans. Votre compte sera soumis a des restrictions : plafond de 10 000 VIXUpoints (100EUR), aucun retrait ni investissement avant 18 ans. Une autorisation parentale sera demandee."}
+                      {"Vous avez entre 16 et 17 ans. Votre compte sera soumis a des restrictions : plafond de 10 000 VIXUpoints (100EUR), aucun retrait ni soutien financier avant 18 ans. Une autorisation parentale sera demandee."}
                     </p>
                   </div>
                 )}

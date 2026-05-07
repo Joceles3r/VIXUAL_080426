@@ -22,11 +22,18 @@ export function VixualLogo({
     xl: "text-4xl md:text-5xl",
   } as const
 
+  // Couleurs officielles VIXUAL (feu tricolore) :
+  // V/I = rouge — X/U = jaune — A/L = vert
   return (
     <span
-      className={`${sizeClasses[size]} font-black tracking-tight text-white inline-flex items-baseline ${className}`}
+      className={`${sizeClasses[size]} font-black tracking-tight inline-flex items-baseline ${className}`}
     >
-      <span>VIXUAL</span>
+      <span className="text-red-500">V</span>
+      <span className="text-red-500">I</span>
+      <span className="text-amber-400">X</span>
+      <span className="text-amber-400">U</span>
+      <span className="text-emerald-400">A</span>
+      <span className="text-emerald-400">L</span>
       <span
         aria-hidden="true"
         className="inline-block ml-0.5"

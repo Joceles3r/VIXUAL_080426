@@ -146,7 +146,7 @@ export function checkSelfInvestment(
   if (investorId === projectOwnerId) {
     return {
       allowed: false,
-      reason: "Auto-investissement interdit. Vous ne pouvez pas investir dans votre propre projet. Sanction possible : annulation, recalcul des votes, suspension du compte.",
+      reason: "Auto-soutien interdit. Vous ne pouvez pas soutenir financierement votre propre projet. Sanction possible : annulation, recalcul des votes, suspension du compte.",
     }
   }
   return { allowed: true }

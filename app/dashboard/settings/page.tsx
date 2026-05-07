@@ -355,9 +355,9 @@ export default function SettingsPage() {
 
             <div className="flex items-center justify-between p-4 bg-slate-800/50 rounded-lg">
               <div>
-                <p className="text-white font-medium">Alertes investissements</p>
+                <p className="text-white font-medium">Alertes soutiens</p>
                 <p className="text-white/60 text-sm">
-                  Soyez notifié des retours sur vos investissements
+                  Soyez notifié des recompenses sur vos soutiens
                 </p>
               </div>
               <Switch
