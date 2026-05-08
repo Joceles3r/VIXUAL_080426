@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
-import { InvestSimulator } from "@/components/invest-simulator"
+import { SupportSimulator } from "@/components/support-simulator"
 import { usePlatformVersion } from "@/hooks/use-platform-version"
 
 const STEPS = [
@@ -568,7 +568,7 @@ export default function HowItWorksPage() {
           <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-8 text-balance">
             {"Simulez votre soutien"}
           </h2>
-          <InvestSimulator />
+          <SupportSimulator />
         </div>
       </section>
 

@@ -62,14 +62,18 @@ const STATS = [
 ]
 
 export default function HomePage() {
-  const platformVersion = usePlatformVersion() as "V1" | "V2" | "V3"
+  const rawVersion = usePlatformVersion()
 
   // V1 utilise un layout simplifie dedie (onboarding intelligent,
   // 3 actions universelles, vocabulaire grand public). V2/V3 conservent
   // leur layout historique ci-dessous.
-  if (platformVersion === "V1") {
+  if (rawVersion === "V1") {
     return <HomeV1 />
   }
+
+  // Cast apres l'early return : preserve le type union complet pour le rendu V2/V3
+  // et empeche le narrowing destructeur sur les comparaisons internes.
+  const platformVersion = rawVersion as "V1" | "V2" | "V3"
 
   return (
     <div className="min-h-screen bg-slate-950">

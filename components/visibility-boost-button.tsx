@@ -22,7 +22,14 @@ export function VisibilityBoostButton({ creatorId, contentId, className = "" }: 
         body: JSON.stringify({ visitorId: user.id, creatorId, contentId, points }),
       })
       const data = await res.json()
-      if (res.ok) { setFeedback(`Merci ! +${data.visibilityGain.toFixed(1)} pts de visibilite offerts.`); setTimeout(() => setOpen(false), 2000) }
+      if (res.ok) {
+        setFeedback(`Merci ! +${data.visibilityGain.toFixed(1)} pts de visibilite offerts.`)
+        // Feedback haptique sur mobile (si supporte)
+        if (typeof window !== "undefined" && "navigator" in window && "vibrate" in window.navigator) {
+          window.navigator.vibrate(50)
+        }
+        setTimeout(() => setOpen(false), 2000)
+      }
       else setFeedback(data.error)
     } finally { setLoading(false) }
   }

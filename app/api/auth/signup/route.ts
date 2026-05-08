@@ -7,6 +7,8 @@ import bcrypt from "bcryptjs"
 import { SignJWT } from "jose"
 import { sql } from "@/lib/db"
 import { JWT_SECRET, SESSION_DURATION_SEC } from "@/lib/auth/jwt"
+import { detectRapidAccountCreation } from "@/lib/moderation/detectors"
+import { processModerationEvent } from "@/lib/moderation/trust-score-engine"
 
 export async function POST(request: NextRequest) {
   try {
@@ -61,6 +63,19 @@ export async function POST(request: NextRequest) {
     `
 
     const user = newUsers[0]
+
+    // Hook moderation : detection de creation de comptes en rafale
+    // (5 comptes / 10 min sur meme IP = critique)
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+      request.headers.get("x-real-ip") ??
+      "unknown"
+    if (ip !== "unknown") {
+      await detectRapidAccountCreation(ip)
+    }
+
+    // Initialise le tracking d'activite du nouvel utilisateur
+    await processModerationEvent({ kind: "user_active", userId: user.id })
 
     // Create JWT token
     const token = await new SignJWT({

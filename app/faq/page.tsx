@@ -48,7 +48,7 @@ const FAQ_CATEGORIES = [
       },
       {
         question: "Pourquoi parler de 'soutien' et non d''investissement' ?",
-        answer: "Sur VIXUAL, vous soutenez des createurs et leurs projets. Le mot 'soutien' decrit fidelement ce que vous faites : aider un projet a aboutir. Certaines participations peuvent etre recompensees selon les regles officielles VIXUAL — ce n'est pas un produit d'investissement boursier ou financier au sens de l'AMF."
+        answer: "Sur VIXUAL, vous soutenez des createurs et leurs projets. Le mot 'soutien' decrit fidelement ce que vous faites : aider un projet a aboutir. Certaines participations peuvent etre recompensees selon les regles officielles VIXUAL — ce qui n'en fait ni un placement, ni un produit financier au sens de l'AMF, ni une garantie de retour."
       }
     ]
   },
