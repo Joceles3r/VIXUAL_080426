@@ -32,7 +32,7 @@ export default function PrivacyPolicyPage() {
               <VisualSlogan size="sm" opacity="high" withLines />
             </div>
             <p className="text-lg text-white/60 max-w-2xl mx-auto">
-              {"VIXUAL s'engage à protéger la vie privée de ses utilisateurs. Cette politique décrit comment vos données personnelles sont collectées, utilisées et protégées sur notre plateforme de streaming et d'investissement participatif."}
+              {"VIXUAL s'engage à protéger la vie privée de ses utilisateurs. Cette politique décrit comment vos données personnelles sont collectées, utilisées et protégées sur notre plateforme de streaming et de soutien participatif aux créateurs."}
             </p>
             <p className="text-sm text-white/35 mt-4">
               {"Derni\u00e8re mise \u00e0 jour : 26 f\u00e9vrier 2026 \u2014 Version Provisoire Internationale"}
@@ -51,7 +51,7 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <div className="bg-black/30 rounded-xl p-5 border border-white/5 space-y-2">
                   <p className="text-white font-medium">{LEGAL_INFO.denomination}</p>
-                  <p className="text-white/50 text-sm">{"Plateforme de streaming et d'investissement participatif dans les projets audiovisuels, litt\u00e9raires et podcasts"}</p>
+                  <p className="text-white/50 text-sm">{"Plateforme de streaming et de soutien participatif aux cr\u00e9ateurs audiovisuels, litt\u00e9raires et podcasts"}</p>
                   <div className="mt-3 space-y-1.5 text-sm">
                     <p className="text-white/70"><span className="text-white/40">{"Forme juridique : "}</span>{LEGAL_INFO.formeJuridique}</p>
                     <p className="text-white/70"><span className="text-white/40">{"D\u00e9nomination : "}</span>{LEGAL_INFO.denomination}</p>
@@ -82,7 +82,7 @@ export default function PrivacyPolicyPage() {
             <Card className="bg-slate-900/50 border-white/10">
               <CardContent className="pt-6 space-y-4">
                 <p className="text-white/70 leading-relaxed">
-                  {"En tant que plateforme combinant diffusion de contenus (streaming) et investissement participatif, VIXUAL est soumise à un cadre réglementaire renforcé :"}
+                  {"En tant que plateforme combinant diffusion de contenus (streaming) et soutien participatif aux cr\u00e9ateurs, VIXUAL est soumise à un cadre réglementaire :"}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {[
@@ -96,7 +96,7 @@ export default function PrivacyPolicyPage() {
                       "Loi Informatique et Libertés n\u00b078-17 du 6 janvier 1978",
                       "Loi n\u00b02014-344 \u2014 Consommation (Loi Hamon)",
                       "Code monétaire et financier \u2014 Financement participatif",
-                      "Recommandations AMF \u2014 Investissement participatif",
+                      "Recommandations AMF \u2014 Distinction avec les produits d'investissement",
                     ]},
                     { icon: Globe, label: "Droit international", items: [
                       "Convention 108+ du Conseil de l'Europe",
@@ -153,10 +153,10 @@ export default function PrivacyPolicyPage() {
                 {
                   icon: CreditCard, color: "text-amber-400", bg: "bg-amber-500/15",
                   title: "Données financières et transactionnelles",
-                  subtitle: "Liées à l'investissement participatif et aux paiements",
+                  subtitle: "Liées au soutien participatif et aux paiements",
                   items: [
-                    "Caution vers\u00e9e (dix euros cr\u00e9ateurs, vingt euros investisseurs)",
-                    "Historique des investissements (deux \u00e0 vingt euros par projet, montants, dates, projets cibl\u00e9s)",
+                "Caution vers\u00e9e (dix euros cr\u00e9ateurs, vingt euros soutiens)",
+                "Historique des soutiens financiers (deux \u00e0 vingt euros par projet, montants, dates, projets cibl\u00e9s)",
                     "Solde du portefeuille VIXUAL et VIXUpoints accumulés",
                     "Transactions Stripe (identifiant Stripe Connect, retraits, reversements)",
                     "IBAN/coordonnées bancaires pour les retraits (traités par Stripe, non stockés par VIXUAL)",
@@ -170,7 +170,7 @@ export default function PrivacyPolicyPage() {
                     "Vidéos déposées (Porteur) : fichiers, métadonnées, catégorie, descriptions",
                     "Écrits publiés (Infoporteur) : textes, résumés, catégorie littéraire",
                     "Podcasts déposés (Podcasteur) : fichiers audio, titres d'épisodes, descriptions",
-                    "Statistiques associées : vues, lectures, écoutes, votes, investissements reçus",
+                    "Statistiques associées : vues, lectures, écoutes, votes, soutiens reçus",
                   ],
                 },
                 {
@@ -245,7 +245,7 @@ export default function PrivacyPolicyPage() {
                     <tbody className="divide-y divide-white/5">
                       {[
                         { purpose: "Gestion du compte et authentification", basis: "Exécution du contrat", duration: "Durée du compte + 3 ans" },
-                        { purpose: "Traitement des investissements et cautions", basis: "Exécution du contrat / Obligation légale", duration: "10 ans (obligations comptables)" },
+                        { purpose: "Traitement des soutiens financiers et cautions", basis: "Exécution du contrat / Obligation légale", duration: "10 ans (obligations comptables)" },
                         { purpose: "Diffusion et hébergement des contenus créés", basis: "Exécution du contrat", duration: "Durée du compte + 1 an" },
                         { purpose: "Calcul et versement des gains (VIXUpoints, retours)", basis: "Exécution du contrat", duration: "10 ans (obligations comptables)" },
                         { purpose: "Classements (TOP Visiteur, Porteur, Infoporteur, Podcasteur)", basis: "Intérêt légitime", duration: "Durée du compte" },
@@ -323,7 +323,7 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <div className="space-y-3">
                   {[
-                    { who: "Stripe Connect (paiement & KYC)", why: "Traitement des cautions, investissements, retraits. V\u00e9rification d'identit\u00e9 (KYC) pour la conformit\u00e9 anti-blanchiment. Stripe est certifi\u00e9 PCI-DSS niveau 1.", where: "UE / US (Data Privacy Framework)" },
+                    { who: "Stripe Connect (paiement & KYC)", why: "Traitement des cautions, soutiens financiers, retraits. V\u00e9rification d'identit\u00e9 (KYC) pour la conformit\u00e9 anti-blanchiment. Stripe est certifi\u00e9 PCI-DSS niveau 1.", where: "UE / US (Data Privacy Framework)" },
                     { who: "Hébergeur cloud (Vercel / AWS)", why: "Hébergement de la plateforme, stockage des contenus et des données.", where: "UE (région Frankfurt) / US (clauses contractuelles types)" },
                     { who: "Prestataire d'analyse (anonymisé)", why: "Statistiques d'utilisation anonymisées pour améliorer la plateforme.", where: "UE uniquement" },
                     { who: "Autorités compétentes", why: "Sur réquisition judiciaire, obligation légale (AMF, TRACFIN, autorités fiscales).", where: "France / UE" },
@@ -403,7 +403,7 @@ export default function PrivacyPolicyPage() {
                   {[
                     { data: "Données du compte (profil, préférences, rôle)", duration: "Durée du compte + 3 ans après suppression", icon: User },
                     { data: "Contenus créés (vidéos, écrits, podcasts)", duration: "Durée du compte + 1 an (ou sur demande de suppression)", icon: Film },
-                    { data: "Données financières (investissements, cautions, gains)", duration: "10 ans après la dernière transaction (obligation comptable)", icon: CreditCard },
+                    { data: "Données financières (soutiens, cautions, gains)", duration: "10 ans après la dernière transaction (obligation comptable)", icon: CreditCard },
                     { data: "Classements et VIXUpoints", duration: "Dur\u00e9e du compte (supprim\u00e9s \u00e0 la cl\u00f4ture)", icon: BarChart3 },
                     { data: "Posts et r\u00e9actions Vixual Social", duration: "Dur\u00e9e du compte + 1 an (supprim\u00e9s \u00e0 la cl\u00f4ture)", icon: MessageSquare },
                     { data: "Donn\u00e9es de navigation (logs, IP)", duration: "treize mois (anonymis\u00e9es ensuite)", icon: Globe },
@@ -467,7 +467,7 @@ export default function PrivacyPolicyPage() {
                       "Ces donn\u00e9es sont strictement utilis\u00e9es pour la conformit\u00e9 l\u00e9gale et la gestion du compte mineur",
                       "Les justificatifs parentaux sont conserv\u00e9s de mani\u00e8re s\u00e9curis\u00e9e et chiffr\u00e9e",
                       "Suppression automatique des justificatifs \u00e0 la majorit\u00e9 de l'utilisateur ou \u00e0 la suppression du compte",
-                      "Aucune donn\u00e9e financi\u00e8re n'est collect\u00e9e pour les mineurs (pas d'investissement ni retrait)",
+                      "Aucune donn\u00e9e financi\u00e8re n'est collect\u00e9e pour les mineurs (pas de soutien financier ni retrait)",
                     ].map((item) => (
                       <div key={item} className="flex gap-2 items-start text-sm">
                         <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500/40 shrink-0" />
@@ -530,7 +530,7 @@ export default function PrivacyPolicyPage() {
                 <div className="bg-black/30 rounded-xl p-5 border border-sky-500/10">
                   <div className="flex items-center gap-2 mb-3">
                     <CreditCard className="h-5 w-5 text-sky-400" />
-                    <h4 className="text-white font-semibold">{"Volet Investissement Participatif"}</h4>
+                    <h4 className="text-white font-semibold">{"Volet Soutien Participatif"}</h4>
                   </div>
                   <ul className="space-y-2 ml-7">
                     {[

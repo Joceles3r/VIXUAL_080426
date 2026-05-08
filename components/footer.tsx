@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { VisualSlogan } from "@/components/vixual-slogan"
+import { VixualLogo } from "@/components/vixual-logo"
 import { Phone, Mail, MapPin, Users, MessageCircle, Lock, Heart } from "lucide-react"
 import { usePlatformVersion } from "@/hooks/use-platform-version"
 
@@ -15,20 +16,13 @@ export function Footer() {
           {/* Logo & Description */}
           <div className="col-span-1 lg:col-span-2">
             <Link href="/" className="inline-block mb-4">
-              <span className="text-2xl font-black tracking-tight">
-                <span className="text-red-500">V</span>
-                <span className="text-amber-400">I</span>
-                <span className="text-emerald-400">X</span>
-                <span className="text-teal-400">U</span>
-                <span className="text-sky-400">A</span>
-                <span className="text-indigo-400">L</span>
-              </span>
+              <VixualLogo size="md" />
             </Link>
             <div className="mb-3">
               <VisualSlogan size="xs" opacity="medium" />
             </div>
-            <p className="text-white/60 max-w-md">
-              {"La plateforme de contribution participative pour les projets audiovisuels, litteraires et podcasts. Soutenez les createurs, contribuez a l'art."}
+            <p className="text-white/60 max-w-md leading-relaxed">
+              {"VIXUAL permet de soutenir des createurs et de decouvrir des projets originaux : films, podcasts, documentaires, livres et contenus independants."}
             </p>
           </div>
 
@@ -121,13 +115,31 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/40 text-sm">
-            2026 VIXUAL. Tous droits reserves.
+        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col gap-4">
+          {/* Bandeau de confiance officiel VIXUAL */}
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-white/55 text-xs text-center">
+            <span>Pas de hasard</span>
+            <span className="text-white/25" aria-hidden>
+              &bull;
+            </span>
+            <span>Regles transparentes</span>
+            <span className="text-white/25" aria-hidden>
+              &bull;
+            </span>
+            <span>Soutien reel aux createurs</span>
+          </div>
+
+          <p className="text-white/40 text-xs text-center md:text-left">
+            Les VIXUpoints sont un systeme interne d&apos;avantages et de fidelite propre a VIXUAL.
+            Ils ne constituent pas une monnaie electronique, un crypto-actif, ou une garantie de gain.
+            Ils ne comptent jamais pour le classement TOP 100.
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-white/40 text-sm">
+              2026 VIXUAL. Tous droits reserves.
+            </p>
             <span className="text-white/40 text-sm">
-              Contribuer comporte des risques. Les gains ne sont pas garantis.
+              Aucun gain n&apos;est garanti. Le soutien est avant tout une aide aux createurs.
             </span>
           </div>
         </div>

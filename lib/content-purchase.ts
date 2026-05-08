@@ -3,10 +3,10 @@
  *
  * PAIEMENT HYBRIDE: Permet de payer un contenu avec VIXUpoints + Euros
  *
- * Exemple pour un contenu a 3 EUR:
- * - 3 EUR (100% euros)
- * - 200 VIXUpoints + 1 EUR
- * - 100 VIXUpoints + 2 EUR
+ * Regle officielle (V2/V3) : 70% euros + 30% VIXUpoints.
+ * Exemple pour un contenu a 10 EUR :
+ * - 10 EUR (100% euros)
+ * - 7 EUR + 300 VIXUpoints (regle 70/30 VIXUAL)
  *
  * REGLES PAR PROFIL (mise a jour 12/03/2026):
  * | Profil           | VIXUpoints | Euros | Hybride |
@@ -69,11 +69,20 @@ export interface PurchaseResult {
 
 // ─── Constants ───
 
-/** Part minimum en euros (cash) - 30% */
-export const HYBRID_MIN_CASH_RATIO = 0.30
+/**
+ * REGLE OFFICIELLE PAIEMENT HYBRIDE VIXUAL (universelle V2/V3)
+ * 70% en euros minimum + 30% en VIXUpoints maximum.
+ *
+ * Cette regle s'applique a : contributeurs, contribu-lecteurs, auditeurs
+ * et visiteurs majeurs autorises. Elle protege l'economie VIXUAL en
+ * maintenant une participation reelle en euros.
+ */
 
-/** Part maximum en VIXUpoints - 70% */
-export const HYBRID_MAX_POINTS_RATIO = 0.70
+/** Part minimum en euros (cash) - 70% */
+export const HYBRID_MIN_CASH_RATIO = 0.70
+
+/** Part maximum en VIXUpoints - 30% */
+export const HYBRID_MAX_POINTS_RATIO = 0.30
 
 /** Bonus d'utilisation des VIXUpoints - 5% des points dépensés */
 export const HYBRID_BONUS_RATE = 0.05
@@ -284,8 +293,8 @@ export function formatPaymentOption(option: HybridPaymentOption): string {
  * Génère un message d'explication pour le paiement hybride.
  */
 export function getHybridPaymentExplanation(): string {
-  return `Le paiement hybride permet d'utiliser jusqu'à 70% de VIXUpoints (max) et de 30% en euros (min) pour acheter du contenu.
-Chaque achat vous fait gagner 5% des points dépensés en bonus (max 200 points/mois).`
+  return `Le paiement hybride VIXUAL combine 70% en euros et 30% en VIXUpoints.
+Cela permet d'utiliser tes points tout en gardant une participation reelle et equilibree.`
 }
 
 /**

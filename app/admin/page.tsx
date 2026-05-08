@@ -182,6 +182,33 @@ export default function AdminPage() {
       {/* Test Lab Banner - Gros bouton voyant */}
       <TestLabBanner />
 
+      {/* Moderation Banner - Acces direct au moteur de moderation */}
+      <Link href="/admin/moderation" className="block mb-6">
+        <div className="relative overflow-hidden rounded-2xl border-2 border-rose-400/60 bg-gradient-to-r from-rose-900/40 via-red-900/30 to-rose-900/40 p-5 transition-all group hover:shadow-xl hover:shadow-rose-500/20">
+          <div className="relative flex items-center gap-5">
+            <div className="w-16 h-16 rounded-xl flex items-center justify-center bg-gradient-to-br from-rose-500 to-red-600 shadow-lg shadow-rose-500/30">
+              <ShieldAlert className="h-8 w-8 text-white" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-1">
+                <h3 className="text-xl font-bold text-white">Modération &amp; Alertes</h3>
+                <span className="text-xs uppercase tracking-wider px-2.5 py-1 rounded-full font-bold bg-rose-500 text-white">
+                  Patron Only
+                </span>
+              </div>
+              <p className="text-sm text-rose-200/80">
+                Tableau de bord des alertes du moteur de modération automatisé (Trust Score, fraude, promotions, bascule plateforme).
+              </p>
+            </div>
+            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-rose-500/20 text-rose-200 transition-transform group-hover:translate-x-1">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </Link>
+
       {/* Tabs */}
       <div className="flex gap-1 mb-8 bg-slate-900/50 p-1 rounded-xl border border-white/5 w-fit">
         {tabs.map((tab) => {
@@ -220,7 +247,7 @@ export default function AdminPage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { label: "Utilisateurs", value: stats?.totalUsers.toLocaleString() || "--", icon: Users, color: "text-blue-400", bg: "bg-blue-500/15" },
-              { label: "Investissements", value: stats?.totalInvestments.toLocaleString() || "--", icon: TrendingUp, color: "text-emerald-400", bg: "bg-emerald-500/15" },
+              { label: "Soutiens", value: stats?.totalInvestments.toLocaleString() || "--", icon: TrendingUp, color: "text-emerald-400", bg: "bg-emerald-500/15" },
               { label: "Revenus totaux", value: stats ? `${stats.totalRevenue.toLocaleString()} EUR` : "--", icon: DollarSign, color: "text-amber-400", bg: "bg-amber-500/15" },
               { label: "Projets actifs", value: stats?.activeProjects.toString() || "--", icon: Film, color: "text-purple-400", bg: "bg-purple-500/15" },
             ].map((stat) => (
@@ -284,7 +311,7 @@ export default function AdminPage() {
               <div className="space-y-3">
                 {[
                   { text: "Nouveau Porteur inscrit : Lucas Nature", time: "Il y a deux minutes", icon: Film, color: "text-red-400" },
-                  { text: "Investissement de quinze euros sur 'L'Odyssee des Etoiles'", time: "Il y a huit minutes", icon: TrendingUp, color: "text-emerald-400" },
+                  { text: "Soutien de quinze euros sur 'L'Odyssee des Etoiles'", time: "Il y a huit minutes", icon: TrendingUp, color: "text-emerald-400" },
                   { text: "Paiement de mille deux cent quarante euros trait\u00e9 pour Marie Stellaire", time: "Il y a vingt-trois minutes", icon: DollarSign, color: "text-amber-400" },
                   { text: "Nouvel article publie par Pierre Michel", time: "Il y a quarante-cinq minutes", icon: FileText, color: "text-sky-400" },
                   { text: "Nouveau podcast de Karim Ondes", time: "Il y a une heure", icon: Mic, color: "text-purple-400" },
@@ -929,8 +956,8 @@ export default function AdminPage() {
                     {[
                       "Simulation obligatoire avant chaque paiement",
                       "Idempotency keys sur chaque webhook Stripe",
-                      "Auto-investissement interdit (guard serveur)",
-                      "KYC obligatoire avant investissement",
+                      "Auto-soutien interdit (guard serveur)",
+                      "KYC obligatoire avant soutien financier",
                       "Plafond mineur cinq cents euros (sans consentement parental)",
                       "Stripe Connect charges_enabled requis",
                       "Integrity check = sum(users) + platform == gross",
@@ -986,7 +1013,7 @@ export default function AdminPage() {
               <div className="space-y-3">
                 {[
                   { user: "Marie Stellaire", type: "Retrait", amount: "-350,00 \u20ac", status: "valid\u00e9", statusColor: "bg-emerald-500/20 text-emerald-400", time: "Il y a trois minutes" },
-                  { user: "Lucas Nature", type: "Gain investissement", amount: "+120,50 \u20ac", status: "cr\u00e9dit\u00e9", statusColor: "bg-emerald-500/20 text-emerald-400", time: "Il y a sept minutes" },
+                  { user: "Lucas Nature", type: "Gain soutien", amount: "+120,50 \u20ac", status: "cr\u00e9dit\u00e9", statusColor: "bg-emerald-500/20 text-emerald-400", time: "Il y a sept minutes" },
                   { user: "F\u00e9lix Cin\u00e9ma", type: "Retrait", amount: "-1 200,00 \u20ac", status: "en revue", statusColor: "bg-amber-500/20 text-amber-400", time: "Il y a douze minutes" },
                   { user: "Sophie Drama", type: "Conversion VIXUpoints", amount: "+25,00 \u20ac", status: "cr\u00e9dit\u00e9", statusColor: "bg-emerald-500/20 text-emerald-400", time: "Il y a vingt minutes" },
                   { user: "Karim Ondes", type: "Caution rembours\u00e9e", amount: "-10,00 \u20ac", status: "rembours\u00e9", statusColor: "bg-sky-500/20 text-sky-400", time: "Il y a trente-cinq minutes" },
@@ -1087,7 +1114,7 @@ export default function AdminPage() {
               <CardContent className="space-y-3">
                 {[
                   { label: "Wallets cr\u00e9ateurs", value: "98 200 \u20ac", pct: 52, color: "bg-red-400" },
-                  { label: "Wallets investisseurs", value: "67 450 \u20ac", pct: 36, color: "bg-emerald-400" },
+                  { label: "Wallets soutiens", value: "67 450 \u20ac", pct: 36, color: "bg-emerald-400" },
                   { label: "Cautions bloqu\u00e9es", value: "18 700 \u20ac", pct: 10, color: "bg-amber-400" },
                   { label: "VIXUpoints (valeur)", value: "3 428 \u20ac", pct: 2, color: "bg-purple-400" },
                 ].map((f) => (

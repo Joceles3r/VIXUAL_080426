@@ -197,7 +197,7 @@ export default function VisibilityEnginePage() {
             <h1 className="text-2xl md:text-3xl font-bold text-white">VIXUAL Visibility Engine</h1>
           </div>
           <p className="text-white/60 text-sm md:text-base">
-            Moteur de récompense par la visibilité — Regarde-Participe-Gagne
+            Moteur de récompense par la visibilité — Regarde-Soutiens-Participe
           </p>
         </div>
         <div className="flex gap-2">

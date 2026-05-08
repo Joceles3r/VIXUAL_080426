@@ -355,9 +355,9 @@ export default function SettingsPage() {
 
             <div className="flex items-center justify-between p-4 bg-slate-800/50 rounded-lg">
               <div>
-                <p className="text-white font-medium">Alertes investissements</p>
+                <p className="text-white font-medium">Alertes soutiens</p>
                 <p className="text-white/60 text-sm">
-                  Soyez notifié des retours sur vos investissements
+                  Soyez notifié des recompenses sur vos soutiens
                 </p>
               </div>
               <Switch
@@ -711,7 +711,7 @@ export default function SettingsPage() {
               <div>
                 <p className="text-white font-medium">{"Résilier mon compte"}</p>
                 <p className="text-white/60 text-sm">
-                  {"La résiliation entraîne le remboursement de votre caution (si applicable) et la désactivation de tous vos rôles. Vos investissements en cours seront clôturés selon les règles VIXUAL."}
+                  {"La résiliation entraîne le remboursement de votre caution (si applicable) et la désactivation de tous vos rôles. Vos soutiens en cours seront clôturés selon les règles VIXUAL."}
                 </p>
               </div>
               <AlertDialog>
@@ -726,7 +726,7 @@ export default function SettingsPage() {
                       {"Confirmer la résiliation"}
                     </AlertDialogTitle>
                     <AlertDialogDescription className="text-white/60">
-                      {"En résiliant votre compte, vos rôles seront désactivés et votre caution sera remboursée sous sept jours ouvrés via Stripe. Vos investissements en cours seront traités selon les règles de clôture VIXUAL."}
+                      {"En résiliant votre compte, vos rôles seront désactivés et votre caution sera remboursée sous sept jours ouvrés via Stripe. Vos soutiens en cours seront traités selon les règles de clôture VIXUAL."}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>

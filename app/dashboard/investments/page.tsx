@@ -127,7 +127,7 @@ export default function InvestmentsPage() {
                       </Badge>
                     </div>
                     <p className="text-sm text-white/60">
-                      Investi le {investment.date}
+                      Soutenu le {investment.date}
                     </p>
                   </div>
                   <div className="text-right">

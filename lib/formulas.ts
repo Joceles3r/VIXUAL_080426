@@ -222,11 +222,19 @@ export function eurosToVixupoints(euros: number): number {
  * Micro-packs officiels VIXUpoints
  * Chaque pack offre un bonus progressif
  */
+/**
+ * Packs officiels VIXUAL (Pack 50€ supprime definitivement) :
+ * - Pack Decouverte : 5 €
+ * - Pack Standard   : 10 €
+ * - Pack Confort    : 20 €
+ *
+ * Objectifs : reduire les frais Stripe, limiter les micro-transactions
+ * repetees, garder une perception saine, eviter les derives financieres.
+ */
 export const MICRO_PACKS = {
-  pack_5: { priceEur: 5, basePoints: 500, bonusPercent: 10, totalPoints: 550 },
-  pack_10: { priceEur: 10, basePoints: 1000, bonusPercent: 15, totalPoints: 1150 },
-  pack_20: { priceEur: 20, basePoints: 2000, bonusPercent: 20, totalPoints: 2400 },
-  pack_50: { priceEur: 50, basePoints: 5000, bonusPercent: 30, totalPoints: 6500 },
+  pack_5: { priceEur: 5, basePoints: 500, bonusPercent: 10, totalPoints: 550, name: "Pack Decouverte" },
+  pack_10: { priceEur: 10, basePoints: 1000, bonusPercent: 15, totalPoints: 1150, name: "Pack Standard" },
+  pack_20: { priceEur: 20, basePoints: 2000, bonusPercent: 20, totalPoints: 2400, name: "Pack Confort" },
 } as const
 
 /**
@@ -242,14 +250,18 @@ export function calculatePackPoints(priceEur: number): number {
 // ════════════════════════════════════════════════════════════════════════════
 
 /**
- * Paiement hybride: Prix = € + VIXUpoints
- * 
- * Regles:
- * - Minimum 30% en euros
- * - Maximum 70% en VIXUpoints
+ * Paiement hybride VIXUAL : Prix = € + VIXUpoints
+ *
+ * REGLE OFFICIELLE UNIVERSELLE (V2/V3) :
+ * - 70% en euros (minimum)
+ * - 30% en VIXUpoints (maximum)
+ *
+ * Cette regle protege l'economie VIXUAL en maintenant une majorite
+ * de paiement en euros. Elle s'applique aux contributeurs, contribu-lecteurs,
+ * auditeurs et visiteurs majeurs autorises.
  */
-export const HYBRID_MIN_CASH_RATIO = 0.30   // 30% minimum en euros
-export const HYBRID_MAX_POINTS_RATIO = 0.70 // 70% maximum en VIXUpoints
+export const HYBRID_MIN_CASH_RATIO = 0.70   // 70% minimum en euros
+export const HYBRID_MAX_POINTS_RATIO = 0.30 // 30% maximum en VIXUpoints
 
 /**
  * Calcule le split hybride pour un prix donne

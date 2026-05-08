@@ -396,7 +396,7 @@ export default function UploadPodcastPage() {
 
                     <div className="space-y-2">
                       <Label htmlFor="goal" className="text-white">
-                        Objectif investissement (EUR)
+                        Objectif de financement (EUR)
                       </Label>
                       <Input
                         id="goal"

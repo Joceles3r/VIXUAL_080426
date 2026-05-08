@@ -20,19 +20,35 @@ const FAQ_CATEGORIES = [
     items: [
       {
         question: "Qu'est-ce que VIXUAL?",
-        answer: "VIXUAL est une plateforme de contribution participative dans les projets audiovisuels, littéraires et podcasts. Vous pouvez soutenir des créateurs, créer du contenu et potentiellement générer des revenus."
+        answer: "VIXUAL permet de soutenir des créateurs et de découvrir des projets originaux : films, podcasts, documentaires, livres et contenus indépendants. Certaines participations peuvent également être récompensées selon les règles officielles de la plateforme."
+      },
+      {
+        question: "Pourquoi soutenir un projet ?",
+        answer: "Les soutiens permettent aux créateurs de produire leurs contenus, développer leurs projets, améliorer leur qualité, et continuer à créer sur VIXUAL. Chaque soutien aide directement un créateur indépendant à concrétiser une œuvre."
+      },
+      {
+        question: "À quoi servent les soutiens ?",
+        answer: "Les soutiens permettent aux créateurs de développer concrètement leurs projets et leurs contenus : tournage, montage, matériel, mixage audio, écriture, édition ou diffusion. Chaque participation aide un projet à évoluer concrètement et soutient une communauté créative indépendante."
+      },
+      {
+        question: "Pourquoi participer ?",
+        answer: "Pour découvrir des projets originaux, soutenir des créateurs et participer à une expérience communautaire moderne. Sur VIXUAL, participer ne se résume pas à un acte financier : c'est aussi explorer des contenus, suivre des créateurs, interagir avec la communauté et accompagner des projets dans leur évolution."
+      },
+      {
+        question: "Les gains sont-ils garantis ?",
+        answer: "Non. Les soutiens servent avant tout à aider les créateurs. Certaines participations peuvent être récompensées selon les règles officielles VIXUAL, mais aucun gain n'est jamais garanti."
       },
       {
         question: "À qui s'adresse VIXUAL?",
-        answer: "VIXUAL s'adresse à tous ceux qui désirent publier leurs contenus audios/visuels/audiovisuels, amateurs comme professionnels. Que vous soyez créateur souhaitant monétiser vos oeuvres, ou spectateur/lecteur/auditeur souhaitant soutenir des projets créatifs, VIXUAL est fait pour vous."
+        answer: "VIXUAL s'adresse à tous ceux qui désirent publier leurs contenus audios/visuels/audiovisuels, amateurs comme professionnels. Que vous soyez créateur souhaitant diffuser vos œuvres, ou spectateur/lecteur/auditeur souhaitant soutenir des projets créatifs, VIXUAL est fait pour vous."
       },
       {
         question: "VIXUAL est-il un jeu de hasard?",
-        answer: "Non, VIXUAL n'est pas un jeu de hasard. C'est une plateforme de contribution participative. Les retours dépendent du succès réel des projets et non du hasard. Les gains ne sont pas garantis."
+        answer: "Non, VIXUAL n'est pas un jeu de hasard. C'est une plateforme de soutien et de diffusion de projets créatifs. Les éventuelles récompenses dépendent du succès réel des projets et des règles officielles de la plateforme, jamais du hasard."
       },
       {
-        question: "Pourquoi 'Contribuer' et non 'Investir'?",
-        answer: "Nous utilisons le terme 'contribution' pour clarifier que c'est une participation financière à des projets créatifs, et non un investissement boursier ou financier. Cela mieux reflète la nature participative de la plateforme."
+        question: "Pourquoi parler de 'soutien' et non d''investissement' ?",
+        answer: "Sur VIXUAL, vous soutenez des createurs et leurs projets. Le mot 'soutien' decrit fidelement ce que vous faites : aider un projet a aboutir. Certaines participations peuvent etre recompensees selon les regles officielles VIXUAL — ce n'est pas un produit d'investissement boursier ou financier au sens de l'AMF."
       }
     ]
   },
@@ -79,15 +95,15 @@ const FAQ_CATEGORIES = [
     items: [
       {
         question: "Quels sont les avantages du profil Visiteur?",
-        answer: "Accès à tous les contenus gratuits, paiement hybride (30% euros + 70% VIXUpoints), participation à Vixual Social, accumulation de VIXUpoints via interactions, limite max 2500 VIXUpoints remboursables en 25€."
+        answer: "Accès à tous les contenus gratuits, paiement hybride VIXUAL (70% euros + 30% VIXUpoints) pour les majeurs, participation à Vixual Social, accumulation de VIXUpoints via interactions. Plafond officiel : 20 000 VIXUpoints."
       },
       {
         question: "Comment fonctionne le paiement hybride?",
-        answer: "Vous payez 30% minimum en euros et jusqu'à 70% maximum en VIXUpoints. Par exemple, pour un contenu à 4€: vous pouvez payer 1,20€ + 280 VIXUpoints (au maximum autorisé)."
+        answer: "Le paiement hybride VIXUAL combine 70% en euros et 30% en VIXUpoints. Par exemple, pour un contenu à 10€ : vous payez 7€ + 300 VIXUpoints. Cela permet d'utiliser tes points tout en gardant une participation reelle et equilibree."
       },
       {
         question: "Quelle est la limite de VIXUpoints?",
-        answer: "Maximum 2500 VIXUpoints en caisse. Une fois atteint, vous devez les échanger (2500 = 25€) ou les utiliser pour acheter du contenu. Vous ne pouvez pas en accumuler davantage sans changer de profil."
+        answer: "Le plafond officiel VIXUAL est de 20 000 VIXUpoints par utilisateur. Les VIXUpoints expirent apres 12 mois d'inactivite. Les transferts entre utilisateurs et echanges externes sont interdits."
       }
     ]
   },
@@ -159,7 +175,7 @@ const FAQ_CATEGORIES = [
       },
       {
         question: "Puis-je utiliser le paiement hybride?",
-        answer: "Seuls les visiteurs majeurs/contribu-lecteurs et auditeurs (rapport/gains moins eleves que contributeur) peuvent beneficier du paiement hybride (VIXUpoints + euros). Les visiteurs mineurs sont les seuls autorises a pouvoir acheter du contenu sur VIXUAL avec des VIXUpoints (systeme tres encadre). Le contributeur/porteur/infoporteur/podcasteur ne beneficie pas des VIXUpoints et du paiement hybride."
+        answer: "Le paiement hybride VIXUAL (70% euros + 30% VIXUpoints) est ouvert aux visiteurs majeurs, contribu-lecteurs, auditeurs et contributeurs. Les mineurs ne peuvent pas payer en euros : les paiements en euros sont reserves aux utilisateurs majeurs."
       }
     ]
   },
@@ -168,35 +184,47 @@ const FAQ_CATEGORIES = [
     items: [
       {
         question: "Que sont les VIXUpoints?",
-        answer: "Les VIXUpoints sont des points de participation attribues pour votre activite positive sur VIXUAL. Conversion: 100 VIXUpoints = 1 EUR. Ils permettent d'acceder a des contenus et d'encourager la participation communautaire. Ce ne sont PAS une monnaie ni un produit financier."
+        answer: "Les VIXUpoints sont un systeme interne d'avantages et de fidelite propre a VIXUAL. Ils permettent d'obtenir certains avantages, d'acceder a certaines fonctionnalites, d'utiliser le paiement hybride autorise et d'ameliorer l'experience utilisateur. Ils ne constituent PAS une monnaie electronique, un crypto-actif, un placement financier, ni une garantie de gain."
+      },
+      {
+        question: "Les VIXUpoints comptent-ils pour le TOP 100?",
+        answer: "Non. Les VIXUpoints ne modifient JAMAIS le classement TOP 100. Le classement depend uniquement des contributions en euros, des regles officielles VIXUAL et de l'activite reelle des projets."
+      },
+      {
+        question: "Les VIXUpoints garantissent-ils des gains?",
+        answer: "Non. Ils permettent principalement d'obtenir des avantages et certaines fonctionnalites. Ils ne constituent pas un placement financier."
       },
       {
         question: "Comment gagner des VIXUpoints?",
-        answer: "Visionner un extrait (+5 pts), visionner un contenu complet (+15 pts), commentaire utile (+5 pts), commentaire apprecie (+10 pts), partage de contenu (+10 pts), inscription via partage (+40 pts). Limites: max 100 pts/jour, max 500 pts/semaine."
+        answer: "Inscription (+100 pts), activite quotidienne (+5), vidéo regardee (+2), podcast ecoute (+2), lecture contenu (+2), parrainage valide (+50), contribution en euros (bonus leger). Les VIXUpoints recompensent l'activite reelle et l'engagement utile. Spam, farming, multi-comptes, refresh abusifs et bots sont interdits."
       },
       {
-        question: "Quels profils peuvent utiliser les VIXUpoints?",
-        answer: "Visiteurs majeurs, Contribu-lecteurs et Auditeurs peuvent utiliser les VIXUpoints ET le paiement hybride. Les Visiteurs mineurs peuvent UNIQUEMENT utiliser les VIXUpoints. Les Contributeurs, Porteurs, Infoporteurs et Podcasteurs ne beneficient PAS des VIXUpoints."
+        question: "Qui peut utiliser les VIXUpoints?",
+        answer: "Tous les profils peuvent gagner et utiliser les VIXUpoints (visiteurs, contributeurs, contribu-lecteurs, auditeurs, createurs, infoporteurs, podcasteurs). Le paiement hybride 70/30 est ouvert aux contributeurs, contribu-lecteurs, auditeurs et visiteurs majeurs autorises. Les createurs, infoporteurs et podcasteurs utilisent leurs VIXUpoints pour des boosts de visibilite (jamais de boost de classement)."
       },
       {
-        question: "Qu'est-ce que le paiement hybride?",
-        answer: "Le paiement hybride permet de payer un contenu avec VIXUpoints + Euros. Exemple pour 3 EUR: soit 3 EUR, soit 200 pts + 1 EUR, soit 100 pts + 2 EUR. Le systeme calcule automatiquement la meilleure combinaison."
+        question: "Pourquoi les paiements hybrides utilisent-ils des euros?",
+        answer: "Les paiements hybrides gardent une majorite en euros afin de maintenir une participation reelle et equilibree. La regle officielle VIXUAL est universelle : 70% en euros + 30% en VIXUpoints."
       },
       {
-        question: "Quelles sont les limites des VIXUpoints?",
-        answer: "Plafond visiteur mineur: 10 000 VIXUpoints. Plafond visiteur majeur: 2 500 VIXUpoints. Maximum 100 pts/jour, 500 pts/semaine. Les VIXUpoints obtenus frauduleusement peuvent etre supprimes."
+        question: "Puis-je payer uniquement en VIXUpoints?",
+        answer: "Non. Le paiement hybride VIXUAL utilise toujours 70% euros + 30% VIXUpoints. Il n'y a pas de paiement 100% en VIXUpoints."
       },
       {
-        question: "Les visiteurs mineurs peuvent-ils utiliser de l'argent?",
-        answer: "Non. Les visiteurs mineurs peuvent UNIQUEMENT utiliser leurs VIXUpoints pour acceder aux contenus. Ils ne peuvent pas payer en euros, ni utiliser le paiement hybride, ni retirer d'argent."
+        question: "Pourquoi les mineurs ne paient-ils pas en euros?",
+        answer: "Les paiements en euros sont reserves aux utilisateurs majeurs conformement aux regles de securite de la plateforme. Les VIXUpoints, eux, restent accessibles a tous."
       },
       {
-        question: "Qu'est-ce que les micro-packs VIXUpoints?",
-        answer: "Les micro-packs permettent d'acheter des VIXUpoints avec un bonus inclus. 4 packs disponibles: Micro (5 EUR = 550 pts, +10%), Starter (10 EUR = 1150 pts, +15%), Creator (20 EUR = 2400 pts, +20%), Community (50 EUR = 6500 pts, +30%)."
+        question: "Puis-je acheter des VIXUpoints?",
+        answer: "Oui, certains micro-packs VIXUAL sont disponibles pour les utilisateurs majeurs en V2 et V3 : Pack Decouverte (5 EUR), Pack Standard (10 EUR), Pack Confort (20 EUR). Les mineurs ne peuvent pas acheter de micro-packs."
       },
       {
-        question: "Qui peut acheter des micro-packs?",
-        answer: "Les Visiteurs (majeurs et mineurs), Contribu-lecteurs et Auditeurs peuvent acheter des micro-packs. Les Contributeurs ne peuvent PAS acheter de micro-packs car ils utilisent uniquement des euros. Les mineurs sont limites a 2 achats par mois."
+        question: "Quel est le plafond officiel des VIXUpoints?",
+        answer: "Le plafond officiel est de 20 000 VIXUpoints par utilisateur, applique a tous les profils. Les VIXUpoints expirent apres 12 mois d'inactivite. Les transferts entre utilisateurs, echanges externes, speculation et conversion en cash instantane sont strictement interdits."
+      },
+      {
+        question: "Peut-on acheter du classement avec des VIXUpoints?",
+        answer: "Non, jamais. Les VIXUpoints n'achetent pas le classement, ne garantissent pas de gains, et ne remplacent pas les contributions en euros. Ta participation en euros aide directement les projets a progresser dans le classement."
       }
     ]
   },

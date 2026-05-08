@@ -3,16 +3,14 @@
 import { useState } from "react"
 import {
   Package, Star, Zap, Gift, CheckCircle2, Sparkles, ShieldCheck,
-  CreditCard, ArrowRight, Crown, TrendingUp, Info,
+  CreditCard, Info,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
   VIXUPOINTS_PACKS,
-  VIXUPOINTS_PER_EUR,
   canBuyMicropacks,
-  MICROPACKS_LIMITS,
   type VixupointsPack,
 } from "@/lib/vixupoints-engine"
 
@@ -32,12 +30,12 @@ export function MicropacksShop({
   const [selectedPack, setSelectedPack] = useState<string | null>(null)
   const [isPurchasing, setIsPurchasing] = useState(false)
 
-  const canBuy = canBuyMicropacks(userProfile)
+  // Patch "VIXUpoints equitables" : les mineurs ne peuvent jamais acheter de micro-packs
+  const canBuy = canBuyMicropacks(userProfile) && !isMinor
 
-  // Filtrer les packs pour les mineurs (seulement micro et starter)
-  const availablePacks = isMinor
-    ? VIXUPOINTS_PACKS.filter(p => p.priceEur <= 10)
-    : VIXUPOINTS_PACKS
+  // Tous les packs autorises (Decouverte 5, Standard 10, Confort 20)
+  // Le Pack 50 EUR est definitivement supprime (decision officielle).
+  const availablePacks = VIXUPOINTS_PACKS
 
   const handlePurchase = async (pack: VixupointsPack) => {
     setIsPurchasing(true)
@@ -83,14 +81,14 @@ export function MicropacksShop({
         </div>
       </div>
 
-      {/* Conversion reminder */}
+      {/* Conversion reminder - Regles officielles VIXUAL */}
       <div className="bg-sky-500/10 border border-sky-500/30 rounded-xl p-4">
         <div className="flex items-start gap-3">
           <Info className="h-5 w-5 text-sky-400 shrink-0 mt-0.5" />
           <div>
-            <p className="text-white/80 text-sm font-medium">Conversion: 100 VIXUpoints = 1 EUR</p>
+            <p className="text-white/80 text-sm font-medium">Reserve aux utilisateurs majeurs (V2/V3)</p>
             <p className="text-white/50 text-xs mt-1">
-              Les VIXUpoints servent a debloquer des contenus, soutenir des projets et effectuer des micro-transactions.
+              Les VIXUpoints permettent d&apos;obtenir certains avantages, d&apos;acceder a certaines fonctionnalites et d&apos;utiliser le paiement hybride 70% euros + 30% VIXUpoints. Ils ne comptent jamais pour le classement TOP 100.
             </p>
           </div>
         </div>
@@ -129,10 +127,9 @@ export function MicropacksShop({
                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                   pack.popular ? "bg-amber-500/20" : "bg-slate-700/50"
                 }`}>
-                  {pack.id === "micro" && <Star className="h-5 w-5 text-slate-400" />}
-                  {pack.id === "starter" && <Zap className="h-5 w-5 text-amber-400" />}
-                  {pack.id === "creator" && <Sparkles className="h-5 w-5 text-purple-400" />}
-                  {pack.id === "community" && <Crown className="h-5 w-5 text-emerald-400" />}
+                  {pack.id === "decouverte" && <Star className="h-5 w-5 text-slate-400" />}
+                  {pack.id === "standard" && <Zap className="h-5 w-5 text-amber-400" />}
+                  {pack.id === "confort" && <Sparkles className="h-5 w-5 text-emerald-400" />}
                 </div>
               </div>
 
@@ -190,21 +187,10 @@ export function MicropacksShop({
         ))}
       </div>
 
-      {/* Minor warning */}
-      {isMinor && (
-        <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
-          <div className="flex items-start gap-3">
-            <ShieldCheck className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-            <div>
-              <p className="text-white/80 text-sm font-medium">Achat encadre pour les mineurs</p>
-              <p className="text-white/50 text-xs mt-1">
-                Maximum {MICROPACKS_LIMITS.minorMaxPerMonth} achats par mois ({MICROPACKS_LIMITS.minorMaxPointsPerMonth.toLocaleString()} VIXUpoints).
-                Autorisation parentale requise.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+      {/*
+        Patch "VIXUpoints equitables" : les mineurs ne peuvent plus acheter de micro-packs.
+        Les paiements en euros sont reserves aux utilisateurs majeurs.
+      */}
 
       {/* Security info */}
       <div className="flex items-center justify-center gap-4 text-white/40 text-xs">
@@ -231,8 +217,8 @@ export function MicropacksQuickBuy({
   currentBalance: number
   isMinor?: boolean
 }) {
-  const canBuy = canBuyMicropacks(userProfile)
-  const starterPack = VIXUPOINTS_PACKS.find(p => p.id === "starter")
+  const canBuy = canBuyMicropacks(userProfile) && !isMinor
+  const starterPack = VIXUPOINTS_PACKS.find(p => p.id === "standard")
 
   if (!canBuy || !starterPack) return null
 

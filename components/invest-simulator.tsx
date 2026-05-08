@@ -38,14 +38,14 @@ export function InvestSimulator() {
       <CardHeader>
         <CardTitle className="text-white flex items-center gap-2 text-lg">
           <Calculator className="h-5 w-5 text-emerald-400" />
-          {"Simulateur d'investissement"}
+          {"Simulateur de soutien"}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Amount slider */}
         <div>
           <label className="text-white/70 text-sm mb-3 block">
-            {"Montant \u00e0 investir : "}
+            {"Montant du soutien : "}
             <span className="text-white font-bold text-lg">{snappedAmount}&nbsp;{"EUR"}</span>
           </label>
           <Slider
@@ -97,7 +97,7 @@ export function InvestSimulator() {
         <div className="space-y-3">
           <p className="text-white/60 text-sm flex items-center gap-2">
             <TrendingUp className="h-4 w-4 text-emerald-400" />
-            {"Projection de gains (si le projet atteint son objectif) :"}
+            {"Gains potentiels (si le projet est recompense en cycle de cloture) :"}
           </p>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="bg-black/20 rounded-lg p-3 border border-white/5">
@@ -114,7 +114,7 @@ export function InvestSimulator() {
             </div>
           </div>
           <p className="text-white/30 text-xs leading-relaxed">
-            {"* Estimations indicatives selon la performance historique des projets similaires. Les gains r\u00e9els d\u00e9pendent du nombre de votes et du succ\u00e8s commercial du projet."}
+            {"* Estimations indicatives. Les soutiens servent avant tout a aider les createurs. Certaines participations peuvent etre recompensees selon les regles officielles VIXUAL — aucun gain n'est garanti."}
           </p>
         </div>
       </CardContent>

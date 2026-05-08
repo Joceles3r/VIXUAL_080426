@@ -26,7 +26,9 @@ import { ContributionDisclaimer } from "@/components/contribution-disclaimer"
 import { ALL_CONTENTS, isGoldCreator } from "@/lib/mock-data"
 import { useAuth } from "@/lib/auth-context"
 import { useToast } from "@/components/ui/use-toast"
+import { usePlatformVersion } from "@/hooks/use-platform-version"
 import { INVESTMENT_TIERS_EUR } from "@/lib/payout/constants"
+import { ProjectImpactBlock } from "@/components/project/project-impact-block"
 import type { ContentType } from "@/lib/visual-social/hybrid"
 
 /* ---------- Motivational Messages ---------- */
@@ -83,6 +85,8 @@ export default function VideoPage({ params }: { params: { id: string } }) {
   const { id } = params
   const { isAuthed, roles } = useAuth()
   const { toast } = useToast()
+  const platformVersion = usePlatformVersion()
+  const isV1 = platformVersion === "V1"
 
   // Guard against undefined or invalid IDs
   if (!id || id === "undefined" || id === "null") {
@@ -96,7 +100,8 @@ export default function VideoPage({ params }: { params: { id: string } }) {
   const [isUnlocked, setIsUnlocked] = useState(content.isFree)
   const [isFavorite, setIsFavorite] = useState(false)
   const [showUnlockConfirm, setShowUnlockConfirm] = useState(false)
-  const [selectedAmount, setSelectedAmount] = useState<number | null>(null)
+  // V1 simplification : montant suggere par defaut (5 EUR) pour reduire la friction.
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(5)
   const [showInvestConfirm, setShowInvestConfirm] = useState(false)
   const [showAllTiers, setShowAllTiers] = useState(false)
   const [isInvesting, setIsInvesting] = useState(false)
@@ -149,7 +154,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
     setIsUnlocked(true)
   }, [])
 
-  const handleInvest = useCallback(async () => {
+  const handleSupport = useCallback(async () => {
     if (!selectedAmount || isInvesting) return
     setIsInvesting(true)
     try {
@@ -422,12 +427,12 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   </div>
                 </div>
 
-                {/* Investissement minimum info */}
+                {/* Soutien minimum info */}
                 <div className="flex items-center gap-2 p-2.5 bg-white/[0.02] rounded-lg border border-white/5">
                   <CreditCard className="h-4 w-4 text-emerald-400 shrink-0" />
-                  <span className="text-white/60 text-xs">{"Investissement minimum : trois euros"}</span>
+                  <span className="text-white/60 text-xs">{"Soutien minimum : trois euros"}</span>
                   <span className="text-white/30 mx-1">-</span>
-                  <span className="text-white/60 text-xs">{content.investorCount} investisseurs</span>
+                  <span className="text-white/60 text-xs">{content.investorCount} soutiens</span>
                   <span className="text-white/30 mx-1">-</span>
                   <span className="text-emerald-400 text-xs font-medium">{content.currentInvestment.toLocaleString()}{"\u20ac"} sur {content.investmentGoal.toLocaleString()}{"\u20ac"}</span>
                 </div>
@@ -573,7 +578,31 @@ export default function VideoPage({ params }: { params: { id: string } }) {
             {/* ==================== SIDEBAR ==================== */}
             <div className="space-y-5">
 
-              {/* --- Soutenir ce projet --- */}
+              {/* --- V1 : bloc emotionnel Impact + Progression + Objectif --- */}
+              {isV1 && (
+                <ProjectImpactBlock
+                  progressPercent={progressPercent}
+                  supportersCount={content.investorCount}
+                  creatorObjective={
+                    content.creatorObjective ??
+                    (cType === "video"
+                      ? "Finaliser la production de ce contenu video"
+                      : cType === "podcast"
+                      ? "Produire les prochains episodes du podcast"
+                      : "Finaliser l'ecriture et la diffusion")
+                  }
+                  category={
+                    cType === "video"
+                      ? "video"
+                      : cType === "podcast"
+                      ? "podcast"
+                      : "book"
+                  }
+                />
+              )}
+
+              {/* --- V2 / V3 : Soutenir ce projet (jauge financiere classique) --- */}
+              {!isV1 && (
               <Card className="bg-gradient-to-br from-emerald-950/50 to-teal-950/50 border-emerald-500/20">
                 <CardContent className="p-5">
                   <div className="flex items-center gap-2 mb-4">
@@ -598,7 +627,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
 
                   <div className="flex items-center justify-center gap-2 py-2.5 bg-slate-800/50 rounded-lg mb-4">
                     <Users className="h-4 w-4 text-emerald-400" />
-                    <span className="text-white/80 text-sm font-medium">{content.investorCount} investisseurs</span>
+                    <span className="text-white/80 text-sm font-medium">{content.investorCount} soutiens</span>
                   </div>
 
                   {/* Motivational */}
@@ -609,8 +638,10 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   )}
                 </CardContent>
               </Card>
+              )}
 
-              {/* --- Comprendre votre contribution --- */}
+              {/* --- V2 / V3 : Comprendre votre contribution avec estimations gains --- */}
+              {!isV1 && (
               <Card className="bg-gradient-to-br from-emerald-900/20 to-teal-900/20 border-emerald-500/20">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-white flex items-center gap-2 text-sm">
@@ -672,19 +703,28 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   </div>
                 </CardContent>
               </Card>
+              )}
 
               {/* --- Investment Card --- */}
               <Card className="bg-slate-900/50 border-white/10 sticky top-28">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-white flex items-center gap-2 text-base">
-                    <TrendingUp className="h-5 w-5 text-emerald-400" />
-                    Contribuer au projet
+                    {isV1 ? (
+                      <Heart className="h-5 w-5 text-rose-400" />
+                    ) : (
+                      <TrendingUp className="h-5 w-5 text-emerald-400" />
+                    )}
+                    {isV1 ? "Soutenir ce projet" : "Contribuer au projet"}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {canInvest ? (
                     <div className="space-y-4">
-                      <p className="text-white/50 text-xs text-center">{"Choisissez votre montant de contribution"}</p>
+                      <p className="text-white/65 text-xs text-center leading-relaxed">
+                        {isV1
+                          ? "Ton soutien aide directement ce createur a developper son projet."
+                          : "Choisissez votre montant de contribution"}
+                      </p>
 
                       {/* Quick amounts */}
                       <div className="grid grid-cols-4 gap-2">
@@ -738,7 +778,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                             onClick={() => setShowInvestConfirm(true)}
                             className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white h-12 text-lg shadow-lg shadow-emerald-500/20"
                           >
-                            Investir {selectedAmount}{"\u20ac"}
+                            Soutenir {selectedAmount}{"\u20ac"}
                           </Button>
                         </>
                       )}
@@ -754,15 +794,15 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                         <div className="p-4 bg-emerald-500/5 border border-emerald-500/15 rounded-xl space-y-3">
                           <div className="text-center">
                             <CheckCircle className="h-8 w-8 text-emerald-400 mx-auto mb-2" />
-                            <p className="text-white font-semibold text-sm">Confirmer votre investissement</p>
+                            <p className="text-white font-semibold text-sm">Confirmer votre soutien</p>
                             <p className="text-emerald-400 font-bold text-2xl mt-1">{selectedAmount}{"\u20ac"}</p>
                           </div>
                           <p className="text-white/40 text-[11px] text-center">
-                            {"Investir comporte des risques. Les gains ne sont pas garantis."}
+                            {"Le soutien financier ne garantit pas de retour. Les gains éventuels dépendent du classement final du projet."}
                           </p>
                           <div className="flex gap-2">
                             <Button
-                              onClick={handleInvest}
+                              onClick={handleSupport}
                               disabled={isInvesting}
                               className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white disabled:opacity-60"
                             >
@@ -795,7 +835,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                           <h4 className="text-white font-semibold text-sm">Soutenez les projets qui vous inspirent</h4>
                         </div>
                         <p className="text-white/60 text-sm mb-3">
-                          {"Investissez dans ce "}
+                          {"Soutenez ce "}
                           {isVideo ? "projet audiovisuel" : isPodcast ? "podcast" : "contenu litt\u00e9raire"}
                           {" et recevez des retours sur vos gains. Choisissez un montant entre deux et vingt euros."}
                         </p>
@@ -817,7 +857,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                     </div>
                   ) : (
                     <div className="text-center space-y-3">
-                      <p className="text-white/60 text-sm">{"Connectez-vous pour investir dans ce projet"}</p>
+                      <p className="text-white/60 text-sm">{"Connectez-vous pour soutenir ce projet"}</p>
                       <Link href="/signup">
                         <Button className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white">
                           {"Cr\u00e9er un compte"}
@@ -834,7 +874,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                   {/* Legal */}
                   <div className="pt-2 border-t border-white/5">
                     <p className="text-xs text-white/30 text-center">
-                      {"Investir comporte des risques. Les gains ne sont pas garantis. VIXUAL n'est pas un jeu de hasard."}
+                      {"Le soutien financier ne garantit pas de retour. Les gains éventuels dépendent du classement final du projet. VIXUAL n'est pas un jeu de hasard ni un produit d'investissement au sens de l'AMF."}
                     </p>
                   </div>
                 </CardContent>
@@ -884,7 +924,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
                     {[
                       { icon: Eye, label: "D\u00e9couvrir le projet", done: true },
                       { icon: Play, label: "Voir l'extrait gratuit", done: isPlaying || isUnlocked },
-                      { icon: Heart, label: "Soutenir / Investir", done: false },
+                      { icon: Heart, label: "Soutenir le projet", done: false },
                       { icon: Unlock, label: "Visionnage complet", done: isUnlocked },
                       { icon: Trophy, label: "Classement & gains", done: false },
                     ].map((step, i) => (

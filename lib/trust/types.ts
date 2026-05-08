@@ -176,7 +176,7 @@ export const TRUST_BADGES: Record<BadgeType, TrustBadge> = {
   premium_contributor: {
     id: "premium_contributor",
     displayName: "Contributeur premium",
-    description: "Contributeur investisseur avec historique exemplaire",
+    description: "Contributeur fidele avec un historique de soutiens exemplaire",
     icon: "Gem",
     color: "text-pink-400",
     rarity: "rare",

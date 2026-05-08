@@ -7,7 +7,7 @@
  * 2. Social Engine - Transformation en contenus partageables
  * 3. Viral Reward Engine - Recompenses pour partages utiles
  * 
- * Slogan officiel: VIXUAL — Regarde-Participe-Gagne
+ * Slogan officiel: VIXUAL — Regarde-Soutiens-Participe
  */
 
 // ─── Types ───
@@ -207,7 +207,7 @@ export function generateSeoSuggestion(keyword: string, profile: TargetProfile): 
     id,
     title,
     description: `Decouvrez comment ${keyword} sur VIXUAL, la premiere plateforme de streaming participative.`,
-    metaDescription: `${keyword} - Guide complet sur VIXUAL. Regarde-Participe-Gagne.`,
+    metaDescription: `${keyword} - Guide complet sur VIXUAL. Regarde-Soutiens-Participe.`,
     keywords: [keyword, "vixual", "streaming participatif", "createurs"],
     pageType: "guide",
     targetProfile: profile,
@@ -261,13 +261,13 @@ export function generateSocialTexts(project: {
   
   const emoji = typeEmoji[project.type]
   
-  const short = `${emoji} Decouvrez "${project.title}" sur VIXUAL. Regarde-Participe-Gagne.`
+  const short = `${emoji} Decouvrez "${project.title}" sur VIXUAL. Regarde-Soutiens-Participe.`
   
-  const long = `${emoji} Un projet qui merite d'etre vu : "${project.title}" par ${project.creatorName}.\n\nRejoignez VIXUAL, la premiere plateforme de streaming participative.\n\nRegarde-Participe-Gagne.`
+  const long = `${emoji} Un projet qui merite d'etre vu : "${project.title}" par ${project.creatorName}.\n\nRejoignez VIXUAL, la plateforme de streaming participative dediee aux createurs independants.\n\nRegarde-Soutiens-Participe.`
   
   const hashtags = [
     "#VIXUAL",
-    "#RegardParticipeGagne",
+    "#RegardeSoutiensParticipe",
     "#StreamingParticipatif",
     project.type === "video" ? "#Cinema" : project.type === "podcast" ? "#Podcast" : "#Litterature",
     "#Createurs",

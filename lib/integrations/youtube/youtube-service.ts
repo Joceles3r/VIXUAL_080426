@@ -259,7 +259,7 @@ export function generateVixualMetadata(
 Créé par ${creatorName} sur VIXUAL
 Plateforme de contribution participative
 
-Regarde - Participe - Gagne
+Regarde - Soutiens - Participe
 https://vixual.com
 
 #VIXUAL #Création #Talents #Streaming`,

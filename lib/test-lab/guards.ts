@@ -14,11 +14,13 @@ import { NextResponse } from "next/server"
 export const PATRON_EMAIL = "jocelyndru@gmail.com"
 
 /**
- * Active uniquement si la variable d'env serveur est explicitement "true".
- * Permet de couper le module en production sans modifier le code.
+ * ACTIVE par defaut. La variable d'env serveur agit comme kill switch
+ * explicite : seule la valeur "false" coupe le module. Permet de tester
+ * sans configuration prealable, tout en gardant un moyen de couper en
+ * production. La gate de securite reelle reste l'email PATRON.
  */
 export function isTestLabEnabled(): boolean {
-  return process.env.VIXUAL_TEST_LAB_ENABLED === "true"
+  return process.env.VIXUAL_TEST_LAB_ENABLED !== "false"
 }
 
 export function isAdminPatronEmail(email?: string | null): boolean {

@@ -11,6 +11,7 @@ import { useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ReportButton } from "@/components/report-button"
 import { VisualSlogan } from "@/components/vixual-slogan"
+import { VixualLogo } from "@/components/vixual-logo"
 import {
   ChevronDown,
   Eye,
@@ -296,15 +297,13 @@ export function VisualHeader() {
           <div className="flex items-center gap-3 md:gap-4 z-10 shrink-0">
               <Link href="/" className="flex items-center gap-3 group shrink-0">
               <div className="relative">
-                <span className="text-2xl md:text-3xl font-black tracking-tight text-white drop-shadow-lg">
-                  <span className="text-red-500">V</span>
-                  <span className="text-amber-400">I</span>
-                  <span className="text-emerald-400">X</span>
-                  <span className="text-teal-400">U</span>
-                  <span className="text-sky-400">A</span>
-                  <span className="text-indigo-400">L</span>
+                <span className="drop-shadow-lg">
+                  <VixualLogo size="lg" />
                 </span>
-                <div className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-red-500 via-emerald-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div
+                  className="absolute -bottom-1 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ backgroundColor: "var(--vx-accent, #d946ef)" }}
+                />
               </div>
             </Link>
 

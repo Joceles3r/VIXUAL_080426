@@ -32,9 +32,9 @@ export function HybridPaymentDisplay({
         <div className="flex items-start gap-3">
           <Zap className="h-5 w-5 text-teal-400 mt-0.5 shrink-0" />
           <div>
-            <h3 className="font-semibold text-white mb-1">Paiement hybride</h3>
+            <h3 className="font-semibold text-white mb-1">Paiement hybride VIXUAL</h3>
             <p className="text-sm text-white/70">
-              Utilisez jusqu'à 70% de VIXUpoints (max) + 30% d'euros (min). Gagnez 5% des points dépensés en bonus.
+              Regle officielle : 70% en euros + 30% en VIXUpoints. Cela permet d&apos;utiliser tes points tout en gardant une participation reelle et equilibree. Bonus : 5% des points depenses sont regagnes.
             </p>
           </div>
         </div>
@@ -114,11 +114,11 @@ export function HybridPaymentDisplay({
       {/* Payment rules */}
       <div className="bg-slate-800/30 rounded p-3 text-xs text-slate-400 space-y-1">
         <p>
-          <span className="text-white/60 font-semibold">Règles :</span> Minimum{" "}
+          <span className="text-white/60 font-semibold">Regle officielle VIXUAL :</span>{" "}
           <span className="text-emerald-400 font-semibold">
             {(HYBRID_MIN_CASH_RATIO * 100).toFixed(0)}% en euros
-          </span>
-          , Maximum{" "}
+          </span>{" "}
+          +{" "}
           <span className="text-amber-400 font-semibold">
             {(HYBRID_MAX_POINTS_RATIO * 100).toFixed(0)}% en VIXUpoints
           </span>

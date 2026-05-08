@@ -7,6 +7,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react"
 import { VisualSlogan } from "@/components/vixual-slogan"
+import { VixualLogo } from "@/components/vixual-logo"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -49,14 +50,7 @@ export default function LoginPage() {
         {/* Logo + Slogan */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex justify-center">
-            <span className="text-3xl font-black tracking-tight">
-              <span className="text-red-500">V</span>
-              <span className="text-amber-400">I</span>
-              <span className="text-emerald-400">S</span>
-              <span className="text-teal-400">U</span>
-              <span className="text-sky-400">A</span>
-              <span className="text-indigo-400">L</span>
-            </span>
+            <VixualLogo size="lg" />
           </Link>
           <div className="mt-2">
             <VisualSlogan size="xs" opacity="medium" />

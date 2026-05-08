@@ -212,7 +212,7 @@ export default function PromoPage() {
               {/* Social share buttons */}
               <div className="mt-4 flex flex-wrap gap-2">
                 <a
-                  href={getShareUrl({ platform: "twitter", url: referralLink, title: "Decouvrez VIXUAL - Regarde, Participe, Gagne!" })}
+                  href={getShareUrl({ platform: "twitter", url: referralLink, title: "Decouvrez VIXUAL - Regarde, Soutiens, Participe !" })}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-3 py-2 bg-[#1DA1F2]/10 hover:bg-[#1DA1F2]/20 border border-[#1DA1F2]/30 rounded-lg text-[#1DA1F2] text-sm transition-colors"

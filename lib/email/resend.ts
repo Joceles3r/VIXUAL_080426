@@ -16,7 +16,7 @@ export const TEMPLATES = {
   }),
   welcome: (name: string) => ({
     subject: "Bienvenue sur VIXUAL — Vois-les avant tout le monde.",
-    html: `<div style="font-family:system-ui;max-width:520px;margin:0 auto;padding:24px"><h2>Bienvenue ${name} !</h2><p>VIXUAL est la premiere plateforme de streaming participatif. <strong>Regarde — Participe — Gagne.</strong></p><p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/explore" style="background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block">Explorer les contenus</a></p></div>`,
+    html: `<div style="font-family:system-ui;max-width:520px;margin:0 auto;padding:24px"><h2>Bienvenue ${name} !</h2><p>VIXUAL est une plateforme de streaming participative dediee aux createurs independants. <strong>Regarde — Soutiens — Participe.</strong></p><p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/explore" style="background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block">Explorer les contenus</a></p></div>`,
   }),
   parentalConsent: (guardianName: string, minorName: string, consentLink: string) => ({
     subject: `Consentement parental requis pour ${minorName}`,

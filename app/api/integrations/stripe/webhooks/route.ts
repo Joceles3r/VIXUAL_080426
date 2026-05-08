@@ -3,6 +3,9 @@ import Stripe from "stripe";
 import { getStripeClient, isStripeConfiguredAsync, getWebhookSecret, logStripeEvent } from "@/lib/stripe";
 import { sql } from "@/lib/db";
 import { stripeConnectService } from "@/lib/integrations/stripe/stripe-connect-service";
+import { processModerationEvent } from "@/lib/moderation/trust-score-engine";
+import { evaluatePromotion } from "@/lib/moderation/promotion-evaluator";
+import { detectSelfSupport } from "@/lib/moderation/detectors";
 
 /**
  * POST /api/integrations/stripe/webhooks
@@ -159,6 +162,26 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
         WHERE id = ${metadata.vixual_content_id}
       `;
     }
+    
+    // ─── Moteur de modération : Trust Score + évaluation promotion + auto-soutien ───
+    const moderationUserId = metadata.vixual_user_id;
+    const moderationCreatorId = metadata.vixual_creator_id;
+    const amountEur = paymentIntent.amount / 100;
+    if (moderationUserId) {
+      try {
+        await processModerationEvent({ kind: "contribution_success", userId: moderationUserId, amount: amountEur });
+        await evaluatePromotion(moderationUserId);
+      } catch (e) {
+        console.warn("[moderation hook contribution_success skipped]", (e as Error).message);
+      }
+    }
+    if (moderationCreatorId) {
+      try {
+        await detectSelfSupport(moderationCreatorId);
+      } catch (e) {
+        console.warn("[moderation hook self_support skipped]", (e as Error).message);
+      }
+    }
   }
 }
 
@@ -192,6 +215,17 @@ async function handleChargeRefunded(charge: Stripe.Charge) {
       SET status = 'refunded', refunded_at = NOW()
       WHERE stripe_payment_intent_id = ${paymentIntentId}
     `;
+  }
+  
+  // ─── Moteur de modération : chargeback → -15 Trust Score ───
+  const refundedUserId = charge.metadata?.vixual_user_id;
+  const refundedAmountEur = (charge.amount_refunded ?? 0) / 100;
+  if (refundedUserId) {
+    try {
+      await processModerationEvent({ kind: "chargeback", userId: refundedUserId, amount: refundedAmountEur });
+    } catch (e) {
+      console.warn("[moderation hook chargeback skipped]", (e as Error).message);
+    }
   }
 }
 

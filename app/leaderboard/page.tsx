@@ -204,7 +204,7 @@ function StatsSummary({ projects }: { projects: any[] }) {
 
   const stats = [
     { label: "Projets",    value: projects.length,                      icon: BarChart3,  color: "text-violet-300", glow: "shadow-violet-400/20" },
-    { label: "Investis",   value: `${(totalInvestment / 1000).toFixed(0)}k €`, icon: TrendingUp, color: "text-sky-300",    glow: "shadow-sky-400/20" },
+    { label: "Soutiens €", value: `${(totalInvestment / 1000).toFixed(0)}k €`, icon: TrendingUp, color: "text-sky-300",    glow: "shadow-sky-400/20" },
     { label: "Soutiens",   value: totalSupporters.toLocaleString(),     icon: Heart,      color: "text-rose-300",   glow: "shadow-rose-400/20" },
     { label: "Score moy.", value: avgScore.toFixed(0),                  icon: Star,       color: "text-amber-300",  glow: "shadow-amber-400/20" },
   ]
@@ -377,7 +377,7 @@ export default function LeaderboardPage() {
               <p className="font-medium text-white/65 mb-3">Critères principaux</p>
               <ul className="space-y-2.5">
                 {[
-                  { icon: TrendingUp, color: "text-sky-400",    label: "Investissement (40%)",  sub: "Montants collectés" },
+                  { icon: TrendingUp, color: "text-sky-400",    label: "Soutiens (40%)",  sub: "Montants collectés" },
                   { icon: Heart,      color: "text-rose-400",   label: "Engagement (20%)",      sub: "Votes et interactions" },
                   { icon: CheckCircle,color: "text-emerald-400",label: "Longévité (15%)",       sub: "Constance du projet" },
                 ].map((item) => (

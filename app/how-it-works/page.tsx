@@ -76,7 +76,7 @@ const ROLES = [
     ],
     restrictions: [
       "Aucun VIXUpoint",
-      "Aucun gain ni investissement",
+      "Aucun gain ni soutien financier",
       "Pas de participation a la communaute",
       "Pas de favoris ni de commentaires",
     ],
@@ -104,7 +104,7 @@ const ROLES = [
   {
     title: "Porteur",
     subtitle: "Createur audiovisuel",
-    description: "Deposez vos videos et visuels, recevez des investissements",
+    description: "Deposez vos videos et visuels, recevez des soutiens",
     features: [
       "Depot de contenu video",
       "Statistiques detaillees",
@@ -413,8 +413,10 @@ export default function HowItWorksPage() {
 
               <div className="mt-8 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg">
                     <p className="text-amber-200 text-sm text-center">
-                  Attention : Contribuer comporte des risques. Les gains ne sont
-                  pas garantis. VIXUAL n'est pas un jeu de hasard.
+                  Important : aucun gain n'est garanti. Soutenir un projet sur
+                  VIXUAL est avant tout une aide aux createurs. Les recompenses
+                  eventuelles dependent du classement final. VIXUAL n'est ni un
+                  jeu de hasard, ni un produit d'investissement au sens de l'AMF.
                 </p>
               </div>
             </div>
@@ -560,11 +562,11 @@ export default function HowItWorksPage() {
         </section>
       </main>
 
-      {/* Simulateur d'investissement */}
+      {/* Simulateur de soutien */}
       <section className="py-16 cinema-section">
         <div className="container mx-auto px-4 max-w-xl">
           <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-8 text-balance">
-            {"Simulez votre investissement"}
+            {"Simulez votre soutien"}
           </h2>
           <InvestSimulator />
         </div>

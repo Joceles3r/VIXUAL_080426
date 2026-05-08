@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Check, Calendar, ShieldAlert } from "lucide-react"
 import { VisualSlogan } from "@/components/vixual-slogan"
+import { VixualLogo } from "@/components/vixual-logo"
 import { isMinor, isEligibleForSignup, computeAge, MINOR_VIXUPOINTS_CAP } from "@/lib/vixupoints-engine"
 import { ParentalConsentForm } from "@/components/parental-consent-form"
 import { Button } from "@/components/ui/button"
@@ -16,13 +17,22 @@ import { useAuth } from "@/lib/auth-context"
 import { usePlatformVersion } from "@/hooks/use-platform-version"
 
 function getBenefits(version: "V1" | "V2" | "V3") {
+  if (version === "V1") {
+    // V1 simplification : ne montrer que les 2 roles publics Createur / Soutien.
+    // Les autres roles techniques restent fonctionnels en backend mais invisibles
+    // au premier contact utilisateur.
+    return [
+      "Acces libre aux contenus",
+      "Decouvre des createurs independants",
+      "Soutiens les projets que tu apprecies",
+      "Choisis ton profil : Createur ou Soutien",
+    ]
+  }
   return [
     "Acces aux contenus gratuits",
     "Gagnez des VIXUpoints",
     "Suivez vos createurs preferes",
-    version === "V1"
-      ? "Devenez Contributeur ou Createur (Porteur)"
-      : "Devenez Contributeur, Contribu-lecteur, Auditeur ou Createur (Porteur, Infoporteur, Podcasteur)",
+    "Devenez Contributeur, Contribu-lecteur, Auditeur ou Createur (Porteur, Infoporteur, Podcasteur)",
   ]
 }
 
@@ -111,14 +121,7 @@ export default function SignupPage() {
         {/* Logo + Slogan */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex justify-center">
-            <span className="text-3xl font-black tracking-tight">
-              <span className="text-red-500">V</span>
-              <span className="text-amber-400">I</span>
-              <span className="text-emerald-400">X</span>
-              <span className="text-teal-400">U</span>
-              <span className="text-sky-400">A</span>
-              <span className="text-indigo-400">L</span>
-            </span>
+            <VixualLogo size="lg" />
           </Link>
           <div className="mt-2">
             <VisualSlogan size="xs" opacity="medium" />
@@ -132,14 +135,18 @@ export default function SignupPage() {
             </CardTitle>
             <p className="text-white/55 text-sm italic mt-2 text-center">Vois-les avant tout le monde.</p>
             <p className="text-white/60 mt-2">
-              Rejoignez VIXUAL et devenez Visiteur gratuitement
+              {platformVersion === "V1"
+                ? "Rejoins une communaute creative en quelques secondes"
+                : "Rejoignez VIXUAL et devenez Visiteur gratuitement"}
             </p>
           </CardHeader>
           <CardContent>
             {/* Benefits */}
             <div className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
               <p className="text-emerald-400 font-medium mb-2">
-                En tant que Visiteur, vous bénéficiez de :
+                {platformVersion === "V1"
+                  ? "Avec ton compte VIXUAL :"
+                  : "En tant que Visiteur, vous bénéficiez de :"}
               </p>
               <ul className="space-y-1">
                 {benefits.map((benefit) => (
@@ -222,7 +229,7 @@ export default function SignupPage() {
                   <div className="flex items-start gap-2 p-2.5 bg-amber-500/10 border border-amber-500/25 rounded-lg">
                     <ShieldAlert className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                     <p className="text-amber-400/90 text-xs leading-relaxed">
-                      {"Vous avez entre 16 et 17 ans. Votre compte sera soumis a des restrictions : plafond de 10 000 VIXUpoints (100EUR), aucun retrait ni investissement avant 18 ans. Une autorisation parentale sera demandee."}
+                      {"Vous avez entre 16 et 17 ans. Votre compte sera soumis a des restrictions : plafond de 10 000 VIXUpoints (100EUR), aucun retrait ni soutien financier avant 18 ans. Une autorisation parentale sera demandee."}
                     </p>
                   </div>
                 )}

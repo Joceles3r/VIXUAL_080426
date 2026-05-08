@@ -60,7 +60,7 @@ export default function UploadVideoPage() {
     e.preventDefault()
     setIsUploading(true)
 
-    // Real Bunny upload via API
+    // Upload réel vers Bunny.net Storage Zone via XMLHttpRequest (progress events).
     if (!videoFile) {
       toast({ title: "Aucun fichier selectionne", variant: "destructive" })
       setIsUploading(false)
@@ -398,7 +398,7 @@ export default function UploadVideoPage() {
 
                     <div className="space-y-2">
                       <Label htmlFor="goal" className="text-white">
-                        Objectif d'investissement (€)
+                        Objectif de financement (€)
                       </Label>
                       <Input
                         id="goal"

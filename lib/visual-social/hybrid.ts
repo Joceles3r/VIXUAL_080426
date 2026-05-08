@@ -59,7 +59,7 @@ export const TAG_LABELS: Record<SocialTag, string> = {
   scenario: "Sc\u00e9nario",
   son: "Son",
   montage: "Montage",
-  investissement: "Investissement",
+  investissement: "Soutien",
   spoiler: "Spoiler",
 }
 

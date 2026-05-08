@@ -93,7 +93,7 @@ export function ParentalConsentForm({ userId, onSubmitted }: ParentalConsentForm
           <div>
             <h3 className="text-white font-semibold text-lg">{"Autorisation parentale (16\u201317 ans)"}</h3>
             <p className="text-white/60 text-sm mt-1">
-              {"Obligatoire pour activer le compte. Plafond : 10 000 VIXUpoints (100€). Aucun retrait ni investissement avant 18 ans."}
+              {"Obligatoire pour activer le compte. Plafond : 10 000 VIXUpoints (100€). Aucun retrait ni soutien financier avant 18 ans."}
             </p>
           </div>
         </div>

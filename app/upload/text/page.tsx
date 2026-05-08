@@ -322,7 +322,7 @@ export default function UploadTextPage() {
 
                     <div className="space-y-2">
                       <Label htmlFor="goal" className="text-white">
-                        Objectif d'investissement (€)
+                        Objectif de financement (€)
                       </Label>
                       <Input
                         id="goal"

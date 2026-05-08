@@ -583,7 +583,7 @@ export default function SeoGrowthDashboard() {
       {/* Footer */}
       <div className="mt-8 text-center">
         <p className="text-white/30 text-sm">
-          VIXUAL SEO + Social Growth Engine v1.0 — Regarde-Participe-Gagne
+          VIXUAL SEO + Social Growth Engine v1.0 — Regarde-Soutiens-Participe
         </p>
       </div>
     </div>

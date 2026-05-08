@@ -25,7 +25,7 @@ export default function MaintenancePage() {
           <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
             VIXUAL
           </h1>
-          <p className="text-white/40 text-sm mt-1">Regarde - Participe - Gagne</p>
+          <p className="text-white/40 text-sm mt-1">Regarde - Soutiens - Participe</p>
         </div>
 
         {/* Main Message */}
