@@ -15,6 +15,11 @@ type CookiePreferences = {
 };
 
 export function CookieConsentBanner() {
+  // Guard "mounted" : evite tout mismatch d'hydratation entre SSR et client.
+  // Sans ce guard, l'apparition tardive de la banniere peut entrer en conflit
+  // avec des extensions navigateur (Google Translate, Grammarly) et provoquer
+  // l'erreur "Failed to execute removeChild on Node".
+  const [mounted, setMounted] = useState(false);
   const [showBanner, setShowBanner] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [preferences, setPreferences] = useState<CookiePreferences>({
@@ -25,6 +30,7 @@ export function CookieConsentBanner() {
   });
 
   useEffect(() => {
+    setMounted(true);
     const consent = localStorage.getItem("visual-cookie-consent");
     if (!consent) {
       // Small delay so it doesn't flash on page load
@@ -60,7 +66,8 @@ export function CookieConsentBanner() {
     saveConsent(preferences);
   };
 
-  if (!showBanner) return null;
+  // Ne rend strictement rien tant que le composant n'est pas monte cote client.
+  if (!mounted || !showBanner) return null;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-slate-950/95 backdrop-blur-sm border-t border-white/10">
