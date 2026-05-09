@@ -178,7 +178,7 @@ export function TrustScoreCard({ trustScore, compact = false }: TrustScoreCardPr
         <TrustScoreGauge score={trustScore.score} size="sm" showLabel={false} />
         <div>
           <p className="text-sm font-medium text-white">{level.label}</p>
-          <p className="text-xs text-slate-400">Trust Score</p>
+          <p className="text-xs text-slate-400">Niveau confiance</p>
         </div>
         {getScoreIcon(trustScore.level)}
       </div>
@@ -207,14 +207,18 @@ export function TrustScoreCard({ trustScore, compact = false }: TrustScoreCardPr
         <div className="flex items-center gap-6 mb-4">
           <TrustScoreGauge score={trustScore.score} size="lg" />
           <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-1">
               {getScoreIcon(trustScore.level)}
               <span className={`font-semibold ${getScoreColor(trustScore.score)}`}>
                 {level.label}
               </span>
             </div>
+            <p className="text-xs uppercase tracking-wider text-slate-500 mb-2">
+              Niveau confiance
+            </p>
             <p className="text-sm text-slate-400 mb-3">
-              Votre score de confiance mesure votre fiabilite sur VIXUAL
+              Votre niveau de confiance reflete votre engagement et votre
+              fiabilite au sein de la communaute VIXUAL.
             </p>
             <div className="flex flex-wrap gap-1.5">
               {trustScore.badges.slice(0, 4).map((badge) => (

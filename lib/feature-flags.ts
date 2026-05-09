@@ -25,6 +25,7 @@ export type FeatureFlag =
   | "trustScore"
   | "ticketGold"
   | "minorProtection"
+  | "creatorChannels"
 
 export type FeatureVersion = "V1" | "V2" | "V3"
 
@@ -104,6 +105,13 @@ export const FEATURES: Record<FeatureFlag, FeatureConfig> = {
     enabled: false,
     version: "V3",
     description: "Moderation automatique par IA",
+  },
+  // Chaines createurs V3 - prepare techniquement, OFF par defaut
+  // Override possible via ENABLE_CREATOR_CHANNELS=true en environnement
+  creatorChannels: {
+    enabled: process.env.ENABLE_CREATOR_CHANNELS === "true",
+    version: "V3",
+    description: "Chaines createurs (univers creatifs merites - Trust Score >= 85 + validation patron)",
   },
 }
 
