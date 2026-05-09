@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -55,7 +56,14 @@ function PeriodCard({ period, isExpanded, onToggle }: {
                   className="w-8 h-8 rounded-lg border-2 border-slate-900 overflow-hidden"
                   style={{ zIndex: 3 - i }}
                 >
-                  <img src={project.thumbnail} alt="" className="w-full h-full object-cover" />
+                  <Image
+                    src={project.thumbnail || "/placeholder.svg"}
+                    alt=""
+                    width={32}
+                    height={32}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
                 </div>
               ))}
             </div>
@@ -95,7 +103,14 @@ function PeriodCard({ period, isExpanded, onToggle }: {
                       
                       {/* Thumbnail */}
                       <div className="w-16 h-10 rounded-lg overflow-hidden shrink-0">
-                        <img src={project.thumbnail} alt={project.title} className="w-full h-full object-cover" />
+                        <Image
+                          src={project.thumbnail || "/placeholder.svg"}
+                          alt={project.title || ""}
+                          width={64}
+                          height={40}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
                       </div>
                       
                       {/* Info */}

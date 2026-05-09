@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { 
@@ -53,10 +54,13 @@ function HallOfFameCard({ project, index }: { project: PublicProjectStats; index
         <CardContent className="p-0">
           {/* Image */}
           <div className="relative aspect-[4/3] overflow-hidden">
-            <img 
-              src={project.thumbnail} 
+            <Image
+              src={project.thumbnail || "/placeholder.svg"}
               alt={project.title}
+              width={400}
+              height={300}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
             

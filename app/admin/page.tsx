@@ -1,7 +1,7 @@
 "use client"
 
 import { useAuth } from "@/lib/auth-context"
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -133,14 +133,17 @@ export default function AdminPage() {
     fetchStats()
   }, [fetchStats])
 
-  const tabs = [
-    { key: "overview" as const, label: "Vue d'ensemble", icon: Activity },
-    { key: "users" as const, label: "Utilisateurs", icon: Users },
-    { key: "payouts" as const, label: "Paiements", icon: DollarSign },
-    { key: "reports" as const, label: "Signalements", icon: AlertTriangle },
-    { key: "integrity" as const, label: "Integrity", icon: Database },
-    { key: "wallet" as const, label: "Wallet V3", icon: Wallet2 },
-  ]
+  const tabs = useMemo(
+    () => [
+      { key: "overview" as const, label: "Vue d'ensemble", icon: Activity },
+      { key: "users" as const, label: "Utilisateurs", icon: Users },
+      { key: "payouts" as const, label: "Paiements", icon: DollarSign },
+      { key: "reports" as const, label: "Signalements", icon: AlertTriangle },
+      { key: "integrity" as const, label: "Integrity", icon: Database },
+      { key: "wallet" as const, label: "Wallet V3", icon: Wallet2 },
+    ],
+    [],
+  )
 
   return (
     <div className="p-6 lg:p-8 max-w-7xl">
