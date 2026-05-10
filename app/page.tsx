@@ -121,14 +121,15 @@ export default function HomePage() {
                   <span
                     className={
                       platformVersion === "V2"
-                        ? "text-transparent bg-clip-text bg-gradient-to-r from-rose-200 via-red-300 to-rose-400"
-                        : "text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-teal-300 to-emerald-400"
+                        ? "text-transparent bg-clip-text bg-gradient-to-r from-rose-300 via-red-400 to-rose-500"
+                        : "text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-400 to-emerald-500"
                     }
                     style={{
+                      // Triple drop-shadow : halo proche (lisibilite) + halo moyen (presence) + halo lointain (cinema)
                       filter:
                         platformVersion === "V2"
-                          ? "drop-shadow(0 0 18px rgba(244, 63, 94, 0.45))"
-                          : "drop-shadow(0 0 18px rgba(52, 211, 153, 0.45))",
+                          ? "drop-shadow(0 0 8px rgba(251, 113, 133, 0.85)) drop-shadow(0 0 22px rgba(244, 63, 94, 0.7)) drop-shadow(0 0 48px rgba(225, 29, 72, 0.45))"
+                          : "drop-shadow(0 0 8px rgba(110, 231, 183, 0.85)) drop-shadow(0 0 22px rgba(16, 185, 129, 0.7)) drop-shadow(0 0 48px rgba(5, 150, 105, 0.45))",
                     }}
                   >
                     talents de demain
