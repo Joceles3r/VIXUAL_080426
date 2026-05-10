@@ -185,7 +185,7 @@
   opacity: 1;
 }
 
-/* ─────────────────────────────────────────────────────────────────── */
+/* ───────────────────────────────────��─────────────────────────────── */
 /* SHIMMER — passage de lumiere sur les CTA premium                    */
 /* Usage : ajouter class `vx-shimmer` sur un Button                    */
 /* ─────────────────────────────────────────────────────────────────── */
@@ -359,6 +359,105 @@
 }
 
 /* ─────────────────────────────────────────────────────────────────── */
+/* V3 — BANNIERE IMMERSIVE CHAINE CREATEUR                             */
+/* Header large, dégradé cinéma, halos pour donner l'impression        */
+/* d'entrer dans un studio.                                            */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-cinema-banner {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Voile cinéma au-dessus de l'image (plus dramatique en bas) */
+.vx-cinema-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 80% at 50% 20%, transparent 0%, rgba(10, 1, 24, 0.55) 70%, rgba(10, 1, 24, 0.95) 100%),
+    linear-gradient(180deg, rgba(10, 1, 24, 0.1) 0%, rgba(10, 1, 24, 0.85) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Halo coloré accent en bas-droite (signature studio) */
+.vx-cinema-banner::after {
+  content: "";
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 60%;
+  height: 100%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklab, var(--vx-accent, #d946ef) 22%, transparent),
+    transparent 70%
+  );
+  filter: blur(60px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.vx-cinema-banner > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* V3 — STUDIO FRAME (cadre prestigieux pour cards créateur)           */
+/* Bordure double avec lumière intérieure, donne le sentiment d'entrer */
+/* dans un univers personnel premium.                                  */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-studio-frame {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)),
+    rgba(15, 8, 26, 0.65);
+  border: 1px solid color-mix(in oklab, var(--vx-accent, #d946ef) 25%, rgba(255, 255, 255, 0.08));
+  border-radius: 18px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 24px 60px -24px color-mix(in oklab, var(--vx-accent, #d946ef) 18%, transparent),
+    0 0 80px -30px color-mix(in oklab, var(--vx-secondary, #a855f7) 22%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* V2 — DOT INDICATEUR ACTIVITÉ COMMUNAUTÉ                             */
+/* Petit point lumineux pulsant pour signaler "live activity"          */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-live-dot {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--vx-accent, #ef4444) 80%, white 10%);
+  box-shadow: 0 0 12px color-mix(in oklab, var(--vx-accent, #ef4444) 60%, transparent);
+}
+
+.vx-live-dot::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--vx-accent, #ef4444) 40%, transparent);
+  animation: vx-live-pulse 2.4s ease-out infinite;
+}
+
+@keyframes vx-live-pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
 /* RESPECT REDUCED MOTION                                              */
 /* ─────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
@@ -367,7 +466,8 @@
   .vx-cinema-poster img,
   .vx-cinema-poster [data-poster-img],
   .vx-rise-in,
-  .vx-shimmer::before {
+  .vx-shimmer::before,
+  .vx-live-dot::before {
     animation: none !important;
     transition: none !important;
     transform: none !important;
