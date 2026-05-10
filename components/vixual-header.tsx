@@ -287,10 +287,38 @@ export function VisualHeader() {
 
   // isAdmin vient du auth context, pas des roles de profil
 
+  const isV3 = platformVersion === "V3"
+
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50">
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/98 via-slate-950/98 to-slate-900/98 backdrop-blur-2xl border-b border-white/10 h-20 shadow-xl cinema-header-glow" />
+      <header
+        className={`fixed left-0 right-0 z-50 transition-all duration-500 ${
+          isV3 ? "top-3 px-3 md:px-6" : "top-0"
+        }`}
+      >
+        {/* Couche fond — V3 : flottant arrondi avec halo signature ; V1/V2 : pleine largeur */}
+        <div
+          className={`absolute inset-0 cinema-header-glow ${
+            isV3
+              ? // V3 : flottant, arrondi, blur renforce, double border lumineuse
+                "bg-gradient-to-r from-slate-900/85 via-[#0f0820]/85 to-slate-900/85 backdrop-blur-2xl border border-fuchsia-500/15 rounded-2xl shadow-[0_18px_60px_-20px_rgba(217,70,239,0.35),inset_0_1px_0_rgba(255,255,255,0.06)]"
+              : // V1/V2 : barre pleine largeur classique
+                "bg-gradient-to-r from-slate-900/98 via-slate-950/98 to-slate-900/98 backdrop-blur-2xl border-b border-white/10 shadow-xl"
+          } h-20`}
+        />
+
+        {/* V3 — halo lumineux sous la nav, renforce l'effet flottant premium */}
+        {isV3 && (
+          <div
+            className="pointer-events-none absolute left-1/2 top-full -translate-x-1/2 -translate-y-1/2 h-12 w-[60%] rounded-full opacity-60"
+            style={{
+              background:
+                "radial-gradient(ellipse at center, rgba(217,70,239,0.22), transparent 70%)",
+              filter: "blur(18px)",
+            }}
+            aria-hidden="true"
+          />
+        )}
 
         <div className="container mx-auto px-4 md:px-6 h-20 relative flex items-center justify-between gap-4">
           {/* Logo + Slogan */}

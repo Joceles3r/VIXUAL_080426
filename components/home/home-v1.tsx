@@ -99,16 +99,17 @@ export function HomeV1() {
                 <VisualSlogan size="base" opacity="high" withLines />
               </div>
 
-              {/* Promesse cle, lisible en 2 secondes */}
-              <p className="text-xl md:text-2xl text-white/95 mb-3 max-w-2xl mx-auto text-pretty leading-snug vx-rise-in vx-rise-in--delay-2 font-light">
-                Sans intermediaire.{" "}
-                <span className="text-fuchsia-200">En toute transparence.</span>
-              </p>
-
-              {/* Sous-promesse rassurante */}
-              <p className="text-base text-white/65 mb-7 max-w-xl mx-auto leading-relaxed vx-rise-in vx-rise-in--delay-3">
-                Commence par explorer. Soutiens quand tu es pret.
-                Debloque des avantages en progressant.
+              {/* Pitch officiel VIXUAL — visible sans scroll, lisible en 5 secondes */}
+              <p className="text-lg md:text-xl text-white/90 mb-4 max-w-3xl mx-auto text-pretty leading-relaxed vx-rise-in vx-rise-in--delay-2">
+                <span className="text-white font-semibold">VIXUAL</span>{" "}
+                <span className="text-white/70">:</span> la plateforme ou vous{" "}
+                <span className="text-fuchsia-200 font-medium">decouvrez</span>{" "}
+                et{" "}
+                <span className="text-fuchsia-200 font-medium">soutenez directement</span>{" "}
+                les createurs independants que vous aimez.
+                <span className="block mt-2 text-white/60 text-base md:text-lg italic">
+                  Sans intermediaire.
+                </span>
               </p>
 
               <p className="text-sm text-white/45 mb-10 max-w-2xl mx-auto vx-rise-in vx-rise-in--delay-3 tracking-wide">
