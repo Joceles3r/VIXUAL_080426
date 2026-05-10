@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@import './cinematic.css';
 
 @custom-variant dark (&:is(.dark *));
 
