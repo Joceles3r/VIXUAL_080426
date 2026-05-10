@@ -9,6 +9,8 @@ import { sql } from "@/lib/db"
 import { JWT_SECRET, SESSION_DURATION_SEC } from "@/lib/auth/jwt"
 import { detectRapidAccountCreation } from "@/lib/moderation/detectors"
 import { processModerationEvent } from "@/lib/moderation/trust-score-engine"
+import { isSuspiciousEmail } from "@/lib/security/disposable-emails"
+import { logSecurityEvent } from "@/lib/security/audit-logger"
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,6 +32,31 @@ export async function POST(request: NextRequest) {
     }
 
     const normalizedEmail = email.toLowerCase().trim()
+
+    // ─── Module sécurité Phase 1 — rejet emails jetables / suspects ───
+    if (isSuspiciousEmail(normalizedEmail)) {
+      const ip =
+        request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+        request.headers.get("x-real-ip") ??
+        "unknown"
+      await logSecurityEvent({
+        eventType: "signup_rejected_disposable_email",
+        severity: "warn",
+        ipAddress: ip,
+        userAgent: request.headers.get("user-agent"),
+        action: "signup_attempt",
+        outcome: "rejected",
+        // RGPD : on log uniquement le domaine, pas l'email complet
+        context: { emailDomain: normalizedEmail.split("@")[1] ?? null },
+      })
+      return NextResponse.json(
+        {
+          error:
+            "Cette adresse email n'est pas acceptée. Veuillez utiliser une adresse personnelle.",
+        },
+        { status: 400 },
+      )
+    }
 
     // Check if user already exists
     const existingUsers = await sql`
