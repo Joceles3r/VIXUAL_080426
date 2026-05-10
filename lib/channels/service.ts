@@ -14,6 +14,11 @@
 import "server-only"
 import { sql } from "@/lib/db"
 import { getChannelEligibility } from "@/lib/trust/channel-eligibility"
+import { normalizeSlug, isValidSlug } from "@/lib/channels/slug"
+
+// Re-export pour compatibilite : ces helpers sont PURS, importables
+// cote client. Pour un import client direct, preferer "@/lib/channels/slug".
+export { normalizeSlug, isValidSlug }
 
 export interface CreatorChannelRequest {
   id: string
@@ -64,35 +69,14 @@ export interface CreatorChannelContent {
 }
 
 /* ─────────────────────────────────────────────────────────────────── */
-/* SLUG                                                                */
-/* ─────────────────────────────────────────────────────────────────── */
-
-const SLUG_REGEX = /^[a-z0-9](?:[a-z0-9-]{0,58}[a-z0-9])?$/
-
-export function normalizeSlug(input: string): string {
-  return input
-    .toLowerCase()
-    .trim()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9-]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .replace(/-{2,}/g, "-")
-    .slice(0, 60)
-}
-
-export function isValidSlug(slug: string): boolean {
-  return SLUG_REGEX.test(slug)
-}
-
-/* ─────────────────────────────────────────────────────────────────── */
 /* ELIGIBILITE                                                         */
 /* ─────────────────────────────────────────────────────────────────── */
 
 export interface CreatorEligibilitySnapshot {
   eligible: boolean
   trustScore: number
-  tier: ReturnType<typeof getChannelEligibility>["tier"]
+  status: ReturnType<typeof getChannelEligibility>["status"]
+  label: string
   reason: string
   hasFinancedProject: boolean
   hasExistingChannel: boolean
@@ -143,8 +127,8 @@ export async function getCreatorEligibility(
   const hasPendingRequest = pendingRows.length > 0
 
   let reason = "Eligible pour creer une chaine"
-  let eligible = eligibility.eligible
-  if (!eligibility.eligible) {
+  let eligible = eligibility.canApply
+  if (!eligibility.canApply) {
     reason = `Trust score insuffisant (${trustScore} / 85 requis)`
   } else if (!hasFinancedProject) {
     eligible = false
@@ -160,7 +144,8 @@ export async function getCreatorEligibility(
   return {
     eligible,
     trustScore,
-    tier: eligibility.tier,
+    status: eligibility.status,
+    label: eligibility.label,
     reason,
     hasFinancedProject,
     hasExistingChannel,

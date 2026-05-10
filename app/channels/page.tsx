@@ -23,7 +23,7 @@ export default async function ChannelsPage() {
           </h1>
           <p className="text-white/70 leading-relaxed">
             Ce module est actuellement desactive. Il sera ouvert progressivement
-            aux createurs les plus actifs et fiables (Trust Score >= 85), apres
+            aux createurs les plus actifs et fiables (Trust Score &ge; 85), apres
             validation manuelle par l&apos;equipe VIXUAL.
           </p>
         </div>

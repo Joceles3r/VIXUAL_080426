@@ -18,7 +18,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Tv, ExternalLink, Loader2, AlertCircle, CheckCircle2, Clock } from "lucide-react"
-import { normalizeSlug } from "@/lib/channels/service"
+import { normalizeSlug } from "@/lib/channels/slug"
 import type { CreatorEligibilitySnapshot } from "@/lib/channels/service"
 
 interface ChannelInfo {
