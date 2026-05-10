@@ -121,10 +121,10 @@ export default function HomePage() {
                   <span
                     className={
                       platformVersion === "V2"
-                        ? // Rouge cinema profond et brillant : sombre satine -> vermillon eclatant -> rouge profond
-                          "text-transparent bg-clip-text bg-gradient-to-r from-red-700 via-red-500 to-rose-600"
-                        : // Emeraude profond et brillant : vert sombre -> vert vif -> vert profond
-                          "text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 via-emerald-500 to-teal-600"
+                        ? // Rouge cinema metallique brillant : grenat profond -> rouge eclat lumineux -> rouge profond
+                          "text-transparent bg-clip-text bg-gradient-to-r from-red-800 via-red-400 to-rose-700 [text-shadow:0_1px_0_rgba(255,255,255,0.08)]"
+                        : // Emeraude metallique brillant : vert foret -> vert eclat lumineux -> teal profond
+                          "text-transparent bg-clip-text bg-gradient-to-r from-emerald-800 via-emerald-400 to-teal-700 [text-shadow:0_1px_0_rgba(255,255,255,0.08)]"
                     }
                   >
                     talents de demain
