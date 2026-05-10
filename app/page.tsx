@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowRight, Film, FileText, Mic, Users, TrendingUp, Shield, Star, Award, CreditCard, Wallet, Upload, Eye, Heart, Sparkles, Flame } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -137,6 +138,21 @@ export default function HomePage() {
               <div className="mb-4 vx-rise-in vx-rise-in--delay-2">
                 <VisualSlogan size="base" opacity="high" withLines />
               </div>
+
+              {/* Promesse cle, lisible en 2 secondes */}
+              <p className="text-xl md:text-2xl text-white/95 mb-3 max-w-2xl mx-auto text-pretty leading-snug vx-rise-in vx-rise-in--delay-2 font-light">
+                Sans intermediaire.{" "}
+                <span
+                  className={
+                    platformVersion === "V2"
+                      ? "text-rose-200"
+                      : "text-emerald-200"
+                  }
+                >
+                  En toute transparence.
+                </span>
+              </p>
+
               <p className="text-white/45 text-sm italic mb-6 vx-rise-in vx-rise-in--delay-2">
                 Vois-les avant tout le monde.
               </p>
@@ -296,10 +312,13 @@ export default function HomePage() {
                   </h3>
                 </CardContent>
                 <div className="aspect-[16/10] relative overflow-hidden px-5">
-                  <img 
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%201_%2030%20mars%202026%2C%2023_09_33-9Xo4IW2tIXTNo2g4E6zzRf2R1yRqDK.png" 
-                    alt="Les 3 familles VIXUAL - Createurs, Participants, Public" 
+                  <Image
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%201_%2030%20mars%202026%2C%2023_09_33-9Xo4IW2tIXTNo2g4E6zzRf2R1yRqDK.png"
+                    alt="Les 3 familles VIXUAL - Createurs, Participants, Public"
                     className="w-full h-full object-cover rounded-lg"
+                    width={400}
+                    height={250}
+                    loading="lazy"
                   />
                 </div>
                 <CardContent className="p-5 pt-3">
@@ -323,10 +342,13 @@ export default function HomePage() {
                   </h3>
                 </CardContent>
                 <div className="aspect-[16/10] relative overflow-hidden px-5">
-                  <img 
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%202_31%20mars%202026%2C%2015_14_36-JiBG5wIrJPtS9tXb07HiZwDZHhAcgx.png" 
-                    alt="Comment fonctionne VIXUAL - Selectionnez, Participez, Gagnez" 
+                  <Image
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%202_31%20mars%202026%2C%2015_14_36-JiBG5wIrJPtS9tXb07HiZwDZHhAcgx.png"
+                    alt="Comment fonctionne VIXUAL - Selectionnez, Participez, Gagnez"
                     className="w-full h-full object-cover rounded-lg"
+                    width={400}
+                    height={250}
+                    loading="lazy"
                   />
                 </div>
                 <CardContent className="p-5 pt-3">
@@ -344,10 +366,13 @@ export default function HomePage() {
                   </h3>
                 </CardContent>
                 <div className="aspect-[16/10] relative overflow-hidden px-5">
-                  <img 
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%203%20avr.%202026%2C%2022_38_13-YXCdE4BieypUDI1D3stcttWcES4TQG.png" 
-                    alt="Votez pour vos projets preferes" 
+                  <Image
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%203%20avr.%202026%2C%2022_38_13-YXCdE4BieypUDI1D3stcttWcES4TQG.png"
+                    alt="Votez pour vos projets preferes"
                     className="w-full h-full object-cover rounded-lg"
+                    width={400}
+                    height={250}
+                    loading="lazy"
                   />
                 </div>
                 <CardContent className="p-5 pt-3">

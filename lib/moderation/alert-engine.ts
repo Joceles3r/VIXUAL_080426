@@ -1,6 +1,7 @@
 import { sql } from "@/lib/db"
 import type { AlertSeverity, AlertType, ModerationAlert } from "./types"
 import { sendCriticalAlertEmail } from "./email-notifier"
+import { sendSecurityWebhook } from "@/lib/security/webhook-notifier"
 
 export interface CreateAlertInput {
   type: AlertType
@@ -67,6 +68,14 @@ export async function createAlert(input: CreateAlertInput): Promise<string | nul
         alertId,
       })
       await sql`UPDATE moderation_alerts SET email_sent = true WHERE id = ${alertId}::uuid`
+
+      // Notification webhook secondaire (Discord/Slack/Telegram) — non-bloquante
+      await sendSecurityWebhook({
+        title: input.title,
+        message: input.description,
+        level: "critical",
+        context: { type: input.type, alertId, ...(input.context ?? {}) },
+      }).catch(() => {})
     }
 
     return alertId

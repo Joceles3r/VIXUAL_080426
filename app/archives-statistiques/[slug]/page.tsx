@@ -1,5 +1,6 @@
 import { Metadata } from "next"
 import Link from "next/link"
+import Image from "next/image"
 import { notFound } from "next/navigation"
 import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
@@ -72,10 +73,13 @@ export default async function ArchiveProjectDetailPage({ params }: PageProps) {
           <div className="lg:col-span-2 space-y-6">
             {/* Hero image */}
             <div className="relative aspect-video rounded-2xl overflow-hidden">
-              <img 
-                src={project.thumbnail} 
+              <Image
+                src={project.thumbnail}
                 alt={project.title}
                 className="w-full h-full object-cover"
+                width={1280}
+                height={720}
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               

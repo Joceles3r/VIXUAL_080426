@@ -74,6 +74,25 @@ export async function middleware(request: NextRequest) {
   const ip = forwarded?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown";
   const identifier = `ip:${ip}`;
 
+  // ─── Module sécurité Phase 1 — détection bot inline (Edge-safe) ───
+  // Vérification user-agent (anti-scraping basique, regex synchrone, 0 DB)
+  if (pathname.startsWith("/api/") && !pathname.includes("/api/integrations/")) {
+    const ua = request.headers.get("user-agent") ?? ""
+    // Patterns évidents bots non autorisés (curl/wget/python/etc.)
+    const suspiciousUA = /^$|curl\/|wget\/|python-requests|scrapy|httpie|node-fetch/i.test(ua)
+    const allowedBot = /googlebot|bingbot|duckduckbot|applebot|facebookexternalhit|twitterbot|whatsapp|telegrambot/i.test(ua)
+
+    if (suspiciousUA && !allowedBot) {
+      return NextResponse.json(
+        { error: "Forbidden", code: "ERR_BOT_DETECTED" },
+        {
+          status: 403,
+          headers: { "X-Bot-Detection": "blocked" },
+        },
+      )
+    }
+  }
+
   // ── Rate limiting via Upstash Redis REST API ──
   const kvUrl = process.env.KV_REST_API_URL;
   const kvToken = process.env.KV_REST_API_TOKEN;
