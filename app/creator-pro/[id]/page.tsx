@@ -2,6 +2,7 @@
 
 import { useState, useEffect, use } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -305,10 +306,13 @@ export default function CreatorProPage({ params }: { params: Promise<{ id: strin
                 <Link key={content.id} href={`/video/${content.id}`}>
                   <div className="group relative rounded-xl overflow-hidden bg-slate-800 border border-white/5 hover:border-amber-500/30 transition-all">
                     <div className="aspect-video relative">
-                      <img 
-                        src={content.thumbnail} 
+                      <Image
+                        src={content.thumbnail}
                         alt={content.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        width={640}
+                        height={360}
+                        loading="lazy"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                       <div className="absolute bottom-3 left-3 right-3">
