@@ -137,6 +137,21 @@ export default function HomePage() {
               <div className="mb-4 vx-rise-in vx-rise-in--delay-2">
                 <VisualSlogan size="base" opacity="high" withLines />
               </div>
+
+              {/* Promesse cle, lisible en 2 secondes */}
+              <p className="text-xl md:text-2xl text-white/95 mb-3 max-w-2xl mx-auto text-pretty leading-snug vx-rise-in vx-rise-in--delay-2 font-light">
+                Sans intermediaire.{" "}
+                <span
+                  className={
+                    platformVersion === "V2"
+                      ? "text-rose-200"
+                      : "text-emerald-200"
+                  }
+                >
+                  En toute transparence.
+                </span>
+              </p>
+
               <p className="text-white/45 text-sm italic mb-6 vx-rise-in vx-rise-in--delay-2">
                 Vois-les avant tout le monde.
               </p>

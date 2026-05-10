@@ -95,17 +95,20 @@ export function HomeV1() {
                 <TrafficLight size="lg" className="hidden sm:flex" />
               </div>
 
-              <div className="mb-7 vx-rise-in vx-rise-in--delay-2">
+              <div className="mb-5 vx-rise-in vx-rise-in--delay-2">
                 <VisualSlogan size="base" opacity="high" withLines />
               </div>
 
-              <p className="text-xl text-white/90 mb-3 max-w-2xl mx-auto text-pretty leading-relaxed vx-rise-in vx-rise-in--delay-2">
-                Soutiens des createurs independants et participe a une
-                communaute creative moderne.
+              {/* Promesse cle, lisible en 2 secondes */}
+              <p className="text-xl md:text-2xl text-white/95 mb-3 max-w-2xl mx-auto text-pretty leading-snug vx-rise-in vx-rise-in--delay-2 font-light">
+                Sans intermediaire.{" "}
+                <span className="text-fuchsia-200">En toute transparence.</span>
               </p>
 
-              <p className="text-base text-white/65 mb-3 max-w-xl mx-auto leading-relaxed vx-rise-in vx-rise-in--delay-3">
-                Chaque soutien aide des projets a evoluer concretement.
+              {/* Sous-promesse rassurante */}
+              <p className="text-base text-white/65 mb-7 max-w-xl mx-auto leading-relaxed vx-rise-in vx-rise-in--delay-3">
+                Commence par explorer. Soutiens quand tu es pret.
+                Debloque des avantages en progressant.
               </p>
 
               <p className="text-sm text-white/45 mb-10 max-w-2xl mx-auto vx-rise-in vx-rise-in--delay-3 tracking-wide">
@@ -163,82 +166,117 @@ export function HomeV1() {
           </div>
         </section>
 
-        {/* POURQUOI VIXUAL ? — bloc emotionnel humain, juste sous le hero */}
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            <div className="max-w-2xl mx-auto text-center space-y-4">
-              <h2 className="text-2xl md:text-3xl font-semibold text-white text-balance">
-                Pourquoi VIXUAL ?
+        {/* PARCOURS EN 3 ETAPES - simplicite immediate, juste sous le hero */}
+        <section className="relative py-16 overflow-hidden">
+          {/* Halo accent doux */}
+          <div
+            className="vx-halo vx-halo--accent"
+            style={{ width: "560px", height: "320px", top: "10%", left: "50%", transform: "translateX(-50%)" }}
+            aria-hidden="true"
+          />
+
+          <div className="container mx-auto px-4 relative">
+            <div className="max-w-2xl mx-auto text-center mb-10">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 text-balance vx-text-glow">
+                Comment ca marche
               </h2>
-              <p className="text-white/80 text-base md:text-lg leading-relaxed">
-                Chaque soutien aide directement des createurs a concretiser leurs projets.
-              </p>
-              <p className="text-white/65 text-base leading-relaxed">
-                Films, podcasts, livres, documentaires, creations originales et contenus
-                independants.
-              </p>
-              <p className="text-white/45 text-sm leading-relaxed pt-2">
-                Certaines participations peuvent aussi etre recompensees selon les regles
-                officielles de VIXUAL.
+              <p className="text-white/65 text-base md:text-lg">
+                Tu progresses a ton rythme. Aucun engagement.
               </p>
             </div>
-          </div>
-        </section>
 
-        {/* MESSAGE DE RASSURANCE - Bandeau humain et communautaire */}
-        <section className="py-4 border-y border-fuchsia-500/15 bg-fuchsia-500/5">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-center gap-3 text-white/70 text-sm flex-wrap text-center">
-              <Heart className="h-4 w-4 text-fuchsia-300 shrink-0" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+              {/* Etape 1 — Decouvre */}
+              <Card className="vx-cinema-card bg-slate-900/50 border-fuchsia-500/20 hover:border-fuchsia-400/50 group">
+                <CardContent className="p-7 text-center">
+                  <div className="relative mb-5 inline-flex items-center justify-center">
+                    <div className="absolute -inset-2 rounded-2xl bg-fuchsia-500/15 blur-xl opacity-60 group-hover:opacity-100 transition-opacity" />
+                    <div className="relative h-14 w-14 rounded-2xl bg-fuchsia-500/15 border border-fuchsia-400/40 flex items-center justify-center backdrop-blur-md">
+                      <Compass className="h-7 w-7 text-fuchsia-200" />
+                    </div>
+                  </div>
+                  <span className="block text-[11px] uppercase tracking-[0.18em] text-fuchsia-300/80 font-semibold mb-2">
+                    Etape 1
+                  </span>
+                  <h3 className="text-xl font-bold text-white mb-3">Decouvre</h3>
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    Explore librement films, podcasts, livres et creations originales.
+                    <span className="block text-white/50 text-xs mt-2">
+                      Aucun compte requis pour regarder.
+                    </span>
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Etape 2 — Soutiens */}
+              <Card className="vx-cinema-card bg-slate-900/50 border-rose-500/20 hover:border-rose-400/50 group">
+                <CardContent className="p-7 text-center">
+                  <div className="relative mb-5 inline-flex items-center justify-center">
+                    <div className="absolute -inset-2 rounded-2xl bg-rose-500/15 blur-xl opacity-60 group-hover:opacity-100 transition-opacity" />
+                    <div className="relative h-14 w-14 rounded-2xl bg-rose-500/15 border border-rose-400/40 flex items-center justify-center backdrop-blur-md">
+                      <Heart className="h-7 w-7 text-rose-200" />
+                    </div>
+                  </div>
+                  <span className="block text-[11px] uppercase tracking-[0.18em] text-rose-300/80 font-semibold mb-2">
+                    Etape 2
+                  </span>
+                  <h3 className="text-xl font-bold text-white mb-3">Soutiens</h3>
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    Contribue de 2 EUR a 20 EUR aux createurs que tu apprecies.
+                    <span className="block text-white/50 text-xs mt-2">
+                      Tu choisis toujours le montant.
+                    </span>
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Etape 3 — Accede */}
+              <Card className="vx-cinema-card bg-slate-900/50 border-emerald-500/20 hover:border-emerald-400/50 group">
+                <CardContent className="p-7 text-center">
+                  <div className="relative mb-5 inline-flex items-center justify-center">
+                    <div className="absolute -inset-2 rounded-2xl bg-emerald-500/15 blur-xl opacity-60 group-hover:opacity-100 transition-opacity" />
+                    <div className="relative h-14 w-14 rounded-2xl bg-emerald-500/15 border border-emerald-400/40 flex items-center justify-center backdrop-blur-md">
+                      <Sparkles className="h-7 w-7 text-emerald-200" />
+                    </div>
+                  </div>
+                  <span className="block text-[11px] uppercase tracking-[0.18em] text-emerald-300/80 font-semibold mb-2">
+                    Etape 3
+                  </span>
+                  <h3 className="text-xl font-bold text-white mb-3">Accede</h3>
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    Debloque progressivement avantages, recompenses et acces exclusifs.
+                    <span className="block text-white/50 text-xs mt-2">
+                      Ton role evolue avec tes actions.
+                    </span>
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Trust strip - rassure sur la legitimite */}
+            <div className="mt-12 flex items-center justify-center gap-3 text-white/55 text-sm flex-wrap text-center max-w-2xl mx-auto">
+              <Heart className="h-4 w-4 text-fuchsia-300/80 shrink-0" />
               <span>
-                <span className="text-fuchsia-200 font-medium">Une communaute creative.</span>
+                <span className="text-fuchsia-200/90 font-medium">Une communaute creative.</span>
                 {" "}Tes soutiens aident directement les createurs independants.
               </span>
             </div>
           </div>
         </section>
 
-        {/* BLOCS DE CONFIANCE — reponses immediates aux 4 freins */}
-        <section className="py-12 bg-slate-950">
+        {/* BLOCS DE CONFIANCE — reponses aux 2 questions cles */}
+        <section className="py-14 bg-slate-950">
           <div className="container mx-auto px-4">
-            {/* Comment ca marche - 4 etapes immediates, pas de scroll */}
             <div className="max-w-2xl mx-auto text-center mb-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/25 text-fuchsia-200 text-xs font-medium mb-4">
-                <Sparkles className="h-3.5 w-3.5" />
-                Comprendre en 5 secondes
-              </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 text-balance">
-                Comment ca marche ?
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 text-balance">
+                Tes questions, nos reponses
               </h2>
-
-              <ol className="space-y-3 text-left max-w-md mx-auto">
-                {[
-                  "Tu regardes des contenus creatifs",
-                  "Tu soutiens les createurs que tu apprecies",
-                  "Tu aides les projets a evoluer",
-                  "Tu participes a une communaute creative",
-                ].map((step, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-3 p-3 rounded-lg bg-white/[0.02] border border-white/5"
-                  >
-                    <span className="flex-shrink-0 h-7 w-7 rounded-full bg-fuchsia-500/15 border border-fuchsia-500/30 text-fuchsia-200 text-sm font-semibold flex items-center justify-center">
-                      {i + 1}
-                    </span>
-                    <span className="text-white/85 text-sm leading-relaxed pt-0.5">
-                      {step}
-                    </span>
-                  </li>
-                ))}
-              </ol>
-
-              <p className="text-xs text-white/45 mt-5 leading-relaxed max-w-sm mx-auto">
-                Certaines participations peuvent egalement etre recompensees
-                selon les regles officielles VIXUAL.
+              <p className="text-white/55 text-sm md:text-base">
+                Avant meme de commencer, on leve les doutes.
               </p>
             </div>
 
-            {/* Soutenir + Decouvrir - cartes emotionnelles, vocabulaire humain */}
+            {/* 2 cartes objections - vocabulaire humain */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto">
               {/* A quoi sert mon soutien ? */}
               <Card className="vx-cinema-card bg-emerald-500/5 border-emerald-500/25">
