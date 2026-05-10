@@ -129,6 +129,23 @@
 }
 
 /* ─────────────────────────────────────────────────────────────────── */
+/* Transition fluide entre les themes V1/V2/V3                         */
+/* Lors du basculement admin via /admin/platform-state, les couleurs   */
+/* interpolent en douceur au lieu de changer brutalement.              */
+/* ─────────────────────────────────────────────────────────────────── */
+html[data-version],
+html[data-version] body,
+html[data-version] section,
+html[data-version] .bg-slate-950,
+html[data-version] .bg-slate-900 {
+  transition:
+    background-color 400ms ease,
+    background-image 400ms ease,
+    border-color 300ms ease,
+    color 200ms ease;
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
 /* VIXUAL — THEMES IMMERSIFS PAR VERSION DE PLATEFORME                 */
 /* Le data-version sur <html> transforme automatiquement l'arriere-    */
 /* plan global de toutes les pages utilisant bg-slate-950.             */

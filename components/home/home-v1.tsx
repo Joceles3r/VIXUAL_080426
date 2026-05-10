@@ -51,64 +51,79 @@ export function HomeV1() {
       <VisualHeader />
 
       <main>
-        {/* HERO V1 — clair, rassurant, 3 CTA */}
-        <section className="relative pt-32 pb-20 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-fuchsia-900/15 via-slate-950 to-slate-950" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-fuchsia-500/10 rounded-full blur-3xl" />
+        {/* HERO V1 — Streaming premium cinematic */}
+        <section className="vx-cinema-hero relative pt-32 pb-24">
+          {/* Couche 1 : orbes lumineux drift cinema */}
+          <div className="vx-orb-bg" aria-hidden="true" />
+
+          {/* Couche 2 : voile sombre cinema (par-dessus les orbes) */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(10,1,24,0) 0%, rgba(10,1,24,0.35) 65%, rgba(10,1,24,0.85) 100%)",
+            }}
+            aria-hidden="true"
+          />
 
           <div className="container mx-auto px-4 relative">
             <div className="max-w-3xl mx-auto text-center">
-              <div className="flex items-center justify-center gap-4 mb-6">
+              {/* Badge premium au-dessus du titre */}
+              <div className="flex justify-center mb-7 vx-rise-in">
+                <span className="vx-pill">
+                  <Sparkles className="h-3 w-3" />
+                  Streaming creatif premium
+                </span>
+              </div>
+
+              <div className="flex items-center justify-center gap-4 mb-6 vx-rise-in vx-rise-in--delay-1">
                 <TrafficLight size="lg" className="hidden sm:flex" />
-                <h1
-                  className="text-4xl md:text-6xl font-bold text-white text-balance"
-                  style={{
-                    textShadow:
-                      "0 0 12px rgba(217, 70, 239, 0.18), 0 0 24px rgba(217, 70, 239, 0.08)",
-                  }}
-                >
+                <h1 className="text-5xl md:text-7xl font-bold text-white text-balance leading-[1.05] vx-text-glow">
                   Regarde{" "}
-                  <span className="text-white/40 font-light">&middot;</span>{" "}
+                  <span className="text-white/35 font-light">&middot;</span>{" "}
                   <span
-                    className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 to-purple-300"
+                    className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-200 via-fuchsia-300 to-purple-300"
                     style={{
-                      filter:
-                        "drop-shadow(0 0 4px rgba(217, 70, 239, 0.15))",
+                      filter: "drop-shadow(0 0 18px rgba(217, 70, 239, 0.45))",
                     }}
                   >
                     Soutiens
                   </span>{" "}
-                  <span className="text-white/40 font-light">&middot;</span>{" "}
+                  <span className="text-white/35 font-light">&middot;</span>{" "}
                   Participe
                 </h1>
                 <TrafficLight size="lg" className="hidden sm:flex" />
               </div>
 
-              <div className="mb-6">
+              <div className="mb-7 vx-rise-in vx-rise-in--delay-2">
                 <VisualSlogan size="base" opacity="high" withLines />
               </div>
 
-              <p className="text-xl text-white/85 mb-3 max-w-2xl mx-auto text-pretty leading-relaxed">
+              <p className="text-xl text-white/90 mb-3 max-w-2xl mx-auto text-pretty leading-relaxed vx-rise-in vx-rise-in--delay-2">
                 Soutiens des createurs independants et participe a une
                 communaute creative moderne.
               </p>
 
-              <p className="text-base text-white/65 mb-3 max-w-xl mx-auto leading-relaxed">
+              <p className="text-base text-white/65 mb-3 max-w-xl mx-auto leading-relaxed vx-rise-in vx-rise-in--delay-3">
                 Chaque soutien aide des projets a evoluer concretement.
               </p>
 
-              <p className="text-sm text-white/50 mb-8 max-w-2xl mx-auto">
-                Films <span className="text-white/30">&middot;</span> Podcasts{" "}
-                <span className="text-white/30">&middot;</span> Livres{" "}
-                <span className="text-white/30">&middot;</span> Creations originales
+              <p className="text-sm text-white/45 mb-10 max-w-2xl mx-auto vx-rise-in vx-rise-in--delay-3 tracking-wide">
+                Films <span className="text-white/25">&middot;</span> Podcasts{" "}
+                <span className="text-white/25">&middot;</span> Livres{" "}
+                <span className="text-white/25">&middot;</span> Creations originales
               </p>
 
-              {/* 3 CTA universels - aucune notion de profil */}
-              <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
+              {/* 3 CTA universels - cinematic shimmer */}
+              <div className="flex flex-col sm:flex-row gap-3 justify-center mb-7 vx-rise-in vx-rise-in--delay-4">
                 <Link href="/explore">
                   <Button
                     size="lg"
-                    className="bg-gradient-to-r from-fuchsia-600 to-rose-600 hover:from-fuchsia-500 hover:to-rose-500 text-white px-8 h-12 text-base font-semibold shadow-lg shadow-fuchsia-900/30 w-full sm:w-auto"
+                    className="vx-shimmer relative bg-gradient-to-r from-fuchsia-600 via-fuchsia-500 to-rose-500 hover:from-fuchsia-500 hover:to-rose-400 text-white px-8 h-12 text-base font-semibold w-full sm:w-auto"
+                    style={{
+                      boxShadow:
+                        "0 8px 32px -8px rgba(217, 70, 239, 0.55), 0 0 0 1px rgba(240, 171, 252, 0.25) inset",
+                    }}
                   >
                     <Eye className="mr-2 h-5 w-5" />
                     Explorer les projets
@@ -118,7 +133,7 @@ export function HomeV1() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-transparent border-white/25 text-white hover:bg-white/10 px-8 h-12 text-base w-full sm:w-auto"
+                    className="bg-white/[0.03] backdrop-blur-md border-white/20 text-white hover:bg-white/[0.08] hover:border-white/35 px-8 h-12 text-base w-full sm:w-auto transition-all"
                   >
                     Comprendre en 30 secondes
                     <ChevronRight className="ml-2 h-4 w-4" />
@@ -129,7 +144,7 @@ export function HomeV1() {
                     <Button
                       size="lg"
                       variant="outline"
-                      className="bg-transparent border-white/25 text-white/80 hover:bg-white/5 px-8 h-12 text-base w-full sm:w-auto"
+                      className="bg-transparent border-white/15 text-white/75 hover:bg-white/5 hover:text-white px-8 h-12 text-base w-full sm:w-auto"
                     >
                       <LogIn className="mr-2 h-4 w-4" />
                       Se connecter
@@ -138,7 +153,7 @@ export function HomeV1() {
                 )}
               </div>
 
-              <p className="text-white/40 text-sm flex items-center justify-center gap-2 flex-wrap">
+              <p className="text-white/40 text-sm flex items-center justify-center gap-2 flex-wrap vx-rise-in vx-rise-in--delay-4">
                 <Lock className="h-3.5 w-3.5 text-white/35" />
                 <span>
                   Tu gardes le controle - Aucun engagement force - Ton role evolue avec tes actions
@@ -226,7 +241,7 @@ export function HomeV1() {
             {/* Soutenir + Decouvrir - cartes emotionnelles, vocabulaire humain */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto">
               {/* A quoi sert mon soutien ? */}
-              <Card className="bg-emerald-500/5 border-emerald-500/25">
+              <Card className="vx-cinema-card bg-emerald-500/5 border-emerald-500/25">
                 <CardContent className="p-6 text-center">
                   <div className="h-10 w-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mx-auto mb-3">
                     <Heart className="h-5 w-5 text-emerald-300" />
@@ -247,7 +262,7 @@ export function HomeV1() {
               </Card>
 
               {/* Suis-je libre ? */}
-              <Card className="bg-amber-500/5 border-amber-500/25">
+              <Card className="vx-cinema-card bg-amber-500/5 border-amber-500/25">
                 <CardContent className="p-6 text-center">
                   <div className="h-10 w-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center mx-auto mb-3">
                     <Scale className="h-5 w-5 text-amber-300" />
@@ -278,22 +293,38 @@ export function HomeV1() {
         {/* SUCCESS STORIES - humanisation, lien direct avec les createurs */}
         <SuccessStories />
 
-        {/* PROJETS EN VEDETTE - simple grille avec CTA "Soutenir" */}
-        <section className="py-16 bg-slate-900/30">
-          <div className="container mx-auto px-4">
-            <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
+        {/* PROJETS EN VEDETTE — rail cinema premium */}
+        <section className="relative py-20 overflow-hidden bg-slate-900/30">
+          {/* Halos lumineux en arriere-plan */}
+          <div
+            className="vx-halo vx-halo--accent"
+            style={{ width: "440px", height: "440px", top: "-150px", left: "10%" }}
+            aria-hidden="true"
+          />
+          <div
+            className="vx-halo vx-halo--secondary"
+            style={{ width: "520px", height: "520px", bottom: "-200px", right: "5%" }}
+            aria-hidden="true"
+          />
+
+          <div className="container mx-auto px-4 relative">
+            <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-2 text-balance">
+                <span className="vx-pill mb-3">
+                  <Flame className="h-3 w-3" />
+                  En vedette
+                </span>
+                <h2 className="text-3xl md:text-5xl font-bold text-white mb-3 text-balance vx-text-glow">
                   A decouvrir cette semaine
                 </h2>
-                <p className="text-white/60">
+                <p className="text-white/65 text-base md:text-lg max-w-xl">
                   Clique sur un projet pour le decouvrir et le soutenir.
                 </p>
               </div>
               <Link href="/explore">
                 <Button
                   variant="outline"
-                  className="bg-transparent border-white/20 text-white hover:bg-white/10"
+                  className="bg-white/[0.03] backdrop-blur-md border-white/20 text-white hover:bg-white/[0.08] hover:border-white/35 transition-all"
                 >
                   Voir tous les projets
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -323,7 +354,7 @@ export function HomeV1() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              <Card className="bg-slate-900/60 border-fuchsia-500/30 hover:border-fuchsia-400/60 transition-colors group">
+              <Card className="vx-cinema-card bg-slate-900/60 border-fuchsia-500/30 hover:border-fuchsia-400/60 group">
                 <CardContent className="p-6 flex flex-col h-full">
                   <div className="h-12 w-12 rounded-xl bg-fuchsia-500/15 flex items-center justify-center mb-4 group-hover:bg-fuchsia-500/25 transition-colors">
                     <Eye className="h-6 w-6 text-fuchsia-300" />
@@ -346,7 +377,7 @@ export function HomeV1() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-900/60 border-rose-500/30 hover:border-rose-400/60 transition-colors group">
+              <Card className="vx-cinema-card bg-slate-900/60 border-rose-500/30 hover:border-rose-400/60 group">
                 <CardContent className="p-6 flex flex-col h-full">
                   <div className="h-12 w-12 rounded-xl bg-rose-500/15 flex items-center justify-center mb-4 group-hover:bg-rose-500/25 transition-colors">
                     <Heart className="h-6 w-6 text-rose-300" />
@@ -369,7 +400,7 @@ export function HomeV1() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-900/60 border-purple-500/30 hover:border-purple-400/60 transition-colors group">
+              <Card className="vx-cinema-card bg-slate-900/60 border-purple-500/30 hover:border-purple-400/60 group">
                 <CardContent className="p-6 flex flex-col h-full">
                   <div className="h-12 w-12 rounded-xl bg-purple-500/15 flex items-center justify-center mb-4 group-hover:bg-purple-500/25 transition-colors">
                     <Upload className="h-6 w-6 text-purple-300" />

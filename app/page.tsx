@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, Film, FileText, Mic, Users, TrendingUp, Shield, Star, Award, CreditCard, Wallet, Upload, Eye, Heart } from "lucide-react"
+import { ArrowRight, Film, FileText, Mic, Users, TrendingUp, Shield, Star, Award, CreditCard, Wallet, Upload, Eye, Heart, Sparkles, Flame } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -62,43 +62,69 @@ const STATS = [
 ]
 
 export default function HomePage() {
-  const platformVersion = usePlatformVersion() as "V1" | "V2" | "V3"
+  const rawVersion = usePlatformVersion()
 
   // V1 utilise un layout simplifie dedie (onboarding intelligent,
   // 3 actions universelles, vocabulaire grand public). V2/V3 conservent
   // leur layout historique ci-dessous.
-  if (platformVersion === "V1") {
+  if (rawVersion === "V1") {
     return <HomeV1 />
   }
+
+  // Cast apres l'early return : preserve le type union complet pour le rendu V2/V3
+  // et empeche le narrowing destructeur sur les comparaisons internes.
+  const platformVersion = rawVersion as "V1" | "V2" | "V3"
 
   return (
     <div className="min-h-screen bg-slate-950">
       <VisualHeader />
 
       <main>
-        {/* Hero Section */}
-        <section className="relative pt-32 pb-20 overflow-hidden">
-          {/* Background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-emerald-900/20 via-slate-950 to-slate-950" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-500/10 rounded-full blur-3xl" />
+        {/* Hero Section — Streaming premium cinematic V2/V3 */}
+        <section className="vx-cinema-hero relative pt-32 pb-24">
+          {/* Couche 1 : orbes lumineux drift cinema */}
+          <div className="vx-orb-bg" aria-hidden="true" />
+
+          {/* Couche 2 : voile sombre cinema */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(10,1,24,0) 0%, rgba(10,1,24,0.35) 65%, rgba(10,1,24,0.85) 100%)",
+            }}
+            aria-hidden="true"
+          />
 
           <div className="container mx-auto px-4 relative">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="flex items-center justify-center gap-4 md:gap-6 mb-4">
+              {/* Badge premium contextuel par version */}
+              <div className="flex justify-center mb-7 vx-rise-in">
+                <span className="vx-pill">
+                  {platformVersion === "V2" ? (
+                    <>
+                      <span className="vx-live-dot" aria-hidden="true" />
+                      Communaute creative active
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="h-3 w-3" />
+                      Univers createurs prestigieux
+                    </>
+                  )}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-center gap-4 md:gap-6 mb-6 vx-rise-in vx-rise-in--delay-1">
                 <TrafficLight size="lg" className="hidden sm:flex" />
-                <h1
-                  className={`text-4xl md:text-6xl font-bold text-white text-balance ${
-                    platformVersion === "V1" ? "vx-neon-text" : ""
-                  }`}
-                >
+                <h1 className="text-5xl md:text-7xl font-bold text-white text-balance leading-[1.05] vx-text-glow">
                   Contribuez aux{" "}
                   <span
                     className={
-                      platformVersion === "V1"
-                        ? "text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 to-purple-300 [text-shadow:none] [filter:drop-shadow(0_0_6px_rgba(217,70,239,0.18))]"
-                        : platformVersion === "V2"
-                        ? "text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-rose-400"
-                        : "text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400"
+                      platformVersion === "V2"
+                        ? // Rouge cinema metallique brillant : grenat profond -> rouge eclat lumineux -> rouge profond
+                          "text-transparent bg-clip-text bg-gradient-to-r from-red-800 via-red-400 to-rose-700 [text-shadow:0_1px_0_rgba(255,255,255,0.08)]"
+                        : // Emeraude metallique brillant : vert foret -> vert eclat lumineux -> teal profond
+                          "text-transparent bg-clip-text bg-gradient-to-r from-emerald-800 via-emerald-400 to-teal-700 [text-shadow:0_1px_0_rgba(255,255,255,0.08)]"
                     }
                   >
                     talents de demain
@@ -108,35 +134,40 @@ export default function HomePage() {
               </div>
 
               {/* Slogan signature */}
-              <div className="mb-4">
+              <div className="mb-4 vx-rise-in vx-rise-in--delay-2">
                 <VisualSlogan size="base" opacity="high" withLines />
               </div>
-              <p className="text-white/45 text-sm italic mb-4">Vois-les avant tout le monde.</p>
+              <p className="text-white/45 text-sm italic mb-6 vx-rise-in vx-rise-in--delay-2">
+                Vois-les avant tout le monde.
+              </p>
 
-              {platformVersion === "V1" && (
-                <div className="mb-6">
-                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-300 text-xs font-medium vx-pulse">
-                    Phase de lancement - VIXUAL nouvelle generation, 4 profils essentiels
-                  </span>
-                </div>
-              )}
               {platformVersion === "V2" && (
-                <div className="mb-6">
-                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-medium">
+                <div className="mb-6 vx-rise-in vx-rise-in--delay-3">
+                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-200 text-xs font-medium backdrop-blur-md">
                     Phase de croissance - createurs video, ecrits et podcasts desormais disponibles
                   </span>
                 </div>
               )}
 
-              <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto text-pretty">
-                VIXUAL, la première plateforme de streaming participative pour les films, écrits et podcasts. Soutenez les créateurs en contribuant à leur succès.
+              <p className="text-xl text-white/85 mb-10 max-w-2xl mx-auto text-pretty leading-relaxed vx-rise-in vx-rise-in--delay-3">
+                VIXUAL, la premiere plateforme de streaming participative pour les films, ecrits et podcasts. Soutenez les createurs en contribuant a leur succes.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center vx-rise-in vx-rise-in--delay-4">
                 <Link href="/signup">
                   <Button
                     size="lg"
-                    className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white px-8 h-12 text-lg font-semibold shadow-lg shadow-emerald-900/30"
+                    className={`vx-shimmer relative text-white px-8 h-12 text-lg font-semibold ${
+                      platformVersion === "V2"
+                        ? "bg-gradient-to-r from-rose-600 via-red-500 to-rose-500 hover:from-rose-500 hover:to-rose-400"
+                        : "bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-500 hover:from-emerald-500 hover:to-teal-400"
+                    }`}
+                    style={{
+                      boxShadow:
+                        platformVersion === "V2"
+                          ? "0 8px 32px -8px rgba(244, 63, 94, 0.55), 0 0 0 1px rgba(252, 165, 165, 0.25) inset"
+                          : "0 8px 32px -8px rgba(16, 185, 129, 0.55), 0 0 0 1px rgba(110, 231, 183, 0.25) inset",
+                    }}
                   >
                     Commencer gratuitement
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -146,7 +177,7 @@ export default function HomePage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-transparent border-white/20 text-white hover:bg-white/10 px-8 h-12 text-lg"
+                    className="bg-white/[0.03] backdrop-blur-md border-white/20 text-white hover:bg-white/[0.08] hover:border-white/35 px-8 h-12 text-lg transition-all"
                   >
                     Explorer les projets
                   </Button>
@@ -258,7 +289,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
               
               {/* Carte 1: Les 3 Familles */}
-              <Card className="overflow-hidden hover:shadow-xl hover:shadow-[#7A00FF]/20 transition-all duration-300 border-[#7A00FF]/30" style={{ background: 'linear-gradient(to bottom, rgba(10, 77, 255, 0.15), rgba(122, 0, 255, 0.1))' }}>
+              <Card className="vx-cinema-card overflow-hidden hover:shadow-xl hover:shadow-[#7A00FF]/20 border-[#7A00FF]/30" style={{ background: 'linear-gradient(to bottom, rgba(10, 77, 255, 0.15), rgba(122, 0, 255, 0.1))' }}>
                 <CardContent className="p-5 pb-3">
                   <h3 className="text-lg font-bold mb-2 select-text" style={{ color: '#F5F7FF' }}>
                     {"Les 3 Familles VIXUAL - Createurs, Participants, Public"}
@@ -285,7 +316,7 @@ export default function HomePage() {
               </Card>
 
               {/* Carte 2: Comment ca fonctionne */}
-              <Card className="overflow-hidden hover:shadow-xl hover:shadow-[#0A4DFF]/20 transition-all duration-300 border-[#0A4DFF]/30" style={{ background: 'linear-gradient(to bottom, rgba(122, 0, 255, 0.15), rgba(10, 77, 255, 0.1))' }}>
+              <Card className="vx-cinema-card overflow-hidden hover:shadow-xl hover:shadow-[#0A4DFF]/20 border-[#0A4DFF]/30" style={{ background: 'linear-gradient(to bottom, rgba(122, 0, 255, 0.15), rgba(10, 77, 255, 0.1))' }}>
                 <CardContent className="p-5 pb-3">
                   <h3 className="text-lg font-bold mb-2 select-text" style={{ color: '#F5F7FF' }}>
                     {"Comment fonctionne VIXUAL - Selectionnez, Participez, Gagnez"}
@@ -306,7 +337,7 @@ export default function HomePage() {
               </Card>
 
               {/* Carte 3: Principe des gains */}
-              <Card className="overflow-hidden hover:shadow-xl hover:shadow-[#00E5FF]/20 transition-all duration-300 border-[#00E5FF]/30" style={{ background: 'linear-gradient(to bottom, rgba(0, 229, 255, 0.1), rgba(122, 0, 255, 0.1))' }}>
+              <Card className="vx-cinema-card overflow-hidden hover:shadow-xl hover:shadow-[#00E5FF]/20 border-[#00E5FF]/30" style={{ background: 'linear-gradient(to bottom, rgba(0, 229, 255, 0.1), rgba(122, 0, 255, 0.1))' }}>
                 <CardContent className="p-5 pb-3">
                   <h3 className="text-lg font-bold mb-2 select-text" style={{ color: '#F5F7FF' }}>
                     {"Votez pour vos projets preferes"}
@@ -373,7 +404,7 @@ export default function HomePage() {
               {FEATURES.map((feature) => (
                 <Card
                   key={feature.title}
-                  className="bg-slate-900/50 border-white/10 hover:border-emerald-500/30 transition-colors"
+                  className="vx-cinema-card bg-slate-900/50 border-white/10 hover:border-emerald-500/30"
                 >
                   <CardContent className="p-6">
                     <div
@@ -390,7 +421,7 @@ export default function HomePage() {
               ))}
               
               {/* Encart special - Regarde Soutiens Participe */}
-              <Card className="bg-slate-900/50 border-white/10 hover:border-white/30 transition-colors">
+              <Card className="vx-cinema-card bg-slate-900/50 border-white/10 hover:border-white/30">
                 <CardContent className="p-6 flex flex-col items-center justify-center h-full">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-full bg-red-500/15 flex items-center justify-center">
@@ -418,22 +449,38 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Featured Projects */}
-        <section className="py-20 bg-slate-900/30 cinema-section">
-          <div className="container mx-auto px-4">
-            <div className="flex justify-between items-center mb-12">
+        {/* Featured Projects — rail cinema premium */}
+        <section className="relative py-20 overflow-hidden bg-slate-900/30 cinema-section">
+          {/* Halos lumineux */}
+          <div
+            className="vx-halo vx-halo--accent"
+            style={{ width: "440px", height: "440px", top: "-150px", left: "10%" }}
+            aria-hidden="true"
+          />
+          <div
+            className="vx-halo vx-halo--secondary"
+            style={{ width: "520px", height: "520px", bottom: "-200px", right: "5%" }}
+            aria-hidden="true"
+          />
+
+          <div className="container mx-auto px-4 relative">
+            <div className="flex justify-between items-end mb-10 flex-wrap gap-4">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                <span className="vx-pill mb-3">
+                  <Flame className="h-3 w-3" />
+                  En vedette
+                </span>
+                <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 vx-text-glow">
                   Projets en vedette
                 </h2>
-                <p className="text-white/60">
-                  Découvrez les projets les plus populaires du moment
+                <p className="text-white/65 text-base md:text-lg max-w-xl">
+                  Decouvrez les projets les plus populaires du moment
                 </p>
               </div>
               <Link href="/explore">
                 <Button
                   variant="outline"
-                  className="hidden md:flex bg-transparent border-white/20 text-white hover:bg-white/10"
+                  className="hidden md:flex bg-white/[0.03] backdrop-blur-md border-white/20 text-white hover:bg-white/[0.08] hover:border-white/35 transition-all"
                 >
                   Voir tout
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -522,22 +569,31 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-r from-emerald-900/30 to-teal-900/30 cinema-section">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Prêt à rejoindre VIXUAL ?
+        {/* CTA Section — cinematic premium */}
+        <section className="relative py-24 overflow-hidden bg-gradient-to-r from-emerald-900/30 to-teal-900/30 cinema-section">
+          <div
+            className="vx-halo vx-halo--accent"
+            style={{ width: "600px", height: "600px", top: "-250px", left: "50%", transform: "translateX(-50%)" }}
+            aria-hidden="true"
+          />
+          <div className="container mx-auto px-4 text-center relative">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 vx-text-glow text-balance">
+              Pret a rejoindre VIXUAL ?
             </h2>
-            <p className="text-white/70 mb-8 max-w-xl mx-auto">
-              Créez votre compte gratuitement et commencez à explorer des
-              milliers de projets créatifs
+            <p className="text-white/75 mb-8 max-w-xl mx-auto text-base md:text-lg leading-relaxed">
+              Creez votre compte gratuitement et commencez a explorer des
+              milliers de projets creatifs.
             </p>
             <Link href="/signup">
               <Button
                 size="lg"
-                className="bg-white text-slate-900 hover:bg-white/90 px-8 h-12 text-lg font-semibold"
+                className="vx-shimmer relative bg-white text-slate-900 hover:bg-white/95 px-10 h-12 text-lg font-semibold"
+                style={{
+                  boxShadow:
+                    "0 8px 32px -8px rgba(255, 255, 255, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.2) inset",
+                }}
               >
-                Créer mon compte
+                Creer mon compte
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>

@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { 
@@ -17,10 +18,13 @@ function FeaturedProjectMini({ project, label }: { project: PublicProjectStats; 
   return (
     <Link href={`/video/${project.id}`}>
       <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-violet-400/20 transition-all duration-300 cursor-pointer group">
-        <img 
-          src={project.thumbnail} 
+        <Image
+          src={project.thumbnail || "/placeholder.svg"}
           alt={project.title}
+          width={56}
+          height={40}
           className="w-14 h-10 object-cover rounded-lg"
+          loading="lazy"
         />
         <div className="flex-1 min-w-0">
           <p className="text-xs text-white/40 mb-0.5">{label}</p>

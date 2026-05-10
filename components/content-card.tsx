@@ -55,15 +55,15 @@ export function ContentCard({ content }: ContentCardProps) {
 
   return (
     <Link href={`/video/${content.id}`}>
-      <Card className="group overflow-hidden bg-slate-900/50 border-white/10 hover:border-emerald-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-900/20 h-full cinema-card">
-        <div className="relative aspect-video overflow-hidden">
+      <Card className="vx-cinema-card group overflow-hidden bg-slate-900/50 border-white/10 hover:border-emerald-500/50 h-full cinema-card">
+        <div className="vx-cinema-poster relative aspect-video">
           <Image
             src={content.coverUrl || "/placeholder.svg"}
             alt={content.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover"
+            data-poster-img=""
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
 
           {/* Badge type */}
           <Badge className={`absolute top-3 left-3 ${badgeConfig.bg} text-white border-0`}>

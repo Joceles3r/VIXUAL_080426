@@ -1,0 +1,475 @@
+/* ════════════════════════════════════════════════════════════════════
+   VIXUAL — CINEMATIC DESIGN SYSTEM
+   ════════════════════════════════════════════════════════════════════
+   Tokens et utilitaires reutilisables pour transformer VIXUAL en
+   plateforme streaming premium (Netflix / Canal+ / Apple TV+ vibe).
+
+   Philosophie :
+     - Profondeur (ombres ambiantes en couches)
+     - Halos lumineux diffus (glow doux, jamais aggressif)
+     - Vignettes cinema (assombrissement bord d'image)
+     - Hover premium (zoom ~3%, elevation, shimmer)
+     - Animations LENTES (400-700ms ease-out)
+
+   Toutes les classes sont prefixees `vx-` pour eviter les collisions.
+   Les couleurs s'adaptent automatiquement via les variables --vx-*
+   definies dans [data-version] (V1 fuchsia, V2 rouge, V3 emerald).
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* TOKENS — fallback V3 (emerald) si data-version absent               */
+/* ─────────────────────────────────────────────────────────────────── */
+:root {
+  --vx-accent: #10b981;
+  --vx-accent-bright: #34d399;
+  --vx-accent-glow: #6ee7b7;
+  --vx-secondary: #14b8a6;
+  --vx-secondary-bright: #2dd4bf;
+
+  /* Easings cinematiques */
+  --vx-ease-cinema: cubic-bezier(0.22, 1, 0.36, 1);
+  --vx-ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Durations premium (lentes) */
+  --vx-dur-fast: 250ms;
+  --vx-dur-base: 450ms;
+  --vx-dur-slow: 700ms;
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* ARRIERE-PLAN — orbes lumineux flottants (decor cinema premium)      */
+/* Usage : <div class="vx-orb-bg" /> en absolute parent relative       */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-orb-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.vx-orb-bg::before,
+.vx-orb-bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+  will-change: transform;
+}
+
+.vx-orb-bg::before {
+  width: 520px;
+  height: 520px;
+  top: -120px;
+  left: -100px;
+  background: radial-gradient(circle, var(--vx-accent) 0%, transparent 65%);
+  animation: vx-orb-drift-1 22s ease-in-out infinite;
+}
+
+.vx-orb-bg::after {
+  width: 620px;
+  height: 620px;
+  bottom: -180px;
+  right: -120px;
+  background: radial-gradient(circle, var(--vx-secondary) 0%, transparent 65%);
+  animation: vx-orb-drift-2 28s ease-in-out infinite;
+}
+
+@keyframes vx-orb-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, 40px) scale(1.08); }
+}
+
+@keyframes vx-orb-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, -30px) scale(1.1); }
+}
+
+/* Variante plus discrete pour sections internes */
+.vx-orb-bg--soft::before,
+.vx-orb-bg--soft::after {
+  opacity: 0.28;
+  filter: blur(110px);
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* CINEMA CARD — Card premium avec depth & halo au hover               */
+/* Usage : ajouter class `vx-cinema-card` sur un <Card>                */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-cinema-card {
+  position: relative;
+  isolation: isolate;
+  transition:
+    transform var(--vx-dur-base) var(--vx-ease-cinema),
+    box-shadow var(--vx-dur-base) var(--vx-ease-cinema),
+    border-color var(--vx-dur-base) var(--vx-ease-cinema);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 8px 24px -12px rgba(0, 0, 0, 0.6);
+}
+
+.vx-cinema-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 18px 40px -16px rgba(0, 0, 0, 0.75),
+    0 0 0 1px color-mix(in oklab, var(--vx-accent) 35%, transparent),
+    0 0 32px -4px color-mix(in oklab, var(--vx-accent) 35%, transparent);
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* CINEMA POSTER — image avec vignette + zoom subtil au hover          */
+/* Usage : wrapper de l'image — `vx-cinema-poster`                     */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-cinema-poster {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Vignette cinema : assombrissement bords + bas (lecture du titre) */
+.vx-cinema-poster::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 130% 90% at 50% 30%, transparent 55%, rgba(0, 0, 0, 0.55) 100%),
+    linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.7) 100%);
+  z-index: 2;
+  transition: opacity var(--vx-dur-base) var(--vx-ease-cinema);
+}
+
+/* Image interne : zoom subtil au hover (Netflix-like) */
+.vx-cinema-poster img,
+.vx-cinema-poster [data-poster-img] {
+  transition: transform var(--vx-dur-slow) var(--vx-ease-cinema);
+  will-change: transform;
+}
+
+/* Badges & overlays positionnes en absolu DOIVENT rester au-dessus
+   de la vignette (::after a z-index 2). Tailwind compile `absolute`
+   en classe utilitaire, donc `> .absolute` cible les badges textuels.
+   L'Image Next.js avec `fill` utilise un style inline et n'a PAS la
+   classe `.absolute` — elle reste sous la vignette comme attendu. */
+.vx-cinema-poster > .absolute {
+  z-index: 3;
+}
+
+.vx-cinema-poster:hover img,
+.vx-cinema-poster:hover [data-poster-img],
+.group:hover .vx-cinema-poster img,
+.group:hover .vx-cinema-poster [data-poster-img] {
+  transform: scale(1.06);
+}
+
+/* Glow halo derriere le poster au hover */
+.vx-cinema-poster::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in oklab, var(--vx-accent) 28%, transparent) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  filter: blur(14px);
+  transition: opacity var(--vx-dur-base) var(--vx-ease-cinema);
+  pointer-events: none;
+}
+
+.vx-cinema-poster:hover::before,
+.group:hover .vx-cinema-poster::before {
+  opacity: 1;
+}
+
+/* ───────────────────────────────────��─────────────────────────────── */
+/* SHIMMER — passage de lumiere sur les CTA premium                    */
+/* Usage : ajouter class `vx-shimmer` sur un Button                    */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.vx-shimmer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 70%
+  );
+  transition: left var(--vx-dur-slow) var(--vx-ease-cinema);
+  pointer-events: none;
+}
+
+.vx-shimmer:hover::before {
+  left: 100%;
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* HALOS LUMINEUX — points lumineux statiques d'arriere-plan           */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-halo {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.vx-halo--accent {
+  background: radial-gradient(circle, var(--vx-accent) 0%, transparent 65%);
+  opacity: 0.28;
+}
+
+.vx-halo--secondary {
+  background: radial-gradient(circle, var(--vx-secondary) 0%, transparent 65%);
+  opacity: 0.22;
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* CINEMA HERO — bandeau immersif premium                              */
+/* Usage : <section class="vx-cinema-hero">                            */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-cinema-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.vx-cinema-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%,
+      color-mix(in oklab, var(--vx-accent) 18%, transparent) 0%,
+      transparent 70%),
+    radial-gradient(ellipse 55% 40% at 15% 100%,
+      color-mix(in oklab, var(--vx-secondary) 14%, transparent) 0%,
+      transparent 70%),
+    radial-gradient(ellipse 50% 35% at 85% 80%,
+      color-mix(in oklab, var(--vx-accent-glow, var(--vx-accent)) 12%, transparent) 0%,
+      transparent 70%);
+  pointer-events: none;
+}
+
+/* Voile film grain tres subtil pour texture cinema */
+.vx-cinema-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+.vx-cinema-hero > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* PILL PREMIUM — petit badge brillant pour categories / status        */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: color-mix(in oklab, var(--vx-accent) 12%, rgba(255, 255, 255, 0.02));
+  border: 1px solid color-mix(in oklab, var(--vx-accent) 35%, transparent);
+  color: color-mix(in oklab, var(--vx-accent-bright) 80%, white);
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--vx-accent) 12%, transparent) inset,
+    0 4px 16px -8px color-mix(in oklab, var(--vx-accent) 50%, transparent);
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* RISE-IN — apparition douce (ne se declenche qu'une fois)            */
+/* Usage : ajouter `vx-rise-in` sur un element                         */
+/* ─────────────────────────────────────────────────────────────────── */
+@keyframes vx-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vx-rise-in {
+  animation: vx-rise-in var(--vx-dur-slow) var(--vx-ease-cinema) both;
+}
+
+.vx-rise-in--delay-1 { animation-delay: 100ms; }
+.vx-rise-in--delay-2 { animation-delay: 200ms; }
+.vx-rise-in--delay-3 { animation-delay: 320ms; }
+.vx-rise-in--delay-4 { animation-delay: 440ms; }
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* TEXT GLOW — titres avec halo lumineux discret                       */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-text-glow {
+  text-shadow:
+    0 0 22px color-mix(in oklab, var(--vx-accent) 35%, transparent),
+    0 0 44px color-mix(in oklab, var(--vx-accent) 18%, transparent);
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* RAIL — carrousel horizontal Netflix-like                            */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-rail {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 0.5rem;
+  scroll-behavior: smooth;
+}
+
+.vx-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.vx-rail > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* V3 — BANNIERE IMMERSIVE CHAINE CREATEUR                             */
+/* Header large, dégradé cinéma, halos pour donner l'impression        */
+/* d'entrer dans un studio.                                            */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-cinema-banner {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Voile cinéma au-dessus de l'image (plus dramatique en bas) */
+.vx-cinema-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 80% at 50% 20%, transparent 0%, rgba(10, 1, 24, 0.55) 70%, rgba(10, 1, 24, 0.95) 100%),
+    linear-gradient(180deg, rgba(10, 1, 24, 0.1) 0%, rgba(10, 1, 24, 0.85) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Halo coloré accent en bas-droite (signature studio) */
+.vx-cinema-banner::after {
+  content: "";
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 60%;
+  height: 100%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklab, var(--vx-accent, #d946ef) 22%, transparent),
+    transparent 70%
+  );
+  filter: blur(60px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.vx-cinema-banner > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* V3 — STUDIO FRAME (cadre prestigieux pour cards créateur)           */
+/* Bordure double avec lumière intérieure, donne le sentiment d'entrer */
+/* dans un univers personnel premium.                                  */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-studio-frame {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)),
+    rgba(15, 8, 26, 0.65);
+  border: 1px solid color-mix(in oklab, var(--vx-accent, #d946ef) 25%, rgba(255, 255, 255, 0.08));
+  border-radius: 18px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 24px 60px -24px color-mix(in oklab, var(--vx-accent, #d946ef) 18%, transparent),
+    0 0 80px -30px color-mix(in oklab, var(--vx-secondary, #a855f7) 22%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* V2 — DOT INDICATEUR ACTIVITÉ COMMUNAUTÉ                             */
+/* Petit point lumineux pulsant pour signaler "live activity"          */
+/* ─────────────────────────────────────────────────────────────────── */
+.vx-live-dot {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--vx-accent, #ef4444) 80%, white 10%);
+  box-shadow: 0 0 12px color-mix(in oklab, var(--vx-accent, #ef4444) 60%, transparent);
+}
+
+.vx-live-dot::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--vx-accent, #ef4444) 40%, transparent);
+  animation: vx-live-pulse 2.4s ease-out infinite;
+}
+
+@keyframes vx-live-pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/* RESPECT REDUCED MOTION                                              */
+/* ─────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .vx-orb-bg::before,
+  .vx-orb-bg::after,
+  .vx-cinema-poster img,
+  .vx-cinema-poster [data-poster-img],
+  .vx-rise-in,
+  .vx-shimmer::before,
+  .vx-live-dot::before {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
+import "./cinematic.css"
 import { AuthProvider } from "@/lib/auth-context"
 import { StripeModeBanner } from "@/components/stripe-mode-banner"
 import { CookieConsentBanner } from "@/components/cookie-consent"
@@ -42,8 +43,16 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className="dark">
-      <body className={`${inter.className} antialiased bg-slate-950 text-white`}>
+    <html lang="fr" className="dark" translate="no">
+      <head>
+        {/* Bloque Google Translate / Bing Translator qui manipulent le DOM
+            et provoquent l'erreur React "Failed to execute removeChild on Node" */}
+        <meta name="google" content="notranslate" />
+      </head>
+      <body
+        className={`${inter.className} notranslate antialiased bg-slate-950 text-white`}
+        suppressHydrationWarning
+      >
         <VersionThemeProvider>
           <ResizeObserverFix />
           <ErrorBoundaryClient>

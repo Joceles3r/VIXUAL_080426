@@ -4,7 +4,8 @@ import { useAuth } from "@/lib/auth-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { AlertTriangle, Rocket, Users, Sparkles, Check, X, Video, BookOpen, Mic } from "lucide-react"
+import { AlertTriangle, Rocket, Users, Sparkles, Check, X, Video, BookOpen, Mic, Tv } from "lucide-react"
+import Link from "next/link"
 
 const VERSIONS = [
   {
@@ -53,9 +54,32 @@ export default function PlatformStatePage() {
   const [reason, setReason] = useState("")
   const [loading, setLoading] = useState(false)
 
+  // Etat du module Chaines createurs (V3 only, OFF par defaut)
+  const [channelsEnabled, setChannelsEnabled] = useState<boolean>(false)
+  const [channelsLoading, setChannelsLoading] = useState<boolean>(false)
+
   useEffect(() => {
     fetch("/api/platform/version").then(r => r.json()).then(d => setCurrent(d.version)).catch(() => {})
-  }, [])
+    fetch("/api/admin/channels/state", { headers: { "x-admin-email": user?.email ?? "" } })
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d?.state && typeof d.state.isEnabled === "boolean") setChannelsEnabled(d.state.isEnabled) })
+      .catch(() => {})
+  }, [user?.email])
+
+  const toggleChannels = async () => {
+    setChannelsLoading(true)
+    try {
+      const res = await fetch("/api/admin/channels/state", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-email": user?.email ?? "" },
+        body: JSON.stringify({ enabled: !channelsEnabled }),
+      })
+      if (res.ok) {
+        const d = await res.json()
+        if (d?.state && typeof d.state.isEnabled === "boolean") setChannelsEnabled(d.state.isEnabled)
+      }
+    } finally { setChannelsLoading(false) }
+  }
 
   const apply = async () => {
     if (!pendingChange || !reason.trim()) return
@@ -144,6 +168,47 @@ export default function PlatformStatePage() {
           )
         })}
       </div>
+
+      {/* Modules V3 — Chaines createurs */}
+      <Card className="bg-slate-900/60 border-2 border-violet-500/20 mt-6">
+        <CardContent className="p-5">
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-violet-500/20 shrink-0">
+              <Tv className="h-6 w-6 text-violet-400" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <span className="font-bold text-white text-lg">Chaines createurs</span>
+                <Badge className="bg-violet-500/20 text-violet-300 text-[10px] uppercase tracking-wider">V3 only</Badge>
+                {channelsEnabled ? (
+                  <Badge className="bg-emerald-500/20 text-emerald-300 text-[10px] uppercase tracking-wider">Actif</Badge>
+                ) : (
+                  <Badge variant="outline" className="border-white/20 text-white/50 text-[10px] uppercase tracking-wider">Desactive</Badge>
+                )}
+              </div>
+              <p className="text-white/55 text-sm mb-3">
+                Univers creatifs merites pour createurs Trust Score &gt;= 85. Module independant des versions de la plateforme,
+                desactive par defaut. Validation patron requise pour chaque demande.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  size="sm"
+                  onClick={toggleChannels}
+                  disabled={channelsLoading}
+                  className={channelsEnabled
+                    ? "bg-red-600/80 hover:bg-red-500 text-white"
+                    : "bg-violet-600 hover:bg-violet-500 text-white"}
+                >
+                  {channelsLoading ? "..." : channelsEnabled ? "Desactiver" : "Activer"}
+                </Button>
+                <Button asChild size="sm" variant="outline" className="border-violet-500/30 text-violet-200 hover:text-white hover:bg-violet-500/10">
+                  <Link href="/admin/creator-channels">{"Moderer les demandes →"}</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {pendingChange && (
         <Card className="bg-red-500/10 border-red-500/30 mt-6">

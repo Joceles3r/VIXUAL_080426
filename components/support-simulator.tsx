@@ -11,7 +11,7 @@ import {
   getVixupointsForInvestment,
 } from "@/lib/payout/constants";
 
-export function InvestSimulator() {
+export function SupportSimulator() {
   const [amount, setAmount] = useState(10);
 
   // Snap to the nearest valid tier
@@ -97,7 +97,7 @@ export function InvestSimulator() {
         <div className="space-y-3">
           <p className="text-white/60 text-sm flex items-center gap-2">
             <TrendingUp className="h-4 w-4 text-emerald-400" />
-            {"Gains potentiels (si le projet est recompense en cycle de cloture) :"}
+            {"Recompenses potentielles (si le projet est recompense en cycle de cloture) :"}
           </p>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="bg-black/20 rounded-lg p-3 border border-white/5">

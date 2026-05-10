@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { useAuth } from "@/lib/auth-context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -262,10 +263,14 @@ export default function PromoPage() {
             <CardContent className="flex flex-col items-center">
               {qrCodeUrl ? (
                 <div className="bg-white p-2 rounded-lg">
-                  <img 
-                    src={qrCodeUrl} 
-                    alt="QR Code parrainage" 
+                  <Image
+                    src={qrCodeUrl}
+                    alt="QR Code parrainage"
+                    width={128}
+                    height={128}
                     className="w-32 h-32"
+                    unoptimized
+                    loading="lazy"
                   />
                 </div>
               ) : (
