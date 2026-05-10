@@ -39,6 +39,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useTestLabAccess } from "@/lib/test-lab/use-test-lab-access"
+import { CreatorChannelsBanner } from "@/components/admin/creator-channels-banner"
 
 interface AdminStats {
   totalUsers: number
@@ -184,6 +185,9 @@ export default function AdminPage() {
 
       {/* Test Lab Banner - Gros bouton voyant */}
       <TestLabBanner />
+
+      {/* Creator Channels Banner — Module V3 (toggle + moderation) */}
+      <CreatorChannelsBanner />
 
       {/* Moderation Banner - Acces direct au moteur de moderation */}
       <Link href="/admin/moderation" className="block mb-6">

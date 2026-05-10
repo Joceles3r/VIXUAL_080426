@@ -201,8 +201,8 @@ export default function PlatformStatePage() {
                 >
                   {channelsLoading ? "..." : channelsEnabled ? "Desactiver" : "Activer"}
                 </Button>
-                <Button asChild size="sm" variant="outline" className="border-white/20 text-white/70 hover:text-white">
-                  <Link href="/admin/creator-channels">Moderer les demandes</Link>
+                <Button asChild size="sm" variant="outline" className="border-violet-500/30 text-violet-200 hover:text-white hover:bg-violet-500/10">
+                  <Link href="/admin/creator-channels">{"Moderer les demandes →"}</Link>
                 </Button>
               </div>
             </div>
