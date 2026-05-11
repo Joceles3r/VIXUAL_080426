@@ -23,9 +23,13 @@ import {
   Search,
   Filter,
   RefreshCw,
+  Crown,
+  Lock,
+  ChevronDown,
 } from "lucide-react"
 import {
   type Employee,
+  type EmployeePermission,
   type EmployeeRole,
   type EmployeeFunction,
   type EmployeeWorkload,
@@ -35,6 +39,8 @@ import {
   MOCK_WORKLOADS,
   getDefaultPermissionsForRole,
 } from "@/lib/admin/employees"
+import { PATRON_EMAIL } from "@/lib/admin/roles"
+import { EmployeePermissionPanel } from "@/components/admin/employee-permission-panel"
 
 // ==================== COMPONENTS ====================
 
@@ -342,24 +348,168 @@ export default function AdminEmployeesPage() {
     ))
   }
 
+  // ─── PATCH §13/§14 — l'ADMIN/PATRON seul peut éditer ───
+  const isPatron = (user?.email ?? "").toLowerCase() === PATRON_EMAIL.toLowerCase()
+
+  // ─── PATCH §14 — toggle permission immédiat + journalisation (§15) ───
+  const handleTogglePermission = (
+    employeeId: string,
+    permissionKey: EmployeePermission,
+    value: boolean,
+  ) => {
+    if (!isPatron) {
+      alert("Action réservée à l'ADMIN/PATRON.")
+      return
+    }
+    setEmployees((prev) =>
+      prev.map((e) => {
+        if (e.id !== employeeId) return e
+        const next = new Set(e.permissions)
+        if (value) next.add(permissionKey)
+        else next.delete(permissionKey)
+        return { ...e, permissions: Array.from(next), updatedAt: new Date() }
+      }),
+    )
+    // Mise à jour live de l'encart ouvert
+    setSelectedEmployee((sel) => {
+      if (!sel || sel.id !== employeeId) return sel
+      const next = new Set(sel.permissions)
+      if (value) next.add(permissionKey)
+      else next.delete(permissionKey)
+      return { ...sel, permissions: Array.from(next), updatedAt: new Date() }
+    })
+    // Journalisation (patch §15) — visible côté serveur, jamais bloquante
+    console.log("[v0] toggle_employee_permission", {
+      actor: user?.email,
+      target: employeeId,
+      permissionKey,
+      value,
+      at: new Date().toISOString(),
+    })
+  }
+
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      {/* ─── Titre module — ADMIN/PATRON repositionne au centre ─── */}
+      <div className="flex items-start gap-3">
+        <Crown className="h-7 w-7 text-red-400 shrink-0 mt-0.5" />
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
-            <Users className="h-7 w-7 text-amber-400" />
-            ADMIN-Adjoint + Employes
+          <h1 className="text-2xl font-bold text-white">
+            ADMIN/PATRON <span className="text-white/40">&middot;</span> Gestion Equipe VIXUAL
           </h1>
-          <p className="text-white/60 mt-1">Gerez votre equipe interne VIXUAL</p>
+          <p className="text-white/60 mt-1">
+            Attribuez les roles, permissions et responsabilites de votre equipe.
+          </p>
         </div>
-        <Button
-          onClick={() => setShowCreateModal(true)}
-          className="bg-amber-600 hover:bg-amber-500 text-white"
-        >
-          <UserPlus className="mr-2 h-4 w-4" />
-          Creer un employe
-        </Button>
+      </div>
+
+      {/* ─── Carte PATRON — Centre de controle absolu (rouge premium profond) ─── */}
+      <Card className="bg-gradient-to-br from-red-950/60 via-slate-900 to-slate-950 border-red-500/30 overflow-hidden relative">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-16 -right-16 w-64 h-64 rounded-full bg-red-500/15 blur-3xl"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-rose-500/10 blur-3xl"
+        />
+        <CardContent className="p-6 relative">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+            <div className="flex items-start gap-4">
+              <div className="w-14 h-14 rounded-xl bg-red-500/20 border border-red-400/40 flex items-center justify-center shrink-0 shadow-inner shadow-red-500/30">
+                <Crown className="h-7 w-7 text-red-200" />
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <Badge className="bg-red-500/15 text-red-200 border-red-400/30 border font-semibold">
+                    ADMIN/PATRON &middot; Acces Total
+                  </Badge>
+                  <Badge className="bg-emerald-500/10 text-emerald-300 border-emerald-400/30 border text-xs">
+                    <Lock className="h-3 w-3 mr-1" />
+                    Securise
+                  </Badge>
+                  <Badge className="bg-white/5 text-white/60 border-white/10 border text-xs">
+                    Niveau 100
+                  </Badge>
+                </div>
+                <h2 className="text-xl font-bold text-white text-balance">
+                  Controle total de la plateforme VIXUAL
+                </h2>
+                <p className="text-white/55 text-sm mt-1.5 flex items-center gap-1.5 truncate">
+                  <Mail className="h-3.5 w-3.5 shrink-0" />
+                  <span className="truncate">{PATRON_EMAIL}</span>
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2 lg:shrink-0">
+              <Button
+                onClick={() => setShowCreateModal(true)}
+                className="bg-red-500 hover:bg-red-400 text-white shadow-lg shadow-red-500/20"
+              >
+                <UserPlus className="mr-2 h-4 w-4" />
+                Creer un employe
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* ─── Hierarchie visuelle : PATRON > ADJOINT > EMPLOYES ─── */}
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-2 md:gap-1 items-stretch">
+        {/* Niveau 1 — PATRON */}
+        <Card className="bg-red-500/5 border-red-500/25 border">
+          <CardContent className="p-4 flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-red-500/20 border border-red-400/30 flex items-center justify-center shrink-0">
+              <Crown className="h-4 w-4 text-red-300" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-red-200 text-sm font-bold leading-tight">ADMIN / PATRON</p>
+              <p className="text-white/45 text-xs mt-0.5">Pouvoir total &middot; Lvl 100</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Connecteur */}
+        <div className="hidden md:flex items-center justify-center text-white/25 px-1">
+          <ChevronDown className="h-5 w-5 -rotate-90" />
+        </div>
+        <div className="md:hidden flex items-center justify-center text-white/25 -my-1">
+          <ChevronDown className="h-4 w-4" />
+        </div>
+
+        {/* Niveau 2 — ADJOINT */}
+        <Card className="bg-violet-500/5 border-violet-500/25 border">
+          <CardContent className="p-4 flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-violet-500/20 border border-violet-400/30 flex items-center justify-center shrink-0">
+              <Shield className="h-4 w-4 text-violet-300" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-violet-200 text-sm font-bold leading-tight">ADMIN-ADJOINT</p>
+              <p className="text-white/45 text-xs mt-0.5">Bras droit &middot; Lvl 80</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Connecteur */}
+        <div className="hidden md:flex items-center justify-center text-white/25 px-1">
+          <ChevronDown className="h-5 w-5 -rotate-90" />
+        </div>
+        <div className="md:hidden flex items-center justify-center text-white/25 -my-1">
+          <ChevronDown className="h-4 w-4" />
+        </div>
+
+        {/* Niveau 3 — EMPLOYES */}
+        <Card className="bg-sky-500/5 border-sky-500/25 border">
+          <CardContent className="p-4 flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-sky-500/20 border border-sky-400/30 flex items-center justify-center shrink-0">
+              <Users className="h-4 w-4 text-sky-300" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-sky-200 text-sm font-bold leading-tight">EMPLOYES VIXUAL</p>
+              <p className="text-white/45 text-xs mt-0.5">Operations &middot; Lvl 30-50</p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Stats Cards */}
@@ -468,6 +618,35 @@ export default function AdminEmployeesPage() {
         onClose={() => setShowCreateModal(false)}
         onCreate={handleCreateEmployee}
       />
+
+      {/* ─── PATCH §4/§5/§6/§7 — Encart détaillé avec permissions cochables ─── */}
+      {selectedEmployee && (
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-start sm:items-center justify-center z-50 p-3 sm:p-4 overflow-y-auto"
+          onClick={() => setSelectedEmployee(null)}
+        >
+          <div
+            className="w-full max-w-2xl my-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setSelectedEmployee(null)}
+                className="absolute -top-3 -right-3 z-10 h-9 w-9 rounded-full bg-slate-900 border border-white/15 text-white/70 hover:text-white hover:border-white/30 flex items-center justify-center shadow-lg"
+                aria-label="Fermer"
+              >
+                <XCircle className="h-5 w-5" />
+              </button>
+              <EmployeePermissionPanel
+                employee={selectedEmployee}
+                canEdit={isPatron && selectedEmployee.role !== "admin_patron"}
+                onTogglePermission={handleTogglePermission}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
