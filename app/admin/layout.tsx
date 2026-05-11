@@ -39,8 +39,8 @@ import { AdminVersionQuickToggle } from "@/components/admin-version-quick-toggle
 
 const ADMIN_NAV = [
   { label: "Tableau de bord", href: "/admin", icon: BarChart3 },
-  // ADMIN-Adjoint + Employes Module
-  { label: "ADMIN-Adjoint + Employes", href: "/admin/employees", icon: UsersRound, employees: true },
+  // ADMIN/PATRON + Employes Module
+  { label: "ADMIN/PATRON + Employes", href: "/admin/employees", icon: UsersRound, employees: true },
   { label: "Messages Support", href: "/admin/messages", icon: Mail, messages: true },
   { label: "Support IA", href: "/admin/support", icon: Bot, support: true },
   // Existing modules

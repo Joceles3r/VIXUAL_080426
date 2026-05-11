@@ -29,6 +29,7 @@ import {
 } from "lucide-react"
 import {
   type Employee,
+  type EmployeePermission,
   type EmployeeRole,
   type EmployeeFunction,
   type EmployeeWorkload,
@@ -39,6 +40,7 @@ import {
   getDefaultPermissionsForRole,
 } from "@/lib/admin/employees"
 import { PATRON_EMAIL } from "@/lib/admin/roles"
+import { EmployeePermissionPanel } from "@/components/admin/employee-permission-panel"
 
 // ==================== COMPONENTS ====================
 
@@ -346,6 +348,46 @@ export default function AdminEmployeesPage() {
     ))
   }
 
+  // ─── PATCH §13/§14 — l'ADMIN/PATRON seul peut éditer ───
+  const isPatron = (user?.email ?? "").toLowerCase() === PATRON_EMAIL.toLowerCase()
+
+  // ─── PATCH §14 — toggle permission immédiat + journalisation (§15) ───
+  const handleTogglePermission = (
+    employeeId: string,
+    permissionKey: EmployeePermission,
+    value: boolean,
+  ) => {
+    if (!isPatron) {
+      alert("Action réservée à l'ADMIN/PATRON.")
+      return
+    }
+    setEmployees((prev) =>
+      prev.map((e) => {
+        if (e.id !== employeeId) return e
+        const next = new Set(e.permissions)
+        if (value) next.add(permissionKey)
+        else next.delete(permissionKey)
+        return { ...e, permissions: Array.from(next), updatedAt: new Date() }
+      }),
+    )
+    // Mise à jour live de l'encart ouvert
+    setSelectedEmployee((sel) => {
+      if (!sel || sel.id !== employeeId) return sel
+      const next = new Set(sel.permissions)
+      if (value) next.add(permissionKey)
+      else next.delete(permissionKey)
+      return { ...sel, permissions: Array.from(next), updatedAt: new Date() }
+    })
+    // Journalisation (patch §15) — visible côté serveur, jamais bloquante
+    console.log("[v0] toggle_employee_permission", {
+      actor: user?.email,
+      target: employeeId,
+      permissionKey,
+      value,
+      at: new Date().toISOString(),
+    })
+  }
+
   return (
     <div className="space-y-6">
       {/* ─── Titre module — ADMIN/PATRON repositionne au centre ─── */}
@@ -576,6 +618,35 @@ export default function AdminEmployeesPage() {
         onClose={() => setShowCreateModal(false)}
         onCreate={handleCreateEmployee}
       />
+
+      {/* ─── PATCH §4/§5/§6/§7 — Encart détaillé avec permissions cochables ─── */}
+      {selectedEmployee && (
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-start sm:items-center justify-center z-50 p-3 sm:p-4 overflow-y-auto"
+          onClick={() => setSelectedEmployee(null)}
+        >
+          <div
+            className="w-full max-w-2xl my-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setSelectedEmployee(null)}
+                className="absolute -top-3 -right-3 z-10 h-9 w-9 rounded-full bg-slate-900 border border-white/15 text-white/70 hover:text-white hover:border-white/30 flex items-center justify-center shadow-lg"
+                aria-label="Fermer"
+              >
+                <XCircle className="h-5 w-5" />
+              </button>
+              <EmployeePermissionPanel
+                employee={selectedEmployee}
+                canEdit={isPatron && selectedEmployee.role !== "admin_patron"}
+                onTogglePermission={handleTogglePermission}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
