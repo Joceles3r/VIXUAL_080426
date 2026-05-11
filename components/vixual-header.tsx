@@ -31,6 +31,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { LanguageSelector } from "@/components/language-selector"
+import { LanguageToggle } from "@/components/language-toggle"
 import { SoundToggle } from "@/components/sound-toggle"
 import {
   ADMIN_ITEM,
@@ -423,6 +424,7 @@ export function VisualHeader() {
               </>
             ) : (
               <>
+                <LanguageToggle className="hidden md:inline-flex mr-2" />
                 <div className="hidden md:flex items-center gap-1.5 text-slate-400 text-xs mr-1">
                   <Eye className="h-3.5 w-3.5" />
                   <span>Invite</span>
