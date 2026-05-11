@@ -14,6 +14,8 @@ import { TrafficLight } from "@/components/traffic-light"
 import { ALL_CONTENTS } from "@/lib/mock-data"
 import { usePlatformVersion } from "@/hooks/use-platform-version"
 import { HomeV1 } from "@/components/home/home-v1"
+import { HomeV1En } from "@/components/home/home-v1-en"
+import { useLanguage } from "@/hooks/use-language"
 
 const FEATURED_CONTENTS = ALL_CONTENTS.slice(0, 4)
 
@@ -69,7 +71,7 @@ export default function HomePage() {
   // 3 actions universelles, vocabulaire grand public). V2/V3 conservent
   // leur layout historique ci-dessous.
   if (rawVersion === "V1") {
-    return <HomeV1 />
+    return <HomeV1Switch />
   }
 
   // Cast apres l'early return : preserve le type union complet pour le rendu V2/V3
@@ -668,4 +670,12 @@ export default function HomePage() {
       </main>
     </div>
   )
+}
+
+/** Choisit la homepage V1 selon la langue preferee de l'utilisateur. */
+function HomeV1Switch() {
+  const { lang, hydrated } = useLanguage()
+  // Pendant l'hydratation, on affiche FR par defaut (evite mismatch SSR)
+  if (!hydrated) return <HomeV1 />
+  return lang === "en" ? <HomeV1En /> : <HomeV1 />
 }
