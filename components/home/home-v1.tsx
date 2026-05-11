@@ -269,6 +269,38 @@ export function HomeV1() {
           </div>
         </section>
 
+        {/* PROGRESSION VIXUAL — ancre du CTA "Debloquer plus de fonctionnalites" */}
+        <section
+          id="vixual-progression"
+          className="relative py-14 scroll-mt-24"
+        >
+          <div
+            className="vx-halo vx-halo--accent absolute inset-x-0 top-0 mx-auto pointer-events-none"
+            style={{ width: "520px", height: "260px" }}
+            aria-hidden="true"
+          />
+          <div className="container mx-auto px-4 relative">
+            <div className="max-w-3xl mx-auto text-center">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-400/30 text-fuchsia-200 text-[11px] font-semibold uppercase tracking-[0.14em] mb-5">
+                <Sparkles className="h-3 w-3" />
+                Votre progression
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-balance vx-text-glow">
+                Evoluez progressivement dans VIXUAL
+              </h2>
+              <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+                En participant positivement a la plateforme, vous decouvrez de
+                nouvelles fonctionnalites, de nouveaux contenus et de nouveaux
+                espaces creatifs.
+              </p>
+              <p className="text-white/45 text-sm mt-4 italic">
+                Decouvreur &middot; Contributeur &middot; Createur — chacun a sa
+                place sur VIXUAL.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* BLOCS DE CONFIANCE — reponses aux 2 questions cles */}
         <section className="py-14 bg-slate-950">
           <div className="container mx-auto px-4">

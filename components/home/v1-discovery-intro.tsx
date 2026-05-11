@@ -62,9 +62,9 @@ export function V1DiscoveryIntro() {
             </p>
           </div>
 
-          {/* CTA discret — pointe vers la section "Comprendre VIXUAL" deja presente plus bas */}
+          {/* CTA discret — pointe vers la section "Evoluez progressivement dans VIXUAL" */}
           <Link
-            href="#comprendre"
+            href="#vixual-progression"
             className="group inline-flex items-center justify-center gap-1.5 text-rose-100 hover:text-white text-sm font-medium px-4 py-2.5 rounded-lg border border-rose-400/30 bg-rose-500/10 hover:bg-rose-500/20 hover:border-rose-300/50 transition-all whitespace-nowrap shrink-0"
           >
             Debloquer plus de fonctionnalites
