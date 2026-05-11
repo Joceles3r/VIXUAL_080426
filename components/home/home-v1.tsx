@@ -294,7 +294,7 @@ export function HomeV1() {
                 espaces creatifs.
               </p>
               <p className="text-white/45 text-sm mt-4 italic">
-                Decouvreur &middot; Contributeur &middot; Createur — chacun a sa
+                Visiteur &middot; Contributeur &middot; Createur — chacun a sa
                 place sur VIXUAL.
               </p>
             </div>
