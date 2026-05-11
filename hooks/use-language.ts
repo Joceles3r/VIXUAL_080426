@@ -1,6 +1,13 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react"
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react"
 
 export type Language = "fr" | "en"
 
@@ -21,7 +28,6 @@ function readStoredLanguage(): Language {
     const stored = window.localStorage.getItem(STORAGE_KEY) as Language | null
     if (stored === "fr" || stored === "en") return stored
   } catch {}
-  // Lire cookie
   if (typeof document !== "undefined") {
     const match = document.cookie.match(new RegExp(`${COOKIE_NAME}=(fr|en)`))
     if (match) return match[1] as Language
@@ -29,13 +35,28 @@ function readStoredLanguage(): Language {
   return detectBrowserLanguage()
 }
 
-export function useLanguage() {
+// ──────────────────────────────────────────────────────────────────
+// Contexte global — source de vérité unique pour toute l'application
+// ──────────────────────────────────────────────────────────────────
+type LanguageContextValue = {
+  lang: Language
+  setLang: (lang: Language) => void
+  hydrated: boolean
+}
+
+const LanguageContext = createContext<LanguageContextValue | null>(null)
+
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLangState] = useState<Language>("fr")
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
-    setLangState(readStoredLanguage())
+    const initial = readStoredLanguage()
+    setLangState(initial)
     setHydrated(true)
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = initial
+    }
   }, [])
 
   const setLang = useCallback((newLang: Language) => {
@@ -47,8 +68,30 @@ export function useLanguage() {
     }
     if (typeof document !== "undefined") {
       document.cookie = `${COOKIE_NAME}=${newLang}; path=/; max-age=31536000; SameSite=Lax`
+      document.documentElement.lang = newLang
     }
   }, [])
 
-  return { lang, setLang, hydrated }
+  const value = useMemo(
+    () => ({ lang, setLang, hydrated }),
+    [lang, setLang, hydrated],
+  )
+
+  return React.createElement(LanguageContext.Provider, { value }, children)
+}
+
+/**
+ * Hook d'accès à la langue active.
+ * API inchangée : `{ lang, setLang, hydrated }`.
+ * Si le provider n'est pas monté (rare, ex: outils dev), fallback non-réactif sûr.
+ */
+export function useLanguage(): LanguageContextValue {
+  const ctx = useContext(LanguageContext)
+  if (ctx) return ctx
+  // Fallback défensif si LanguageProvider absent — pas de réactivité, juste lecture
+  return {
+    lang: "fr",
+    setLang: () => {},
+    hydrated: false,
+  }
 }

@@ -12,6 +12,8 @@ import { SoundProvider } from "@/components/sound-provider"
 import { ResizeObserverFix } from "@/components/resize-observer-fix"
 import { ErrorBoundaryClient } from "@/components/error-boundary-client"
 import { VersionThemeProvider } from "@/components/version-theme-provider"
+import { LanguageProvider } from "@/hooks/use-language"
+import { EnglishModeBanner } from "@/components/i18n/english-mode-banner"
 import { APP_NAME, APP_DESCRIPTION } from "@/lib/branding"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -58,10 +60,13 @@ export default function RootLayout({
           <ErrorBoundaryClient>
             <StripeModeBanner />
             <AuthProvider>
-              <SoundProvider>
-                <MinorClientGuard />
-                {children}
-              </SoundProvider>
+              <LanguageProvider>
+                <EnglishModeBanner />
+                <SoundProvider>
+                  <MinorClientGuard />
+                  {children}
+                </SoundProvider>
+              </LanguageProvider>
             </AuthProvider>
             <CookieConsentBanner />
           </ErrorBoundaryClient>
