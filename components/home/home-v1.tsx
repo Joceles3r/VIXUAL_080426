@@ -23,6 +23,7 @@ import { ContentCard } from "@/components/content-card"
 import { TrafficLight } from "@/components/traffic-light"
 import { QuickExplainer } from "@/components/onboarding/quick-explainer"
 import { ProgressiveHints } from "@/components/onboarding/progressive-hints"
+import { V1DiscoveryIntro } from "@/components/home/v1-discovery-intro"
 import { SuccessStories } from "@/components/success-stories/success-stories"
 import { useAuth } from "@/lib/auth-context"
 import { ALL_CONTENTS } from "@/lib/mock-data"
@@ -253,6 +254,9 @@ export function HomeV1() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Fenetre explicative "Mode Decouverte" — ancree visuellement sous la carte Soutiens (Etape 2) */}
+            <V1DiscoveryIntro />
 
             {/* Trust strip - rassure sur la legitimite */}
             <div className="mt-12 flex items-center justify-center gap-3 text-white/55 text-sm flex-wrap text-center max-w-2xl mx-auto">
