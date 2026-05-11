@@ -23,6 +23,7 @@ import { ContentCard } from "@/components/content-card"
 import { TrafficLight } from "@/components/traffic-light"
 import { QuickExplainer } from "@/components/onboarding/quick-explainer"
 import { ProgressiveHints } from "@/components/onboarding/progressive-hints"
+import { V1DiscoveryIntro } from "@/components/home/v1-discovery-intro"
 import { SuccessStories } from "@/components/success-stories/success-stories"
 import { useAuth } from "@/lib/auth-context"
 import { ALL_CONTENTS } from "@/lib/mock-data"
@@ -254,6 +255,9 @@ export function HomeV1() {
               </Card>
             </div>
 
+            {/* Fenetre explicative "Mode Decouverte" — ancree visuellement sous la carte Soutiens (Etape 2) */}
+            <V1DiscoveryIntro />
+
             {/* Trust strip - rassure sur la legitimite */}
             <div className="mt-12 flex items-center justify-center gap-3 text-white/55 text-sm flex-wrap text-center max-w-2xl mx-auto">
               <Heart className="h-4 w-4 text-fuchsia-300/80 shrink-0" />
@@ -261,6 +265,38 @@ export function HomeV1() {
                 <span className="text-fuchsia-200/90 font-medium">Une communaute creative.</span>
                 {" "}Tes soutiens aident directement les createurs independants.
               </span>
+            </div>
+          </div>
+        </section>
+
+        {/* PROGRESSION VIXUAL — ancre du CTA "Debloquer plus de fonctionnalites" */}
+        <section
+          id="vixual-progression"
+          className="relative py-14 scroll-mt-24"
+        >
+          <div
+            className="vx-halo vx-halo--accent absolute inset-x-0 top-0 mx-auto pointer-events-none"
+            style={{ width: "520px", height: "260px" }}
+            aria-hidden="true"
+          />
+          <div className="container mx-auto px-4 relative">
+            <div className="max-w-3xl mx-auto text-center">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-400/30 text-fuchsia-200 text-[11px] font-semibold uppercase tracking-[0.14em] mb-5">
+                <Sparkles className="h-3 w-3" />
+                Votre progression
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-balance vx-text-glow">
+                Evoluez progressivement dans VIXUAL
+              </h2>
+              <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+                En participant positivement a la plateforme, vous decouvrez de
+                nouvelles fonctionnalites, de nouveaux contenus et de nouveaux
+                espaces creatifs.
+              </p>
+              <p className="text-white/45 text-sm mt-4 italic">
+                Visiteur &middot; Contributeur &middot; Createur — chacun a sa
+                place sur VIXUAL.
+              </p>
             </div>
           </div>
         </section>
