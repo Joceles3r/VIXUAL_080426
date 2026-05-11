@@ -39,7 +39,7 @@ export function HomeV1En() {
     <div className="min-h-screen bg-slate-950">
       <VisualHeader />
 
-      <main>
+      <main className="pt-20">
         {/* Banner — clear notice about the French interface */}
         <div className="bg-amber-500/10 border-b border-amber-500/30 py-2.5 px-4">
           <div className="container mx-auto flex items-center justify-center gap-2 text-amber-200 text-xs md:text-sm text-center">
@@ -52,7 +52,7 @@ export function HomeV1En() {
         </div>
 
         {/* HERO */}
-        <section className="vx-cinema-hero relative pt-24 pb-24">
+        <section className="vx-cinema-hero relative pt-12 pb-24">
           <div className="vx-orb-bg" aria-hidden="true" />
           <div
             className="absolute inset-0 pointer-events-none"
