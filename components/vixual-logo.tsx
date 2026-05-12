@@ -1,10 +1,10 @@
 "use client"
 
 /**
- * Logo VIXUAL unifié — style streaming professionnel.
+ * Logo VIXUAL — Dégradé rose-violet-bleu (signature streaming premium).
  *
- * Texte blanc + point d'accent qui prend la couleur de la version active
- * via la variable CSS --vx-accent (fuchsia V1, rouge V2, emerald V3).
+ * Dégradé officiel : #ec4899 (rose) → #a855f7 (violet) → #3b82f6 (bleu)
+ * Identique au CTA "Commencer gratuitement" pour cohérence visuelle.
  *
  * Tailles disponibles : sm | md | lg | xl
  */
@@ -22,28 +22,19 @@ export function VixualLogo({
     xl: "text-4xl md:text-5xl",
   } as const
 
-  // Couleurs officielles VIXUAL (feu tricolore) :
-  // V/I = rouge — X/U = jaune — A/L = vert
   return (
     <span
       className={`${sizeClasses[size]} font-black tracking-tight inline-flex items-baseline ${className}`}
+      style={{
+        backgroundImage: "linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #3b82f6 100%)",
+        WebkitBackgroundClip: "text",
+        backgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        color: "transparent",
+        filter: "drop-shadow(0 2px 8px rgba(168, 85, 247, 0.35))",
+      }}
     >
-      <span className="text-red-500">V</span>
-      <span className="text-red-500">I</span>
-      <span className="text-amber-400">X</span>
-      <span className="text-amber-400">U</span>
-      <span className="text-emerald-400">A</span>
-      <span className="text-emerald-400">L</span>
-      <span
-        aria-hidden="true"
-        className="inline-block ml-0.5"
-        style={{
-          color: "var(--vx-accent, #d946ef)",
-          textShadow: "0 0 12px var(--vx-accent, rgba(217, 70, 239, 0.6))",
-        }}
-      >
-        .
-      </span>
+      <span>VIXUAL</span>
     </span>
   )
 }

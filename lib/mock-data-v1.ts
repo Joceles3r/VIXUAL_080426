@@ -104,14 +104,14 @@ export const V1_FILMS: V1Content[] = [
   },
 ]
 
-// ─── PODCASTS (6 contenus) ───
+// ─── PODCASTS (6 contenus) — Images crédibles studios/micros ───
 export const V1_PODCASTS: V1Content[] = [
   {
     id: "pod-001",
     title: "Studio Sessions",
     creator: "Atelier Lumen",
     category: "podcasts",
-    thumbnail: U("photo-1590602847861-f357a9332bbc"),
+    thumbnail: U("photo-1590602847861-f357a9332bbc"), // micro studio pro
     rating: 4.8,
     duration: "12 episodes",
   },
@@ -120,7 +120,7 @@ export const V1_PODCASTS: V1Content[] = [
     title: "Paroles d'Or",
     creator: "Tanguy Lecomte",
     category: "podcasts",
-    thumbnail: U("photo-1478737270239-2f02b77fc618"),
+    thumbnail: U("photo-1581368135153-a506cf13b1e1"), // micro vintage gold
     rating: 4.5,
     duration: "Hebdo",
     isNew: true,
@@ -130,7 +130,7 @@ export const V1_PODCASTS: V1Content[] = [
     title: "Voix du Studio",
     creator: "Lou Bricard",
     category: "podcasts",
-    thumbnail: U("photo-1493225457124-a3eb161ffa5f"),
+    thumbnail: U("photo-1487180144351-b8472da7d491"), // casque + micro
     rating: 4.9,
     duration: "8 episodes",
   },
@@ -139,7 +139,7 @@ export const V1_PODCASTS: V1Content[] = [
     title: "Conversations Nocturnes",
     creator: "Rachid Damari",
     category: "podcasts",
-    thumbnail: U("photo-1505236858219-8359eb29e329"),
+    thumbnail: U("photo-1478737270239-2f02b77fc618"), // table mixage nuit
     rating: 4.7,
     duration: "Mensuel",
   },
@@ -148,7 +148,7 @@ export const V1_PODCASTS: V1Content[] = [
     title: "Le Cinquieme Mur",
     creator: "Compagnie Ardente",
     category: "podcasts",
-    thumbnail: U("photo-1507676184212-d03ab07a01bf"),
+    thumbnail: U("photo-1598488035139-bdbb2231ce04"), // micro sur fond rouge
     rating: 4.4,
     duration: "6 episodes",
     isNew: true,
@@ -158,20 +158,20 @@ export const V1_PODCASTS: V1Content[] = [
     title: "Cartographie Intime",
     creator: "Lou Bricard",
     category: "podcasts",
-    thumbnail: U("photo-1478737270239-2f02b77fc618"),
+    thumbnail: U("photo-1546528377-7053cab43d0d"), // home studio podcast
     rating: 4.3,
     duration: "10 episodes",
   },
 ]
 
-// ─── LIVRES (6 contenus) ───
+// ─── LIVRES (6 contenus) — Images crédibles livres/lecture ───
 export const V1_LIVRES: V1Content[] = [
   {
     id: "liv-001",
     title: "Recits du Soir",
     creator: "Emilie Roussel",
     category: "livres",
-    thumbnail: U("photo-1519682337058-a94d519337bc"),
+    thumbnail: U("photo-1544716278-ca5e3f4abd8c"), // livre ouvert lampe chaude
     rating: 4.4,
     duration: "342 pages",
   },
@@ -180,7 +180,7 @@ export const V1_LIVRES: V1Content[] = [
     title: "Bibliotheque Secrete",
     creator: "Karim Bennali",
     category: "livres",
-    thumbnail: U("photo-1495446815901-a7297e633e8d"),
+    thumbnail: U("photo-1507842217343-583bb7270b66"), // bibliotheque vintage
     rating: 4.7,
     duration: "218 pages",
     isNew: true,
@@ -190,7 +190,7 @@ export const V1_LIVRES: V1Content[] = [
     title: "Mots Precieux",
     creator: "Solange Devaux",
     category: "livres",
-    thumbnail: U("photo-1481627834876-b7833e8f5570"),
+    thumbnail: U("photo-1532012197267-da84d127e765"), // livres empiles
     rating: 4.5,
     duration: "276 pages",
   },
@@ -199,7 +199,7 @@ export const V1_LIVRES: V1Content[] = [
     title: "Pages Rouges",
     creator: "Theo Marchand",
     category: "livres",
-    thumbnail: U("photo-1532012197267-da84d127e765"),
+    thumbnail: U("photo-1495640388908-05fa85288e61"), // livre ouvert nature
     rating: 4.6,
     duration: "184 pages",
   },
@@ -208,7 +208,7 @@ export const V1_LIVRES: V1Content[] = [
     title: "Cafe Litteraire",
     creator: "Naima Tassan",
     category: "livres",
-    thumbnail: U("photo-1524995997946-a1c2e315a42f"),
+    thumbnail: U("photo-1513001900722-370f803f498d"), // livre + cafe
     rating: 4.8,
     duration: "302 pages",
     isNew: true,
@@ -218,7 +218,7 @@ export const V1_LIVRES: V1Content[] = [
     title: "Carnets de l'Atlas",
     creator: "Karim Bennali",
     category: "livres",
-    thumbnail: U("photo-1500322969630-a26ab6eb64cc"),
+    thumbnail: U("photo-1519682337058-a94d519337bc"), // carnet de voyage
     rating: 4.5,
     duration: "256 pages",
   },
