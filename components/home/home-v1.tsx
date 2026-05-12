@@ -29,18 +29,16 @@ import { useAuth } from "@/lib/auth-context"
 import { ALL_CONTENTS } from "@/lib/mock-data"
 
 /**
- * Page d'accueil V1 simplifiee.
+ * Page d'accueil V1 — Refonte cinema premium OLED.
  *
- * Principes :
- *  - Compréhension en moins de 10 secondes.
- *  - Aucun choix de profil au demarrage.
- *  - 3 actions universelles : Regarder / Soutenir / Creer.
- *  - Vocabulaire grand public : "soutenir", "participer", "gagner".
- *  - Bandeau de rassurance permanent.
- *  - Onboarding progressif via hints contextuels.
+ * Palette :
+ *  - Fond : OLED profond (#030307 / #070B12) via .vx-oled-bg
+ *  - Glow principal : violet profond diffus (--vx-accent)
+ *  - Glow secondaire : bleu nuit cinema (--vx-secondary)
+ *  - Accent discret : ambre cinema (utilise localement)
  *
- * V2 / V3 ne passent JAMAIS par ce composant : leur layout reste
- * inchange dans `app/page.tsx`.
+ * Identite VIXUAL preservee : logo, slogan, navigation, structure, CTA.
+ * V2 / V3 ne passent JAMAIS par ce composant.
  */
 const FEATURED_CONTENTS = ALL_CONTENTS.slice(0, 4)
 
@@ -48,21 +46,21 @@ export function HomeV1() {
   const { roles, isAuthed } = useAuth()
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen vx-oled-bg">
       <VisualHeader />
 
       <main>
-        {/* HERO V1 — Streaming premium cinematic */}
-        <section className="vx-cinema-hero relative pt-32 pb-24">
-          {/* Couche 1 : orbes lumineux drift cinema */}
+        {/* HERO V1 — Streaming cinema OLED immersif */}
+        <section className="vx-cinema-hero relative pt-32 pb-28">
+          {/* Couche 1 : orbes lumineux drift (violet + bleu nuit grace aux tokens V1) */}
           <div className="vx-orb-bg" aria-hidden="true" />
 
-          {/* Couche 2 : voile sombre cinema (par-dessus les orbes) */}
+          {/* Couche 2 : voile OLED profond — degrade vers le noir absolu en bas */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "linear-gradient(180deg, rgba(10,1,24,0) 0%, rgba(10,1,24,0.35) 65%, rgba(10,1,24,0.85) 100%)",
+                "linear-gradient(180deg, rgba(3,3,7,0) 0%, rgba(3,3,7,0.55) 60%, rgba(3,3,7,0.95) 100%)",
             }}
             aria-hidden="true"
           />
@@ -83,9 +81,9 @@ export function HomeV1() {
                   Regarde{" "}
                   <span className="text-white/35 font-light">&middot;</span>{" "}
                   <span
-                    className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-200 via-fuchsia-300 to-purple-300"
+                    className="text-transparent bg-clip-text bg-gradient-to-r from-violet-200 via-violet-300 to-blue-300"
                     style={{
-                      filter: "drop-shadow(0 0 18px rgba(217, 70, 239, 0.45))",
+                      filter: "drop-shadow(0 0 22px rgba(124, 58, 237, 0.45))",
                     }}
                   >
                     Soutiens
@@ -104,9 +102,9 @@ export function HomeV1() {
               <p className="text-lg md:text-xl text-white/90 mb-4 max-w-3xl mx-auto text-pretty leading-relaxed vx-rise-in vx-rise-in--delay-2">
                 <span className="text-white font-semibold">VIXUAL</span>{" "}
                 <span className="text-white/70">:</span> la plateforme ou vous{" "}
-                <span className="text-fuchsia-200 font-medium">decouvrez</span>{" "}
+                <span className="text-violet-200 font-medium">decouvrez</span>{" "}
                 et{" "}
-                <span className="text-fuchsia-200 font-medium">soutenez directement</span>{" "}
+                <span className="text-violet-200 font-medium">soutenez directement</span>{" "}
                 les createurs independants que vous aimez.
                 <span className="block mt-2 text-white/60 text-base md:text-lg italic">
                   Sans intermediaire.
@@ -119,26 +117,26 @@ export function HomeV1() {
                 <span className="text-white/25">&middot;</span> Creations originales
               </p>
 
-              {/* 3 CTA universels - cinematic shimmer */}
+              {/* CTA principal — Commencer gratuitement (univers public VIXUAL) */}
               <div className="flex flex-col sm:flex-row gap-3 justify-center mb-7 vx-rise-in vx-rise-in--delay-4">
                 <Link href="/explore">
                   <Button
                     size="lg"
-                    className="vx-shimmer relative bg-gradient-to-r from-fuchsia-600 via-fuchsia-500 to-rose-500 hover:from-fuchsia-500 hover:to-rose-400 text-white px-8 h-12 text-base font-semibold w-full sm:w-auto"
+                    className="vx-shimmer relative bg-gradient-to-r from-violet-600 via-violet-500 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white px-8 h-12 text-base font-semibold w-full sm:w-auto border-0"
                     style={{
                       boxShadow:
-                        "0 8px 32px -8px rgba(217, 70, 239, 0.55), 0 0 0 1px rgba(240, 171, 252, 0.25) inset",
+                        "0 10px 36px -10px rgba(124, 58, 237, 0.55), 0 0 0 1px rgba(196, 181, 253, 0.18) inset",
                     }}
                   >
-                    <Eye className="mr-2 h-5 w-5" />
-                    Explorer les projets
+                    <Compass className="mr-2 h-5 w-5" />
+                    Commencer gratuitement
                   </Button>
                 </Link>
                 <a href="#comprendre">
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-white/[0.03] backdrop-blur-md border-white/20 text-white hover:bg-white/[0.08] hover:border-white/35 px-8 h-12 text-base w-full sm:w-auto transition-all"
+                    className="bg-white/[0.04] backdrop-blur-md border-white/15 text-white hover:bg-white/[0.08] hover:border-white/30 px-8 h-12 text-base w-full sm:w-auto transition-all"
                   >
                     Comprendre en 30 secondes
                     <ChevronRight className="ml-2 h-4 w-4" />
@@ -149,7 +147,7 @@ export function HomeV1() {
                     <Button
                       size="lg"
                       variant="outline"
-                      className="bg-transparent border-white/15 text-white/75 hover:bg-white/5 hover:text-white px-8 h-12 text-base w-full sm:w-auto"
+                      className="bg-transparent border-white/10 text-white/75 hover:bg-white/5 hover:text-white px-8 h-12 text-base w-full sm:w-auto"
                     >
                       <LogIn className="mr-2 h-4 w-4" />
                       Se connecter
@@ -168,12 +166,18 @@ export function HomeV1() {
           </div>
         </section>
 
-        {/* PARCOURS EN 3 ETAPES - simplicite immediate, juste sous le hero */}
+        {/* PARCOURS EN 3 ETAPES — violet / ambre / bleu nuit (cinema premium) */}
         <section className="relative py-16 overflow-hidden">
           {/* Halo accent doux */}
           <div
             className="vx-halo vx-halo--accent"
-            style={{ width: "560px", height: "320px", top: "10%", left: "50%", transform: "translateX(-50%)" }}
+            style={{
+              width: "640px",
+              height: "360px",
+              top: "8%",
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
             aria-hidden="true"
           />
 
@@ -188,16 +192,16 @@ export function HomeV1() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
-              {/* Etape 1 — Decouvre */}
-              <Card className="vx-cinema-card bg-slate-900/50 border-fuchsia-500/20 hover:border-fuchsia-400/50 group">
+              {/* Etape 1 — Decouvre (violet profond) */}
+              <Card className="vx-cinema-card bg-[#070B12]/85 border-violet-500/25 hover:border-violet-400/50 group backdrop-blur-md">
                 <CardContent className="p-7 text-center">
                   <div className="relative mb-5 inline-flex items-center justify-center">
-                    <div className="absolute -inset-2 rounded-2xl bg-fuchsia-500/15 blur-xl opacity-60 group-hover:opacity-100 transition-opacity" />
-                    <div className="relative h-14 w-14 rounded-2xl bg-fuchsia-500/15 border border-fuchsia-400/40 flex items-center justify-center backdrop-blur-md">
-                      <Compass className="h-7 w-7 text-fuchsia-200" />
+                    <div className="absolute -inset-2 rounded-2xl bg-violet-500/15 blur-xl opacity-60 group-hover:opacity-100 transition-opacity" />
+                    <div className="relative h-14 w-14 rounded-2xl bg-violet-500/15 border border-violet-400/40 flex items-center justify-center backdrop-blur-md">
+                      <Compass className="h-7 w-7 text-violet-200" />
                     </div>
                   </div>
-                  <span className="block text-[11px] uppercase tracking-[0.18em] text-fuchsia-300/80 font-semibold mb-2">
+                  <span className="block text-[11px] uppercase tracking-[0.18em] text-violet-300/80 font-semibold mb-2">
                     Etape 1
                   </span>
                   <h3 className="text-xl font-bold text-white mb-3">Decouvre</h3>
@@ -210,16 +214,16 @@ export function HomeV1() {
                 </CardContent>
               </Card>
 
-              {/* Etape 2 — Soutiens */}
-              <Card className="vx-cinema-card bg-slate-900/50 border-rose-500/20 hover:border-rose-400/50 group">
+              {/* Etape 2 — Soutiens (ambre cinema, accent secondaire discret) */}
+              <Card className="vx-cinema-card bg-[#070B12]/85 border-amber-500/25 hover:border-amber-400/50 group backdrop-blur-md">
                 <CardContent className="p-7 text-center">
                   <div className="relative mb-5 inline-flex items-center justify-center">
-                    <div className="absolute -inset-2 rounded-2xl bg-rose-500/15 blur-xl opacity-60 group-hover:opacity-100 transition-opacity" />
-                    <div className="relative h-14 w-14 rounded-2xl bg-rose-500/15 border border-rose-400/40 flex items-center justify-center backdrop-blur-md">
-                      <Heart className="h-7 w-7 text-rose-200" />
+                    <div className="absolute -inset-2 rounded-2xl bg-amber-500/15 blur-xl opacity-60 group-hover:opacity-100 transition-opacity" />
+                    <div className="relative h-14 w-14 rounded-2xl bg-amber-500/15 border border-amber-400/40 flex items-center justify-center backdrop-blur-md">
+                      <Heart className="h-7 w-7 text-amber-200" />
                     </div>
                   </div>
-                  <span className="block text-[11px] uppercase tracking-[0.18em] text-rose-300/80 font-semibold mb-2">
+                  <span className="block text-[11px] uppercase tracking-[0.18em] text-amber-300/80 font-semibold mb-2">
                     Etape 2
                   </span>
                   <h3 className="text-xl font-bold text-white mb-3">Soutiens</h3>
@@ -232,16 +236,16 @@ export function HomeV1() {
                 </CardContent>
               </Card>
 
-              {/* Etape 3 — Accede */}
-              <Card className="vx-cinema-card bg-slate-900/50 border-emerald-500/20 hover:border-emerald-400/50 group">
+              {/* Etape 3 — Accede (bleu nuit cinema) */}
+              <Card className="vx-cinema-card bg-[#070B12]/85 border-blue-500/25 hover:border-blue-400/50 group backdrop-blur-md">
                 <CardContent className="p-7 text-center">
                   <div className="relative mb-5 inline-flex items-center justify-center">
-                    <div className="absolute -inset-2 rounded-2xl bg-emerald-500/15 blur-xl opacity-60 group-hover:opacity-100 transition-opacity" />
-                    <div className="relative h-14 w-14 rounded-2xl bg-emerald-500/15 border border-emerald-400/40 flex items-center justify-center backdrop-blur-md">
-                      <Sparkles className="h-7 w-7 text-emerald-200" />
+                    <div className="absolute -inset-2 rounded-2xl bg-blue-500/15 blur-xl opacity-60 group-hover:opacity-100 transition-opacity" />
+                    <div className="relative h-14 w-14 rounded-2xl bg-blue-500/15 border border-blue-400/40 flex items-center justify-center backdrop-blur-md">
+                      <Sparkles className="h-7 w-7 text-blue-200" />
                     </div>
                   </div>
-                  <span className="block text-[11px] uppercase tracking-[0.18em] text-emerald-300/80 font-semibold mb-2">
+                  <span className="block text-[11px] uppercase tracking-[0.18em] text-blue-300/80 font-semibold mb-2">
                     Etape 3
                   </span>
                   <h3 className="text-xl font-bold text-white mb-3">Accede</h3>
@@ -260,9 +264,9 @@ export function HomeV1() {
 
             {/* Trust strip - rassure sur la legitimite */}
             <div className="mt-12 flex items-center justify-center gap-3 text-white/55 text-sm flex-wrap text-center max-w-2xl mx-auto">
-              <Heart className="h-4 w-4 text-fuchsia-300/80 shrink-0" />
+              <Heart className="h-4 w-4 text-violet-300/80 shrink-0" />
               <span>
-                <span className="text-fuchsia-200/90 font-medium">Une communaute creative.</span>
+                <span className="text-violet-200/90 font-medium">Une communaute creative.</span>
                 {" "}Tes soutiens aident directement les createurs independants.
               </span>
             </div>
@@ -281,7 +285,7 @@ export function HomeV1() {
           />
           <div className="container mx-auto px-4 relative">
             <div className="max-w-3xl mx-auto text-center">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-400/30 text-fuchsia-200 text-[11px] font-semibold uppercase tracking-[0.14em] mb-5">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-400/30 text-violet-200 text-[11px] font-semibold uppercase tracking-[0.14em] mb-5">
                 <Sparkles className="h-3 w-3" />
                 Votre progression
               </span>
@@ -301,8 +305,8 @@ export function HomeV1() {
           </div>
         </section>
 
-        {/* BLOCS DE CONFIANCE — reponses aux 2 questions cles */}
-        <section className="py-14 bg-slate-950">
+        {/* BLOCS DE CONFIANCE — reponses aux 2 questions cles (bleu nuit + ambre) */}
+        <section className="py-14 vx-oled-surface border-y border-white/[0.04]">
           <div className="container mx-auto px-4">
             <div className="max-w-2xl mx-auto text-center mb-10">
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 text-balance">
@@ -313,13 +317,12 @@ export function HomeV1() {
               </p>
             </div>
 
-            {/* 2 cartes objections - vocabulaire humain */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto">
-              {/* A quoi sert mon soutien ? */}
-              <Card className="vx-cinema-card bg-emerald-500/5 border-emerald-500/25">
+              {/* A quoi sert mon soutien ? — bleu nuit cinema */}
+              <Card className="vx-cinema-card bg-blue-500/[0.04] border-blue-500/25 backdrop-blur-md">
                 <CardContent className="p-6 text-center">
-                  <div className="h-10 w-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mx-auto mb-3">
-                    <Heart className="h-5 w-5 text-emerald-300" />
+                  <div className="h-10 w-10 rounded-xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center mx-auto mb-3">
+                    <Heart className="h-5 w-5 text-blue-300" />
                   </div>
                   <h3 className="text-lg font-semibold text-white mb-3">
                     A quoi sert mon soutien ?
@@ -330,14 +333,14 @@ export function HomeV1() {
                   <p className="text-white/80 text-sm leading-relaxed mb-3">
                     Tu rejoins une communaute qui valorise la creation independante.
                   </p>
-                  <p className="text-xs text-emerald-200/70">
+                  <p className="text-xs text-blue-200/70">
                     Tu choisis toujours combien tu participes.
                   </p>
                 </CardContent>
               </Card>
 
-              {/* Suis-je libre ? */}
-              <Card className="vx-cinema-card bg-amber-500/5 border-amber-500/25">
+              {/* Suis-je libre ? — ambre cinema */}
+              <Card className="vx-cinema-card bg-amber-500/[0.04] border-amber-500/25 backdrop-blur-md">
                 <CardContent className="p-6 text-center">
                   <div className="h-10 w-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center mx-auto mb-3">
                     <Scale className="h-5 w-5 text-amber-300" />
@@ -360,25 +363,25 @@ export function HomeV1() {
           </div>
         </section>
 
-        {/* COMPRENDRE EN 30 SECONDES - explication detaillee (deeper dive) */}
+        {/* COMPRENDRE EN 30 SECONDES — explication detaillee */}
         <div id="comprendre">
           <QuickExplainer />
         </div>
 
-        {/* SUCCESS STORIES - humanisation, lien direct avec les createurs */}
+        {/* SUCCESS STORIES — humanisation, lien direct avec les createurs */}
         <SuccessStories />
 
-        {/* PROJETS EN VEDETTE — rail cinema premium */}
-        <section className="relative py-20 overflow-hidden bg-slate-900/30">
-          {/* Halos lumineux en arriere-plan */}
+        {/* PROJETS EN VEDETTE — rail cinema premium OLED */}
+        <section className="relative py-20 overflow-hidden vx-oled-surface">
+          {/* Halos lumineux en arriere-plan (violet + bleu nuit via tokens V1) */}
           <div
             className="vx-halo vx-halo--accent"
-            style={{ width: "440px", height: "440px", top: "-150px", left: "10%" }}
+            style={{ width: "480px", height: "480px", top: "-150px", left: "8%" }}
             aria-hidden="true"
           />
           <div
             className="vx-halo vx-halo--secondary"
-            style={{ width: "520px", height: "520px", bottom: "-200px", right: "5%" }}
+            style={{ width: "560px", height: "560px", bottom: "-220px", right: "5%" }}
             aria-hidden="true"
           />
 
@@ -399,7 +402,7 @@ export function HomeV1() {
               <Link href="/explore">
                 <Button
                   variant="outline"
-                  className="bg-white/[0.03] backdrop-blur-md border-white/20 text-white hover:bg-white/[0.08] hover:border-white/35 transition-all"
+                  className="bg-white/[0.03] backdrop-blur-md border-white/15 text-white hover:bg-white/[0.08] hover:border-white/30 transition-all"
                 >
                   Voir tous les projets
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -415,7 +418,7 @@ export function HomeV1() {
           </div>
         </section>
 
-        {/* 3 ACTIONS POSSIBLES - aucune mention de profil */}
+        {/* 3 ACTIONS POSSIBLES — violet / ambre / bleu nuit */}
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="text-center mb-10">
@@ -429,10 +432,10 @@ export function HomeV1() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              <Card className="vx-cinema-card bg-slate-900/60 border-fuchsia-500/30 hover:border-fuchsia-400/60 group">
+              <Card className="vx-cinema-card bg-[#070B12]/85 border-violet-500/30 hover:border-violet-400/60 group backdrop-blur-md">
                 <CardContent className="p-6 flex flex-col h-full">
-                  <div className="h-12 w-12 rounded-xl bg-fuchsia-500/15 flex items-center justify-center mb-4 group-hover:bg-fuchsia-500/25 transition-colors">
-                    <Eye className="h-6 w-6 text-fuchsia-300" />
+                  <div className="h-12 w-12 rounded-xl bg-violet-500/15 flex items-center justify-center mb-4 group-hover:bg-violet-500/25 transition-colors">
+                    <Eye className="h-6 w-6 text-violet-300" />
                   </div>
                   <h3 className="text-xl font-semibold text-white mb-2">
                     Regarder
@@ -443,7 +446,7 @@ export function HomeV1() {
                   <Link href="/explore">
                     <Button
                       variant="outline"
-                      className="w-full bg-transparent border-fuchsia-500/30 text-fuchsia-200 hover:bg-fuchsia-500/10"
+                      className="w-full bg-transparent border-violet-500/30 text-violet-200 hover:bg-violet-500/10"
                     >
                       <Compass className="mr-2 h-4 w-4" />
                       Explorer
@@ -452,10 +455,10 @@ export function HomeV1() {
                 </CardContent>
               </Card>
 
-              <Card className="vx-cinema-card bg-slate-900/60 border-rose-500/30 hover:border-rose-400/60 group">
+              <Card className="vx-cinema-card bg-[#070B12]/85 border-amber-500/30 hover:border-amber-400/60 group backdrop-blur-md">
                 <CardContent className="p-6 flex flex-col h-full">
-                  <div className="h-12 w-12 rounded-xl bg-rose-500/15 flex items-center justify-center mb-4 group-hover:bg-rose-500/25 transition-colors">
-                    <Heart className="h-6 w-6 text-rose-300" />
+                  <div className="h-12 w-12 rounded-xl bg-amber-500/15 flex items-center justify-center mb-4 group-hover:bg-amber-500/25 transition-colors">
+                    <Heart className="h-6 w-6 text-amber-300" />
                   </div>
                   <h3 className="text-xl font-semibold text-white mb-2">
                     Soutenir
@@ -464,7 +467,7 @@ export function HomeV1() {
                     Aide les projets que tu aimes. De 2 a 20 EUR. Tu deviens automatiquement contributeur.
                   </p>
                   <Link href="/explore">
-                    <Button className="w-full bg-orange-500 hover:bg-orange-400 text-white font-semibold shadow-lg shadow-orange-900/30">
+                    <Button className="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold shadow-lg shadow-amber-900/30">
                       <Flame className="mr-2 h-4 w-4" />
                       Je soutiens un projet
                     </Button>
@@ -475,10 +478,10 @@ export function HomeV1() {
                 </CardContent>
               </Card>
 
-              <Card className="vx-cinema-card bg-slate-900/60 border-purple-500/30 hover:border-purple-400/60 group">
+              <Card className="vx-cinema-card bg-[#070B12]/85 border-blue-500/30 hover:border-blue-400/60 group backdrop-blur-md">
                 <CardContent className="p-6 flex flex-col h-full">
-                  <div className="h-12 w-12 rounded-xl bg-purple-500/15 flex items-center justify-center mb-4 group-hover:bg-purple-500/25 transition-colors">
-                    <Upload className="h-6 w-6 text-purple-300" />
+                  <div className="h-12 w-12 rounded-xl bg-blue-500/15 flex items-center justify-center mb-4 group-hover:bg-blue-500/25 transition-colors">
+                    <Upload className="h-6 w-6 text-blue-300" />
                   </div>
                   <h3 className="text-xl font-semibold text-white mb-2">
                     Creer
@@ -489,7 +492,7 @@ export function HomeV1() {
                   <Link href={isAuthed ? "/upload" : "/signup"}>
                     <Button
                       variant="outline"
-                      className="w-full bg-transparent border-purple-500/30 text-purple-200 hover:bg-purple-500/10"
+                      className="w-full bg-transparent border-blue-500/30 text-blue-200 hover:bg-blue-500/10"
                     >
                       <Upload className="mr-2 h-4 w-4" />
                       Publier un projet
@@ -501,10 +504,23 @@ export function HomeV1() {
           </div>
         </section>
 
-        {/* CTA FINAL - simple */}
-        <section className="py-16 bg-gradient-to-r from-fuchsia-900/25 to-rose-900/25 border-t border-fuchsia-500/15">
-          <div className="container mx-auto px-4 text-center max-w-2xl">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-balance">
+        {/* CTA FINAL — degrade violet -> bleu nuit cinema, fond OLED */}
+        <section className="relative py-20 overflow-hidden border-t border-violet-500/15">
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(76, 29, 149, 0.28) 0%, rgba(30, 58, 138, 0.32) 100%)",
+            }}
+            aria-hidden="true"
+          />
+          <div
+            className="vx-halo vx-halo--accent"
+            style={{ width: "520px", height: "320px", top: "-80px", left: "50%", transform: "translateX(-50%)" }}
+            aria-hidden="true"
+          />
+          <div className="container mx-auto px-4 text-center max-w-2xl relative">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-balance vx-text-glow">
               Pret a rejoindre VIXUAL ?
             </h2>
             <p className="text-white/70 mb-6">
@@ -515,7 +531,11 @@ export function HomeV1() {
                 <Link href="/signup">
                   <Button
                     size="lg"
-                    className="bg-white text-slate-900 hover:bg-white/90 px-8 h-12 text-base font-semibold w-full sm:w-auto"
+                    className="vx-shimmer relative bg-gradient-to-r from-violet-600 via-violet-500 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white px-8 h-12 text-base font-semibold w-full sm:w-auto"
+                    style={{
+                      boxShadow:
+                        "0 10px 36px -10px rgba(124, 58, 237, 0.55), 0 0 0 1px rgba(196, 181, 253, 0.18) inset",
+                    }}
                   >
                     Creer mon compte
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -526,7 +546,7 @@ export function HomeV1() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="bg-transparent border-white/30 text-white hover:bg-white/10 px-8 h-12 text-base w-full sm:w-auto"
+                  className="bg-transparent border-white/20 text-white hover:bg-white/[0.06] px-8 h-12 text-base w-full sm:w-auto"
                 >
                   Continuer en tant qu&apos;invite
                 </Button>
