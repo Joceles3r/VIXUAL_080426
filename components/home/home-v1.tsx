@@ -1,18 +1,18 @@
 "use client"
 
 import Link from "next/link"
-import { Play, Info, Star, Sparkles } from "lucide-react"
+import { Play, Info, Star, Sparkles, BookOpen, Lightbulb } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { useAuth } from "@/lib/auth-context"
-import { V1_FEATURED, V1_SECTIONS, type V1Content } from "@/lib/mock-data-v1"
+import { V1_FEATURED, V1_SECTIONS, V1_SAVOIR, type V1Content } from "@/lib/mock-data-v1"
 
 /**
- * Homepage V1 — Polish final.
- * - Vignettes avec icone Play visible au hover
- * - Hover sans contour fluo : juste assombrissement profond
- * - Titre hero blanc pur (pas de glow fuchsia)
+ * Homepage V1 — PATCH CINE-STREAMING + SAVOIR & CULTURE
+ * - Visuels réalistes, cinématographiques, style Netflix/Canal+
+ * - Nouvelle section "Explorer • Savoir & Culture"
+ * - Fond noir OLED #030307, accents violet/bleu/ambre, pas de rose fluo
  */
 export function HomeV1() {
   const { isAuthed } = useAuth()
@@ -78,23 +78,82 @@ export function HomeV1() {
           </div>
         </section>
 
-        {/* ═══ 3 SECTIONS GRILLE ═══ */}
+        {/* ═══ 3 SECTIONS GRILLE (Films, Podcasts, Litterature) ═══ */}
         <section className="vx-figma-sections">
           {V1_SECTIONS.map((section) => (
             <FigmaSection key={section.id} section={section} />
           ))}
         </section>
 
+        {/* ═══ EXPLORER • SAVOIR & CULTURE ═══ */}
+        <section id="savoir-culture" className="relative py-20 overflow-hidden">
+          {/* Halos discrets violet/bleu */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            aria-hidden="true"
+            style={{
+              background: `
+                radial-gradient(ellipse 60% 40% at 20% 30%, rgba(124, 58, 237, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 35% at 80% 70%, rgba(30, 64, 175, 0.1) 0%, transparent 50%)
+              `,
+            }}
+          />
+
+          <div className="container mx-auto px-6 relative z-10">
+            {/* Header de section */}
+            <div className="mb-10">
+              <p className="text-sm uppercase tracking-[0.25em] text-amber-300/70 flex items-center gap-2 mb-3">
+                <Lightbulb className="h-4 w-4" />
+                Explorer
+              </p>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Savoir & Culture
+              </h2>
+              <p className="text-white/60 max-w-2xl text-base leading-relaxed">
+                Mini-series, histoires vraies, documentaires et contenus immersifs pour apprendre autrement. 
+                Curiosite, mystere, decouverte — sans jamais ressembler a une salle de classe.
+              </p>
+            </div>
+
+            {/* Grille 8 cartes */}
+            <div className="vx-figma-grid">
+              {V1_SAVOIR.map((item) => (
+                <FigmaThumbnail key={item.id} item={item} />
+              ))}
+            </div>
+
+            {/* Boutons CTA */}
+            <div className="mt-10 flex flex-wrap gap-4 items-center">
+              <Link href="/explore?cat=savoir">
+                <Button size="lg" className="bg-violet-600 hover:bg-violet-500 text-white">
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  Explorer les mini-series
+                </Button>
+              </Link>
+              <Link href="/explore?cat=savoir&free=1">
+                <Button size="lg" variant="outline" className="border-white/20 text-white/80 hover:bg-white/5">
+                  Decouvrir gratuitement
+                </Button>
+              </Link>
+            </div>
+
+            {/* Note mineurs */}
+            <p className="mt-6 text-xs text-white/40 max-w-xl">
+              Les jeunes utilisateurs peuvent acceder a certains contenus Savoir & Culture gratuitement ou grace a leurs VIXUpoints.
+            </p>
+          </div>
+        </section>
+
         {/* ═══ CTA FINAL ═══ */}
         <section className="vx-figma-cta-final">
           <div className="vx-figma-cta-bg" aria-hidden="true" />
           <div className="container mx-auto px-6 text-center max-w-3xl relative z-10">
-            <Sparkles className="h-8 w-8 text-fuchsia-300 mx-auto mb-6 opacity-80" />
+            <Sparkles className="h-8 w-8 text-violet-400 mx-auto mb-6 opacity-80" />
             <h2 className="vx-figma-cta-title">
-              {"Prêt à découvrir des talents exceptionnels ?"}
+              {"Pret a decouvrir des talents exceptionnels ?"}
             </h2>
             <p className="vx-figma-cta-desc">
-              Rejoignez VIXUAL et soutenez les créateurs de demain. Films, podcasts, livres — tout en un seul endroit.
+              Rejoignez VIXUAL et soutenez les createurs de demain. Films, podcasts, livres, savoir — tout en un seul endroit.
             </p>
             <Link href={isAuthed ? "/explore" : "/signup"}>
               <Button size="lg" className="vx-figma-cta-btn">
@@ -145,8 +204,8 @@ function FigmaThumbnail({ item }: { item: V1Content }) {
       {item.isNew && <span className="vx-figma-thumb-new">NOUVEAU</span>}
 
       <div className="vx-figma-thumb-info">
-        <h3 className="vx-figma-thumb-title">{item.title}</h3>
         {item.tagline && <p className="vx-figma-thumb-tagline">{item.tagline}</p>}
+        <h3 className="vx-figma-thumb-title">{item.title}</h3>
         <div className="vx-figma-thumb-rating">
           <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
           <span>{item.rating}</span>
