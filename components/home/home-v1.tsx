@@ -1,12 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import {
-  Play,
-  Info,
-  Star,
-  Sparkles,
-} from "lucide-react"
+import { Play, Info, Star, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
@@ -14,16 +9,10 @@ import { useAuth } from "@/lib/auth-context"
 import { V1_FEATURED, V1_SECTIONS, type V1Content } from "@/lib/mock-data-v1"
 
 /**
- * Homepage V1 — Aligne sur le design Figma cible.
- *
- * Structure :
- *  1. Hero plein largeur — contenu vedette + CTA "Commencer gratuitement"
- *  2. 3 sections empilees verticalement (Films / Podcasts / Livres)
- *     Grille 2 colonnes, thumbnails portrait 9:16 avec note etoile visible
- *  3. CTA final "Pret a decouvrir des talents exceptionnels ?"
- *     avec fond degrade violet/rose et bouton dégradé rose-violet-bleu
- *
- * Identite VIXUAL preservee (logo color, slogan, fuchsia signature).
+ * Homepage V1 — Polish final.
+ * - Vignettes avec icone Play visible au hover
+ * - Hover sans contour fluo : juste assombrissement profond
+ * - Titre hero blanc pur (pas de glow fuchsia)
  */
 export function HomeV1() {
   const { isAuthed } = useAuth()
@@ -42,7 +31,6 @@ export function HomeV1() {
           />
           <div className="vx-stream-hero-overlay" aria-hidden="true" />
           <div className="vx-stream-hero-overlay-bottom" aria-hidden="true" />
-          <div className="vx-stream-hero-glow" aria-hidden="true" />
 
           <div className="vx-stream-hero-content">
             <div className="vx-stream-hero-inner">
@@ -90,20 +78,20 @@ export function HomeV1() {
           </div>
         </section>
 
-        {/* ═══ 3 SECTIONS GRILLE 2 COLONNES ═══ */}
+        {/* ═══ 3 SECTIONS GRILLE ═══ */}
         <section className="vx-figma-sections">
           {V1_SECTIONS.map((section) => (
             <FigmaSection key={section.id} section={section} />
           ))}
         </section>
 
-        {/* ═══ CTA FINAL DEGRADE ═══ */}
+        {/* ═══ CTA FINAL ═══ */}
         <section className="vx-figma-cta-final">
           <div className="vx-figma-cta-bg" aria-hidden="true" />
           <div className="container mx-auto px-6 text-center max-w-3xl relative z-10">
             <Sparkles className="h-8 w-8 text-fuchsia-300 mx-auto mb-6 opacity-80" />
             <h2 className="vx-figma-cta-title">
-              Prêt à découvrir des talents exceptionnels ?
+              {"Prêt à découvrir des talents exceptionnels ?"}
             </h2>
             <p className="vx-figma-cta-desc">
               Rejoignez VIXUAL et soutenez les créateurs de demain. Films, podcasts, livres — tout en un seul endroit.
@@ -122,17 +110,14 @@ export function HomeV1() {
   )
 }
 
-/** Section avec titre + grille 2 colonnes de vignettes portrait */
+/** Section avec titre + grille de vignettes */
 function FigmaSection({ section }: { section: { id: string; title: string; items: V1Content[] } }) {
-  // On affiche les 6 premiers contenus, en grille 2 colonnes (donc 3 lignes)
-  const items = section.items.slice(0, 6)
-
   return (
     <div className="vx-figma-section">
       <div className="container mx-auto px-6">
         <h2 className="vx-figma-section-title">{section.title}</h2>
         <div className="vx-figma-grid">
-          {items.map((item) => (
+          {section.items.map((item) => (
             <FigmaThumbnail key={item.id} item={item} />
           ))}
         </div>
@@ -141,7 +126,7 @@ function FigmaSection({ section }: { section: { id: string; title: string; items
   )
 }
 
-/** Thumbnail portrait 9:16 avec note étoile visible en bas */
+/** Thumbnail portrait avec icône Play visible au hover */
 function FigmaThumbnail({ item }: { item: V1Content }) {
   return (
     <Link href={`/video/${item.id}`} className="vx-figma-thumb group">
@@ -152,12 +137,16 @@ function FigmaThumbnail({ item }: { item: V1Content }) {
       />
       <div className="vx-figma-thumb-overlay" />
 
-      {item.isNew && (
-        <span className="vx-figma-thumb-new">NOUVEAU</span>
-      )}
+      {/* Icône Play centrée (visible au hover) */}
+      <div className="vx-figma-thumb-play" aria-hidden="true">
+        <Play className="h-7 w-7 fill-white text-white" />
+      </div>
+
+      {item.isNew && <span className="vx-figma-thumb-new">NOUVEAU</span>}
 
       <div className="vx-figma-thumb-info">
         <h3 className="vx-figma-thumb-title">{item.title}</h3>
+        {item.tagline && <p className="vx-figma-thumb-tagline">{item.tagline}</p>}
         <div className="vx-figma-thumb-rating">
           <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
           <span>{item.rating}</span>

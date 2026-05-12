@@ -638,7 +638,7 @@ html[data-version] .bg-slate-900 {
   animation: admin-shine 2.5s ease-in-out infinite;
 }
 
-/* ─── Animation Fill Mode Utilities ─���─ */
+/* ─── Animation Fill Mode Utilities ─�����─ */
 .fill-mode-forwards {
   animation-fill-mode: forwards;
 }
@@ -689,11 +689,10 @@ html[data-version] .bg-slate-900 {
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(3, 3, 7, 0.98) 0%,
-    rgba(3, 3, 7, 0.92) 25%,
-    rgba(3, 3, 7, 0.7) 50%,
-    rgba(3, 3, 7, 0.35) 75%,
-    rgba(3, 3, 7, 0.1) 100%
+    rgba(3, 3, 7, 0.85) 0%,
+    rgba(3, 3, 7, 0.65) 35%,
+    rgba(3, 3, 7, 0.3) 65%,
+    rgba(3, 3, 7, 0) 100%
   );
   pointer-events: none;
 }
@@ -702,11 +701,11 @@ html[data-version] .bg-slate-900 {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 28% 55%, rgba(3, 3, 7, 0.92) 0%, rgba(3, 3, 7, 0.6) 35%, transparent 70%),
+    radial-gradient(ellipse 70% 50% at 25% 55%, rgba(3, 3, 7, 0.7) 0%, rgba(3, 3, 7, 0.35) 40%, transparent 75%),
     linear-gradient(
       180deg,
-      rgba(3, 3, 7, 0) 40%,
-      rgba(3, 3, 7, 0.85) 80%,
+      rgba(3, 3, 7, 0) 50%,
+      rgba(3, 3, 7, 0.6) 85%,
       #030307 100%
     );
   pointer-events: none;
@@ -770,12 +769,11 @@ html[data-version] .bg-slate-900 {
   font-weight: 900;
   line-height: 1.02;
   letter-spacing: -0.02em;
-  color: #fff;
+  color: #ffffff;
   margin-bottom: 16px;
   text-shadow:
-    0 4px 32px rgba(0, 0, 0, 0.85),
-    0 2px 8px rgba(0, 0, 0, 0.95),
-    0 0 60px rgba(0, 0, 0, 0.7);
+    0 2px 12px rgba(0, 0, 0, 0.85),
+    0 4px 24px rgba(0, 0, 0, 0.7);
 }
 
 .vx-stream-hero-meta {
@@ -1171,11 +1169,10 @@ html[data-version] .bg-slate-900 {
 }
 
 .vx-figma-thumb:hover {
-  transform: translateY(-4px) scale(1.02);
+  transform: translateY(-4px) scale(1.03);
   box-shadow:
-    0 16px 48px -12px rgba(0, 0, 0, 0.8),
-    0 0 0 1px rgba(217, 70, 239, 0.4),
-    0 0 40px -8px rgba(217, 70, 239, 0.3);
+    0 20px 50px -10px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .vx-figma-thumb-img {
@@ -1334,4 +1331,52 @@ html[data-version] .bg-slate-900 {
   .vx-figma-thumb-info {
     padding: 10px;
   }
+}
+
+/* ─── Icône Play sur thumbnails ─── */
+.vx-figma-thumb-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 3;
+  pointer-events: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.vx-figma-thumb:hover .vx-figma-thumb-play {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Tagline secondaire sur certaines vignettes (ex : "Conte fantastique") */
+.vx-figma-thumb-tagline {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: rgba(217, 70, 239, 0.95);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+/* Navigation header : forcer blanc sauf logo */
+header nav a:not([href="/"]),
+header nav button:not([data-logo]) {
+  color: #ffffff !important;
+}
+header nav a:not([href="/"]):hover,
+header nav button:not([data-logo]):hover {
+  color: rgba(255, 255, 255, 0.85) !important;
 }
