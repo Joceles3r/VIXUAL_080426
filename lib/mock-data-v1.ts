@@ -50,7 +50,7 @@ export const V1_FILMS: V1Content[] = [
     id: "film-002",
     title: "Nuit Sans Fin",
     category: "films",
-    thumbnail: U("photo-1518156677180-95a2893f3e9f"), // route nuit phares brouillard
+    thumbnail: U("photo-1517604931442-7e0c8ed2963c"), // ruelle nocturne pluie cinematique
     rating: 4.5,
     duration: "2h 12min",
     isNew: true,
@@ -59,7 +59,7 @@ export const V1_FILMS: V1Content[] = [
     id: "film-003",
     title: "Le Dernier Témoin",
     category: "films",
-    thumbnail: U("photo-1504893524553-b855bce32c67"), // paysage dramatique ciel orageux
+    thumbnail: U("photo-1485846234645-a62644f84728"), // neon rouge "CINEMA" nuit
     rating: 4.6,
     duration: "1h 47min",
   },
@@ -67,7 +67,7 @@ export const V1_FILMS: V1Content[] = [
     id: "film-004",
     title: "Échos du Passé",
     category: "films",
-    thumbnail: U("photo-1509023464722-18d996393ca8"), // ciel nuages dramatiques sombre
+    thumbnail: U("photo-1568667256549-094345857637"), // portrait noir blanc dramatique homme
     rating: 4.4,
     duration: "2h 04min",
   },
@@ -75,7 +75,7 @@ export const V1_FILMS: V1Content[] = [
     id: "film-005",
     title: "L'Inconnu",
     category: "films",
-    thumbnail: U("photo-1507003211169-0a1dd7228f2d"), // portrait homme mystérieux
+    thumbnail: U("photo-1542204165-65bf26472b9b"), // homme silhouette imper film noir
     rating: 4.8,
     duration: "1h 33min",
     isNew: true,
@@ -84,7 +84,7 @@ export const V1_FILMS: V1Content[] = [
     id: "film-006",
     title: "Territoire Hostile",
     category: "films",
-    thumbnail: U("photo-1469474968028-56623f02e42e"), // paysage montagne brume dramatique
+    thumbnail: U("photo-1574267432553-4b4628081c31"), // homme dos foule action thriller
     rating: 4.3,
     duration: "2h 21min",
   },
@@ -92,7 +92,7 @@ export const V1_FILMS: V1Content[] = [
     id: "film-007",
     title: "Dernier Souffle",
     category: "films",
-    thumbnail: U("photo-1494500764479-0c8f2919a3d8"), // forêt brume mystérieuse
+    thumbnail: U("photo-1490810194309-344b3661ba39"), // homme noir blanc fumee chapeau noir
     rating: 4.5,
     duration: "1h 52min",
   },
@@ -100,7 +100,7 @@ export const V1_FILMS: V1Content[] = [
     id: "film-008",
     title: "Les Disparus",
     category: "films",
-    thumbnail: U("photo-1470252649378-9c29740c9fa8"), // coucher soleil dramatique
+    thumbnail: U("photo-1551269901-5c5e14c25df7"), // silhouette néons verts mystere
     rating: 4.6,
     duration: "2h 08min",
   },
@@ -112,7 +112,7 @@ export const V1_PODCASTS: V1Content[] = [
     id: "pod-001",
     title: "Conversations Nocturnes",
     category: "podcasts",
-    thumbnail: U("photo-1511671782779-c97d3d27a1d4"), // ambiance intime nuit musique
+    thumbnail: U("photo-1590602847861-f357a9332bbc"), // micro condensateur studio bleu nuit
     rating: 4.9,
     duration: "Mensuel",
   },
@@ -120,7 +120,7 @@ export const V1_PODCASTS: V1Content[] = [
     id: "pod-002",
     title: "Histoires Vraies",
     category: "podcasts",
-    thumbnail: U("photo-1516450360452-9312f5e86fc7"), // concert atmosphère live
+    thumbnail: U("photo-1505236858219-8359eb29e329"), // micro vintage dore broadcast retro
     rating: 4.7,
     duration: "Hebdo",
     isNew: true,
@@ -129,7 +129,7 @@ export const V1_PODCASTS: V1Content[] = [
     id: "pod-003",
     title: "Voix du Silence",
     category: "podcasts",
-    thumbnail: U("photo-1493225457124-a3eb161ffa5f"), // scène concert dramatique
+    thumbnail: U("photo-1487180144351-b8472da7d491"), // homme casque studio podcast pro
     rating: 4.6,
     duration: "12 episodes",
   },
@@ -137,7 +137,7 @@ export const V1_PODCASTS: V1Content[] = [
     id: "pod-004",
     title: "Enquêtes Criminelles",
     category: "podcasts",
-    thumbnail: U("photo-1478737270239-2f02b77fc618"), // ambiance studio warm tones
+    thumbnail: U("photo-1556761175-5973dc0f32e7"), // bureau enquete journal cafe ambiance
     rating: 4.8,
     duration: "Bi-mensuel",
   },
@@ -145,7 +145,7 @@ export const V1_PODCASTS: V1Content[] = [
     id: "pod-005",
     title: "Le Cinquième Mur",
     category: "podcasts",
-    thumbnail: U("photo-1507676184212-d03ab07a01bf"), // théâtre rideau rouge dramatique
+    thumbnail: U("photo-1598488035139-bdbb2231ce04"), // micro fond rouge theatre
     rating: 4.5,
     duration: "6 episodes",
   },
@@ -153,7 +153,7 @@ export const V1_PODCASTS: V1Content[] = [
     id: "pod-006",
     title: "Mystères Inexpliqués",
     category: "podcasts",
-    thumbnail: U("photo-1419242902214-272b3f66ee7a"), // ciel étoilé mystère cosmos
+    thumbnail: U("photo-1581368135153-a506cf13b1e1"), // micro vintage cuivre ambient
     rating: 4.4,
     duration: "Hebdo",
     isNew: true,
@@ -162,7 +162,7 @@ export const V1_PODCASTS: V1Content[] = [
     id: "pod-007",
     title: "Confessions",
     category: "podcasts",
-    thumbnail: U("photo-1508700115892-45ecd05ae2ad"), // femme portrait artistique
+    thumbnail: U("photo-1598653222000-6b7b7a552625"), // micro studio bleu indigo profond
     rating: 4.6,
     duration: "10 episodes",
   },
@@ -182,7 +182,7 @@ export const V1_LIVRES: V1Content[] = [
     id: "liv-002",
     title: "Bibliothèque Secrète",
     category: "livres",
-    thumbnail: U("photo-1507842217343-583bb7270b66"), // bibliothèque majestueuse
+    thumbnail: U("photo-1457369804613-52c61a468e7d"), // kindle livre cosy ambiance hivernale
     rating: 4.8,
     duration: "218 pages",
     isNew: true,
@@ -191,7 +191,7 @@ export const V1_LIVRES: V1Content[] = [
     id: "liv-003",
     title: "Le Royaume Endormi",
     category: "livres",
-    thumbnail: U("photo-1516979187457-637abb4f9353"), // livres empilés atmosphérique
+    thumbnail: U("photo-1535905557558-afc4877a26fc"), // foret brume conte fantastique
     rating: 4.6,
     duration: "284 pages",
     tagline: "Conte fantastique",
@@ -208,7 +208,7 @@ export const V1_LIVRES: V1Content[] = [
     id: "liv-005",
     title: "Café Littéraire",
     category: "livres",
-    thumbnail: U("photo-1495446815901-a7297e633e8d"), // livres café atmosphère
+    thumbnail: U("photo-1513001900722-370f803f498d"), // livre tasse cafe lecture matinale
     rating: 4.8,
     duration: "302 pages",
   },
@@ -216,7 +216,7 @@ export const V1_LIVRES: V1Content[] = [
     id: "liv-006",
     title: "Le Manuscrit",
     category: "livres",
-    thumbnail: U("photo-1455885661740-29cbf08a42fa"), // vieux manuscrit mystérieux
+    thumbnail: U("photo-1532012197267-da84d127e765"), // vieux livres relies cuir bibliotheque
     rating: 4.4,
     duration: "184 pages",
     isNew: true,
@@ -225,7 +225,7 @@ export const V1_LIVRES: V1Content[] = [
     id: "liv-007",
     title: "Lettres Perdues",
     category: "livres",
-    thumbnail: U("photo-1481627834876-b7833e8f5570"), // bibliothèque couloir noble
+    thumbnail: U("photo-1455390582262-044cdead277a"), // plume encre vieux papier ecriture
     rating: 4.6,
     duration: "256 pages",
   },
