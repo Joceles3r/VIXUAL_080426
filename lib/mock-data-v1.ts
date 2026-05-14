@@ -249,3 +249,72 @@ export const V1_SAVOIR_CATEGORIES = [
   { id: "soc", label: "Société", icon: "users" },
   { id: "edu", label: "Éducation", icon: "book-open" },
 ] as const
+
+// ─── SAVOIR & CULTURE — Cartes immersives documentaires (style Netflix doc) ───
+export interface V1SavoirCard {
+  id: string
+  title: string
+  tagline: string
+  thumbnail: string
+  iconKey: "landmark" | "rocket" | "globe" | "brain" | "film" | "users" | "lightbulb"
+  duration: string // toujours <= 10 min
+}
+
+export const V1_SAVOIR_CULTURE: V1SavoirCard[] = [
+  {
+    id: "sav-001",
+    title: "Mystères de l'Histoire",
+    tagline: "Les énigmes oubliées du passé",
+    thumbnail: U("photo-1564399579883-451a5d44ec08"), // temple ancien dramatique
+    iconKey: "landmark",
+    duration: "8 min",
+  },
+  {
+    id: "sav-002",
+    title: "Science & Futur",
+    tagline: "Comprendre les inventions qui changent le monde",
+    thumbnail: U("photo-1465101046530-73398c7f28ca"), // espace cosmos étoiles
+    iconKey: "rocket",
+    duration: "7 min",
+  },
+  {
+    id: "sav-003",
+    title: "Civilisations Disparues",
+    tagline: "Voyage au cœur des cultures oubliées",
+    thumbnail: U("photo-1539650116574-75c0c6d73f6e"), // ruines antiques majestueuses
+    iconKey: "globe",
+    duration: "9 min",
+  },
+  {
+    id: "sav-004",
+    title: "Comprendre Internet",
+    tagline: "Décrypter le monde numérique en clair",
+    thumbnail: U("photo-1518770660439-4636190af475"), // circuits électroniques sombres
+    iconKey: "lightbulb",
+    duration: "6 min",
+  },
+  {
+    id: "sav-005",
+    title: "Les Dangers des Réseaux Toxiques",
+    tagline: "Protéger les jeunes du scroll toxique",
+    thumbnail: U("photo-1611532736597-de2d4265fba3"), // silhouette devant écran nuit
+    iconKey: "users",
+    duration: "10 min",
+  },
+  {
+    id: "sav-006",
+    title: "Histoire du Cinéma",
+    tagline: "Des frères Lumière à l'ère numérique",
+    thumbnail: U("photo-1485846234645-a62644f84728"), // projecteur cinéma vintage
+    iconKey: "film",
+    duration: "9 min",
+  },
+  {
+    id: "sav-007",
+    title: "Grandes Idées qui ont Changé le Monde",
+    tagline: "Philosophie & société en immersion",
+    thumbnail: U("photo-1488646953014-85cb44e25828"), // bibliothèque ancienne pensée
+    iconKey: "brain",
+    duration: "8 min",
+  },
+]

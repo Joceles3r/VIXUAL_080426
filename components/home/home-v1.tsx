@@ -10,6 +10,14 @@ import {
   ChevronRight,
   Star,
   Clock,
+  Landmark,
+  Rocket,
+  Globe,
+  Brain,
+  Film as FilmIcon,
+  Users,
+  Lightbulb,
+  Sparkles,
 } from "lucide-react"
 import useEmblaCarousel from "embla-carousel-react"
 import { VisualHeader } from "@/components/vixual-header"
@@ -18,8 +26,20 @@ import { useAuth } from "@/lib/auth-context"
 import {
   V1_FEATURED,
   V1_SECTIONS,
+  V1_SAVOIR_CULTURE,
   type V1Content,
+  type V1SavoirCard,
 } from "@/lib/mock-data-v1"
+
+const SAVOIR_ICONS = {
+  landmark: Landmark,
+  rocket: Rocket,
+  globe: Globe,
+  brain: Brain,
+  film: FilmIcon,
+  users: Users,
+  lightbulb: Lightbulb,
+} as const
 
 /**
  * Homepage V1 — STREAMING PREMIUM (style Netflix / Apple TV+ / Prime Video).
@@ -109,6 +129,37 @@ export function HomeV1() {
           ))}
         </div>
       </div>
+
+      {/* ═══ SAVOIR & CULTURE — Documentaire immersif (anti-scroll toxique) ═══ */}
+      <section id="savoir-culture" className="vx-savoir">
+        <div className="vx-savoir-bg" aria-hidden="true" />
+        <div className="vx-savoir-inner">
+          <div className="vx-savoir-header vx-prem-reveal">
+            <span className="vx-savoir-eyebrow">
+              <Sparkles className="h-4 w-4" />
+              <span>Explorer</span>
+            </span>
+            <h2 className="vx-savoir-title">Savoir &amp; Culture</h2>
+            <p className="vx-savoir-subtitle">
+              Mini-séries documentaires immersives. Mystères, sciences, histoire et culture —
+              pensées pour les curieux de 12 à 99 ans. Format court : 10 minutes maximum.
+            </p>
+          </div>
+
+          <div className="vx-savoir-grid">
+            {V1_SAVOIR_CULTURE.map((card) => (
+              <SavoirCard key={card.id} card={card} />
+            ))}
+          </div>
+
+          <div className="vx-savoir-footer-note vx-prem-reveal">
+            <span>
+              Mineurs : accès via <strong>VIXUpoints</strong> gagnés en participant.
+              Parents : Pack Découverte 5€ · Pack Immersion 10€ · Pack Culture Premium 20€.
+            </span>
+          </div>
+        </div>
+      </section>
 
       {/* ═══ CTA FINAL DEGRADE ═══ */}
       <section className="vx-prem-cta">
@@ -255,6 +306,43 @@ function ContentCard({ item }: { item: V1Content }) {
             <Info className="h-4 w-4" />
           </span>
         </div>
+      </div>
+    </Link>
+  )
+}
+
+/* ─── CARTE SAVOIR & CULTURE (documentaire immersif) ─── */
+function SavoirCard({ card }: { card: V1SavoirCard }) {
+  const Icon = SAVOIR_ICONS[card.iconKey]
+  return (
+    <Link href={`/explore?tab=savoir&id=${card.id}`} className="vx-savoir-card">
+      <div className="vx-savoir-card-img-wrap">
+        <Image
+          src={card.thumbnail || "/placeholder.svg"}
+          alt={card.title}
+          fill
+          className="vx-savoir-card-img"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+        <div className="vx-savoir-card-overlay" aria-hidden="true" />
+      </div>
+
+      <div className="vx-savoir-card-icon" aria-hidden="true">
+        <Icon className="h-5 w-5" />
+      </div>
+
+      <span className="vx-savoir-card-duration">
+        <Clock className="h-3 w-3" />
+        <span>{card.duration}</span>
+      </span>
+
+      <div className="vx-savoir-card-content">
+        <h3 className="vx-savoir-card-title">{card.title}</h3>
+        <p className="vx-savoir-card-tagline">{card.tagline}</p>
+        <span className="vx-savoir-card-cta">
+          <Play className="h-3.5 w-3.5 fill-current" />
+          <span>Découvrir</span>
+        </span>
       </div>
     </Link>
   )

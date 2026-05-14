@@ -638,7 +638,7 @@ html[data-version] .bg-slate-900 {
   animation: admin-shine 2.5s ease-in-out infinite;
 }
 
-/* ─── Animation Fill Mode Utilities ─�������─ */
+/* ─── Animation Fill Mode Utilities ─���������─ */
 .fill-mode-forwards {
   animation-fill-mode: forwards;
 }
@@ -2493,5 +2493,281 @@ header nav button:not([data-logo]):hover {
   }
   .vx-prem-cta {
     padding: 64px 20px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   HOMEPAGE V1 — SAVOIR & CULTURE (documentaire immersif Netflix-doc)
+   Classes vx-savoir-* — anti-scroll toxique, ouverture culturelle.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.vx-savoir {
+  position: relative;
+  padding: 80px 32px 96px;
+  overflow: hidden;
+  background: #070b12;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.vx-savoir-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 20% 20%, rgba(124, 58, 237, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 70% at 80% 80%, rgba(30, 58, 138, 0.22) 0%, transparent 60%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.vx-savoir-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ─── HEADER SECTION ─── */
+.vx-savoir-header {
+  text-align: center;
+  margin-bottom: 48px;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vx-savoir-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  background: linear-gradient(90deg, rgba(124, 58, 237, 0.2) 0%, rgba(99, 102, 241, 0.2) 100%);
+  border: 1px solid rgba(124, 58, 237, 0.35);
+  border-radius: 999px;
+  color: #c4b5fd;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.vx-savoir-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+  background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.75) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.vx-savoir-subtitle {
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* ─── GRILLE 7 CARTES ─── */
+.vx-savoir-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+@media (min-width: 640px) {
+  .vx-savoir-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .vx-savoir-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  /* Premiere carte plus large pour casser le rythme et donner vie au pavage */
+  .vx-savoir-grid > .vx-savoir-card:first-child {
+    grid-column: span 2;
+  }
+}
+
+/* ─── CARTE DOCUMENTAIRE IMMERSIVE ─── */
+.vx-savoir-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  outline: none;
+}
+
+.vx-savoir-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 50px -10px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(124, 58, 237, 0.4),
+    0 0 40px -8px rgba(124, 58, 237, 0.25);
+}
+
+.vx-savoir-card-img-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+.vx-savoir-card-img {
+  object-fit: cover;
+  transition: transform 0.6s ease, filter 0.6s ease;
+}
+
+.vx-savoir-card:hover .vx-savoir-card-img {
+  transform: scale(1.06);
+  filter: brightness(0.7);
+}
+
+.vx-savoir-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(7, 11, 18, 0.15) 0%,
+    rgba(7, 11, 18, 0.55) 55%,
+    rgba(7, 11, 18, 0.95) 100%
+  );
+  pointer-events: none;
+}
+
+/* Icone categorie en haut a gauche */
+.vx-savoir-card-icon {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 3;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(124, 58, 237, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+/* Duree en haut a droite */
+.vx-savoir-card-duration {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 9px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Contenu texte en bas */
+.vx-savoir-card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 20px 22px 22px;
+}
+
+.vx-savoir-card-title {
+  font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+}
+
+.vx-savoir-card-tagline {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0 0 14px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+}
+
+.vx-savoir-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.vx-savoir-card:hover .vx-savoir-card-cta {
+  background: linear-gradient(90deg, #7c3aed 0%, #6366f1 100%);
+  border-color: transparent;
+}
+
+/* ─── FOOTER NOTE PARENTS / VIXUPOINTS ─── */
+.vx-savoir-footer-note {
+  margin-top: 36px;
+  text-align: center;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 820px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vx-savoir-footer-note strong {
+  color: rgba(217, 119, 6, 0.95);
+  font-weight: 600;
+}
+
+/* ─── RESPONSIVE MOBILE ─── */
+@media (max-width: 640px) {
+  .vx-savoir {
+    padding: 56px 18px 64px;
+  }
+  .vx-savoir-header {
+    margin-bottom: 32px;
+  }
+  .vx-savoir-card {
+    aspect-ratio: 5 / 3;
+  }
+  .vx-savoir-card-content {
+    padding: 16px 18px 18px;
   }
 }
