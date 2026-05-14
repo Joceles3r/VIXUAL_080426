@@ -1925,3 +1925,573 @@ header nav button:not([data-logo]):hover {
     text-align: center;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   HOMEPAGE V1 — STREAMING PREMIUM (Netflix / Apple TV+ style)
+   Classes vx-prem-* — animations CSS pures, pas de framer-motion.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── ANIMATIONS CSS NATIVES ─── */
+@keyframes vx-prem-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes vx-prem-fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes vx-prem-reveal {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.vx-prem-fade-in {
+  animation: vx-prem-fade-in 0.8s ease-out both;
+}
+
+.vx-prem-fade-up {
+  animation: vx-prem-fade-up 0.5s ease-out both;
+}
+
+.vx-prem-delay-1 { animation-delay: 0.5s; }
+.vx-prem-delay-2 { animation-delay: 0.6s; }
+.vx-prem-delay-3 { animation-delay: 0.7s; }
+.vx-prem-delay-4 { animation-delay: 0.8s; }
+.vx-prem-delay-5 { animation-delay: 0.9s; }
+
+.vx-prem-reveal {
+  animation: vx-prem-reveal 0.6s ease-out both;
+}
+
+/* ─── HERO PLEIN ECRAN ─── */
+.vx-prem-hero {
+  position: relative;
+  height: 90vh;
+  min-height: 600px;
+  max-height: 900px;
+  overflow: hidden;
+  background: #141414;
+}
+
+.vx-prem-hero-image {
+  position: absolute;
+  inset: 0;
+}
+
+.vx-prem-hero-grad-right {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.7) 35%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.vx-prem-hero-grad-bottom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 40%,
+    rgba(20, 20, 20, 0.85) 85%,
+    #141414 100%
+  );
+  pointer-events: none;
+}
+
+.vx-prem-hero-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+}
+
+.vx-prem-hero-inner {
+  max-width: 640px;
+}
+
+.vx-prem-hero-badges {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.vx-prem-badge-original {
+  background: #dc2626;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+
+.vx-prem-rating-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.vx-prem-hero-title {
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 22px;
+  text-shadow: 0 4px 32px rgba(0, 0, 0, 0.7);
+}
+
+.vx-prem-hero-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 22px;
+}
+
+.vx-prem-meta-year {
+  font-weight: 600;
+  color: #fff;
+}
+
+.vx-prem-meta-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.vx-prem-meta-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.vx-prem-hero-desc {
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 32px;
+  max-width: 560px;
+}
+
+.vx-prem-hero-cta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.vx-prem-btn-play,
+.vx-prem-btn-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.vx-prem-btn-play {
+  background: #fff;
+  color: #000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.vx-prem-btn-play:hover {
+  background: rgba(255, 255, 255, 0.88);
+  transform: scale(1.04);
+}
+
+.vx-prem-btn-info {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.vx-prem-btn-info:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ─── CARROUSELS ─── */
+.vx-prem-rows {
+  position: relative;
+  margin-top: -120px;
+  padding-bottom: 80px;
+  z-index: 3;
+  background: linear-gradient(180deg, transparent 0%, #141414 25%, #141414 100%);
+}
+
+.vx-prem-rows-inner {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.vx-prem-row-title {
+  font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 20px;
+  letter-spacing: -0.01em;
+}
+
+/* ─── CARROUSEL EMBLA ─── */
+.vx-prem-carousel {
+  position: relative;
+}
+
+.vx-prem-carousel-viewport {
+  overflow: hidden;
+}
+
+.vx-prem-carousel-container {
+  display: flex;
+  gap: 16px;
+}
+
+.vx-prem-carousel-slide {
+  flex: 0 0 50%;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .vx-prem-carousel-slide { flex: 0 0 33.333%; }
+}
+
+@media (min-width: 1280px) {
+  .vx-prem-carousel-slide { flex: 0 0 25%; }
+}
+
+@media (min-width: 1536px) {
+  .vx-prem-carousel-slide { flex: 0 0 20%; }
+}
+
+.vx-prem-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+}
+
+.vx-prem-carousel:hover .vx-prem-carousel-arrow {
+  opacity: 1;
+}
+
+.vx-prem-carousel-arrow:hover {
+  background: rgba(0, 0, 0, 0.85);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.vx-prem-carousel-arrow--prev { left: -16px; }
+.vx-prem-carousel-arrow--next { right: -16px; }
+
+/* ─── CARTE CONTENU ─── */
+.vx-prem-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  outline: none;
+}
+
+.vx-prem-card:hover {
+  transform: scale(1.06);
+  z-index: 5;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.9);
+}
+
+.vx-prem-card-img-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.vx-prem-card-img {
+  object-fit: cover;
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.vx-prem-card:hover .vx-prem-card-img {
+  transform: scale(1.1);
+  filter: brightness(0.75);
+}
+
+.vx-prem-card-grad {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 40%,
+    rgba(0, 0, 0, 0.5) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.vx-prem-card:hover .vx-prem-card-grad {
+  opacity: 1;
+}
+
+.vx-prem-card-new {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  background: linear-gradient(90deg, #ec4899 0%, #a855f7 100%);
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.5);
+}
+
+/* Info par defaut : titre + note petits, en bas */
+.vx-prem-card-info-default {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  z-index: 2;
+  transition: opacity 0.3s ease;
+}
+
+.vx-prem-card:hover .vx-prem-card-info-default {
+  opacity: 0;
+}
+
+.vx-prem-card-title-default {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+}
+
+.vx-prem-card-rating-default {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+/* Info au hover : description + boutons */
+.vx-prem-card-info-hover {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.vx-prem-card:hover .vx-prem-card-info-hover {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.vx-prem-card-title-hover {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 10px;
+  line-height: 1.2;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+.vx-prem-card-meta-hover {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.vx-prem-card-rating-hover {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.vx-prem-card-type {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+}
+
+.vx-prem-card-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.vx-prem-card-btn-play {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #fff;
+  color: #000;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background 0.2s ease;
+}
+
+.vx-prem-card-btn-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 5px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* ─── CTA FINAL DEGRADE ─── */
+.vx-prem-cta {
+  position: relative;
+  padding: 96px 32px;
+  overflow: hidden;
+  background: #141414;
+}
+
+.vx-prem-cta-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(127, 29, 29, 0.3) 0%,
+    rgba(88, 28, 135, 0.3) 50%,
+    rgba(30, 58, 138, 0.3) 100%
+  );
+  pointer-events: none;
+}
+
+.vx-prem-cta-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.vx-prem-cta-title {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 22px;
+}
+
+.vx-prem-cta-desc {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 auto 32px;
+  max-width: 640px;
+}
+
+.vx-prem-cta-btn {
+  display: inline-block;
+  padding: 16px 40px;
+  background: linear-gradient(90deg, #dc2626 0%, #9333ea 50%, #2563eb 100%);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow:
+    0 12px 32px -6px rgba(147, 51, 234, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vx-prem-cta-btn:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 16px 40px -6px rgba(147, 51, 234, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+}
+
+/* ─── RESPONSIVE MOBILE ─── */
+@media (max-width: 768px) {
+  .vx-prem-hero {
+    height: 75vh;
+    min-height: 520px;
+  }
+  .vx-prem-hero-content {
+    padding: 0 20px;
+  }
+  .vx-prem-rows-inner {
+    padding: 0 20px;
+    gap: 40px;
+  }
+  .vx-prem-carousel-arrow {
+    display: none;
+  }
+  .vx-prem-cta {
+    padding: 64px 20px;
+  }
+}
