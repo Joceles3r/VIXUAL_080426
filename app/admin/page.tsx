@@ -36,6 +36,7 @@ import {
   FlaskConical,
   Sparkles,
   Rocket,
+  LayoutDashboard,
 } from "lucide-react"
 import Link from "next/link"
 import { useTestLabAccess } from "@/lib/test-lab/use-test-lab-access"
@@ -188,6 +189,33 @@ export default function AdminPage() {
 
       {/* Creator Channels Banner — Module V3 (toggle + moderation) */}
       <CreatorChannelsBanner />
+
+      {/* Homepage Manager Banner — Module gestion Hero + carrousels V1 */}
+      <Link href="/admin/homepage" className="block mb-6">
+        <div className="relative overflow-hidden rounded-2xl border-2 border-purple-400/60 bg-gradient-to-r from-purple-900/40 via-fuchsia-900/30 to-purple-900/40 p-5 transition-all group hover:shadow-xl hover:shadow-purple-500/20">
+          <div className="relative flex items-center gap-5">
+            <div className="w-16 h-16 rounded-xl flex items-center justify-center bg-gradient-to-br from-purple-500 to-fuchsia-600 shadow-lg shadow-purple-500/30">
+              <LayoutDashboard className="h-8 w-8 text-white" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-1">
+                <h3 className="text-xl font-bold text-white">Gestion Homepage</h3>
+                <span className="text-xs uppercase tracking-wider px-2.5 py-1 rounded-full font-bold bg-purple-500 text-white">
+                  Patron + manage_homepage
+                </span>
+              </div>
+              <p className="text-sm text-purple-200/80">
+                Modifiez le Hero principal, les carrousels Films / Podcasts / Littérature / Savoir &amp; Culture, et les visuels affichés sur la homepage V1.
+              </p>
+            </div>
+            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-purple-500/20 text-purple-200 transition-transform group-hover:translate-x-1">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </Link>
 
       {/* Moderation Banner - Acces direct au moteur de moderation */}
       <Link href="/admin/moderation" className="block mb-6">
