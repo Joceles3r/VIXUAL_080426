@@ -9,11 +9,7 @@ interface VisualSloganProps {
 
 /**
  * Slogan officiel VIXUAL : "Regarde - Soutiens - Participe"
- *
- * Couleurs alignees sur le logo (feu tricolore) :
- *   Regarde  -> rouge
- *   Soutiens -> jaune
- *   Participe -> vert
+ * Couleurs : blanc pur sur fond sombre (cohérence streaming premium).
  */
 export function VisualSlogan({
   size = "xs",
@@ -28,9 +24,9 @@ export function VisualSlogan({
   }
 
   const opacityMap = {
-    low: { regarde: "text-red-500/55", soutiens: "text-amber-400/55", participe: "text-emerald-400/55", dash: "text-white/20" },
-    medium: { regarde: "text-red-500/80", soutiens: "text-amber-400/80", participe: "text-emerald-400/80", dash: "text-white/30" },
-    high: { regarde: "text-red-500", soutiens: "text-amber-400", participe: "text-emerald-400", dash: "text-white/40" },
+    low: { word: "text-white/55", dash: "text-white/20" },
+    medium: { word: "text-white/80", dash: "text-white/30" },
+    high: { word: "text-white", dash: "text-white/40" },
   }
 
   const colors = opacityMap[opacity]
@@ -40,14 +36,14 @@ export function VisualSlogan({
       className={cn(
         sizeClasses[size],
         "font-semibold tracking-widest uppercase inline-flex items-center gap-1",
-        className
+        className,
       )}
     >
-      <span className={colors.regarde}>Regarde</span>
+      <span className={colors.word}>Regarde</span>
       <span className={cn(colors.dash, "mx-0.5")}>{"\u2013"}</span>
-      <span className={colors.soutiens}>Soutiens</span>
+      <span className={colors.word}>Soutiens</span>
       <span className={cn(colors.dash, "mx-0.5")}>{"\u2013"}</span>
-      <span className={colors.participe}>Participe</span>
+      <span className={colors.word}>Participe</span>
     </span>
   )
 

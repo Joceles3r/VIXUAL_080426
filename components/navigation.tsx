@@ -89,6 +89,7 @@ export const EXPLORE_MENU: NavMenu = {
     { label: "Livres & Articles", href: "/explore?tab=text", icon: FileText, minVersion: "V2" },
     { label: "Podcasts", href: "/explore?tab=podcast", icon: Mic, minVersion: "V2" },
     { label: "Tout Explorer", href: "/explore", icon: Compass },
+    { label: "Savoir & Culture", href: "/#savoir-culture", icon: BookOpen },
     { label: "Archives & Statistiques", href: "/archives-statistiques", icon: Archive, minVersion: "V2" },
     { label: "Vixual Social", href: "/social", icon: MessageCircle, minVersion: "V3" },
   ],

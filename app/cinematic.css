@@ -34,6 +34,41 @@
   --vx-dur-fast: 250ms;
   --vx-dur-base: 450ms;
   --vx-dur-slow: 700ms;
+
+  /* OLED cinema — fonds profonds (palette V1) */
+  --vx-oled-1: #030307;
+  --vx-oled-2: #070B12;
+}
+
+/* ───────────────────────────────────────────────────────────────────
+   V1 — VIOLET NUIT CINEMA (palette OLED premium)
+   Glow principal : violet profond diffus
+   Glow secondaire : bleu nuit cinema
+   Accent : ambre discret (utilise localement dans les cartes)
+   ─────────────────────────────────────────────────────────────────── */
+[data-version="V1"] {
+  --vx-accent: #7c3aed;          /* violet 600 — glow principal diffus */
+  --vx-accent-bright: #a78bfa;   /* violet 400 — variant brillant */
+  --vx-accent-glow: #c4b5fd;     /* violet 300 — halo le plus doux */
+  --vx-secondary: #1e40af;       /* blue 800 — nuit cinema */
+  --vx-secondary-bright: #3b82f6;
+}
+
+/* OLED page background — fond cinema profond, prend le pas sur bg-slate-950 */
+.vx-oled-bg {
+  background-color: var(--vx-oled-1);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% -10%,
+      color-mix(in oklab, var(--vx-accent) 12%, transparent) 0%,
+      transparent 65%),
+    radial-gradient(ellipse 60% 40% at 90% 100%,
+      color-mix(in oklab, var(--vx-secondary) 10%, transparent) 0%,
+      transparent 70%);
+}
+
+/* Surface secondaire OLED (cartes, sections internes) */
+.vx-oled-surface {
+  background-color: color-mix(in oklab, var(--vx-oled-2) 92%, transparent);
 }
 
 /* ─────────────────────────────────────────────────────────────────── */
@@ -185,7 +220,7 @@
   opacity: 1;
 }
 
-/* ───────────────────────────────────��─────────────────────────────── */
+/* ───────────────────────────────────���─────────────────────────────── */
 /* SHIMMER — passage de lumiere sur les CTA premium                    */
 /* Usage : ajouter class `vx-shimmer` sur un Button                    */
 /* ─────────────────────────────────────────────────────────────────── */
