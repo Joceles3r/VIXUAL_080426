@@ -56,7 +56,6 @@ const SIDEBAR_ITEMS: { label: string; href: string; icon: any; roles: string[]; 
     href: "/dashboard/favorites",
     icon: Heart,
     roles: ["visitor", "creator", "contributor", "infoporteur", "contribu_lecteur", "podcasteur", "auditeur"],
-    minVersion: "V2", // VERROU: Module favoris active en V2 (table favorites a brancher)
   },
   {
     label: "Ma progression",

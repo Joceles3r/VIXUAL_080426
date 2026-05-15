@@ -321,7 +321,7 @@ html[data-version] .bg-slate-900 {
   --vx-glow-shadow-strong: 0 8px 30px rgba(229, 9, 20, 0.35);
   --vx-bg-deep: #000000;
   --vx-bg-mid: #0a0a0a;
-  --vx-bg-soft: #141414;
+  --vx-bg-soft: #070B12;
 }
 
 /* Override du bg-slate-950 → fond V2 cinema profond */
@@ -337,7 +337,7 @@ html[data-version] .bg-slate-900 {
 [data-version="V2"] .bg-slate-900,
 [data-version="V2"] .bg-slate-900\/60,
 [data-version="V2"] .bg-slate-900\/80 {
-  background: linear-gradient(135deg, #141414 0%, #1a0a0a 100%) !important;
+  background: linear-gradient(135deg, #020203 0%, #0a0508 100%) !important;
 }
 
 /* Bordures sobres : liseré rouge cinéma V2 (renforce pour camoufler les angles) */
@@ -2413,7 +2413,7 @@ header nav button:not([data-logo]):hover {
   position: relative;
   padding: 96px 32px;
   overflow: hidden;
-  background: #141414;
+  background: #020203;
 }
 
 .vx-prem-cta-bg {

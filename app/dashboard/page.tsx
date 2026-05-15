@@ -904,7 +904,7 @@ export default function DashboardPage() {
               <CardTitle className="text-white">
                 Derniers soutiens
               </CardTitle>
-              <Link href="/dashboard/contributions">
+              <Link href="/dashboard/investments">
                 <Button
                   variant="ghost"
                   size="sm"

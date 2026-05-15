@@ -24,7 +24,6 @@ import { CommentsSection } from "@/components/comments-section"
 import { VisibilityBoostButton } from "@/components/visibility-boost-button"
 import { ContributionDisclaimer } from "@/components/contribution-disclaimer"
 import { ALL_CONTENTS, isGoldCreator } from "@/lib/mock-data"
-import { useContent } from "@/hooks/use-content"
 import { useAuth } from "@/lib/auth-context"
 import { useToast } from "@/components/ui/use-toast"
 import { usePlatformVersion } from "@/hooks/use-platform-version"
@@ -94,19 +93,7 @@ export default function VideoPage({ params }: { params: { id: string } }) {
     notFound()
   }
 
-  // Charge via API (BD + fallback mock). Compat totale avec mocks pre-lancement.
-  const { content: contentFromApi, isLoading: contentLoading } = useContent(id)
-  const content = contentFromApi
-
-  // Affichage loader pendant le fetch API (premiere requete)
-  if (contentLoading) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <Loader2 className="h-8 w-8 text-emerald-500 animate-spin" />
-      </div>
-    )
-  }
-
+  const content = ALL_CONTENTS.find((c) => c.id === id)
   if (!content) notFound()
 
   const [isPlaying, setIsPlaying] = useState(false)
