@@ -173,7 +173,7 @@ export function HomeV1() {
             Films, podcasts, livres — tout en un seul endroit.
           </p>
           <Link
-            href={isAuthed ? "/explore" : "/signup"}
+            href={isAuthed ? "/explore" : "/welcome"}
             className="vx-prem-cta-btn"
           >
             Commencer gratuitement
