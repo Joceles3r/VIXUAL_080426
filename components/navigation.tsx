@@ -188,7 +188,7 @@ export const MY_SPACE_MENU: NavMenu = {
     // CONTRIBUTEUR (video)
     {
       label: "Mes contributions (films & videos)",
-      href: "/dashboard/investments?type=video",
+      href: "/dashboard/contributions?type=video",
       icon: Film,
       roles: ["contributor"],
     },
@@ -196,7 +196,7 @@ export const MY_SPACE_MENU: NavMenu = {
     // CONTRIBU-LECTEUR (ecrit)
     {
       label: "Mes contributions (livres & articles)",
-      href: "/dashboard/investments?type=text",
+      href: "/dashboard/contributions?type=text",
       icon: FileText,
       roles: ["contribu_lecteur"],
       minVersion: "V2",
@@ -212,7 +212,7 @@ export const MY_SPACE_MENU: NavMenu = {
     },
     {
       label: "Mes contributions (podcast)",
-      href: "/dashboard/investments?type=podcast",
+      href: "/dashboard/contributions?type=podcast",
       icon: Mic,
       roles: ["auditeur"],
       minVersion: "V2",
