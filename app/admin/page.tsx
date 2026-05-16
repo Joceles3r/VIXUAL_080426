@@ -190,6 +190,32 @@ export default function AdminPage() {
       {/* Creator Channels Banner — Module V3 (toggle + moderation) */}
       <CreatorChannelsBanner />
 
+      {/* Briefing quotidien — Bandeau prioritaire PATRON */}
+      <Link href="/admin/daily-briefing" className="block mb-6">
+        <div className="relative overflow-hidden rounded-2xl border-2 border-fuchsia-500/40 bg-gradient-to-r from-fuchsia-900/30 via-violet-900/30 to-blue-900/30 p-5 hover:border-fuchsia-500/60 transition-all">
+          <div className="flex items-center gap-5">
+            <div className="w-16 h-16 rounded-xl flex items-center justify-center bg-gradient-to-br from-fuchsia-500 via-violet-600 to-blue-600 shadow-lg shadow-violet-500/30">
+              <span className="text-3xl" role="img" aria-label="briefing">{"📊"}</span>
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="text-xl font-bold text-white">Briefing du jour</h3>
+                <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-fuchsia-500/30 text-fuchsia-200 font-bold">
+                  PATRON
+                </span>
+              </div>
+              <p className="text-sm text-white/70">{"Alertes, activite 24h, sante technique. Email auto a 8h chaque matin."}</p>
+              <div className="flex gap-3 mt-2 text-xs text-white/50">
+                <Link href="/admin/health" className="hover:text-white">{"→ Sante plateforme"}</Link>
+                <Link href="/admin/users" className="hover:text-white">{"→ Recherche utilisateurs"}</Link>
+                <Link href="/admin/backups" className="hover:text-white">{"→ Sauvegardes BD"}</Link>
+              </div>
+            </div>
+            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10 text-white">{"→"}</div>
+          </div>
+        </div>
+      </Link>
+
       {/* Homepage Manager Banner — Module gestion Hero + carrousels V1 */}
       <Link href="/admin/homepage" className="block mb-6">
         <div className="relative overflow-hidden rounded-2xl border-2 border-purple-400/60 bg-gradient-to-r from-purple-900/40 via-fuchsia-900/30 to-purple-900/40 p-5 transition-all group hover:shadow-xl hover:shadow-purple-500/20">
