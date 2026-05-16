@@ -180,6 +180,8 @@ export function saveHomepageConfig(
   }
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
+    // Notifier la homepage publique (meme onglet) du changement
+    window.dispatchEvent(new Event("vixual-homepage-config-updated"))
     console.log("[v0] homepage-config saved by", updatedByEmail)
   } catch (err) {
     console.error("[v0] homepage-config save failed", err)
@@ -193,6 +195,7 @@ export function saveHomepageConfig(
 export function resetHomepageConfig(): HomepageConfigV1 {
   if (typeof window !== "undefined") {
     window.localStorage.removeItem(STORAGE_KEY)
+    window.dispatchEvent(new Event("vixual-homepage-config-updated"))
   }
   return DEFAULT_HOMEPAGE_CONFIG
 }

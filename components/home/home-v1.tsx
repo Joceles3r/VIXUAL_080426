@@ -30,6 +30,11 @@ import {
   type V1Content,
   type V1SavoirCard,
 } from "@/lib/mock-data-v1"
+import {
+  getHomepageConfig,
+  DEFAULT_HOMEPAGE_CONFIG,
+  type HomepageConfigV1,
+} from "@/lib/homepage-config"
 
 const SAVOIR_ICONS = {
   landmark: Landmark,
@@ -56,6 +61,43 @@ const SAVOIR_ICONS = {
 export function HomeV1() {
   const { isAuthed } = useAuth()
 
+  // ─── Lecture config ADMIN (localStorage) avec fallback mock-data ───
+  const [homepageConfig, setHomepageConfig] = useState<HomepageConfigV1>(DEFAULT_HOMEPAGE_CONFIG)
+
+  useEffect(() => {
+    const refreshConfig = () => {
+      setHomepageConfig(getHomepageConfig())
+    }
+    // Lecture initiale
+    refreshConfig()
+
+    // Ecoute modifications depuis ADMIN (meme onglet)
+    window.addEventListener("vixual-homepage-config-updated", refreshConfig)
+    // Ecoute modifications depuis un autre onglet (StorageEvent)
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "vixual_homepage_config_v1") refreshConfig()
+    }
+    window.addEventListener("storage", onStorage)
+
+    return () => {
+      window.removeEventListener("vixual-homepage-config-updated", refreshConfig)
+      window.removeEventListener("storage", onStorage)
+    }
+  }, [])
+
+  // Raccourcis
+  const hero = homepageConfig.hero
+  const heroImage = hero.image || V1_FEATURED.thumbnail || "/placeholder.svg"
+  const heroTitle = hero.title || V1_FEATURED.title
+  const heroDesc = hero.description || V1_FEATURED.description || (V1_FEATURED as { tagline?: string }).tagline
+  const heroCta = hero.ctaLabel || "Commencer gratuitement"
+  const heroCtaHref = hero.ctaHref || "/welcome"
+
+  // Rangees : config ADMIN si disponible, sinon mock-data
+  const homepageRows = homepageConfig.rows?.length > 0
+    ? homepageConfig.rows.filter((row) => row.enabled)
+    : V1_SECTIONS
+
   return (
     <div className="min-h-screen bg-[#141414]">
       <VisualHeader />
@@ -64,8 +106,8 @@ export function HomeV1() {
       <section className="vx-prem-hero">
         <div className="vx-prem-hero-image">
           <Image
-            src={V1_FEATURED.thumbnail || "/placeholder.svg"}
-            alt={V1_FEATURED.title}
+            src={heroImage}
+            alt={heroTitle}
             fill
             priority
             className="object-cover"
@@ -86,7 +128,7 @@ export function HomeV1() {
             </div>
 
             <h1 className="vx-prem-hero-title vx-prem-fade-up vx-prem-delay-2">
-              {V1_FEATURED.title}
+              {heroTitle}
             </h1>
 
             <div className="vx-prem-hero-meta vx-prem-fade-up vx-prem-delay-3">
@@ -101,17 +143,17 @@ export function HomeV1() {
             </div>
 
             <p className="vx-prem-hero-desc vx-prem-fade-up vx-prem-delay-4">
-              {V1_FEATURED.description ?? (V1_FEATURED as { tagline?: string }).tagline}
+              {heroDesc}
             </p>
 
             <div className="vx-prem-hero-cta vx-prem-fade-up vx-prem-delay-5">
-              <Link href={`/video/${V1_FEATURED.id}`} className="vx-prem-btn-play">
+              <Link href={heroCtaHref} className="vx-prem-btn-play">
                 <Play className="h-6 w-6 fill-current" />
-                <span>Lecture</span>
+                <span>{heroCta}</span>
               </Link>
-              <Link href={`/video/${V1_FEATURED.id}`} className="vx-prem-btn-info">
+              <Link href="/explore" className="vx-prem-btn-info">
                 <Info className="h-6 w-6" />
-                <span>Plus d&apos;infos</span>
+                <span>Explorer les contenus</span>
               </Link>
             </div>
           </div>
@@ -121,12 +163,24 @@ export function HomeV1() {
       {/* ═══ 3 CARROUSELS EMBLA ═══ */}
       <div className="vx-prem-rows">
         <div className="vx-prem-rows-inner">
-          {V1_SECTIONS.slice(0, 3).map((section) => (
-            <div key={section.id} className="vx-prem-row vx-prem-reveal">
-              <h2 className="vx-prem-row-title">{section.title}</h2>
-              <ContentCarousel items={section.items} />
-            </div>
-          ))}
+          {homepageRows.slice(0, 3).map((section) => {
+            // Harmonisation : les cartes config utilisent `image`, les mocks utilisent `thumbnail`
+            const items: V1Content[] = "items" in section && Array.isArray(section.items)
+              ? section.items.map((card: any) => ({
+                  ...card,
+                  thumbnail: card.image || card.thumbnail || "/placeholder.svg",
+                  category: card.type || card.category || "films",
+                  rating: card.rating ?? 4.5,
+                  duration: card.duration ?? "",
+                }))
+              : (section as any).items ?? []
+            return (
+              <div key={section.id} className="vx-prem-row vx-prem-reveal">
+                <h2 className="vx-prem-row-title">{section.title}</h2>
+                <ContentCarousel items={items} />
+              </div>
+            )
+          })}
         </div>
       </div>
 
@@ -261,11 +315,14 @@ function ContentCard({ item }: { item: V1Content }) {
     item.category === "podcasts" ? "Podcast" :
     item.category === "livres" ? "Livre" : "Savoir"
 
+  // Harmonisation : config cards utilisent `image`, mocks utilisent `thumbnail`
+  const imageSrc = (item as any).image || item.thumbnail || "/placeholder.svg"
+
   return (
     <Link href={`/video/${item.id}`} className="vx-prem-card">
       <div className="vx-prem-card-img-wrap">
         <Image
-          src={item.thumbnail || "/placeholder.svg"}
+          src={imageSrc}
           alt={item.title}
           fill
           className="vx-prem-card-img"
