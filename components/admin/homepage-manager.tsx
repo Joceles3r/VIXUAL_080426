@@ -44,8 +44,11 @@ import {
   ChevronDown,
   ChevronUp,
   Lock,
+  Upload,
+  Film,
 } from "lucide-react"
 import Link from "next/link"
+import { MediaDropzone } from "@/components/admin/media-dropzone"
 
 export function HomepageManager() {
   const { user } = useAuth()
@@ -260,20 +263,56 @@ export function HomepageManager() {
 
           {/* Champs */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="md:col-span-2">
-              <Label className="text-xs text-white/60 mb-1.5 block">Image (URL ou chemin local)</Label>
+            {/* ─── Hero Image — Dropzone + URL ─── */}
+            <div className="md:col-span-2 space-y-3">
+              <div className="flex items-center gap-2 mb-1">
+                <Upload className="h-4 w-4 text-amber-400" />
+                <Label className="text-xs text-white/60">Image Hero (glisser-deposer ou URL)</Label>
+              </div>
+              <MediaDropzone
+                slot="hero-image"
+                currentUrl={config.hero.image}
+                accept="image"
+                maxSizeMb={5}
+                onUploaded={(path) => updateHero("image", path)}
+              />
               <Input
                 value={config.hero.image}
                 onChange={(e) => updateHero("image", e.target.value)}
                 placeholder="https://... ou /uploads/homepage/hero-v1.webp"
-                className="bg-black/30 border-white/10 text-white"
+                className="bg-black/30 border-white/10 text-white font-mono text-xs"
               />
-              <p className="text-[10px] text-white/30 mt-1">
-                Format recommandé : 1920×1080 .webp, max 600 Ko.
+              <p className="text-[10px] text-white/30">
+                Format recommande : 1920x1080 .webp, max 5 Mo.
               </p>
             </div>
+
+            {/* ─── Hero Video — Dropzone optionnelle ─── */}
+            <div className="md:col-span-2 space-y-3">
+              <div className="flex items-center gap-2 mb-1">
+                <Film className="h-4 w-4 text-blue-400" />
+                <Label className="text-xs text-white/60">Video Hero (optionnelle — autoplay muted, boucle)</Label>
+              </div>
+              <MediaDropzone
+                slot="hero-video"
+                currentUrl={config.hero.video}
+                accept="video"
+                maxSizeMb={20}
+                onUploaded={(path) => updateHero("video", path)}
+              />
+              <Input
+                value={config.hero.video ?? ""}
+                onChange={(e) => updateHero("video", e.target.value || undefined)}
+                placeholder="/uploads/homepage/hero-video-v1.mp4 (laisser vide = pas de video)"
+                className="bg-black/30 border-white/10 text-white font-mono text-xs"
+              />
+              <p className="text-[10px] text-white/30">
+                .mp4 ou .webm, max 20 Mo. L&apos;image reste le fallback si la video est absente.
+              </p>
+            </div>
+
             <div>
-              <Label className="text-xs text-white/60 mb-1.5 block">Catégorie</Label>
+              <Label className="text-xs text-white/60 mb-1.5 block">Categorie</Label>
               <Input
                 value={config.hero.category}
                 onChange={(e) => updateHero("category", e.target.value)}
@@ -438,25 +477,36 @@ function CardEditor({
   onMoveUp: () => void
   onMoveDown: () => void
 }) {
+  const [showDropzone, setShowDropzone] = useState(false)
+
   return (
     <div className="flex gap-3 p-3 rounded-lg bg-white/[0.02] border border-white/5">
       {/* Aperçu image */}
-      <div className="relative w-20 h-28 shrink-0 rounded-md overflow-hidden bg-black/40 border border-white/10">
-        {card.image ? (
-          <Image
-            src={card.image || "/placeholder.svg"}
-            alt={card.title}
-            fill
-            className="object-cover"
-            sizes="80px"
-            unoptimized
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-white/30 text-[10px]">
-            no img
-          </div>
-        )}
-        {!card.enabled && <div className="absolute inset-0 bg-black/70" />}
+      <div className="relative w-20 shrink-0 space-y-1.5">
+        <div className="relative w-20 h-28 rounded-md overflow-hidden bg-black/40 border border-white/10">
+          {card.image ? (
+            <Image
+              src={card.image || "/placeholder.svg"}
+              alt={card.title}
+              fill
+              className="object-cover"
+              sizes="80px"
+              unoptimized
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center text-white/30 text-[10px]">
+              no img
+            </div>
+          )}
+          {!card.enabled && <div className="absolute inset-0 bg-black/70" />}
+        </div>
+        <button
+          type="button"
+          onClick={() => setShowDropzone(!showDropzone)}
+          className="w-full text-[9px] text-purple-400 hover:text-purple-300 transition-colors text-center"
+        >
+          {showDropzone ? "Masquer" : "Changer image"}
+        </button>
       </div>
 
       {/* Champs */}
@@ -470,6 +520,21 @@ function CardEditor({
           />
           <span className="text-[10px] text-white/30 font-mono shrink-0">#{index + 1}</span>
         </div>
+
+        {/* Dropzone carte (toggle) */}
+        {showDropzone && (
+          <MediaDropzone
+            slot={`card-${card.id}`}
+            currentUrl={card.image}
+            accept="image"
+            maxSizeMb={2}
+            onUploaded={(path) => {
+              onChange({ image: path })
+              setShowDropzone(false)
+            }}
+          />
+        )}
+
         <Input
           value={card.image}
           onChange={(e) => onChange({ image: e.target.value })}

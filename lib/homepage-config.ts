@@ -42,6 +42,7 @@ export interface HomepageHero {
   title: string
   description: string
   image: string
+  video?: string  // Video Hero optionnelle (autoplay muted loop + fallback image)
   category: string
   ctaLabel: string
   ctaHref: string
