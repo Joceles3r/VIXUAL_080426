@@ -216,6 +216,38 @@ export default function AdminPage() {
         </div>
       </Link>
 
+      {/* Pre-Stripe stability quick links */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+        <Link href="/admin/maintenance" className="group">
+          <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 hover:border-amber-500/60 hover:bg-amber-500/10 transition-all h-full">
+            <div className="text-amber-400 text-xs uppercase tracking-wider font-bold mb-1">Maintenance</div>
+            <p className="text-white text-sm font-semibold">Mode maintenance</p>
+            <p className="text-white/55 text-xs mt-1">Toggle global + restrictions ciblees</p>
+          </div>
+        </Link>
+        <Link href="/admin/official-messages" className="group">
+          <div className="rounded-xl border border-blue-500/30 bg-blue-500/5 p-4 hover:border-blue-500/60 hover:bg-blue-500/10 transition-all h-full">
+            <div className="text-blue-400 text-xs uppercase tracking-wider font-bold mb-1">Communication</div>
+            <p className="text-white text-sm font-semibold">Messages officiels</p>
+            <p className="text-white/55 text-xs mt-1">Annonces, alertes, securite</p>
+          </div>
+        </Link>
+        <Link href="/admin/support-reports" className="group">
+          <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-4 hover:border-rose-500/60 hover:bg-rose-500/10 transition-all h-full">
+            <div className="text-rose-400 text-xs uppercase tracking-wider font-bold mb-1">Support</div>
+            <p className="text-white text-sm font-semibold">Rapports utilisateurs</p>
+            <p className="text-white/55 text-xs mt-1">Bugs, contenu casse, autres</p>
+          </div>
+        </Link>
+        <Link href="/admin/health" className="group">
+          <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 hover:border-emerald-500/60 hover:bg-emerald-500/10 transition-all h-full">
+            <div className="text-emerald-400 text-xs uppercase tracking-wider font-bold mb-1">Etat</div>
+            <p className="text-white text-sm font-semibold">Sante plateforme</p>
+            <p className="text-white/55 text-xs mt-1">Stripe, Bunny, Resend, DB</p>
+          </div>
+        </Link>
+      </div>
+
       {/* Homepage Manager Banner — Module gestion Hero + carrousels V1 */}
       <Link href="/admin/homepage" className="block mb-6">
         <div className="relative overflow-hidden rounded-2xl border-2 border-purple-400/60 bg-gradient-to-r from-purple-900/40 via-fuchsia-900/30 to-purple-900/40 p-5 transition-all group hover:shadow-xl hover:shadow-purple-500/20">

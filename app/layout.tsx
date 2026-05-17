@@ -14,6 +14,8 @@ import { ErrorBoundaryClient } from "@/components/error-boundary-client"
 import { VersionThemeProvider } from "@/components/version-theme-provider"
 import { LanguageProvider } from "@/hooks/use-language"
 import { EnglishModeBanner } from "@/components/i18n/english-mode-banner"
+import { MaintenanceBanner } from "@/components/maintenance-banner"
+import { ReportProblemButton } from "@/components/report-problem-button"
 import { APP_NAME, APP_DESCRIPTION } from "@/lib/branding"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -58,6 +60,7 @@ export default function RootLayout({
         <VersionThemeProvider>
           <ResizeObserverFix />
           <ErrorBoundaryClient>
+            <MaintenanceBanner />
             <StripeModeBanner />
             <AuthProvider>
               <LanguageProvider>
@@ -65,6 +68,7 @@ export default function RootLayout({
                 <SoundProvider>
                   <MinorClientGuard />
                   {children}
+                  <ReportProblemButton />
                 </SoundProvider>
               </LanguageProvider>
             </AuthProvider>

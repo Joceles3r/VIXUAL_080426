@@ -36,6 +36,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { useTestLabAccess } from "@/lib/test-lab/use-test-lab-access"
 import { AdminVersionQuickToggle } from "@/components/admin-version-quick-toggle"
+import { AdminAutoLogout } from "@/components/admin/auto-logout"
 
 const ADMIN_NAV = [
   { label: "Tableau de bord", href: "/admin", icon: BarChart3 },
@@ -209,6 +210,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <main className="flex-1 overflow-auto">
         {children}
       </main>
+
+      {/* Auto-logout admin apres 30min inactivite */}
+      <AdminAutoLogout />
     </div>
   )
 }
