@@ -25,7 +25,7 @@ export type LaunchRole =
   | "technical"
   | "creator_relations"
 
-// ─── Les 6 permissions granulaires demandées ───
+// ─── Les 7 permissions granulaires (6 lancement + 1 homepage) ───
 export type LaunchPermission =
   | "manage_content"
   | "manage_reports"
@@ -33,6 +33,7 @@ export type LaunchPermission =
   | "view_finance_basic"
   | "view_technical_logs"
   | "manage_creators"
+  | "manage_homepage" // Gérer la homepage VIXUAL (Hero + carrousels V1)
 
 // ─── Mapping rôle → permissions accordées ───
 // Verrouillage : Stripe complet, Bunny complet, suppression globale et
@@ -45,6 +46,7 @@ export const LAUNCH_ROLE_PERMISSIONS: Record<LaunchRole, LaunchPermission[]> = {
     "view_finance_basic",
     "view_technical_logs",
     "manage_creators",
+    "manage_homepage",
   ],
   admin_adjoint: [
     "manage_content",
@@ -52,6 +54,7 @@ export const LAUNCH_ROLE_PERMISSIONS: Record<LaunchRole, LaunchPermission[]> = {
     "view_support",
     "view_finance_basic",
     "manage_creators",
+    "manage_homepage", // L'admin adjoint peut aussi gérer les visuels homepage
     // PAS : view_technical_logs (logs sensibles réservés à TECHNIQUE + PATRON)
   ],
   moderator: ["manage_content", "manage_reports"],
