@@ -2,26 +2,32 @@
 
 import { useEffect, useState } from "react"
 import { Wrench } from "lucide-react"
-import { getMaintenanceConfig, MAINTENANCE_EVENT, type MaintenanceConfig } from "@/lib/maintenance"
+import type { MaintenanceConfig } from "@/lib/maintenance"
 
 /**
  * Bandeau global affiche en haut quand le mode maintenance est actif.
  * Importe dans le RootLayout pour visibilite sur toutes les pages.
+ * Source : /api/admin/maintenance (GET public).
  */
 export function MaintenanceBanner() {
   const [config, setConfig] = useState<MaintenanceConfig | null>(null)
 
   useEffect(() => {
-    const refresh = () => setConfig(getMaintenanceConfig())
-    refresh()
-    window.addEventListener(MAINTENANCE_EVENT, refresh)
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === "vixual_maintenance_v1") refresh()
+    let cancelled = false
+    const refresh = () => {
+      fetch("/api/admin/maintenance")
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => {
+          if (!cancelled) setConfig(d?.config ?? null)
+        })
+        .catch(() => {})
     }
-    window.addEventListener("storage", onStorage)
+    refresh()
+    // Re-check toutes les 60s pour multi-utilisateurs
+    const interval = window.setInterval(refresh, 60_000)
     return () => {
-      window.removeEventListener(MAINTENANCE_EVENT, refresh)
-      window.removeEventListener("storage", onStorage)
+      cancelled = true
+      window.clearInterval(interval)
     }
   }, [])
 
