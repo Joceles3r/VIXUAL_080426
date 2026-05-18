@@ -2771,3 +2771,43 @@ header nav button:not([data-logo]):hover {
     padding: 16px 18px 18px;
   }
 }
+
+/* ─── Mobile Optimizations (PATCH_MOBILE_OPTIM_VIXUAL_190526) ─── */
+@layer utilities {
+  /* Safe area iOS / Android (notch, home bar) */
+  .safe-area-pb { padding-bottom: env(safe-area-inset-bottom, 1rem); }
+  .safe-area-pt { padding-top: env(safe-area-inset-top, 1rem); }
+  .safe-area-pl { padding-left: env(safe-area-inset-left, 0); }
+  .safe-area-pr { padding-right: env(safe-area-inset-right, 0); }
+  .safe-area-px {
+    padding-left: env(safe-area-inset-left, 0);
+    padding-right: env(safe-area-inset-right, 0);
+  }
+  /* Espace reserve pour bottom-nav mobile (presente sur certaines pages) */
+  .pb-mobile-nav { padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0)); }
+}
+
+/* Cibles tactiles minimales WCAG 2.5.5 (44x44 px) sur ecrans tactiles uniquement */
+@media (hover: none) and (pointer: coarse) {
+  button:not(.no-touch-target),
+  a[role="button"]:not(.no-touch-target),
+  [role="button"]:not(.no-touch-target),
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+  }
+  /* Inputs : eviter zoom auto iOS quand font-size < 16px */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="search"],
+  input[type="url"],
+  textarea,
+  select {
+    font-size: max(16px, 1rem);
+  }
+  /* Empeche le scroll horizontal accidentel sur mobile */
+  html, body { overflow-x: hidden; }
+}
