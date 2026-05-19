@@ -1,0 +1,30 @@
+# VIXUAL — Configuration Render
+#
+# Documentation : https://render.com/docs/blueprint-spec
+#
+# Usage :
+#  1. Pousser ce fichier sur la branche main de GitHub.
+#  2. Sur Render : New > Blueprint > Connect GitHub > selectionner le repo.
+#  3. Render detecte ce fichier et propose la configuration.
+#  4. Configurer les variables d'environnement dans le dashboard Render.
+
+services:
+  - type: web
+    name: vixual
+    runtime: node
+    plan: starter   # Passer a "standard" (25$/mois) avant lancement public
+    region: frankfurt
+    branch: main
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    healthCheckPath: /api/integrations/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "20.18.0"
+      # Toutes les autres variables (DATABASE_URL, STRIPE_*, BUNNY_*, RESEND_API_KEY, etc.)
+      # doivent etre saisies manuellement dans le dashboard Render via :
+      # Service > Environment > Add Environment Variable
+      # Reference : voir .env.example pour la liste complete.
