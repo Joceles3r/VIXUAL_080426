@@ -79,16 +79,17 @@ export async function POST(req: NextRequest) {
     // ─── Strategie 1 : Bunny CDN (production) ───
     if (isBunnyConfigured()) {
       try {
-        const remotePath = `homepage/${filename}`
         const result = await bunnyCDNService.uploadFile({
           file: buffer,
-          fileName: remotePath,
+          fileName: filename,
+          path: "homepage/",
           contentType: file.type,
+          userId: "admin-homepage",
         })
 
         return NextResponse.json({
           success: true,
-          path: result.url,
+          path: result.cdnUrl,
           filename,
           size: file.size,
           type: file.type,
