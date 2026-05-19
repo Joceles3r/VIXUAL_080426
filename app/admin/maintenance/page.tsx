@@ -8,11 +8,7 @@ import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Wrench, Save, AlertTriangle, CheckCircle2 } from "lucide-react"
-import {
-  getMaintenanceConfig,
-  saveMaintenanceConfig,
-  type MaintenanceConfig,
-} from "@/lib/maintenance"
+import type { MaintenanceConfig } from "@/lib/maintenance"
 import { hasLaunchPermission } from "@/lib/admin/launch-permissions"
 
 export default function MaintenancePage() {
@@ -21,7 +17,10 @@ export default function MaintenancePage() {
   const [savedAt, setSavedAt] = useState<Date | null>(null)
 
   useEffect(() => {
-    setConfig(getMaintenanceConfig())
+    fetch("/api/admin/maintenance")
+      .then((r) => r.json())
+      .then((d) => setConfig(d.config ?? null))
+      .catch(() => setConfig(null))
   }, [])
 
   // Permission : seul PATRON ou ADMIN_ADJOINT
@@ -33,12 +32,19 @@ export default function MaintenancePage() {
     return <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">Chargement...</div>
   }
 
-  const handleSave = () => {
-    if (!user?.email) return
-    const saved = saveMaintenanceConfig(config, user.email)
-    setConfig(saved)
-    setSavedAt(new Date())
-    setTimeout(() => setSavedAt(null), 3000)
+  const handleSave = async () => {
+    if (!user?.email || !config) return
+    const res = await fetch("/api/admin/maintenance", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", "x-admin-email": user.email },
+      body: JSON.stringify(config),
+    })
+    if (res.ok) {
+      const data = await res.json()
+      setConfig(data.config)
+      setSavedAt(new Date())
+      setTimeout(() => setSavedAt(null), 3000)
+    }
   }
 
   return (

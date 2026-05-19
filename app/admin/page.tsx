@@ -217,7 +217,7 @@ export default function AdminPage() {
       </Link>
 
       {/* Pre-Stripe stability quick links */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
         <Link href="/admin/maintenance" className="group">
           <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 hover:border-amber-500/60 hover:bg-amber-500/10 transition-all h-full">
             <div className="text-amber-400 text-xs uppercase tracking-wider font-bold mb-1">Maintenance</div>
@@ -244,6 +244,38 @@ export default function AdminPage() {
             <div className="text-emerald-400 text-xs uppercase tracking-wider font-bold mb-1">Etat</div>
             <p className="text-white text-sm font-semibold">Sante plateforme</p>
             <p className="text-white/55 text-xs mt-1">Stripe, Bunny, Resend, DB</p>
+          </div>
+        </Link>
+      </div>
+
+      {/* Pre-Bunny stability quick links — soft-delete + upload tracking */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+        <Link href="/admin/archives" className="group">
+          <div className="rounded-xl border border-fuchsia-500/30 bg-fuchsia-500/5 p-4 hover:border-fuchsia-500/60 hover:bg-fuchsia-500/10 transition-all h-full">
+            <div className="text-fuchsia-400 text-xs uppercase tracking-wider font-bold mb-1">Archives</div>
+            <p className="text-white text-sm font-semibold">Suppressions reversibles</p>
+            <p className="text-white/55 text-xs mt-1">Restaurer ou purger les contenus</p>
+          </div>
+        </Link>
+        <Link href="/admin/upload-queue" className="group">
+          <div className="rounded-xl border border-cyan-500/30 bg-cyan-500/5 p-4 hover:border-cyan-500/60 hover:bg-cyan-500/10 transition-all h-full">
+            <div className="text-cyan-400 text-xs uppercase tracking-wider font-bold mb-1">Uploads</div>
+            <p className="text-white text-sm font-semibold">File d&apos;attente</p>
+            <p className="text-white/55 text-xs mt-1">Local / Bunny / Blob — temps reel</p>
+          </div>
+        </Link>
+        <Link href="/admin/backups" className="group">
+          <div className="rounded-xl border border-violet-500/30 bg-violet-500/5 p-4 hover:border-violet-500/60 hover:bg-violet-500/10 transition-all h-full">
+            <div className="text-violet-400 text-xs uppercase tracking-wider font-bold mb-1">Backups</div>
+            <p className="text-white text-sm font-semibold">Sauvegardes JSON</p>
+            <p className="text-white/55 text-xs mt-1">Export / restauration manuelle</p>
+          </div>
+        </Link>
+        <Link href="/admin/audit" className="group">
+          <div className="rounded-xl border border-slate-500/30 bg-slate-500/5 p-4 hover:border-slate-500/60 hover:bg-slate-500/10 transition-all h-full">
+            <div className="text-slate-300 text-xs uppercase tracking-wider font-bold mb-1">Audit</div>
+            <p className="text-white text-sm font-semibold">Centre des logs</p>
+            <p className="text-white/55 text-xs mt-1">Actions employes traceables</p>
           </div>
         </Link>
       </div>
