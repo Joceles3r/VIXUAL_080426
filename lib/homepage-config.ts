@@ -2,9 +2,15 @@
  * VIXUAL — Homepage Config V1
  *
  * Configuration légère pour gérer la homepage V1 depuis l'ADMIN.
- * Phase 1 : stockage localStorage (simple, fonctionnel, zéro API upload).
- * Phase future : remplacer getHomepageConfig / saveHomepageConfig par
- * un fetch vers une vraie API + Bunny pour les uploads.
+ *
+ * ─── PHASE 1 (actuel) ───
+ * Stockage localStorage côté admin pour preview local.
+ * Clé : "vixual_homepage_config_v1"
+ * Nom officiel futur : "homepage_config/v1"
+ *
+ * ─── PHASE 2 (futur) ───
+ * Remplacer getHomepageConfig / saveHomepageConfig par un fetch vers
+ * une vraie API (Neon ou Firestore) + Bunny pour les uploads media.
  *
  * Fallback obligatoire : si aucune config sauvegardée, on retourne
  * la configuration par défaut dérivée des mocks (mock-data-v1.ts).
