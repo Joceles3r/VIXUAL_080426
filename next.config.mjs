@@ -40,6 +40,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "*.b-cdn.net",
       },
+      // Vercel Blob (images uploadees via v0/admin)
+      {
+        protocol: "https",
+        hostname: "hebbkx1anhila5yf.public.blob.vercel-storage.com",
+      },
       // DEV ONLY — Images mock pour le Labo Tests et le seed homepage.
       // À supprimer dès que tous les contenus passent par Bunny.net.
       // Ne PAS retirer avant migration des mock-data vers du contenu réel.
