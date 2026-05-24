@@ -1,14 +1,17 @@
 /**
- * VIXUAL - Request User Helper (Server-only)
+ * VIXUAL — Request User Helper (Server-only)
  *
- * Extracts and validates user identity from request headers.
- * In production, this would validate a JWT or session token.
- * Currently reads from x-vixual-user-id / x-vixual-user-email headers
- * set by the auth context or middleware.
+ * Extrait et valide l'identite utilisateur depuis le cookie JWT 'vixual_session'.
+ * Les anciens headers x-vixual-user-id / x-vixual-user-email sont DEPRECATED
+ * (spoofables) et ne sont plus utilises.
+ *
+ * Source de verite : cookie JWT signe + verification BD.
  */
 import "server-only";
 
+import { jwtVerify } from "jose";
 import { sql } from "@/lib/db";
+import { JWT_SECRET } from "@/lib/auth/jwt";
 
 export interface RequestUser {
   id: string;
@@ -20,24 +23,57 @@ export interface RequestUser {
   trustScore: number;
 }
 
+interface SessionPayload {
+  userId: string;
+  email: string;
+  name?: string;
+  role?: string;
+}
+
 /**
- * Extracts user from request headers and validates against DB.
- * Returns null if no user identity is found.
+ * Extrait le user depuis le cookie JWT signe et valide en BD.
+ * Retourne null si pas de session valide.
  */
 export async function getRequestUser(req: Request): Promise<RequestUser | null> {
-  const userId = req.headers.get("x-vixual-user-id");
-  const userEmail = req.headers.get("x-vixual-user-email");
+  // Lecture du cookie 'vixual_session' (signe avec JWT_SECRET cote login/signup)
+  const cookieHeader = req.headers.get("cookie");
+  if (!cookieHeader) return null;
 
-  if (!userId && !userEmail) return null;
+  const sessionMatch = cookieHeader.match(/vixual_session=([^;]+)/);
+  if (!sessionMatch) return null;
 
+  const token = sessionMatch[1];
+
+  // Verification cryptographique de la signature JWT
+  let payload: SessionPayload;
   try {
-    const rows = userId
-      ? await sql`SELECT id, email, role, is_minor, kyc_verified, account_status, trust_score FROM users WHERE id = ${userId} LIMIT 1`
-      : await sql`SELECT id, email, role, is_minor, kyc_verified, account_status, trust_score FROM users WHERE email = ${userEmail} LIMIT 1`;
+    const verified = await jwtVerify(token, JWT_SECRET);
+    payload = verified.payload as unknown as SessionPayload;
+  } catch {
+    return null; // JWT invalide ou expire
+  }
+
+  if (!payload.userId) return null;
+
+  // Validation BD : on verifie que l'utilisateur existe toujours et son etat
+  try {
+    const rows = await sql`
+      SELECT id, email, role, is_minor, kyc_verified, account_status, trust_score
+      FROM users WHERE id = ${payload.userId} LIMIT 1
+    `;
 
     if (!rows || rows.length === 0) return null;
 
-    const row = rows[0];
+    const row = rows[0] as {
+      id: string;
+      email: string;
+      role: string | null;
+      is_minor: boolean | null;
+      kyc_verified: boolean | null;
+      account_status: string | null;
+      trust_score: number | null;
+    };
+
     return {
       id: row.id,
       email: row.email,
@@ -53,7 +89,7 @@ export async function getRequestUser(req: Request): Promise<RequestUser | null> 
 }
 
 /**
- * Checks if the user's account is in good standing (not suspended/banned).
+ * Verifie que le compte est en bon etat (pas suspendu/banni).
  */
 export function isAccountActive(user: RequestUser): boolean {
   return user.accountStatus === "active";

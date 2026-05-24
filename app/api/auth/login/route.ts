@@ -53,25 +53,8 @@ export async function POST(request: NextRequest) {
 
     const user = users[0]
 
-    // TEMPORARY: Master password for admin account to fix bcrypt hash issue
-    // This will auto-update the password hash on first successful login
-    const ADMIN_MASTER_PASSWORD = "VixualAdmin2026!"
-    const isAdminWithMasterPassword = 
-      user.role === "admin" && 
-      user.email === "jocelyndru@gmail.com" && 
-      password === ADMIN_MASTER_PASSWORD
-
-    // Verify password with bcrypt OR use master password for admin
-    let isValidPassword = false
-    if (isAdminWithMasterPassword) {
-      isValidPassword = true
-      // Auto-update the password hash to the master password
-      const newHash = await bcrypt.hash(ADMIN_MASTER_PASSWORD, 10)
-      await sql`UPDATE users SET password_hash = ${newHash} WHERE id = ${user.id}`
-      console.log(`[VIXUAL Auth] Admin password hash updated for: ${normalizedEmail}`)
-    } else {
-      isValidPassword = await bcrypt.compare(password, user.password_hash)
-    }
+    // Verifie le mot de passe via bcrypt uniquement. Aucun master password.
+    const isValidPassword = await bcrypt.compare(password, user.password_hash)
 
     if (!isValidPassword) {
       return NextResponse.json(
