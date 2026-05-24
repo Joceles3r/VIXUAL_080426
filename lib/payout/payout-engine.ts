@@ -89,7 +89,13 @@ export function computePayoutAllocations(input: PayoutEngineInput): PayoutEngine
   // ── Integrity assertion ──
   const integrityCheck = totalUserPayout + platformTake === G;
   if (!integrityCheck) {
-    warnings.push(`INTEGRITY FAILURE: userPayout(${totalUserPayout}) + platformTake(${platformTake}) !== gross(${G}). Delta: ${G - totalUserPayout - platformTake}`);
+    const errorMsg = `[PayoutEngine] INTEGRITY CHECK FAILED: ${totalUserPayout} + ${platformTake} !== ${G}`;
+    console.error(errorMsg);
+    // BLOQUANT : on refuse l'execution plutot que de poursuivre avec des montants incoherents.
+    throw new Error(
+      `Payout integrity check failed (sum=${totalUserPayout + platformTake}, expected=${G}). ` +
+      `Refusing to execute payout to prevent incorrect distribution.`,
+    );
   }
 
   // ── Build simulation record (audit trail) ──

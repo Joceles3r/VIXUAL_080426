@@ -123,12 +123,17 @@ export function isPatron(email: string | undefined | null): boolean {
 }
 
 /**
- * Get admin role from user email (for mock/demo purposes)
+ * @deprecated DETECTION DE ROLE PAR EMAIL = FAILLE DE SECURITE
+ *
+ * Cette fonction utilisait email.includes('adjoint') etc. pour deviner le role admin.
+ * Trivialement contournable : un attaquant pouvait creer "moi+adjoint@example.com"
+ * et obtenir des droits admin_adjoint.
+ *
+ * SOURCE DE VERITE DESORMAIS : la colonne users.role en BD.
+ *
+ * Si vous avez besoin du role admin d'un utilisateur, lisez directement
+ * la colonne `role` depuis la BD via une requete SQL.
  */
-export function getAdminRoleFromEmail(email: string): AdminRole | null {
-  if (email === PATRON_EMAIL) return 'admin';
-  if (email.includes('adjoint')) return 'admin_adjoint';
-  if (email.includes('moderator') || email.includes('modo')) return 'moderator';
-  if (email.includes('support')) return 'support';
+export function getAdminRoleFromEmail(_email: string): AdminRole | null {
   return null;
 }
