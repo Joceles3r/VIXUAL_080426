@@ -58,9 +58,9 @@ encore branchee. Si rien des trois, candidate a suppression.
 - /api/top100/select
 - /api/top100/reentry/create-checkout
 - /api/top100/reentry/confirm
-- /api/visupoints/balance
-- /api/visupoints/credit
-- /api/visupoints/discovery-pass
+- /api/vixupoints/balance
+- /api/vixupoints/credit
+- /api/vixupoints/discovery-pass
 - /api/creator/progress
 - /api/discovery/score
 - /api/user/identity

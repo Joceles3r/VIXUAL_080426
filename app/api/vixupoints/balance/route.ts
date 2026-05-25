@@ -1,5 +1,5 @@
 /**
- * GET /api/visupoints/balance?userId=...
+ * GET /api/vixupoints/balance?userId=...
  *
  * Returns full VIXUpoints status: balance, daily/profile caps, abuse flags.
  */
@@ -25,7 +25,7 @@ export const GET = withErrorHandler(async (req: Request) => {
   }
 
   const users = await sql`
-    SELECT id, role, is_minor, visupoints_balance, kyc_verified, account_status, created_at
+    SELECT id, role, is_minor, vixupoints_balance, kyc_verified, account_status, created_at
     FROM users WHERE id = ${userId} LIMIT 1
   `;
   if (!users || users.length === 0) {
@@ -33,7 +33,7 @@ export const GET = withErrorHandler(async (req: Request) => {
   }
 
   const user = users[0];
-  const balance = Number(user.visupoints_balance || 0);
+  const balance = Number(user.vixupoints_balance || 0);
   const isMinor = user.is_minor ?? false;
   const role = user.role || "visitor";
 
@@ -41,7 +41,7 @@ export const GET = withErrorHandler(async (req: Request) => {
   const today = new Date().toISOString().slice(0, 10);
   const dailyRows = await sql`
     SELECT COALESCE(SUM(points), 0) as total
-    FROM visupoints_transactions
+    FROM vixupoints_transactions
     WHERE user_id = ${userId} AND DATE(created_at) = ${today} AND type = 'credit'
   `;
   const dailyEarned = Number(dailyRows[0]?.total || 0);
@@ -53,7 +53,7 @@ export const GET = withErrorHandler(async (req: Request) => {
   // Weekly data for abuse detection
   const weekRows = await sql`
     SELECT DATE(created_at) as day, COALESCE(SUM(points), 0) as total
-    FROM visupoints_transactions
+    FROM vixupoints_transactions
     WHERE user_id = ${userId} AND type = 'credit' AND created_at > NOW() - INTERVAL '7 days'
     GROUP BY DATE(created_at) ORDER BY day DESC
   `;

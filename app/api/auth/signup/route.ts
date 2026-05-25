@@ -73,20 +73,29 @@ export async function POST(request: NextRequest) {
     // Hash password
     const passwordHash = await bcrypt.hash(password, 12)
 
-    // Create user
+    // Calcul is_minor cote serveur a partir de birthDate
+    const birthDateObj = birthDate ? new Date(birthDate) : null
+    const ageMs = birthDateObj ? Date.now() - birthDateObj.getTime() : 0
+    const ageYears = ageMs / (365.25 * 24 * 60 * 60 * 1000)
+    const isMinor = birthDateObj ? ageYears < 18 : false
+
+    // Create user (aligned with 001-init-database.sql schema)
     const newUsers = await sql`
-      INSERT INTO users (id, email, name, password_hash, roles, birth_date, created_at, updated_at)
+      INSERT INTO users (id, email, display_name, password_hash, role, birth_date, is_minor, vixupoints_balance, trust_score, created_at, updated_at)
       VALUES (
         gen_random_uuid(),
         ${normalizedEmail},
         ${name},
         ${passwordHash},
-        ARRAY['visitor']::text[],
+        'user',
         ${birthDate || null},
+        ${isMinor},
+        0,
+        50,
         now(),
         now()
       )
-      RETURNING id, email, name, roles
+      RETURNING id, email, display_name, role
     `
 
     const user = newUsers[0]
@@ -108,8 +117,8 @@ export async function POST(request: NextRequest) {
     const token = await new SignJWT({
       userId: user.id,
       email: user.email,
-      name: user.name,
-      roles: user.roles,
+      name: user.display_name,
+      role: user.role,
       isAdmin: false,
     })
       .setProtectedHeader({ alg: "HS256" })
@@ -122,8 +131,8 @@ export async function POST(request: NextRequest) {
       user: {
         id: user.id,
         email: user.email,
-        name: user.name,
-        roles: user.roles,
+        name: user.display_name,
+        role: user.role,
       },
     })
 

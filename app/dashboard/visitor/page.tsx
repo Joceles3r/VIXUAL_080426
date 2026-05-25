@@ -87,7 +87,7 @@ export default function VisitorDashboardPage() {
         setError(null);
         
         // Charger le solde VIXUpoints
-        const balanceRes = await fetch(`/api/visupoints/balance?userId=${user.id}`);
+        const balanceRes = await fetch(`/api/vixupoints/balance?userId=${user.id}`);
         if (balanceRes.ok) {
           const balanceData = await balanceRes.json();
           setVixupoints(balanceData.balance || 0);
@@ -95,7 +95,7 @@ export default function VisitorDashboardPage() {
         }
         
         // Charger le statut du Pass Decouverte
-        const passRes = await fetch(`/api/visupoints/discovery-pass?userId=${user.id}`);
+        const passRes = await fetch(`/api/vixupoints/discovery-pass?userId=${user.id}`);
         if (passRes.ok) {
           const passData = await passRes.json();
           if (passData.status) {

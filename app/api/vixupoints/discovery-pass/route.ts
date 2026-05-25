@@ -1,10 +1,10 @@
 /**
  * API Routes pour le Pass Decouverte VIXUAL
  * 
- * GET /api/visupoints/discovery-pass?userId=...
+ * GET /api/vixupoints/discovery-pass?userId=...
  * - Retourne le statut du Pass Decouverte pour l'utilisateur
  * 
- * POST /api/visupoints/discovery-pass
+ * POST /api/vixupoints/discovery-pass
  * - action: "unlock" - Debloquer le Pass
  * - action: "consume" - Utiliser le Pass pour un contenu
  */
@@ -77,7 +77,7 @@ export const GET = withErrorHandler(async (req: Request) => {
   // VIXUpoints gagnes aujourd'hui
   const pointsRows = await sql`
     SELECT COALESCE(SUM(points), 0) as total
-    FROM visupoints_transactions
+    FROM vixupoints_transactions
     WHERE user_id = ${userId}
       AND DATE(created_at) = ${today}
       AND type = 'credit'
@@ -178,7 +178,7 @@ export const POST = withErrorHandler(async (req: Request) => {
     const excerptViewsToday = Number(excerptRows[0]?.count || 0);
 
     const pointsRows = await sql`
-      SELECT COALESCE(SUM(points), 0) as total FROM visupoints_transactions
+      SELECT COALESCE(SUM(points), 0) as total FROM vixupoints_transactions
       WHERE user_id = ${userId} AND DATE(created_at) = ${today} AND type = 'credit'
     `;
     const vixupointsEarnedToday = Number(pointsRows[0]?.total || 0);
@@ -239,7 +239,7 @@ export const POST = withErrorHandler(async (req: Request) => {
     const newBalance = Number(user.visupoints_balance || 0) + VIXUPOINTS_GAINS.fullContentView;
     
     await sql`
-      INSERT INTO visupoints_transactions (user_id, type, points, source, balance_after, created_at)
+      INSERT INTO vixupoints_transactions (user_id, type, points, source, balance_after, created_at)
       VALUES (${userId}, 'credit', ${VIXUPOINTS_GAINS.fullContentView}, 'discovery_pass', ${newBalance}, NOW())
     `;
 

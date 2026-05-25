@@ -24,7 +24,7 @@ export function SupportSimulator() {
   }, [amount]);
 
   const votes = getVotesForInvestment(snappedAmount);
-  const visupoints = getVixupointsForInvestment(snappedAmount);
+  const vixupoints = getVixupointsForInvestment(snappedAmount);
 
   // Conservative projection model (indicative)
   const potentialReturn = {
@@ -89,7 +89,7 @@ export function SupportSimulator() {
           </div>
           <div className="flex justify-between items-center">
             <span className="text-white/60 text-sm">VIXUpoints</span>
-            <span className="text-amber-400 font-bold text-lg">+{visupoints}</span>
+            <span className="text-amber-400 font-bold text-lg">+{vixupoints}</span>
           </div>
         </div>
 
