@@ -2,18 +2,30 @@ import { NextRequest, NextResponse } from "next/server"
 
 const USER = process.env.VIXUAL_PREVIEW_USER
 const PASS = process.env.VIXUAL_PREVIEW_PASSWORD
+const IS_RENDER = Boolean(process.env.RENDER)
 
 export function proxy(req: NextRequest) {
-  const url = req.nextUrl.pathname
+  const pathname = req.nextUrl.pathname
 
   if (
-    url.startsWith("/_next") ||
-    url === "/favicon.ico" ||
-    url === "/robots.txt"
+    pathname.startsWith("/_next") ||
+    pathname === "/favicon.ico" ||
+    pathname === "/robots.txt"
   ) {
     return NextResponse.next()
   }
 
+  // Si on est sur Render et que les credentials sont absents, bloquer avec erreur 500
+  if (IS_RENDER && (!USER || !PASS)) {
+    return new NextResponse("VIXUAL Preview credentials missing on Render", {
+      status: 500,
+      headers: {
+        "X-Robots-Tag": "noindex, nofollow",
+      },
+    })
+  }
+
+  // En local sans credentials, laisser passer
   if (!USER || !PASS) {
     return NextResponse.next()
   }
@@ -42,5 +54,5 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|robots.txt).*)"],
 }
