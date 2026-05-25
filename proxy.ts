@@ -1,13 +1,58 @@
 /**
- * VIXUAL - Edge Middleware
+ * VIXUAL - Edge Middleware (proxy.ts)
  *
- * Applies to all /api/* routes:
+ * Applies to all routes:
+ * - Basic Auth protection for Render preview (preproduction)
  * - Security headers (CSP, HSTS, X-Frame-Options, etc.)
  * - Rate limiting via Upstash Redis (financial routes get stricter limits)
  * - Request logging for audit trail
+ * - noindex headers for search engine protection
  */
 
 import { NextResponse, type NextRequest } from "next/server";
+
+// ── Basic Auth for Render preview protection ──
+const PREVIEW_USER = process.env.VIXUAL_PREVIEW_USER;
+const PREVIEW_PASSWORD = process.env.VIXUAL_PREVIEW_PASSWORD;
+const BASIC_AUTH_ENABLED = PREVIEW_USER && PREVIEW_PASSWORD;
+
+function checkBasicAuth(request: NextRequest): NextResponse | null {
+  if (!BASIC_AUTH_ENABLED) return null;
+  
+  // Skip auth for webhooks (Stripe/Bunny need to reach them)
+  const { pathname } = request.nextUrl;
+  if (pathname.includes("/api/integrations/stripe/webhooks") || 
+      pathname.includes("/api/integrations/bunny/webhook")) {
+    return null;
+  }
+  
+  const authHeader = request.headers.get("authorization");
+  if (!authHeader || !authHeader.startsWith("Basic ")) {
+    return new NextResponse("Authentication required", {
+      status: 401,
+      headers: {
+        "WWW-Authenticate": 'Basic realm="VIXUAL Preview"',
+        "X-Robots-Tag": "noindex, nofollow",
+      },
+    });
+  }
+  
+  const base64Credentials = authHeader.substring(6);
+  const credentials = atob(base64Credentials);
+  const [username, password] = credentials.split(":");
+  
+  if (username !== PREVIEW_USER || password !== PREVIEW_PASSWORD) {
+    return new NextResponse("Invalid credentials", {
+      status: 401,
+      headers: {
+        "WWW-Authenticate": 'Basic realm="VIXUAL Preview"',
+        "X-Robots-Tag": "noindex, nofollow",
+      },
+    });
+  }
+  
+  return null; // Auth OK
+}
 
 // ── Route classification ──
 
@@ -37,6 +82,10 @@ const RATE_CONFIGS: Record<RouteClass, { max: number; window: number }> = {
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // ── Basic Auth check (Render preview protection) ──
+  const authResponse = checkBasicAuth(request);
+  if (authResponse) return authResponse;
+
   // ── Security headers for ALL routes (not just /api) ──
   if (!pathname.startsWith("/api")) {
     const res = NextResponse.next();
@@ -46,6 +95,8 @@ export async function proxy(request: NextRequest) {
     res.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), fullscreen=(self)");
     res.headers.set("Cross-Origin-Opener-Policy", "same-origin");
     res.headers.set("Cross-Origin-Resource-Policy", "same-site");
+    // noindex for preproduction
+    res.headers.set("X-Robots-Tag", "noindex, nofollow");
     // Frontend CSP -- allow Stripe, Bunny.net CDN, and inline styles for Tailwind
     const frontendCsp = [
       "default-src 'self'",
