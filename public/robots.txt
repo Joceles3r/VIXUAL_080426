@@ -1,0 +1,8 @@
+# VIXUAL — robots.txt
+# Preproduction: bloquer indexation Google et autres moteurs de recherche
+
+User-agent: *
+Disallow: /
+
+# Sitemap desactive en preproduction
+# Sitemap: https://vixual.app/sitemap.xml
