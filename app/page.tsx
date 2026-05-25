@@ -333,7 +333,7 @@ export default function HomePage() {
                 </CardContent>
                 <div className="aspect-[16/10] relative overflow-hidden px-5">
                   <Image
-                    src="/images/homepage/3-familles-vixual.png"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Trois%20familles_Image%201-YexsUn9MnMUFKL0G06MOIQQLp6X5HN.png"
                     alt="Les 3 familles VIXUAL - Créateurs, Participants, Public"
                     className="w-full h-full object-cover rounded-lg"
                     width={400}
@@ -363,7 +363,7 @@ export default function HomePage() {
                 </CardContent>
                 <div className="aspect-[16/10] relative overflow-hidden px-5">
                   <Image
-                    src="/images/homepage/comment-fonctionne-vixual.png"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Telecommande_%20Image%202-gBVQY8FUsWb73vdAxY0IXt4kZKoYNP.png"
                     alt="Comment fonctionne VIXUAL - Sélectionnez, Participez, Gagnez"
                     className="w-full h-full object-cover rounded-lg"
                     width={400}
@@ -387,7 +387,7 @@ export default function HomePage() {
                 </CardContent>
                 <div className="aspect-[16/10] relative overflow-hidden px-5">
                   <Image
-                    src="/images/homepage/votez-projets-préférés.png"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Urne_Vote%20Image%203-O8qIppEzf8leOvt1V05khVEeXsZxVX.png"
                     alt="Votez pour vos projets préférés"
                     className="w-full h-full object-cover rounded-lg"
                     width={400}
