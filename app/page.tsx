@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Film, FileText, Mic, Users, TrendingUp, Shield, Star, Award, CreditCard, Wallet, Upload, Eye, Heart, Sparkles, Flame } from "lucide-react"
@@ -58,15 +59,29 @@ const FEATURES = [
   },
 ]
 
-const STATS = [
-  { value: "12,500+", label: "Utilisateurs" },
-  { value: "850+", label: "Projets financés" },
-  { value: "2.5M€", label: "Contribués" },
-  { value: "89%", label: "Projets réussis" },
+// Stats par defaut (avant chargement). Remplacees par l'API au montage.
+const STATS_DEFAULT = [
+  { value: "—", label: "Utilisateurs" },
+  { value: "—", label: "Projets" },
+  { value: "—", label: "Contribués" },
 ]
 
 export default function HomePage() {
   const rawVersion = usePlatformVersion()
+  const [stats, setStats] = useState(STATS_DEFAULT)
+
+  useEffect(() => {
+    fetch("/api/public/stats")
+      .then((r) => r.json())
+      .then((d: { users: number; contents: number; contributedEuros: number }) => {
+        setStats([
+          { value: d.users > 0 ? `${d.users.toLocaleString("fr-FR")}` : "—", label: "Utilisateurs" },
+          { value: d.contents > 0 ? `${d.contents.toLocaleString("fr-FR")}` : "—", label: "Projets" },
+          { value: d.contributedEuros > 0 ? `${d.contributedEuros.toLocaleString("fr-FR")}€` : "—", label: "Contribués" },
+        ])
+      })
+      .catch(() => { /* garde valeurs par defaut */ })
+  }, [])
 
   // V1 utilise un layout simplifie dedie (onboarding intelligent,
   // 3 actions universelles, vocabulaire grand public). V2/V3 conservent
@@ -277,7 +292,7 @@ export default function HomePage() {
         <section className="py-12 border-y border-white/10 bg-slate-900/30 cinema-section">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {STATS.map((stat) => (
+                {stats.map((stat) => (
                 <div key={stat.label} className="text-center">
                   <div className="text-3xl md:text-4xl font-bold text-emerald-400">
                     {stat.value}
