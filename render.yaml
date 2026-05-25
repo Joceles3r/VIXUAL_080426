@@ -23,7 +23,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: NODE_VERSION
-        value: "20.18.0"
+        value: "22.12.0"
       # Toutes les autres variables (DATABASE_URL, STRIPE_*, BUNNY_*, RESEND_API_KEY, etc.)
       # doivent etre saisies manuellement dans le dashboard Render via :
       # Service > Environment > Add Environment Variable
