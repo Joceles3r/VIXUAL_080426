@@ -4,6 +4,16 @@ const USER = process.env.VIXUAL_PREVIEW_USER
 const PASS = process.env.VIXUAL_PREVIEW_PASSWORD
 
 export function proxy(req: NextRequest) {
+  const url = req.nextUrl.pathname
+
+  if (
+    url.startsWith("/_next") ||
+    url === "/favicon.ico" ||
+    url === "/robots.txt"
+  ) {
+    return NextResponse.next()
+  }
+
   if (!USER || !PASS) {
     return NextResponse.next()
   }
@@ -12,17 +22,13 @@ export function proxy(req: NextRequest) {
 
   if (auth?.startsWith("Basic ")) {
     const encoded = auth.split(" ")[1]
+    const decoded = Buffer.from(encoded, "base64").toString("utf-8")
+    const [user, pass] = decoded.split(":")
 
-    try {
-      const [user, pass] = atob(encoded).split(":")
-
-      if (user === USER && pass === PASS) {
-        const response = NextResponse.next()
-        response.headers.set("X-Robots-Tag", "noindex, nofollow")
-        return response
-      }
-    } catch {
-      // Invalid basic auth header
+    if (user === USER && pass === PASS) {
+      const response = NextResponse.next()
+      response.headers.set("X-Robots-Tag", "noindex, nofollow")
+      return response
     }
   }
 
@@ -36,7 +42,5 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|robots.txt).*)",
-  ],
+  matcher: ["/:path*"],
 }
