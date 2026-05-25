@@ -3,6 +3,17 @@
 Toutes les modifications notables apportees a VIXUAL sont documentees ici.
 Format inspire de [Keep a Changelog](https://keepachangelog.com).
 
+## [Patch correctif post-deploiement] — 2026-05-25
+
+### Changed
+- Images homepage : referencement local `/images/homepage/` au lieu de Vercel Blob (securite contre lien mort).
+- Accents typographiques harmonises dans `app/page.tsx` (~30 corrections).
+- Config ESLint retiree de `next.config.mjs` (Next.js 16 deprecation).
+- Renomme `middleware.ts` → `proxy.ts` (Next.js 17 anticipation).
+
+### Note PATRON
+- Action manuelle requise : telecharger les 3 PNG depuis Vercel Blob et les placer dans `/public/images/homepage/` sous les noms `3-familles-vixual.png`, `comment-fonctionne-vixual.png`, `votez-projets-preferes.png`.
+
 ## [Patch 2 — Coherence Donnees] — 2026-05-26
 
 ### Changed

@@ -23,11 +23,6 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
 
-  eslint: {
-    // ESLint reste tolérant pendant la phase de stabilisation
-    ignoreDuringBuilds: true,
-  },
-
   images: {
     // Enable Next.js image optimization for better LCP
     remotePatterns: [

@@ -317,7 +317,7 @@ export default function HomePage() {
                 Comprendre VIXUAL en 3 points
               </h2>
               <p className="text-white/60 max-w-2xl mx-auto">
-                Une plateforme simple, transparente et equitable pour tous
+                Une plateforme simple, transparente et équitable pour tous
               </p>
             </div>
 
@@ -328,13 +328,13 @@ export default function HomePage() {
               <Card className="vx-cinema-card overflow-hidden hover:shadow-xl hover:shadow-[#7A00FF]/20 border-[#7A00FF]/30" style={{ background: 'linear-gradient(to bottom, rgba(10, 77, 255, 0.15), rgba(122, 0, 255, 0.1))' }}>
                 <CardContent className="p-5 pb-3">
                   <h3 className="text-lg font-bold mb-2 select-text" style={{ color: '#F5F7FF' }}>
-                    {"Les 3 Familles VIXUAL - Createurs, Participants, Public"}
+                    {"Les 3 Familles VIXUAL - Créateurs, Participants, Public"}
                   </h3>
                 </CardContent>
                 <div className="aspect-[16/10] relative overflow-hidden px-5">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%201_%2030%20mars%202026%2C%2023_09_33-9Xo4IW2tIXTNo2g4E6zzRf2R1yRqDK.png"
-                    alt="Les 3 familles VIXUAL - Createurs, Participants, Public"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Trois%20familles_Image%201-YexsUn9MnMUFKL0G06MOIQQLp6X5HN.png"
+                    alt="Les 3 familles VIXUAL - Créateurs, Participants, Public"
                     className="w-full h-full object-cover rounded-lg"
                     width={400}
                     height={250}
@@ -344,12 +344,12 @@ export default function HomePage() {
                 <CardContent className="p-5 pt-3">
                   <p className="text-sm leading-relaxed select-text" style={{ color: 'rgba(245, 247, 255, 0.7)' }}>
                     {"Les 3 Familles : "}
-                    <span style={{ color: '#00E5FF' }} className="font-medium">{"Createurs"}</span>
-                    {" publient des oeuvres, "}
+                    <span style={{ color: '#00E5FF' }} className="font-medium">{"Créateurs"}</span>
+                    {" publient des œuvres, "}
                     <span style={{ color: '#00E5FF' }} className="font-medium">{"Participants"}</span>
-                    {" soutiennent financierement, "}
+                    {" soutiennent financièrement, "}
                     <span style={{ color: '#00E5FF' }} className="font-medium">{"Public"}</span>
-                    {" decouvre/participe/partage."}
+                    {" découvre/participe/partage."}
                   </p>
                 </CardContent>
               </Card>
@@ -358,13 +358,13 @@ export default function HomePage() {
               <Card className="vx-cinema-card overflow-hidden hover:shadow-xl hover:shadow-[#0A4DFF]/20 border-[#0A4DFF]/30" style={{ background: 'linear-gradient(to bottom, rgba(122, 0, 255, 0.15), rgba(10, 77, 255, 0.1))' }}>
                 <CardContent className="p-5 pb-3">
                   <h3 className="text-lg font-bold mb-2 select-text" style={{ color: '#F5F7FF' }}>
-                    {"Comment fonctionne VIXUAL - Selectionnez, Participez, Gagnez"}
+                    {"Comment fonctionne VIXUAL - Sélectionnez, Participez, Gagnez"}
                   </h3>
                 </CardContent>
                 <div className="aspect-[16/10] relative overflow-hidden px-5">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%202_31%20mars%202026%2C%2015_14_36-JiBG5wIrJPtS9tXb07HiZwDZHhAcgx.png"
-                    alt="Comment fonctionne VIXUAL - Selectionnez, Participez, Gagnez"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Telecommande_%20Image%202-gBVQY8FUsWb73vdAxY0IXt4kZKoYNP.png"
+                    alt="Comment fonctionne VIXUAL - Sélectionnez, Participez, Gagnez"
                     className="w-full h-full object-cover rounded-lg"
                     width={400}
                     height={250}
@@ -373,7 +373,7 @@ export default function HomePage() {
                 </div>
                 <CardContent className="p-5 pt-3">
                   <p className="text-sm leading-relaxed select-text" style={{ color: 'rgba(245, 247, 255, 0.7)' }}>
-                    {"Comment ca fonctionne : Createur publie, participants soutiennent, votes classent, meilleurs gagnent, gains redistribues equitablement."}
+                    {"Comment ca fonctionne : Créateur publie, participants soutiennent, votes classent, meilleurs gagnent, gains redistribues équitablement."}
                   </p>
                 </CardContent>
               </Card>
@@ -382,13 +382,13 @@ export default function HomePage() {
               <Card className="vx-cinema-card overflow-hidden hover:shadow-xl hover:shadow-[#00E5FF]/20 border-[#00E5FF]/30" style={{ background: 'linear-gradient(to bottom, rgba(0, 229, 255, 0.1), rgba(122, 0, 255, 0.1))' }}>
                 <CardContent className="p-5 pb-3">
                   <h3 className="text-lg font-bold mb-2 select-text" style={{ color: '#F5F7FF' }}>
-                    {"Votez pour vos projets preferes"}
+                    {"Votez pour vos projets préférés"}
                   </h3>
                 </CardContent>
                 <div className="aspect-[16/10] relative overflow-hidden px-5">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%203%20avr.%202026%2C%2022_38_13-YXCdE4BieypUDI1D3stcttWcES4TQG.png"
-                    alt="Votez pour vos projets preferes"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Urne_Vote%20Image%203-O8qIppEzf8leOvt1V05khVEeXsZxVX.png"
+                    alt="Votez pour vos projets préférés"
                     className="w-full h-full object-cover rounded-lg"
                     width={400}
                     height={250}
@@ -397,7 +397,7 @@ export default function HomePage() {
                 </div>
                 <CardContent className="p-5 pt-3">
                   <p className="text-sm leading-relaxed select-text" style={{ color: 'rgba(245, 247, 255, 0.7)' }}>
-                    {"Principe des gains : Les votes classent les projets. Les gains sont calcules au prorata de votre contribution financiere reelle."}
+                    {"Principe des gains : Les votes classent les projets. Les gains sont calculés au prorata de votre contribution financière réelle."}
                   </p>
                 </CardContent>
               </Card>
