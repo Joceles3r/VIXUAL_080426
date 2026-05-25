@@ -12,22 +12,41 @@ export function middleware(req: NextRequest) {
 
   if (auth?.startsWith("Basic ")) {
     const [, encoded] = auth.split(" ")
-    const [user, pass] = atob(encoded).split(":")
 
-    if (user === USER && pass === PASS) {
-      return NextResponse.next()
+    try {
+      const [user, pass] = atob(encoded).split(":")
+
+      if (user === USER && pass === PASS) {
+        const response = NextResponse.next()
+
+        response.headers.set(
+          "X-Robots-Tag",
+          "noindex, nofollow"
+        )
+
+        return response
+      }
+    } catch (e) {
+      console.error("Basic auth decode error", e)
     }
   }
 
-  return new NextResponse("VIXUAL Preview Protected", {
-    status: 401,
-    headers: {
-      "WWW-Authenticate": 'Basic realm="VIXUAL Preview"',
-      "X-Robots-Tag": "noindex, nofollow",
-    },
-  })
+  return new NextResponse(
+    "VIXUAL Preview Protected",
+    {
+      status: 401,
+      headers: {
+        "WWW-Authenticate":
+          'Basic realm="VIXUAL Preview"',
+        "X-Robots-Tag":
+          "noindex, nofollow",
+      },
+    }
+  )
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|robots.txt).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|robots.txt).*)",
+  ],
 }

@@ -15,8 +15,8 @@ services:
     plan: starter   # Passer a "standard" (25$/mois) avant lancement public
     region: frankfurt
     branch: main
-    buildCommand: npm install && npm run build
-    startCommand: npm run start:prod
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm start
     healthCheckPath: /api/integrations/health
     autoDeploy: true
     envVars:
