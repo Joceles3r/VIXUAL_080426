@@ -69,8 +69,10 @@ const STATS_DEFAULT = [
 export default function HomePage() {
   const rawVersion = usePlatformVersion()
   const [stats, setStats] = useState(STATS_DEFAULT)
+  const [statsMounted, setStatsMounted] = useState(false)
 
   useEffect(() => {
+    setStatsMounted(true)
     fetch("/api/public/stats")
       .then((r) => r.json())
       .then((d: { users: number; contents: number; contributedEuros: number }) => {
@@ -292,7 +294,7 @@ export default function HomePage() {
         <section className="py-12 border-y border-white/10 bg-slate-900/30 cinema-section">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                {stats.map((stat) => (
+                {(statsMounted ? stats : STATS_DEFAULT).map((stat) => (
                 <div key={stat.label} className="text-center">
                   <div className="text-3xl md:text-4xl font-bold text-emerald-400">
                     {stat.value}
