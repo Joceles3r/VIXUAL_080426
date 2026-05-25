@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Check, Calendar, ShieldAlert } from "lucide-react"
 import { VisualSlogan } from "@/components/vixual-slogan"
 import { VixualLogo } from "@/components/vixual-logo"
+import { TurnstileWidget } from "@/components/security/turnstile-widget"
 import { isMinor, isEligibleForSignup, computeAge, MINOR_VIXUPOINTS_CAP } from "@/lib/vixupoints-engine"
 import { ParentalConsentForm } from "@/components/parental-consent-form"
 import { Button } from "@/components/ui/button"
@@ -54,6 +55,8 @@ export default function SignupPage() {
   const [error, setError] = useState("")
   const [signupDone, setSignupDone] = useState(false)
   const [isUserMinor, setIsUserMinor] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState<string>("")
+  const turnstileEnabled = !!process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 
   const userAge = formData.birthDate ? computeAge(formData.birthDate) : null
   const showMinorWarning = userAge !== null && userAge >= 16 && userAge < 18
@@ -75,6 +78,11 @@ export default function SignupPage() {
 
     if (!acceptTerms) {
       setError("Vous devez accepter les conditions d'utilisation.")
+      return
+    }
+
+    if (turnstileEnabled && !turnstileToken) {
+      setError("Veuillez completer la verification anti-robot.")
       return
     }
 
@@ -323,6 +331,12 @@ export default function SignupPage() {
                   </Link>
                 </Label>
               </div>
+
+              {turnstileEnabled && (
+                <div className="flex justify-center my-2">
+                  <TurnstileWidget onSuccess={setTurnstileToken} theme="dark" />
+                </div>
+              )}
 
               <Button
                 type="submit"

@@ -132,12 +132,29 @@ export interface StripeRuntimeConfig {
 
 // ── Chargement depuis la base (NO CACHE - 100% freshness) ─────────────────────
 
+// ── Cache mémoire 5 minutes ──────────────────────────────────────────────
+// Évite un SELECT à chaque appel API. Vidé manuellement via clearStripeConfigCache().
+let stripeConfigCache: { data: StripeRuntimeConfig; expiresAt: number } | null = null
+const STRIPE_CACHE_TTL_MS = 5 * 60 * 1000 // 5 min
+
+/**
+ * Vide le cache (à appeler après modification via /admin/stripe).
+ */
+export function clearStripeConfigCache(): void {
+  stripeConfigCache = null
+}
+
 /**
  * Retrieves Stripe configuration from database (source de verite).
- * No in-memory caching - reads from DB every time.
- * This ensures 100% config freshness across all serverless instances.
+ * Uses in-memory caching (5 min TTL) to avoid SELECT on every call.
+ * This ensures good performance while still picking up config changes.
  */
 export async function getStripeConfig(): Promise<StripeRuntimeConfig> {
+  // Cache hit
+  if (stripeConfigCache && stripeConfigCache.expiresAt > Date.now()) {
+    return stripeConfigCache.data
+  }
+
   // Only try DB if it's configured
   if (isDatabaseConfigured()) {
     try {
@@ -173,7 +190,7 @@ export async function getStripeConfig(): Promise<StripeRuntimeConfig> {
 
         // Only use DB config if there's actually a secret key configured
         if (secretKey && secretKey.startsWith("sk_")) {
-          return {
+          const config: StripeRuntimeConfig = {
             secretKey,
             publishableKey,
             webhookSecret,
@@ -182,7 +199,9 @@ export async function getStripeConfig(): Promise<StripeRuntimeConfig> {
             source: "database",
             updatedAt: row.updated_at ? new Date(row.updated_at as string).toISOString() : undefined,
             updatedBy: (row.updated_by as string) || undefined,
-          };
+          }
+          stripeConfigCache = { data: config, expiresAt: Date.now() + STRIPE_CACHE_TTL_MS }
+          return config
         }
       }
     } catch {
@@ -195,7 +214,7 @@ export async function getStripeConfig(): Promise<StripeRuntimeConfig> {
   const envMode: StripeMode =
     process.env.NEXT_PUBLIC_STRIPE_TEST_MODE !== "false" ? "test" : "live";
 
-  return {
+  const config: StripeRuntimeConfig = {
     secretKey:
       envMode === "test"
         ? process.env.STRIPE_TEST_SECRET_KEY || process.env.STRIPE_SECRET_KEY || ""
@@ -211,7 +230,9 @@ export async function getStripeConfig(): Promise<StripeRuntimeConfig> {
     connectClientId: process.env.STRIPE_CONNECT_CLIENT_ID || "",
     mode: envMode,
     source: "environment",
-  };
+  }
+  stripeConfigCache = { data: config, expiresAt: Date.now() + STRIPE_CACHE_TTL_MS }
+  return config
 }
 
 /**

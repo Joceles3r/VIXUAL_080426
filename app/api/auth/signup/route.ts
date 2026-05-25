@@ -3,6 +3,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server"
+import crypto from "crypto"
 import bcrypt from "bcryptjs"
 import { SignJWT } from "jose"
 import { sql } from "@/lib/db"
@@ -112,6 +113,28 @@ export async function POST(request: NextRequest) {
 
     // Initialise le tracking d'activite du nouvel utilisateur
     await processModerationEvent({ kind: "user_active", userId: user.id })
+
+    // Generation du token de verification email + envoi du lien
+    try {
+      const verificationToken = crypto.randomUUID() + "-" + Date.now().toString(36)
+      const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24h
+      await sql`
+        UPDATE users
+        SET verification_token = ${verificationToken},
+            verification_token_expires_at = ${expiresAt.toISOString()}
+        WHERE id = ${user.id}
+      `
+      const verifyLink = `${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/api/auth/verify?token=${verificationToken}`
+      const { sendEmail } = await import("@/lib/email/resend")
+      await sendEmail(
+        normalizedEmail,
+        "Confirmez votre adresse email VIXUAL",
+        `<div style="font-family:system-ui;max-width:520px;margin:0 auto;padding:24px"><h2>Bienvenue ${name} !</h2><p>Merci de votre inscription sur VIXUAL. Cliquez sur le lien ci-dessous pour confirmer votre adresse email :</p><p><a href="${verifyLink}" style="background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block">Confirmer mon email</a></p><p style="color:#888;font-size:13px">Ce lien expire dans 24h.</p></div>`,
+      )
+    } catch (e) {
+      console.error("[signup] echec envoi email verification :", (e as Error).message)
+      // On ne bloque pas l'inscription si l'email echoue
+    }
 
     // Create JWT token
     const token = await new SignJWT({
