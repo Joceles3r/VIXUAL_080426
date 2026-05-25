@@ -9,7 +9,7 @@ import { NextResponse } from "next/server";
 import { isUserMinor } from "./rules";
 import { apiError, ErrorCodes } from "@/lib/api-errors";
 
-type MinorAction = "invest" | "withdraw" | "stripe_connect" | "visupoints_spend";
+type MinorAction = "invest" | "withdraw" | "stripe_connect" | "vixupoints_spend";
 
 const BLOCKED_ACTIONS: Record<MinorAction, { code: string; message: string }> = {
   invest: {
@@ -24,7 +24,7 @@ const BLOCKED_ACTIONS: Record<MinorAction, { code: string; message: string }> = 
     code: ErrorCodes.ERR_MINOR_NO_EURO,
     message: "Stripe Connect n'est pas disponible pour les utilisateurs mineurs.",
   },
-  visupoints_spend: {
+  vixupoints_spend: {
     code: ErrorCodes.ERR_MINOR_GUARDIAN_REQUIRED,
     message: "Action bloquee : autorisation parentale requise ou expiree.",
   },
@@ -51,7 +51,7 @@ export async function guardMinorAction(
   }
 
   // VIXUpoints actions require valid guardian approval
-  if (action === "visupoints_spend") {
+  if (action === "vixupoints_spend") {
     if (!status.hasGuardianApproval) {
       return apiError(
         ErrorCodes.ERR_MINOR_GUARDIAN_REQUIRED,

@@ -71,7 +71,7 @@ export interface User {
     available: number
     pending: number
   }
-  visupoints?: number
+  vixupoints?: number
   // Security fields (Identity + VPN Risk Gate)
   verificationLevel?: 0 | 1 | 2
   riskFlags?: {
@@ -108,7 +108,7 @@ const MOCK_USER: User = {
   name: "Jean Dupont",
   email: "jean@example.com",
   roles: ["visitor"],
-  visupoints: 150,
+  vixupoints: 150,
   birthDate: undefined,
   isMinor: false,
   vixupointsCap: Infinity,

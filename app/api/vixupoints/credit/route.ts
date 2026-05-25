@@ -1,5 +1,5 @@
 /**
- * POST /api/visupoints/credit
+ * POST /api/vixupoints/credit
  *
  * Credits VIXUpoints to a user with full cap enforcement:
  * - Daily cap (100/day)
@@ -50,7 +50,7 @@ export const POST = withErrorHandler(async (req: Request) => {
   const today = new Date().toISOString().slice(0, 10);
   const dailyRows = await sql`
     SELECT COALESCE(SUM(points), 0) as total
-    FROM visupoints_transactions
+    FROM vixupoints_transactions
     WHERE user_id = ${userId}
       AND DATE(created_at) = ${today}
       AND type = 'credit'
@@ -77,7 +77,7 @@ export const POST = withErrorHandler(async (req: Request) => {
 
   // Write the credit transaction
   await sql`
-    INSERT INTO visupoints_transactions (user_id, type, points, source, balance_after, created_at)
+    INSERT INTO vixupoints_transactions (user_id, type, points, source, balance_after, created_at)
     VALUES (${userId}, 'credit', ${result.actualCredited}, ${source}, ${result.newBalance}, NOW())
   `;
 
@@ -90,7 +90,7 @@ export const POST = withErrorHandler(async (req: Request) => {
   try {
     const weekRows = await sql`
       SELECT DATE(created_at) as day, COALESCE(SUM(points), 0) as total
-      FROM visupoints_transactions
+      FROM vixupoints_transactions
       WHERE user_id = ${userId}
         AND type = 'credit'
         AND created_at > NOW() - INTERVAL '7 days'

@@ -3,6 +3,19 @@
 Toutes les modifications notables apportees a VIXUAL sont documentees ici.
 Format inspire de [Keep a Changelog](https://keepachangelog.com).
 
+## [Patch 2 — Coherence Donnees] — 2026-05-26
+
+### Changed
+- Suppression de `scripts/001-create-schema.sql` (schema obsolete) → `001-init-database.sql` devient source de verite unique.
+- Alignement de `app/api/auth/signup/route.ts` sur le schema init (`display_name`, `role` singulier, `vixupoints_balance`).
+- Renommage global `visupoints` → `vixupoints` dans 15 fichiers + 3 routes API.
+
+### Added
+- Migration `scripts/migrations/050-fix-content-type-check.sql` ajoutant `'podcast'` a la contrainte CHECK.
+
+### Security
+- Elimine la "bombe a retardement" identifiee par l'audit : donnees ecrites dans une colonne et lues depuis une autre.
+
 ## [0.1.0] — 2026-05-26
 
 ### Ajoute

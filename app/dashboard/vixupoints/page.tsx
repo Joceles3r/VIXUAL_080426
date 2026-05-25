@@ -292,7 +292,7 @@ function ProfileTable() {
 
 export default function VisupointsPage() {
   const { user } = useAuth()
-  const currentPoints = user?.visupoints || 150
+  const currentPoints = user?.vixupoints || 150
   const userIsMinor = user?.isMinor ?? false
   const kycVerified = user?.kycVerified ?? false
   const userRole = user?.roles?.[0] || "visitor"

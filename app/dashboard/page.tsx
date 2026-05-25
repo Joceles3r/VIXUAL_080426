@@ -432,7 +432,7 @@ export default function DashboardPage() {
               <div>
                 <p className="text-white/60 text-sm">VIXUpoints</p>
                 <p className="text-2xl font-bold text-white">
-                  {user?.visupoints || 0}
+                  {user?.vixupoints || 0}
                   {user?.isMinor && (
                     <span className="text-sm font-normal text-white/40 ml-1">
                       {"/ " + MINOR_VIXUPOINTS_CAP.toLocaleString()}
@@ -442,7 +442,7 @@ export default function DashboardPage() {
                 {user?.isMinor && (
                   <div className="mt-2">
                     <Progress
-                      value={((user.visupoints || 0) / MINOR_VIXUPOINTS_CAP) * 100}
+                      value={((user.vixupoints || 0) / MINOR_VIXUPOINTS_CAP) * 100}
                       className="h-1.5 bg-white/10"
                     />
                   </div>
@@ -719,9 +719,9 @@ export default function DashboardPage() {
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-white/60">VIXUpoints gagnes</span>
-                  <span className="text-amber-400 font-semibold">{user?.visupoints || 0} pts</span>
+                  <span className="text-amber-400 font-semibold">{user?.vixupoints || 0} pts</span>
                 </div>
-                <Progress value={Math.min(((user?.visupoints || 0) / 1000) * 100, 100)} className="h-2 bg-white/10" />
+                <Progress value={Math.min(((user?.vixupoints || 0) / 1000) * 100, 100)} className="h-2 bg-white/10" />
                 <p className="text-xs text-white/40">Prochain palier : 1 000 pts</p>
               </div>
               <div className="pt-2 border-t border-white/10">
@@ -1009,7 +1009,7 @@ export default function DashboardPage() {
               <Progress value={30} className="h-2 bg-slate-800" />
               <div className="flex justify-between text-sm">
                 <span className="text-white/60">
-                  {user?.visupoints || 0} / 500 points
+                  {user?.vixupoints || 0} / 500 points
                 </span>
                 <span className="text-white/40">Prochain: Argent</span>
               </div>

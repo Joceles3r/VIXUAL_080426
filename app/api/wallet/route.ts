@@ -11,8 +11,8 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // Verify user exists — FIX B : inclure visupoints_balance pour l'affichage wallet
-    const users = await sql`SELECT id, account_status, visupoints_balance FROM users WHERE id = ${userId}`;
+    // Verify user exists — FIX B : inclure vixupoints_balance pour l'affichage wallet
+    const users = await sql`SELECT id, account_status, vixupoints_balance FROM users WHERE id = ${userId}`;
     if (users.length === 0) {
       return apiError(ErrorCodes.ERR_USER_NOT_FOUND, "User not found", 404);
     }
