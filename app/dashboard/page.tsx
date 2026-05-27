@@ -27,7 +27,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { useAuth } from "@/lib/auth-context"
-import { MOCK_INVESTMENTS, MOCK_TRANSACTIONS, USER_RANKINGS, LEADERBOARD_CATEGORIES } from "@/lib/mock-data"
+import { MOCK_INVESTMENTS, USER_RANKINGS, LEADERBOARD_CATEGORIES } from "@/lib/mock-data"
 import { MINOR_VIXUPOINTS_CAP } from "@/lib/payout/constants"
 import { ParentalConsentForm } from "@/components/parental-consent-form"
 import { CommunityCharter } from "@/components/community-charter"
@@ -35,29 +35,52 @@ import { ReportButton } from "@/components/report-button"
 import { TrustScoreCard } from "@/components/trust-score-display"
 import { type TrustScore } from "@/lib/trust"
 import { CreatorProgressCard } from "@/components/creator-progress-card"
+import { useEffect, useState } from "react"
 
-// Mock Trust Score pour le dashboard
-const MOCK_USER_TRUST_SCORE: TrustScore = {
-  userId: "user_123",
-  score: 78,
-  level: "very_reliable",
-  lastUpdated: new Date().toISOString(),
-  components: {
-    identityVerified: 22,
-    transactionHistory: 16,
-    communityParticipation: 12,
-    seniority: 10,
-    socialBehavior: 8,
-    financialReliability: 7,
-    communityBonus: 3,
-  },
-  badges: ["identity_verified", "active_contributor"],
-  warnings: [],
-  riskFlags: [],
-}
-
-export default function DashboardPage() {
+export default function DashboardPage({ 
+  searchParams 
+}: { 
+  searchParams?: { forceMock?: string } 
+}) {
   const { user, roles, isAuthed, logout } = useAuth()
+  const [transactions, setTransactions] = useState<any[]>([])
+  const [trustScore, setTrustScore] = useState<TrustScore | null>(null)
+  const [mockMode, setMockMode] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // 🧪 Determine if we're in mock mode
+  useEffect(() => {
+    const forceMock = searchParams?.forceMock === 'true'
+    setMockMode(forceMock)
+    
+    // Load transactions and trust score from data-provider
+    const loadData = async () => {
+      try {
+        if (!user?.id) {
+          setIsLoading(false)
+          return
+        }
+
+        // Dynamic import to avoid SSR issues with server functions
+        const { getTransactions, getTrustScore } = await import('@/lib/data-provider')
+        
+        const [txData, scoreData] = await Promise.all([
+          getTransactions(user.id, 10, forceMock),
+          getTrustScore(user.id, forceMock),
+        ])
+
+        setTransactions(txData)
+        setTrustScore(scoreData)
+      } catch (error) {
+        console.error('[Dashboard] Error loading data:', error)
+        // Fallback to mock data handled by data-provider
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadData()
+  }, [user?.id, searchParams?.forceMock])
 
   if (!isAuthed) {
     return (
@@ -102,6 +125,26 @@ export default function DashboardPage() {
   const hasCreatorRole = isCreator || isInfoporteur || isPodcasteur
   const hasContributorRole = isContributor || isContribuLecteur || isAuditeur
 
+  // Mock Trust Score fallback
+  const MOCK_USER_TRUST_SCORE: TrustScore = {
+    userId: "user_123",
+    score: 78,
+    level: "very_reliable",
+    lastUpdated: new Date().toISOString(),
+    components: {
+      identityVerified: 22,
+      transactionHistory: 16,
+      communityParticipation: 12,
+      seniority: 10,
+      socialBehavior: 8,
+      financialReliability: 7,
+      communityBonus: 3,
+    },
+    badges: ["identity_verified", "active_contributor"],
+    warnings: [],
+    riskFlags: [],
+  }
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -115,7 +158,12 @@ export default function DashboardPage() {
             <VisualSlogan size="xs" opacity="medium" />
           </div>
           <p className="text-white/60">
-            {"Voici un aper\u00e7u de votre activit\u00e9 sur VIXUAL"}
+            {"Voici un aperçu de votre activité sur VIXUAL"}
+            {mockMode && (
+              <span className="ml-2 inline-block px-2 py-1 text-xs bg-amber-500/20 text-amber-400 rounded border border-amber-500/30">
+                🧪 Mode Mock Activé
+              </span>
+            )}
           </p>
         </div>
         <Button
@@ -124,7 +172,7 @@ export default function DashboardPage() {
           className="shrink-0 border-red-500/25 text-red-400 hover:bg-red-500/10 hover:text-red-300 gap-2"
         >
           <LogOut className="h-4 w-4" />
-          {"D\u00e9connexion"}
+          {"Déconnexion"}
         </Button>
       </div>
 
@@ -338,10 +386,10 @@ export default function DashboardPage() {
               </div>
               <div>
                 <p className="text-white font-medium text-sm">
-                  {"Compte mineur (16\u201317 ans)"}
+                  {"Compte mineur (16–17 ans)"}
                 </p>
                 <p className="text-white/50 text-xs">
-                  {"Plafond : " + MINOR_VIXUPOINTS_CAP.toLocaleString() + " VIXUpoints (100\u20ac). Contributions et retraits bloques jusqu'a 18 ans."}
+                  {"Plafond : " + MINOR_VIXUPOINTS_CAP.toLocaleString() + " VIXUpoints (100€). Contributions et retraits bloques jusqu'a 18 ans."}
                 </p>
               </div>
             </div>
@@ -352,12 +400,12 @@ export default function DashboardPage() {
             )}
             {user.parentConsent?.status === "pending" && (
               <span className="text-xs bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full border border-amber-500/30">
-                {"Consentement en attente de v\u00e9rification"}
+                {"Consentement en attente de vérification"}
               </span>
             )}
             {user.parentConsent?.status === "verified" && (
               <span className="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/30">
-                {"Consentement v\u00e9rifi\u00e9"}
+                {"Consentement vérifié"}
               </span>
             )}
           </CardContent>
@@ -374,7 +422,7 @@ export default function DashboardPage() {
 
       {/* Trust Score Widget */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <TrustScoreCard trustScore={MOCK_USER_TRUST_SCORE} />
+        <TrustScoreCard trustScore={trustScore || MOCK_USER_TRUST_SCORE} />
         <Card className="bg-gradient-to-br from-emerald-900/20 to-teal-900/20 border-emerald-500/20">
           <CardContent className="p-6 flex flex-col justify-between h-full">
             <div>
@@ -406,8 +454,8 @@ export default function DashboardPage() {
               <ShieldAlert className="h-5 w-5 text-red-400" />
             </div>
             <div>
-              <p className="text-white/80 text-sm font-medium">{"Signaler un contenu inappropri\u00e9"}</p>
-              <p className="text-white/40 text-xs">{"Racisme, homophobie, harc\u00e8lement, violence... Signalez en toute confidentialit\u00e9."}</p>
+              <p className="text-white/80 text-sm font-medium">{"Signaler un contenu inapproprié"}</p>
+              <p className="text-white/40 text-xs">{"Racisme, homophobie, harcèlement, violence... Signalez en toute confidentialité."}</p>
             </div>
           </div>
           <ReportButton
@@ -690,10 +738,10 @@ export default function DashboardPage() {
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-white/60">
-                  {"R\u00f4les bloqu\u00e9s"}
+                  {"Rôles bloqués"}
                 </h3>
                 <p className="text-sm text-white/40">
-                  {"Soutien financier, retrait et conversion de VIXUpoints accessibles d\u00e8s 18 ans."}
+                  {"Soutien financier, retrait et conversion de VIXUpoints accessibles dès 18 ans."}
                 </p>
               </div>
             </CardContent>
@@ -968,25 +1016,33 @@ export default function DashboardPage() {
             </Link>
           </CardHeader>
           <CardContent className="space-y-3">
-            {MOCK_TRANSACTIONS.slice(0, 4).map((tx) => (
-              <div
-                key={tx.id}
-                className="flex items-center justify-between py-2 border-b border-white/5 last:border-0"
-              >
-                <div>
-                  <p className="text-sm text-white">{tx.description}</p>
-                  <p className="text-xs text-white/40">{tx.date}</p>
-                </div>
-                <span
-                  className={`font-medium ${
-                    tx.amount >= 0 ? "text-emerald-400" : "text-white"
-                  }`}
-                >
-                  {tx.amount >= 0 ? "+" : ""}
-                  {tx.amount.toFixed(2)}€
-                </span>
+            {isLoading ? (
+              <div className="text-center py-4">
+                <p className="text-white/60 text-sm">Chargement des transactions...</p>
               </div>
-            ))}
+            ) : transactions.length > 0 ? (
+              transactions.slice(0, 4).map((tx) => (
+                <div
+                  key={tx.id}
+                  className="flex items-center justify-between py-2 border-b border-white/5 last:border-0"
+                >
+                  <div>
+                    <p className="text-sm text-white">{tx.description}</p>
+                    <p className="text-xs text-white/40">{tx.date}</p>
+                  </div>
+                  <span
+                    className={`font-medium ${
+                      tx.amount >= 0 ? "text-emerald-400" : "text-white"
+                    }`}
+                  >
+                    {tx.amount >= 0 ? "+" : ""}
+                    {tx.amount.toFixed(2)}€
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p className="text-white/60 text-sm">Aucune transaction</p>
+            )}
           </CardContent>
         </Card>
       </div>
