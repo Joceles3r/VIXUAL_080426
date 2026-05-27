@@ -208,3 +208,10 @@ export function updateFeatureFlag(update: FeatureFlagUpdate): boolean {
   
   return true
 }
+
+/**
+ * 🧪 Mock Toggle
+ * - Dev/Staging: true → mocks
+ * - Production: false → APIs réelles
+ */
+export const USE_MOCK_DATA = process.env.NODE_ENV !== 'production' && process.env.NEXT_PUBLIC_USE_MOCKS === 'true';
