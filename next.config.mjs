@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Turbopack configuration for Next.js 16
+  // Turbopack configuration for Next.js 16+
   turbopack: {
     root: import.meta.dirname,
   },
@@ -23,10 +23,11 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
 
+  // ── Images: Bunny.net + Vercel Blob + Unsplash (dev only) ─────────────────
+
   images: {
-    // Enable Next.js image optimization for better LCP
     remotePatterns: [
-      // CDN principal VIXUAL (activer lors du branchement Bunny.net)
+      // CDN principal VIXUAL en production
       {
         protocol: "https",
         hostname: "cdn.bunny.net",
@@ -35,55 +36,88 @@ const nextConfig = {
         protocol: "https",
         hostname: "*.b-cdn.net",
       },
-      // Vercel Blob (images uploadees via v0/admin)
+      // Vercel Blob (images uploadées via v0/admin)
       {
         protocol: "https",
         hostname: "hebbkx1anhila5yf.public.blob.vercel-storage.com",
       },
       // DEV ONLY — Images mock pour le Labo Tests et le seed homepage.
       // À supprimer dès que tous les contenus passent par Bunny.net.
-      // Ne PAS retirer avant migration des mock-data vers du contenu réel.
       {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
     ],
     formats: ["image/avif", "image/webp"],
-    minimumCacheTTL: 60,
+    minimumCacheTTL: process.env.NODE_ENV === "production" ? 3600 : 60,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 
-  // Security headers (additional to middleware)
+  // ── Security headers: CSP minimale + cache ────────────────────────────────
+
   async headers() {
     return [
       {
         source: "/(.*)",
         headers: [
           { key: "X-DNS-Prefetch-Control", value: "on" },
-          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+          },
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self';",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com;",
+              "style-src 'self' 'unsafe-inline';",
+              "img-src 'self' data: blob: https://cdn.bunny.net https://*.b-cdn.net https://hebbkx1anhila5yf.public.blob.vercel-storage.com https://images.unsplash.com;",
+              "connect-src 'self' https://api.stripe.com https://js.stripe.com;",
+              "frame-src https://js.stripe.com https://hooks.stripe.com;",
+              "font-src 'self' data:;",
+              "object-src 'none';",
+              "base-uri 'self';",
+              "form-action 'self';",
+            ].join(" "),
+          },
         ],
       },
       {
         source: "/_next/static/(.*)",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
         ],
       },
       {
         source: "/images/(.*)",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, stale-while-revalidate=604800",
+          },
         ],
       },
       {
         source: "/fonts/(.*)",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
         ],
       },
     ];
@@ -92,7 +126,7 @@ const nextConfig = {
   // Experimental features
   experimental: {
     // Optimize package imports
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
+    optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
   },
 };
 
