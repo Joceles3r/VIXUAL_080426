@@ -14,6 +14,8 @@ import { ContentCard } from "@/components/content-card"
 import { TrafficLight } from "@/components/traffic-light"
 import { ALL_CONTENTS } from "@/lib/mock-data"
 import { usePlatformVersion } from "@/hooks/use-platform-version"
+import { HomeV1HboDark } from "@/components/home/home-v1-hbo-dark"
+import { HomeV2Preserved } from "@/components/home/home-v2-preserved"
 import { HomeV1 } from "@/components/home/home-v1"
 import { HomeV1En } from "@/components/home/home-v1-en"
 import { PremiumHomepage } from "@/components/home/premium-homepage"
@@ -85,23 +87,33 @@ export default function HomePage() {
       .catch(() => { /* garde valeurs par defaut */ })
   }, [])
 
-  // V1 utilise un layout simplifie dedie (onboarding intelligent,
-  // 3 actions universelles, vocabulaire grand public). V2/V3 conservent
-  // leur layout historique ci-dessous.
+  // ═══════════════════════════════════════════════════════════════════════════
+  // ROUTER PRINCIPAL : Sélectionne la homepage selon la version active
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // V1 HBO DARK — Nouvelle interface premium
   if (rawVersion === "V1") {
-    return <HomeV1Switch />
+    return <HomeV1HboDark />
   }
 
-  // Cast apres l'early return : preserve le type union complet pour le rendu V2/V3
-  // et empeche le narrowing destructeur sur les comparaisons internes.
+  // V2 PRESERVED — Ancienne V1 + nouveaux onglets V2
+  if (rawVersion === "V2") {
+    return <HomeV2Preserved />
+  }
+
+  // Cast apres l'early return : preserve le type union complet pour le rendu V3
   const platformVersion = rawVersion as "V1" | "V2" | "V3"
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // V3 DEFAULT — Interface standard VIXUAL
+  // ═══════════════════════════════════════════════════════════════════════════
 
   return (
     <div className="min-h-screen bg-slate-950">
       <VisualHeader />
 
       <main>
-        {/* Hero Section — Streaming premium cinematic V2/V3 */}
+        {/* Hero Section — Streaming premium cinematic V3 */}
         <section className="vx-cinema-hero relative pt-32 pb-24">
           {/* Couche 1 : orbes lumineux drift cinema */}
           <div className="vx-orb-bg" aria-hidden="true" />
@@ -325,7 +337,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
               
               {/* Carte 1: Les 3 Familles */}
-              <Card className="vx-cinema-card overflow-hidden hover:shadow-xl hover:shadow-[#7A00FF]/20 border-[#7A00FF]/30" style={{ background: 'linear-gradient(to bottom, rgba(10, 77, 255, 0.15), rgba(122, 0, 255, 0.1))' }}>
+              <Card className="vx-cinema-card overflow-hidden hover:shadow-xl hover:shadow-[#7A00FF]/20 border-[#7A00FF]/30" style={{ background: 'linear-gradient(to bottom, rgba(10, 77, 255, 0.1), rgba(10, 77, 255, 0.05))' }}>
                 <CardContent className="p-5 pb-3">
                   <h3 className="text-lg font-bold mb-2 select-text" style={{ color: '#F5F7FF' }}>
                     {"Les 3 Familles VIXUAL - Créateurs, Participants, Public"}
@@ -355,7 +367,7 @@ export default function HomePage() {
               </Card>
 
               {/* Carte 2: Comment ca fonctionne */}
-              <Card className="vx-cinema-card overflow-hidden hover:shadow-xl hover:shadow-[#0A4DFF]/20 border-[#0A4DFF]/30" style={{ background: 'linear-gradient(to bottom, rgba(122, 0, 255, 0.15), rgba(10, 77, 255, 0.1))' }}>
+              <Card className="vx-cinema-card overflow-hidden hover:shadow-xl hover:shadow-[#0A4DFF]/20 border-[#0A4DFF]/30" style={{ background: 'linear-gradient(to bottom, rgba(122, 0, 255, 0.1), rgba(122, 0, 255, 0.05))' }}>
                 <CardContent className="p-5 pb-3">
                   <h3 className="text-lg font-bold mb-2 select-text" style={{ color: '#F5F7FF' }}>
                     {"Comment fonctionne VIXUAL - Sélectionnez, Participez, Gagnez"}
@@ -379,7 +391,7 @@ export default function HomePage() {
               </Card>
 
               {/* Carte 3: Principe des gains */}
-              <Card className="vx-cinema-card overflow-hidden hover:shadow-xl hover:shadow-[#00E5FF]/20 border-[#00E5FF]/30" style={{ background: 'linear-gradient(to bottom, rgba(0, 229, 255, 0.1), rgba(122, 0, 255, 0.1))' }}>
+              <Card className="vx-cinema-card overflow-hidden hover:shadow-xl hover:shadow-[#00E5FF]/20 border-[#00E5FF]/30" style={{ background: 'linear-gradient(to bottom, rgba(0, 229, 255, 0.1), rgba(0, 229, 255, 0.05))' }}>
                 <CardContent className="p-5 pb-3">
                   <h3 className="text-lg font-bold mb-2 select-text" style={{ color: '#F5F7FF' }}>
                     {"Votez pour vos projets préférés"}
@@ -688,9 +700,4 @@ export default function HomePage() {
       </main>
     </div>
   )
-}
-
-/** V1 utilise la homepage premium streaming (style Netflix/Apple TV+). */
-function HomeV1Switch() {
-  return <PremiumHomepage />
 }
