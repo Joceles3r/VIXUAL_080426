@@ -1,6 +1,6 @@
 /**
  * VIXUAL Homepage Variants Configuration
- * ══════════════════════════════════════
+ * ══════════════════════════════════════════════════════════════════════════════
  * Manages different homepage versions (V1 HBO Dark, V2 Preserved, etc.)
  * and their customization options.
  */
@@ -116,24 +116,15 @@ export const HOMEPAGE_VARIANTS: Record<HomepageVariant, HomepageVariantConfig> =
   },
 }
 
-/**
- * Get active homepage variant
- */
 export function getActiveHomepageVariant(): HomepageVariantConfig {
   const activeVariant = Object.values(HOMEPAGE_VARIANTS).find((v) => v.isActive)
   return activeVariant || HOMEPAGE_VARIANTS['v2-preserved']
 }
 
-/**
- * Get variant by ID
- */
 export function getHomepageVariant(id: HomepageVariant): HomepageVariantConfig | undefined {
   return HOMEPAGE_VARIANTS[id]
 }
 
-/**
- * Get all variants for a specific version
- */
 export function getVariantsByVersion(version: 'V1' | 'V2' | 'V3'): HomepageVariantConfig[] {
   const versionOrder = { V1: 1, V2: 2, V3: 3 }
   return Object.values(HOMEPAGE_VARIANTS).filter(
@@ -141,17 +132,11 @@ export function getVariantsByVersion(version: 'V1' | 'V2' | 'V3'): HomepageVaria
   )
 }
 
-/**
- * Get variant display name with description
- */
 export function getVariantLabel(id: HomepageVariant): string {
   const variant = HOMEPAGE_VARIANTS[id]
   return variant ? `${variant.name} - ${variant.description}` : 'Unknown'
 }
 
-/**
- * Customization options for each variant
- */
 export interface VariantCustomization {
   variantId: HomepageVariant
   heroImageUrl?: string
@@ -169,9 +154,6 @@ export interface VariantCustomization {
   ctaHref?: string
 }
 
-/**
- * Default customization for each variant
- */
 export const DEFAULT_CUSTOMIZATIONS: Record<HomepageVariant, VariantCustomization> = {
   'v1-hbo-dark': {
     variantId: 'v1-hbo-dark',
