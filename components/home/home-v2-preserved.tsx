@@ -47,7 +47,7 @@ interface DraggableCard extends HomepageCard {
   duration?: string
 }
 
-const SAVOIR_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+const SAVOIR_ICONS: Record<string, () => React.ReactElement> = {
   landmark: () => <span>🏛️</span>,
   rocket: () => <span>🚀</span>,
   globe: () => <span>🌍</span>,
@@ -160,7 +160,7 @@ export function HomeV2Preserved() {
   )
 }
 
-// ─── NAVBAR V2 TABS ─────────────────────────────────────────────────────────
+// ─── NAVBAR V2 TABS ───────────────────────────────────────────────────────
 
 function V2NavbarTabs() {
   const tabs = [
@@ -196,7 +196,7 @@ function V2NavbarTabs() {
   )
 }
 
-// ─── HERO SECTION V2 ────────────────────────────────────────────────────────
+// ─── HERO SECTION V2 ───────────────────────────────────────────────────────
 
 interface HeroSectionV2Props {
   image: string
@@ -281,7 +281,7 @@ function HeroSectionV2({
   )
 }
 
-// ─── CAROUSEL V2 ────────────────────────────────────────────────────────────
+// ─── CAROUSEL V2 ────────────────────────────────────────────────────────
 
 interface ContentCarouselV2Props {
   items: DraggableCard[]
@@ -340,7 +340,7 @@ function ContentCarouselV2({ items }: ContentCarouselV2Props) {
   )
 }
 
-// ─── CARTE V2 ───────────────────────────────────────────────────────────────
+// ─── CARTE V2 ─────────────────────────────────────────────────────────
 
 function ContentCardV2({ item }: { item: DraggableCard }) {
   const typeLabel = item.type === "film" ? "Film" : item.type === "podcast" ? "Podcast" : "Livre"
@@ -425,7 +425,7 @@ function SavoirCultureSectionV2() {
   )
 }
 
-// ─── CARTE SAVOIR V2 ────────────────────────────────────────────────────────
+// ─── CARTE SAVOIR V2 ───────────────────────────────────────────────────────
 
 function SavoirCardV2({ card }: { card: V1SavoirCard }) {
   return (
@@ -456,7 +456,7 @@ function SavoirCardV2({ card }: { card: V1SavoirCard }) {
   )
 }
 
-// ─── CTA V2 ─────────────────────────────────────────────────────────────────
+// ─── CTA V2 ──────────────────────────────────────────────────────────
 
 function CTASectionV2({ isAuthed }: { isAuthed: boolean }) {
   return (
