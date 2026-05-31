@@ -32,7 +32,7 @@ async function fetchVersion(): Promise<PlatformVersion> {
   inflight = fetch("/api/platform/version", { cache: "no-store" })
     .then((r) => r.json())
     .then((d) => {
-      const v = (d.version as PlatformVersion) ?? "V3"
+      const v = (d.version as PlatformVersion) ?? "V1"
       cachedVersion = v
       cacheExpiry = Date.now() + CACHE_TTL_MS
       return v
