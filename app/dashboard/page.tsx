@@ -70,7 +70,7 @@ export default function DashboardPage({
         ])
 
         setTransactions(txData)
-        setTrustScore(scoreData)
+        setTrustScore(scoreData as unknown as TrustScore)
       } catch (error) {
         console.error('[Dashboard] Error loading data:', error)
         // Fallback to mock data handled by data-provider
