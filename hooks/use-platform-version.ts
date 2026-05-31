@@ -1,4 +1,5 @@
 "use client"
+
 import { useEffect, useState } from "react"
 import type { PlatformVersion } from "@/lib/platform/version"
 
@@ -47,7 +48,8 @@ async function fetchVersion(): Promise<PlatformVersion> {
 // ──────────────────────────────────────────────────────────────────
 // Hook React : abonnement automatique au registre + premier fetch.
 // ──────────────────────────────────────────────────────────────────
-const [version, setVersion] = useState<PlatformVersion>(cachedVersion ?? "V1")
+export function usePlatformVersion(): PlatformVersion {
+  const [version, setVersion] = useState<PlatformVersion>(cachedVersion ?? "V1")
 
   useEffect(() => {
     // 1. S'abonner aux notifications de changement
