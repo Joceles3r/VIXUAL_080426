@@ -153,4 +153,6 @@ export async function getTrustScore(userId: string, forceMock = false): Promise<
   }
 }
 
-export const isMockMode = (): boolean => USE_MOCK_DATA
+export async function isMockMode(): Promise<boolean> {
+  return USE_MOCK_DATA
+}
