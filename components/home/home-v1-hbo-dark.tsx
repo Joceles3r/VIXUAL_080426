@@ -1,17 +1,22 @@
 /**
  * VIXUAL — Home V1 HBO Dark
  *
- * Ce composant est un alias temporaire vers PremiumHomepage pour retablir
- * l'import casse dans app/page.tsx. Le refactor V1/V2 a renomme ou supprime
- * le composant original sans corriger l'import.
+ * Alias qui pointe vers HomeV2Preserved, qui contient en réalité
+ * la nouvelle interface HBO Dark premium (déplacement effectué
+ * lors du refactor V1/V2 du 29 mai 2026).
  *
- * À FAIRE PLUS TARD : creer la vraie variante HBO Dark si differente de
- * PremiumHomepage, ou supprimer ce fichier alias si PremiumHomepage suffit.
+ * Architecture finale :
+ *   - V1 (par defaut visiteurs) : nouvelle interface HBO Dark
+ *   - V2 : même interface HBO Dark + onglets V2 supplementaires
+ *   - V3 : interface standard cinematic
+ *
+ * Note : a nettoyer plus tard en deplaçant HomeV2Preserved vers
+ * un fichier dedie home-hbo-dark.tsx et en supprimant cet alias.
  */
 "use client"
 
-import { PremiumHomepage } from "./premium-homepage"
+import { HomeV2Preserved } from "./home-v2-preserved"
 
 export function HomeV1HboDark() {
-  return <PremiumHomepage />
+  return <HomeV2Preserved />
 }
