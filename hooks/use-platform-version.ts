@@ -37,7 +37,7 @@ async function fetchVersion(): Promise<PlatformVersion> {
       cacheExpiry = Date.now() + CACHE_TTL_MS
       return v
     })
-    .catch(() => "V3" as PlatformVersion)
+    .catch(() => "V1" as PlatformVersion)
     .finally(() => {
       inflight = null
     })
@@ -47,8 +47,7 @@ async function fetchVersion(): Promise<PlatformVersion> {
 // ──────────────────────────────────────────────────────────────────
 // Hook React : abonnement automatique au registre + premier fetch.
 // ──────────────────────────────────────────────────────────────────
-export function usePlatformVersion(): PlatformVersion {
-  const [version, setVersion] = useState<PlatformVersion>(cachedVersion ?? "V3")
+const [version, setVersion] = useState<PlatformVersion>(cachedVersion ?? "V1")
 
   useEffect(() => {
     // 1. S'abonner aux notifications de changement
