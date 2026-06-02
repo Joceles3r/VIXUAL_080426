@@ -1,22 +1,21 @@
 /**
- * VIXUAL — Home V1 HBO Dark
+ * VIXUAL — Home V1 HBO Dark (Alias)
  *
- * Alias qui pointe vers HomeV2Preserved, qui contient en réalité
- * la nouvelle interface HBO Dark premium (déplacement effectué
- * lors du refactor V1/V2 du 29 mai 2026).
+ * Cet alias historique pointe désormais vers HomeV1Premium,
+ * la nouvelle interface V1 simplifiée style Apple TV+.
  *
- * Architecture finale :
- *   - V1 (par defaut visiteurs) : nouvelle interface HBO Dark
- *   - V2 : même interface HBO Dark + onglets V2 supplementaires
- *   - V3 : interface standard cinematic
+ * Architecture finale (1er juin 2026) :
+ *   - V1 (visiteurs publics) : HomeV1Premium — ultra-épurée Apple TV+
+ *   - V2 (membres connectés) : HomeV2Preserved — HBO Dark streaming complet
+ *   - V3 (admin/test futur) : interface cinematic standard (page.tsx default)
  *
- * Note : a nettoyer plus tard en deplaçant HomeV2Preserved vers
- * un fichier dedie home-hbo-dark.tsx et en supprimant cet alias.
+ * Le nom "HboDark" est conservé pour ne pas casser l'import dans app/page.tsx.
+ * A renommer plus tard en HomeV1 ou supprimer si on déplace l'import.
  */
 "use client"
 
-import { HomeV2Preserved } from "./home-v2-preserved"
+import { HomeV1Premium } from "./home-v1-premium"
 
 export function HomeV1HboDark() {
-  return <HomeV2Preserved />
+  return <HomeV1Premium />
 }
