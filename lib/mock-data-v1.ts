@@ -33,7 +33,7 @@ export const V1_FEATURED = {
   rating: 4.8,
   description:
     "Dans une ville plongée dans l'obscurité, un détective doit résoudre une série de mystères avant qu'il ne soit trop tard. Une production cinématographique époustouflante qui redéfinit le thriller moderne.",
-  thumbnail: U_HERO("photo-1519501025264-65ba15a82390"), // ville nocturne skyline dramatique
+  thumbnail: "/images/hero-v2-solitude.jpg", // Silhouette solitaire face skyline nocturne — locale
 }
 
 // ─── FILMS & VIDÉOS — Univers narratifs crédibles (thriller/drame/mystère) ───
