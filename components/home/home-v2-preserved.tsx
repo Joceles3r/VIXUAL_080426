@@ -232,6 +232,7 @@ function HeroSectionV2({
           priority
           className="object-cover"
           sizes="100vw"
+          unoptimized
         />
         <div className="vx-prem-hero-grad-right" aria-hidden="true" />
         <div className="vx-prem-hero-grad-bottom" aria-hidden="true" />
