@@ -42,10 +42,7 @@ export function HomeV1Premium() {
     <div className="min-h-screen bg-black text-white">
       <VisualHeader />
 
-      {/* ═════════════════════════════════════════════════════════════════ */}
-      {/* SECTION 1 — HERO MINIMALISTE                                      */}
-      {/* ═════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-[85vh] flex items-center justify-center px-6 overflow-hidden">
+     
         {/* Gradient subtil noir profond → fuchsia tres leger */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -212,10 +209,79 @@ export function HomeV1Premium() {
               Ouvrir mon compte
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-          </Link>
-          <p className="text-white/30 text-sm mt-6 font-light">
-            Gratuit · Sans engagement · Sans intermédiaire
+  {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* SECTION 1 — HERO IMMERSIF AVEC IMAGE CINEMATIQUE                  */}
+      {/* ═════════════════════════════════════════════════════════════════ */}
+      <section className="relative min-h-[90vh] flex items-center justify-center px-6 overflow-hidden">
+        {/* Image cinema noir vintage en arriere-plan */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/hero-v1-neon.jpg"
+            alt="Rue cinema vintage avec enseignes neon"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+            quality={90}
+          />
+          {/* Voile sombre pour la lisibilité du texte */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.45) 40%, rgba(0,0,0,0.75) 100%)",
+            }}
+            aria-hidden="true"
+          />
+          {/* Touche fuchsia subtile pour rappeler l'identite VIXUAL */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse at center, rgba(217, 70, 239, 0.12) 0%, rgba(0, 0, 0, 0) 65%)",
+            }}
+            aria-hidden="true"
+          />
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
+          {/* Accroche principale — typographie XXL Apple TV+ */}
+          <h1
+            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.05] mb-8"
+            style={{
+              textShadow: "0 4px 24px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4)",
+            }}
+          >
+            Films, podcasts, écrits
+            <br />
+            <span className="bg-gradient-to-r from-fuchsia-300 via-pink-300 to-fuchsia-400 bg-clip-text text-transparent">
+              soutenus par vous
+            </span>
+          </h1>
+
+          {/* Sous-ligne discrete avec le slogan */}
+          <p
+            className="text-base md:text-lg text-white/80 mb-12 tracking-wide font-light"
+            style={{
+              textShadow: "0 2px 8px rgba(0, 0, 0, 0.5)",
+            }}
+          >
+            Regarde — Soutiens — Participe
           </p>
+
+          {/* CTA principal unique */}
+          <Link href="/explore">
+            <Button
+              size="lg"
+              className="bg-white text-black hover:bg-white/90 px-10 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105"
+              style={{
+                boxShadow: "0 12px 40px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1) inset",
+              }}
+            >
+              Découvrir VIXUAL
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
         </div>
       </section>
 
