@@ -50,7 +50,8 @@ export function HomeV1Premium() {
             sizes="100vw"
             className="object-cover"
             quality={90}
-          />
+            unoptimized
+           />
           {/* Voile sombre pour la lisibilité du texte */}
           <div
             className="absolute inset-0"
