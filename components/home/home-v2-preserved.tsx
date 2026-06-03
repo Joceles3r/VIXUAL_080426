@@ -87,7 +87,7 @@ export function HomeV2Preserved() {
   }, [])
 
   const hero = homepageConfig.hero
-  const heroImage = hero.image || V1_FEATURED.thumbnail || "/images/hero-v2.jpg"
+const heroImage = "/images/hero-v2-solitude.jpg"
   const heroTitle = hero.title || V1_FEATURED.title
   const heroDesc = hero.description || V1_FEATURED.description || ""
   const heroCta = hero.ctaLabel || "Commencer gratuitement"
