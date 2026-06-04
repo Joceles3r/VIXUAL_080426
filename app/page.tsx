@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Film, FileText, Mic, Users, TrendingUp, Shield, Star, Award, CreditCard, Wallet, Upload, Eye, Heart, Sparkles, Flame } from "lucide-react"
+import { ArrowRight, Film, FileText, Mic, Users, TrendingUp, Shield, Star, CreditCard, Wallet, Upload, Eye, Heart, Sparkles, Flame } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -16,10 +16,7 @@ import { ALL_CONTENTS } from "@/lib/mock-data"
 import { usePlatformVersion } from "@/hooks/use-platform-version"
 import { HomeV1HboDark } from "@/components/home/home-v1-hbo-dark"
 import { HomeV2Preserved } from "@/components/home/home-v2-preserved"
-import { HomeV1 } from "@/components/home/home-v1"
-import { HomeV1En } from "@/components/home/home-v1-en"
-import { PremiumHomepage } from "@/components/home/premium-homepage"
-import { useLanguage } from "@/hooks/use-language"
+
 
 const FEATURED_CONTENTS = ALL_CONTENTS.slice(0, 4)
 
