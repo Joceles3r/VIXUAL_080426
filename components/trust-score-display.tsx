@@ -170,7 +170,13 @@ interface TrustScoreCardProps {
 
 export function TrustScoreCard({ trustScore, compact = false }: TrustScoreCardProps) {
   const [showDetails, setShowDetails] = useState(false)
-  const level = TRUST_SCORE_RANGES[trustScore.level]
+  // Fallback resilient si trustScore.level invalide (API user-level peut retourner 500)
+  const level = TRUST_SCORE_RANGES[trustScore.level] ?? {
+    min: 0,
+    max: 100,
+    label: "Profil en chargement",
+    color: "text-white/60",
+  }
 
   if (compact) {
     return (
