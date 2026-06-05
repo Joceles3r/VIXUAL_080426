@@ -36,9 +36,9 @@ export function HomeV1Premium() {
     <div className="min-h-screen bg-black text-white">
       <VisualHeader />
 
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════[...]
       {/* SECTION 1 — HERO IMMERSIF AVEC IMAGE CINEMATIQUE                  */}
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════[...]
       <section className="relative min-h-[90vh] flex items-center justify-center px-6 overflow-hidden">
         {/* Image cinema noir vintage en arriere-plan */}
         <div className="absolute inset-0 z-0">
@@ -101,9 +101,10 @@ export function HomeV1Premium() {
           <Link href="/explore">
             <Button
               size="lg"
-              className="bg-white text-black hover:bg-white/90 px-10 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105"
+              className="text-white px-10 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105 hover:opacity-90"
               style={{
-                boxShadow: "0 12px 40px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1) inset",
+                backgroundImage: "linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #3b82f6 100%)",
+                boxShadow: "0 12px 40px -8px rgba(168, 85, 247, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.1) inset",
               }}
             >
               Découvrir VIXUAL
@@ -113,9 +114,9 @@ export function HomeV1Premium() {
         </div>
       </section>
 
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ═══════════════════════════════════════════════════════════════[...]
       {/* SECTION 2 — TROIS CONCEPTS MINIMALISTES                           */}
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ═══════════════════════════════════════════════════════════════[...]
       <section className="py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
@@ -161,9 +162,9 @@ export function HomeV1Premium() {
         </div>
       </section>
 
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ═══════════════════════════════════════════════════════════════[...]
       {/* SECTION 3 — TEASER VISUEL (grille statique 5 affiches)            */}
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ═══════════════════════════════════════════════════════════════[...]
       <section className="py-24 px-6 border-t border-white/[0.06]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
@@ -207,9 +208,9 @@ export function HomeV1Premium() {
         </div>
       </section>
 
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ═══════════════════════════════════════════════════════════════[...]
       {/* SECTION 4 — CTA FINAL                                             */}
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ═══════════════════════════════════════════════════════════════[...]
       <section className="py-32 px-6 border-t border-white/[0.06] relative overflow-hidden">
         {/* Subtile aurore fuchsia en arriere-plan */}
         <div
@@ -232,10 +233,11 @@ export function HomeV1Premium() {
           <Link href="/signup">
             <Button
               size="lg"
-              className="bg-fuchsia-600 hover:bg-fuchsia-500 text-white px-12 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105"
+              className="text-white px-12 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105 hover:opacity-90"
               style={{
+                backgroundImage: "linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #3b82f6 100%)",
                 boxShadow:
-                  "0 12px 40px -8px rgba(217, 70, 239, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08) inset",
+                  "0 12px 40px -8px rgba(168, 85, 247, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08) inset",
               }}
             >
               Ouvrir mon compte
