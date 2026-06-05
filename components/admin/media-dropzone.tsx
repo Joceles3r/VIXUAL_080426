@@ -124,6 +124,12 @@ export function MediaDropzone({
       const json = await res.json()
 
       if (!res.ok || !json.success) {
+        // Cas special : Bunny non configure → message clair pour le PATRON
+        if (res.status === 503 && json.error?.includes("Bunny")) {
+          throw new Error(
+            "⏳ Bunny.net non configure. Le drag-and-drop sera fonctionnel des l'installation de Bunny. (Variables Render manquantes : BUNNY_STORAGE_API_KEY et BUNNY_CDN_HOSTNAME)"
+          )
+        }
         throw new Error(json.error ?? "Erreur upload")
       }
 
