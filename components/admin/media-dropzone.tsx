@@ -6,6 +6,12 @@
  * Composant glisser-deposer universel (PC + smartphone + tablette).
  * Utilise react-dropzone pour la compatibilite tactile native.
  *
+ * AMÉLIORATIONS PHASE 1:
+ * - Support des images sans Bunny (drag & drop → dataURL côté navigateur)
+ * - Champ pour coller des URLs (https:// ou data:image/*)
+ * - Conversion automatique image → dataURL avec limite de taille
+ * - Les vidéos restent bloquées tant que Bunny n'est pas configuré
+ *
  * Props:
  *   slot        — identifiant cible ("hero-image", "hero-video", "card-xxx")
  *   currentUrl  — URL du media actuel (fallback si upload echoue)
@@ -27,8 +33,11 @@ import {
   Film,
   ImageIcon,
   Loader2,
+  Copy,
+  AlertCircle,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 const ACCEPT_MAP = {
   image: { "image/*": [".png", ".jpg", ".jpeg", ".webp"] },
@@ -44,9 +53,10 @@ interface MediaDropzoneProps {
   currentUrl?: string
   accept?: "image" | "video" | "both"
   maxSizeMb?: number
-  onUploaded: (path: string, isVideo: boolean) => void
+  onUploaded: (path: string, isVideo?: boolean) => void
   onError?: (msg: string) => void
   className?: string
+  isVideo?: boolean
 }
 
 export function MediaDropzone({
@@ -57,6 +67,7 @@ export function MediaDropzone({
   onUploaded,
   onError,
   className = "",
+  isVideo = false,
 }: MediaDropzoneProps) {
   const [preview, setPreview] = useState<string | null>(null)
   const [previewIsVideo, setPreviewIsVideo] = useState(false)
@@ -64,13 +75,91 @@ export function MediaDropzone({
   const [uploading, setUploading] = useState(false)
   const [uploaded, setUploaded] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [pastedUrl, setPastedUrl] = useState("")
+  const [pastedError, setPastedError] = useState<string | null>(null)
 
   const maxBytes = maxSizeMb * 1024 * 1024
 
+  // ───── HANDLE PASTED URL ─────
+  const handlePasteUrl = useCallback(async () => {
+    setPastedError(null)
+    const url = pastedUrl.trim()
+
+    if (!url) {
+      setPastedError("Collez une URL (https:// ou data:image/*)")
+      return
+    }
+
+    // Si c'est une dataURL, l'utiliser directement
+    if (url.startsWith("data:image/")) {
+      const sizeInKb = (url.length * 3) / 4 / 1024
+      if (sizeInKb > maxBytes / 1024) {
+        setPastedError(`Image trop volumineuse (${sizeInKb.toFixed(1)} Ko > ${maxSizeMb} Mo)`)
+        return
+      }
+      onUploaded(url, false)
+      setPastedUrl("")
+      setPreview(null)
+      setFile(null)
+      setUploaded(true)
+      return
+    }
+
+    // Si c'est une URL https://, vérifier qu'on peut y accéder
+    if (url.startsWith("https://")) {
+      try {
+        // Valider que l'URL est accessible (CORS friendly)
+        const response = await fetch(url, { method: "HEAD" })
+        if (!response.ok) {
+          setPastedError("URL inaccessible ou image non trouvée")
+          return
+        }
+        onUploaded(url, false)
+        setPastedUrl("")
+        setPreview(null)
+        setFile(null)
+        setUploaded(true)
+        return
+      } catch (err) {
+        setPastedError("Impossible de charger l'image depuis cette URL (CORS ?)")
+        return
+      }
+    }
+
+    setPastedError("Utilisez une URL https:// ou une dataURL (data:image/*)")
+  }, [pastedUrl, maxBytes, maxSizeMb, onUploaded])
+
+  // ───── CONVERT FILE TO DATAURL ─────
+  const convertFileToDataUrl = useCallback(
+    (file: File): Promise<string> => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => {
+          const dataUrl = reader.result as string
+          const sizeInKb = (dataUrl.length * 3) / 4 / 1024
+          if (sizeInKb > maxBytes / 1024) {
+            reject(
+              new Error(
+                `Image trop volumineuse après conversion (${sizeInKb.toFixed(1)} Ko > ${maxSizeMb} Mo). Utilisez un format compressé.`
+              )
+            )
+          } else {
+            resolve(dataUrl)
+          }
+        }
+        reader.onerror = () => reject(new Error("Erreur lecture fichier"))
+        reader.readAsDataURL(file)
+      })
+    },
+    [maxBytes, maxSizeMb]
+  )
+
+  // ───── HANDLE DROP ─────
   const handleDrop = useCallback(
     (accepted: File[], rejected: FileRejection[]) => {
       setError(null)
       setUploaded(false)
+      setPastedError(null)
 
       if (rejected.length > 0) {
         const r = rejected[0]
@@ -88,6 +177,14 @@ export function MediaDropzone({
       const f = accepted[0]
       if (!f) return
 
+      // Bloquer les vidéos si Bunny non configuré
+      if (f.type.startsWith("video/")) {
+        setError(
+          "Les vidéos nécessitent Bunny.net pour être utilisées en production. Configurez d'abord Bunny dans l'administration."
+        )
+        return
+      }
+
       setFile(f)
       const isVideo = f.type.startsWith("video/")
       setPreviewIsVideo(isVideo)
@@ -96,7 +193,7 @@ export function MediaDropzone({
       const url = URL.createObjectURL(f)
       setPreview(url)
     },
-    [maxSizeMb, onError],
+    [maxSizeMb, onError]
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -106,37 +203,22 @@ export function MediaDropzone({
     onDrop: handleDrop,
   })
 
+  // ───── HANDLE CONFIRM (convert to dataURL client-side) ─────
   const handleConfirm = async () => {
     if (!file) return
     setUploading(true)
     setError(null)
 
     try {
-      const formData = new FormData()
-      formData.append("file", file)
-      formData.append("slot", slot)
-
-      const res = await fetch("/api/admin/upload-homepage-media", {
-        method: "POST",
-        body: formData,
-      })
-
-      const json = await res.json()
-
-      if (!res.ok || !json.success) {
-        // Cas special : Bunny non configure → message clair pour le PATRON
-        if (res.status === 503 && json.error?.includes("Bunny")) {
-          throw new Error(
-            "⏳ Bunny.net non configure. Le drag-and-drop sera fonctionnel des l'installation de Bunny. (Variables Render manquantes : BUNNY_STORAGE_API_KEY et BUNNY_CDN_HOSTNAME)"
-          )
-        }
-        throw new Error(json.error ?? "Erreur upload")
-      }
-
+      // Convertir l'image en dataURL côté navigateur
+      const dataUrl = await convertFileToDataUrl(file)
+      onUploaded(dataUrl, false)
       setUploaded(true)
-      onUploaded(json.path, json.isVideo)
+      setFile(null)
+      if (preview) URL.revokeObjectURL(preview)
+      setPreview(null)
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Erreur upload"
+      const msg = err instanceof Error ? err.message : "Erreur conversion image"
       setError(msg)
       onError?.(msg)
     } finally {
@@ -151,6 +233,8 @@ export function MediaDropzone({
     setPreviewIsVideo(false)
     setUploaded(false)
     setError(null)
+    setPastedUrl("")
+    setPastedError(null)
   }
 
   const formatSize = (bytes: number) => {
@@ -160,7 +244,7 @@ export function MediaDropzone({
   }
 
   return (
-    <div className={`space-y-2 ${className}`}>
+    <div className={`space-y-3 ${className}`}>
       {/* ─── Zone drag & drop ─── */}
       <div
         {...getRootProps()}
@@ -233,7 +317,7 @@ export function MediaDropzone({
             </div>
             <div className="text-center">
               <p className="text-sm text-white/60 font-medium">
-                Glissez un media ou cliquez ici
+                Glissez une image ou cliquez ici
               </p>
               <p className="text-xs text-white/30 mt-1">
                 {accept === "image" && ".webp .jpg .png"}
@@ -253,6 +337,9 @@ export function MediaDropzone({
                   fill
                   className="object-cover opacity-50"
                   unoptimized
+                  onError={() => {
+                    // Silently fail for current preview
+                  }}
                 />
               </div>
             )}
@@ -260,7 +347,60 @@ export function MediaDropzone({
         )}
       </div>
 
-      {/* ─── Erreur ─── */}
+      {/* ─── CHAMP POUR COLLER URL ─── */}
+      {accept === "image" && (
+        <div className="space-y-2 p-3 rounded-lg bg-white/[0.02] border border-white/5">
+          <label className="text-xs text-white/60 flex items-center gap-2">
+            <Copy className="h-3.5 w-3.5" />
+            Ou coller une URL d&apos;image
+          </label>
+          <div className="flex gap-2">
+            <Input
+              value={pastedUrl}
+              onChange={(e) => {
+                setPastedUrl(e.target.value)
+                setPastedError(null)
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handlePasteUrl()
+              }}
+              placeholder="https://... ou data:image/webp;base64,..."
+              className="bg-black/30 border-white/10 text-white text-xs placeholder:text-white/20 flex-1"
+            />
+            <Button
+              size="sm"
+              onClick={handlePasteUrl}
+              disabled={!pastedUrl.trim() || uploading}
+              className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs h-9 px-3"
+            >
+              {uploading ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                "Valider"
+              )}
+            </Button>
+          </div>
+          {pastedError && (
+            <div className="flex items-center gap-2 text-xs text-red-400 px-1">
+              <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+              <span>{pastedError}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ─── ALERTE VIDEO BUNNY ─── */}
+      {accept !== "image" && (
+        <div className="flex items-start gap-2 p-3 rounded-lg bg-blue-500/5 border border-blue-500/20 text-xs">
+          <AlertCircle className="h-3.5 w-3.5 text-blue-400 shrink-0 mt-0.5" />
+          <span className="text-blue-300">
+            Les vidéos nécessitent Bunny.net pour être utilisées en production.
+            Configurez d&apos;abord les clés Bunny dans votre environnement Render.
+          </span>
+        </div>
+      )}
+
+      {/* ─── Erreur drag & drop ─── */}
       {error && (
         <div className="flex items-center gap-2 text-xs text-red-400 px-1">
           <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
@@ -272,7 +412,7 @@ export function MediaDropzone({
       {uploaded && !error && (
         <div className="flex items-center gap-2 text-xs text-emerald-400 px-1">
           <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
-          <span>Media enregistre avec succes</span>
+          <span>Image enregistrée avec succès (stockée côté client)</span>
         </div>
       )}
 
@@ -288,7 +428,7 @@ export function MediaDropzone({
             {uploading ? (
               <>
                 <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />
-                Upload…
+                Conversion…
               </>
             ) : (
               <>
@@ -324,7 +464,7 @@ export function MediaDropzone({
           }}
           className="text-white/40 hover:text-white text-xs h-7"
         >
-          Remplacer par un autre media
+          Remplacer par une autre image
         </Button>
       )}
     </div>
