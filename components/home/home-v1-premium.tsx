@@ -68,9 +68,9 @@ export function HomeV1Premium() {
     <div className="min-h-screen bg-black text-white">
       <VisualHeader />
 
-      {/* ══════════════════════════════════════════════════════════════[...]
+      {/* ══════════════════════════════════════════════════════════════ */}
       {/* SECTION 1 — HERO IMMERSIF AVEC IMAGE CINEMATIQUE                  */}
-      {/* ══════════════════════════════════════════════════════════════[...]
+      {/* ══════════════════════════════════════════════════════════════ */}
       <section className="relative min-h-[90vh] flex items-center justify-center px-6 overflow-hidden">
         {/* Image cinema noir vintage en arriere-plan */}
         <div className="absolute inset-0 z-0">
@@ -130,7 +130,7 @@ export function HomeV1Premium() {
           </p>
 
           {/* CTA principal unique */}
-<Link href="/explore">
+          <Link href="/explore">
             <Button
               size="lg"
               className="text-white px-10 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105 hover:opacity-90"
@@ -146,9 +146,9 @@ export function HomeV1Premium() {
         </div>
       </section>
 
-      {/* ═════════════════════════════════════════════════════════════
+      {/* ═════════════════════════════════════════════════════════════ */}
       {/* SECTION 2 — TROIS CONCEPTS MINIMALISTES                           */}
-      {/* ═════════════════════════════════════════════════════════════
+      {/* ═════════════════════════════════════════════════════════════ */}
       <section className="py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
@@ -194,9 +194,9 @@ export function HomeV1Premium() {
         </div>
       </section>
 
-      {/* ═════════════════════════════════════════════════════════════
+      {/* ═════════════════════════════════════════════════════════════ */}
       {/* SECTION 3 — TEASER VISUEL (grille statique 5 affiches)            */}
-      {/* ═════════════════════════════════════════════════════════════
+      {/* ═════════════════════════════════════════════════════════════ */}
       <section className="py-24 px-6 border-t border-white/[0.06]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
@@ -240,9 +240,9 @@ export function HomeV1Premium() {
         </div>
       </section>
 
-      {/* ═════════════════════════════════════════════════════════════
+      {/* ═════════════════════════════════════════════════════════════ */}
       {/* SECTION 4 — CTA FINAL                                             */}
-      {/* ═════════════════════════════════════════════════════════════
+      {/* ═════════════════════════════════════════════════════════════ */}
       <section className="py-32 px-6 border-t border-white/[0.06] relative overflow-hidden">
         {/* Subtile aurore fuchsia en arriere-plan */}
         <div
@@ -262,7 +262,8 @@ export function HomeV1Premium() {
             Créez votre compte gratuitement et commencez à explorer,<br className="hidden md:block" />
             soutenir et créer dès aujourd'hui.
           </p>
-<Link href="/signup">
+
+          <Link href="/signup">
             <Button
               size="lg"
               className="text-white px-12 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105 hover:opacity-90"
@@ -276,6 +277,7 @@ export function HomeV1Premium() {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
+
           <p className="text-white/30 text-sm mt-6 font-light">
             Gratuit · Sans engagement · Sans intermédiaire
           </p>
