@@ -15,6 +15,7 @@ import {
   BarChart3,
   Users,
   Crown,
+  UserCircle,
   Settings,
 } from "lucide-react"
 import useEmblaCarousel from "embla-carousel-react"
@@ -65,7 +66,7 @@ const SAVOIR_ICONS: Record<string, () => React.ReactElement> = {
  * - Dashboard V2
  * - Projets V2
  * - Contributeurs V2
- * - Créateurs V2
+ * - Profils V2
  * - Trust Score
  * - VIXUpoints
  * - Paramètres V2
@@ -167,7 +168,7 @@ function V2NavbarTabs() {
     { label: "Dashboard V2", href: "/dashboard", icon: BarChart3 },
     { label: "Projets V2", href: "/explore", icon: Play },
     { label: "Contributeurs V2", href: "/top-contributors", icon: Users },
-    { label: "Créateurs V2", href: "/guide-profiles", icon: Crown },
+    { label: "Profils V2", href: "/guide-profiles", icon: UserCircle },
     { label: "Trust Score", href: "/trust-score", icon: Star },
     { label: "VIXUpoints", href: "/dashboard/vixupoints", icon: Sparkles },
     { label: "Paramètres V2", href: "/dashboard/settings", icon: Settings },
