@@ -98,13 +98,12 @@ export function HomeV1Premium() {
           </p>
 
           {/* CTA principal unique */}
-<Link href="/explore">
+          <Link href="/explore">
             <Button
               size="lg"
-              className="text-white px-10 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105 hover:opacity-90"
+              className="bg-white text-black hover:bg-white/90 px-10 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105"
               style={{
-                backgroundImage: "linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #3b82f6 100%)",
-                boxShadow: "0 12px 40px -8px rgba(168, 85, 247, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.1) inset",
+                boxShadow: "0 12px 40px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1) inset",
               }}
             >
               Découvrir VIXUAL
@@ -230,14 +229,13 @@ export function HomeV1Premium() {
             Créez votre compte gratuitement et commencez à explorer,<br className="hidden md:block" />
             soutenir et créer dès aujourd'hui.
           </p>
-<Link href="/signup">
+          <Link href="/signup">
             <Button
               size="lg"
-              className="text-white px-12 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105 hover:opacity-90"
+              className="bg-fuchsia-600 hover:bg-fuchsia-500 text-white px-12 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105"
               style={{
-                backgroundImage: "linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #3b82f6 100%)",
                 boxShadow:
-                  "0 12px 40px -8px rgba(168, 85, 247, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08) inset",
+                  "0 12px 40px -8px rgba(217, 70, 239, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08) inset",
               }}
             >
               Ouvrir mon compte

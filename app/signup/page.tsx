@@ -140,6 +140,30 @@ export default function SignupPage() {
           <CardHeader className="text-center">
             <CardTitle className="text-2xl text-white">
               {"Créer un compte"}
+              <p
+<p
+  className="mx-auto my-5 max-w-2xl text-center text-lg font-semibold leading-relaxed md:text-xl"
+  style={{
+    backgroundImage:
+      "linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #3b82f6 100%)",
+    WebkitBackgroundClip: "text",
+    backgroundClip: "text",
+    color: "transparent",
+  }}
+>
+  DEPOSEZ vos films, vos sons, vos écrits et tirez parti de vos droits d'auteur
+</p>
+  className="mx-auto my-5 max-w-2xl text-center text-lg font-semibold leading-relaxed md:text-xl"
+  style={{
+    backgroundImage:
+      "linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #3b82f6 100%)",
+    WebkitBackgroundClip: "text",
+    backgroundClip: "text",
+    color: "transparent",
+  }}
+>
+  DEPOSEZ vos films, vos sons, vos écrits et tirez parti de vos droits d&apos;auteur
+</p>
             </CardTitle>
             <p className="text-white/55 text-sm italic mt-2 text-center">Vois-les avant tout le monde.</p>
             <p className="text-white/60 mt-2">
