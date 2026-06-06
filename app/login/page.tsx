@@ -32,7 +32,25 @@ export default function LoginPage() {
 
     try {
       await login(formData.email, formData.password)
-      router.push("/dashboard")
+
+      // ADMIN REDIRECT CHECK
+      const adminEmail = (
+        process.env.NEXT_PUBLIC_ADMIN_EMAIL ||
+        "jocelyndru@gmail.com"
+      ).toLowerCase()
+
+      const currentEmail = formData.email.trim().toLowerCase()
+
+      console.log("ADMIN REDIRECT CHECK", {
+        email: currentEmail,
+        adminEmail,
+      })
+
+      if (currentEmail === adminEmail) {
+        router.replace("/admin")
+      } else {
+        router.replace("/dashboard")
+      }
     } catch {
       setError("Identifiants incorrects. Veuillez réessayer.")
     } finally {

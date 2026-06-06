@@ -10,7 +10,8 @@
  *   3. Teaser visuel — 5 affiches statiques pour montrer le catalogue
  *   4. CTA final — Rejoindre l'aventure → Ouvrir mon compte
  *
- * Image hero V1 : /images/hero-v1-neon.jpg (rue cinema vintage avec neons)
+ * Image hero V1 : charge depuis homepageConfig.hero.image (gérée via Admin)
+ * Fallback : /images/hero-v1-neon.jpg si la config est vide
  */
 "use client"
 
@@ -21,6 +22,8 @@ import { Button } from "@/components/ui/button"
 import { VisualHeader } from "@/components/vixual-header"
 import { Footer } from "@/components/footer"
 import { V1_SECTIONS } from "@/lib/mock-data-v1"
+import { useEffect, useState } from "react"
+import { getHomepageConfig } from "@/lib/homepage-config"
 
 // 5 affiches de teaser : 3 films + 1 podcast + 1 livre (un par univers)
 const TEASER_ITEMS = [
@@ -32,18 +35,47 @@ const TEASER_ITEMS = [
 ].filter(Boolean)
 
 export function HomeV1Premium() {
+  const [heroImage, setHeroImage] = useState<string>("/images/hero-v1-neon.jpg")
+
+  useEffect(() => {
+    // ✓ Charger la config Homepage V1 depuis Admin
+    const homepageConfig = getHomepageConfig()
+    console.log("HERO CONFIG", homepageConfig.hero)
+    console.log("HERO IMAGE", homepageConfig.hero.image)
+
+    // Si homepageConfig.hero.image existe et n'est pas vide → l'utiliser
+    if (homepageConfig.hero.image && homepageConfig.hero.image.trim()) {
+      setHeroImage(homepageConfig.hero.image)
+    }
+    // Sinon → fallback vers l'image par défaut
+
+    // Écouter les changements depuis l'Admin
+    const handleConfigUpdate = () => {
+      const updatedConfig = getHomepageConfig()
+      console.log("HERO CONFIG UPDATED", updatedConfig.hero)
+      if (updatedConfig.hero.image && updatedConfig.hero.image.trim()) {
+        setHeroImage(updatedConfig.hero.image)
+      }
+    }
+
+    window.addEventListener("vixual-homepage-config-updated", handleConfigUpdate)
+    return () => {
+      window.removeEventListener("vixual-homepage-config-updated", handleConfigUpdate)
+    }
+  }, [])
+
   return (
     <div className="min-h-screen bg-black text-white">
       <VisualHeader />
 
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════ */}
       {/* SECTION 1 — HERO IMMERSIF AVEC IMAGE CINEMATIQUE                  */}
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════ */}
       <section className="relative min-h-[90vh] flex items-center justify-center px-6 overflow-hidden">
         {/* Image cinema noir vintage en arriere-plan */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/hero-v1-neon.jpg"
+            src={heroImage}
             alt="Rue cinema vintage avec enseignes neon"
             fill
             priority
@@ -101,9 +133,10 @@ export function HomeV1Premium() {
           <Link href="/explore">
             <Button
               size="lg"
-              className="bg-white text-black hover:bg-white/90 px-10 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105"
+              className="text-white px-10 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105 hover:opacity-90"
               style={{
-                boxShadow: "0 12px 40px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1) inset",
+                backgroundImage: "linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #3b82f6 100%)",
+                boxShadow: "0 12px 40px -8px rgba(168, 85, 247, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.1) inset",
               }}
             >
               Découvrir VIXUAL
@@ -113,9 +146,9 @@ export function HomeV1Premium() {
         </div>
       </section>
 
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ═════════════════════════════════════════════════════════════ */}
       {/* SECTION 2 — TROIS CONCEPTS MINIMALISTES                           */}
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ═════════════════════════════════════════════════════════════ */}
       <section className="py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
@@ -161,9 +194,9 @@ export function HomeV1Premium() {
         </div>
       </section>
 
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ═════════════════════════════════════════════════════════════ */}
       {/* SECTION 3 — TEASER VISUEL (grille statique 5 affiches)            */}
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ═════════════════════════════════════════════════════════════ */}
       <section className="py-24 px-6 border-t border-white/[0.06]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
@@ -207,9 +240,9 @@ export function HomeV1Premium() {
         </div>
       </section>
 
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ═════════════════════════════════════════════════════════════ */}
       {/* SECTION 4 — CTA FINAL                                             */}
-      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* ═════════════════════════════════════════════════════════════ */}
       <section className="py-32 px-6 border-t border-white/[0.06] relative overflow-hidden">
         {/* Subtile aurore fuchsia en arriere-plan */}
         <div
@@ -229,19 +262,22 @@ export function HomeV1Premium() {
             Créez votre compte gratuitement et commencez à explorer,<br className="hidden md:block" />
             soutenir et créer dès aujourd'hui.
           </p>
+
           <Link href="/signup">
             <Button
               size="lg"
-              className="bg-fuchsia-600 hover:bg-fuchsia-500 text-white px-12 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105"
+              className="text-white px-12 h-14 text-lg font-semibold rounded-full transition-all hover:scale-105 hover:opacity-90"
               style={{
+                backgroundImage: "linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #3b82f6 100%)",
                 boxShadow:
-                  "0 12px 40px -8px rgba(217, 70, 239, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08) inset",
+                  "0 12px 40px -8px rgba(168, 85, 247, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08) inset",
               }}
             >
               Ouvrir mon compte
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
+
           <p className="text-white/30 text-sm mt-6 font-light">
             Gratuit · Sans engagement · Sans intermédiaire
           </p>

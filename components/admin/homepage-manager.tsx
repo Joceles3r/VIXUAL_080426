@@ -7,6 +7,13 @@
  * Phase 1 : chemins d'images (URL externe ou /uploads/...) + aperçu.
  * Phase future : upload réel via API + Bunny.
  *
+ * AMÉLIORATIONS PHASE 1 :
+ * - Images sans Bunny : drag & drop → dataURL côté navigateur
+ * - Champ URL pour coller directement les images
+ * - Conversion automatique d'images en dataURL (max 2 Mo)
+ * - Fallback obligatoire vers image actuelle si erreur
+ * - Vidéos restent bloquées jusqu'à Bunny
+ *
  * Accès :
  *   - ADMIN/PATRON : tout
  *   - Employés avec permission `manage_homepage` : tout sauf permissions
@@ -46,6 +53,7 @@ import {
   Lock,
   Upload,
   Film,
+  AlertCircle,
 } from "lucide-react"
 import Link from "next/link"
 import { MediaDropzone } from "@/components/admin/media-dropzone"
@@ -241,6 +249,9 @@ export function HomepageManager() {
                 fill
                 className="object-cover"
                 unoptimized
+                onError={() => {
+                  // Silently handle broken images
+                }}
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-white/30 text-sm">
@@ -279,27 +290,28 @@ export function HomepageManager() {
               <Input
                 value={config.hero.image}
                 onChange={(e) => updateHero("image", e.target.value)}
-                placeholder="https://... ou /uploads/homepage/hero-v1.webp"
+                placeholder="https://... ou /uploads/homepage/hero-v1.webp ou data:image/..."
                 className="bg-black/30 border-white/10 text-white font-mono text-xs"
               />
               <p className="text-[10px] text-white/30">
-                Format recommande : 1920x1080 .webp, max 5 Mo.
+                Format recommandé : 1920x1080 .webp, max 5 Mo. Accepte aussi les dataURL et URLs https://.
               </p>
             </div>
 
-            {/* ─── Hero Video — Dropzone optionnelle ─── */}
+            {/* ─── Hero Video — Bloc avec alerte Bunny ─── */}
             <div className="md:col-span-2 space-y-3">
               <div className="flex items-center gap-2 mb-1">
                 <Film className="h-4 w-4 text-blue-400" />
-                <Label className="text-xs text-white/60">Video Hero (optionnelle — autoplay muted, boucle)</Label>
+                <Label className="text-xs text-white/60">Vidéo Hero (optionnelle — autoplay muted, boucle)</Label>
               </div>
-              <MediaDropzone
-                slot="hero-video"
-                currentUrl={config.hero.video}
-                accept="video"
-                maxSizeMb={20}
-                onUploaded={(path) => updateHero("video", path)}
-              />
+              <div className="p-3 rounded-lg bg-blue-500/5 border border-blue-500/20 flex items-start gap-2">
+                <AlertCircle className="h-4 w-4 text-blue-400 shrink-0 mt-0.5" />
+                <div className="text-xs text-blue-300">
+                  <strong>Phase 1 :</strong> Les vidéos nécessitent Bunny.net pour être configurées.
+                  Vous pouvez configurer l&apos;URL vidéo ci-dessous, mais elle ne s&apos;affichera que si Bunny est
+                  activé dans l&apos;environnement Render.
+                </div>
+              </div>
               <Input
                 value={config.hero.video ?? ""}
                 onChange={(e) => updateHero("video", e.target.value || undefined)}
@@ -312,7 +324,7 @@ export function HomepageManager() {
             </div>
 
             <div>
-              <Label className="text-xs text-white/60 mb-1.5 block">Categorie</Label>
+              <Label className="text-xs text-white/60 mb-1.5 block">Catégorie</Label>
               <Input
                 value={config.hero.category}
                 onChange={(e) => updateHero("category", e.target.value)}
@@ -451,10 +463,10 @@ export function HomepageManager() {
       <div className="flex items-start gap-3 p-4 rounded-lg bg-amber-500/5 border border-amber-500/20 text-sm">
         <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
         <div className="text-white/60">
-          <strong className="text-amber-300">Phase 1 :</strong> configuration sauvegardée
-          localement dans votre navigateur. La Phase 2 brancher l&apos;upload Bunny et la
-          synchronisation Neon. Ce module ne touche jamais Stripe, Auth, ni les règles
-          financières.
+          <strong className="text-amber-300">Phase 1 :</strong> Configuration sauvegardée
+          localement dans votre navigateur. Les images sont converties en dataURL côté navigateur (max 2 Mo pour
+          carrousels, 5 Mo pour hero). Phase 2 branchera l&apos;upload Bunny et la synchronisation Neon. Ce module ne
+          touche jamais Stripe, Auth, ni les règles financières.
         </div>
       </div>
     </div>
@@ -492,6 +504,9 @@ function CardEditor({
               className="object-cover"
               sizes="80px"
               unoptimized
+              onError={() => {
+                // Silently handle broken images
+              }}
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center text-white/30 text-[10px]">
@@ -538,7 +553,7 @@ function CardEditor({
         <Input
           value={card.image}
           onChange={(e) => onChange({ image: e.target.value })}
-          placeholder="URL image ou /uploads/..."
+          placeholder="URL image ou /uploads/... ou data:image/..."
           className="bg-black/30 border-white/10 text-white/80 text-xs h-7 font-mono"
         />
         <Input
