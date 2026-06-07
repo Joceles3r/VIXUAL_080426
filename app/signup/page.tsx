@@ -153,8 +153,8 @@ export default function SignupPage() {
   }}
 >
   {"DEPOSEZ vos films, vos sons, vos écrits et tirez parti de vos droits d'auteur"}
-</p>      
-            </CardTitle>
+</p>     
+</CardTitle>
             <p className="text-white/55 text-sm italic mt-2 text-center">Vois-les avant tout le monde.</p>
             <p className="text-white/60 mt-2">
               {platformVersion === "V1"
