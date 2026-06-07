@@ -140,8 +140,8 @@ export default function SignupPage() {
           <CardHeader className="text-center">
             <CardTitle className="text-2xl text-white">
               {"Créer un compte"}
-              <p
 <p
+
   className="mx-auto my-5 max-w-2xl text-center text-lg font-semibold leading-relaxed md:text-xl"
   style={{
     backgroundImage:
@@ -151,8 +151,7 @@ export default function SignupPage() {
     color: "transparent",
   }}
 >
-  DEPOSEZ vos films, vos sons, vos écrits et tirez parti de vos droits d'auteur
-</p>
+
   className="mx-auto my-5 max-w-2xl text-center text-lg font-semibold leading-relaxed md:text-xl"
   style={{
     backgroundImage:
