@@ -31,27 +31,27 @@ const TEASER_ITEMS = [
   {
     id: "v1-mini-thumb-1",
     title: "Films indépendants",
-    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-1.webp",
+    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-1.jpg",
   },
   {
     id: "v1-mini-thumb-2",
     title: "Podcasts immersifs",
-    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-2.webp",
+    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-2.jpg",
   },
   {
     id: "v1-mini-thumb-3",
     title: "Écrits originaux",
-    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-3.webp",
+    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-3.jpg",
   },
   {
     id: "v1-mini-thumb-4",
     title: "Savoir & Culture",
-    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-4.webp",
+    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-4.jpg",
   },
   {
     id: "v1-mini-thumb-5",
     title: "Créateurs VIXUAL",
-    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-5.webp",
+    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-5.jpg",
   },
 ]
 
