@@ -245,6 +245,7 @@ export function HomeV1Premium() {
                     sizes="(max-width: 768px) 50vw, 20vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
                     loading="lazy"
+                    unoptimized
                   />
                 )}
                 {/* Voile sombre pour lisibilité du titre */}
