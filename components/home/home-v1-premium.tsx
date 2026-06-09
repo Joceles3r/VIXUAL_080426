@@ -30,27 +30,27 @@ import { getHomepageConfig } from "@/lib/homepage-config"
 const TEASER_ITEMS = [
   {
     id: "v1-mini-thumb-1",
-    title: "Films indépendants",
+    title: "Nuit sans fin",
     thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-1.webp",
   },
   {
     id: "v1-mini-thumb-2",
-    title: "Podcasts immersifs",
+    title: "Virus Z",
     thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-2.webp",
   },
   {
     id: "v1-mini-thumb-3",
-    title: "Écrits originaux",
+    title: "Une fois de trop",
     thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-3.webp",
   },
   {
     id: "v1-mini-thumb-4",
-    title: "Savoir & Culture",
+    title: "Rendez-vous mystère",
     thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-4.webp",
   },
   {
     id: "v1-mini-thumb-5",
-    title: "Créateurs VIXUAL",
+    title: "Sniper vs Sniper",
     thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-5.webp",
   },
 ]
