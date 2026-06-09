@@ -25,14 +25,35 @@ import { V1_SECTIONS } from "@/lib/mock-data-v1"
 import { useEffect, useState } from "react"
 import { getHomepageConfig } from "@/lib/homepage-config"
 
-// 5 affiches de teaser : 3 films + 1 podcast + 1 livre (un par univers)
+// 5 affiches temporaires du mini-carrousel V1.
+// Avant Bunny : images locales dans /public/uploads/homepage/v1-mini-carousel/
 const TEASER_ITEMS = [
-  V1_SECTIONS[0]?.items[0],
-  V1_SECTIONS[0]?.items[1],
-  V1_SECTIONS[1]?.items[0],
-  V1_SECTIONS[2]?.items[0],
-  V1_SECTIONS[0]?.items[2],
-].filter(Boolean)
+  {
+    id: "v1-mini-thumb-1",
+    title: "Films indépendants",
+    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-1.jpg",
+  },
+  {
+    id: "v1-mini-thumb-2",
+    title: "Podcasts immersifs",
+    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-2.jpg",
+  },
+  {
+    id: "v1-mini-thumb-3",
+    title: "Écrits originaux",
+    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-3.jpg",
+  },
+  {
+    id: "v1-mini-thumb-4",
+    title: "Savoir & Culture",
+    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-4.jpg",
+  },
+  {
+    id: "v1-mini-thumb-5",
+    title: "Créateurs VIXUAL",
+    thumbnail: "/uploads/homepage/v1-mini-carousel/thumb-5.jpg",
+  },
+]
 
 export function HomeV1Premium() {
   const [heroImage, setHeroImage] = useState<string>("/images/hero-v1-neon.jpg")
