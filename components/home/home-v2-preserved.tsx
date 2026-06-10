@@ -394,6 +394,23 @@ function ContentCardV2({ item }: { item: DraggableCard }) {
 // ─── SAVOIR & CULTURE V2 ────────────────────────────────────────────────────
 
 function SavoirCultureSectionV2() {
+  const homepageConfig = getHomepageConfig()
+  const savoirCultureRow = homepageConfig.rows.find((row) => row.id === "row-savoir-culture")
+  const savoirCultureCards =
+    savoirCultureRow?.items?.length
+      ? savoirCultureRow.items
+          .filter((item) => item.enabled !== false)
+          .sort((a, b) => a.order - b.order)
+          .map((item) => ({
+            id: item.id,
+            title: item.title,
+            thumbnail: item.image,
+            tagline: "",
+            duration: "10 min max",
+            iconKey: "lightbulb",
+          }))
+      : V1_SAVOIR_CULTURE
+
   return (
     <section id="savoir-culture" className="vx-savoir">
       <div className="vx-savoir-bg" aria-hidden="true" />
@@ -411,7 +428,7 @@ function SavoirCultureSectionV2() {
         </div>
 
         <div className="vx-savoir-grid">
-          {V1_SAVOIR_CULTURE.map((card) => (
+          {savoirCultureCards.map((card) => (
             <SavoirCardV2 key={card.id} card={card} />
           ))}
         </div>
@@ -433,7 +450,7 @@ function SavoirCardV2({ card }: { card: V1SavoirCard }) {
   return (
     <Link href={`/explore?tab=savoir&id=${card.id}`} className="vx-savoir-card">
       <div className="vx-savoir-card-img-wrap">
-        <Image src={card.thumbnail || "/images/placeholder.svg"} alt={card.title} fill className="vx-savoir-card-img" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+        <Image src={card.thumbnail || "/images/placeholder.svg"} alt={card.title} fill className="vx-savoir-card-img" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" unoptimized />
         <div className="vx-savoir-card-overlay" aria-hidden="true" />
       </div>
 
