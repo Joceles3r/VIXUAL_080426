@@ -407,7 +407,7 @@ function SavoirCultureSectionV2() {
             thumbnail: item.image,
             tagline: "",
             duration: "10 min max",
-            iconKey: "lightbulb",
+            iconKey: "lightbulb" as const,
           }))
       : V1_SAVOIR_CULTURE
 
