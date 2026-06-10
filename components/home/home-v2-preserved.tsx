@@ -395,7 +395,7 @@ function ContentCardV2({ item }: { item: DraggableCard }) {
 
 function SavoirCultureSectionV2() {
   const homepageConfig = getHomepageConfig()
-  const savoirCultureRow = homepageConfig.rows.find((row) => row.id === "row-savoir-culture")
+  const savoirCultureRow = homepageConfig.rows.find((row) => row.id === "row-savoir" || row.id === "row-savoir-culture")
   const savoirCultureCards =
     savoirCultureRow?.items?.length
       ? savoirCultureRow.items
