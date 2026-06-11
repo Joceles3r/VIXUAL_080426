@@ -74,7 +74,9 @@ export function HomepageManager() {
   useEffect(() => {
     const loadedConfig = getHomepageConfig()
     const miniRow = DEFAULT_HOMEPAGE_CONFIG.rows.find((row) => row.id === "row-mini-v1")
+    const hasMiniRow = loadedConfig.rows.some((row) => row.id === "row-mini-v1")
 
+    if (miniRow && hasMiniRow === false) {
       setConfig({
         ...loadedConfig,
         rows: [...loadedConfig.rows, miniRow],
