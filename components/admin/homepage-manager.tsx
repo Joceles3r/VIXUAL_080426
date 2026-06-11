@@ -101,6 +101,33 @@ export function HomepageManager() {
     setConfig(next)
   }
 
+  const handleBackup = () => {
+    if (typeof window === "undefined") return
+    localStorage.setItem("vixual_homepage_config_v1_backup", JSON.stringify(config))
+    setSavedFlash(true)
+    setTimeout(() => setSavedFlash(false), 2500)
+  }
+
+  const handleRestoreBackup = () => {
+    if (typeof window === "undefined") return
+    const raw = localStorage.getItem("vixual_homepage_config_v1_backup")
+    if (!raw) {
+      alert("Aucune copie de secours disponible.")
+      return
+    }
+    if (!confirm("Restaurer la dernière copie de secours ? Les réglages actuels seront remplacés.")) return
+
+    try {
+      const restored = JSON.parse(raw) as HomepageConfigV1
+      const next = saveHomepageConfig(restored, user?.email ?? "anonymous")
+      setConfig(next)
+      setSavedFlash(true)
+      setTimeout(() => setSavedFlash(false), 2500)
+    } catch {
+      alert("La copie de secours est illisible ou corrompue.")
+    }
+  }
+
   const updateHero = <K extends keyof HomepageConfigV1["hero"]>(
     key: K,
     value: HomepageConfigV1["hero"][K],
@@ -206,6 +233,22 @@ export function HomepageManager() {
               <ExternalLink className="h-3 w-3 ml-1.5" />
             </Button>
           </Link>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleBackup}
+            className="border-blue-500/30 text-blue-300 hover:bg-blue-500/10"
+          >
+            Sauvegarder une copie
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleRestoreBackup}
+            className="border-purple-500/30 text-purple-300 hover:bg-purple-500/10"
+          >
+            Restaurer la copie
+          </Button>
           <Button
             variant="outline"
             size="sm"
