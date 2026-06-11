@@ -25,7 +25,7 @@ const PODCASTS = findSection("sect-podcasts")
 const LIVRES = findSection("sect-livres")
 
 // ─── TYPES ───
-export type HomepageRowType = "film" | "podcast" | "livre" | "savoir-culture"
+export type HomepageRowType = "film" | "podcast" | "livre" | "savoir-culture" | "mini-carousel-v1"
 
 export interface HomepageCard {
   id: string
@@ -117,6 +117,18 @@ export const DEFAULT_HOMEPAGE_CONFIG: HomepageConfigV1 = {
         enabled: true,
         order: i,
       })),
+    },
+    {
+      id: "row-mini-v1",
+      title: "Mini-carrousel V1",
+      enabled: true,
+      items: [
+        { id: "v1-mini-thumb-1", title: "Nuit sans fin", type: "mini-carousel-v1" as const, image: "/uploads/homepage/v1-mini-carousel/thumb-1.webp", href: "/explore", enabled: true, order: 0 },
+        { id: "v1-mini-thumb-2", title: "Virus Z", type: "mini-carousel-v1" as const, image: "/uploads/homepage/v1-mini-carousel/thumb-2.webp", href: "/explore", enabled: true, order: 1 },
+        { id: "v1-mini-thumb-3", title: "Une fois de trop", type: "mini-carousel-v1" as const, image: "/uploads/homepage/v1-mini-carousel/thumb-3.webp", href: "/explore", enabled: true, order: 2 },
+        { id: "v1-mini-thumb-4", title: "Rendez-vous mystère", type: "mini-carousel-v1" as const, image: "/uploads/homepage/v1-mini-carousel/thumb-4.webp", href: "/explore", enabled: true, order: 3 },
+        { id: "v1-mini-thumb-5", title: "Sniper vs Sniper", type: "mini-carousel-v1" as const, image: "/uploads/homepage/v1-mini-carousel/thumb-5.webp", href: "/explore", enabled: true, order: 4 },
+      ],
     },
     {
       id: "row-savoir",
