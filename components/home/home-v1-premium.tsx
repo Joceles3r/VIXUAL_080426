@@ -57,6 +57,7 @@ const TEASER_ITEMS = [
 
 export function HomeV1Premium() {
   const [heroImage, setHeroImage] = useState<string>("/images/hero-v1-neon.jpg")
+  const [teaserItems, setTeaserItems] = useState(TEASER_ITEMS)
 
   useEffect(() => {
     // ✓ Charger la config Homepage V1 depuis Admin
@@ -68,6 +69,20 @@ export function HomeV1Premium() {
     if (homepageConfig.hero.image && homepageConfig.hero.image.trim()) {
       setHeroImage(homepageConfig.hero.image)
     }
+    const miniRow = homepageConfig.rows.find((row) => row.id === "row-mini-v1")
+    if (miniRow?.items?.length) {
+      setTeaserItems(
+        miniRow.items
+          .filter((item) => item.enabled !== false)
+          .sort((a, b) => a.order - b.order)
+          .map((item) => ({
+            id: item.id,
+            title: item.title,
+            thumbnail: item.image,
+          })),
+      )
+    }
+
     // Sinon → fallback vers l'image par défaut
 
     // Écouter les changements depuis l'Admin
@@ -231,7 +246,7 @@ export function HomeV1Premium() {
 
           {/* Grille statique de 5 affiches — sans carousel pour rester minimaliste */}
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
-            {TEASER_ITEMS.map((item, idx) => (
+            {teaserItems.map((item, idx) => (
               <Link
                 key={item?.id ?? `teaser-${idx}`}
                 href="/explore"
