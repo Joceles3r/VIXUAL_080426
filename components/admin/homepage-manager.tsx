@@ -72,7 +72,17 @@ export function HomepageManager() {
 
   // Chargement initial côté client (localStorage)
   useEffect(() => {
-    setConfig(getHomepageConfig())
+    const loadedConfig = getHomepageConfig()
+    const miniRow = DEFAULT_HOMEPAGE_CONFIG.rows.find((row) => row.id === "row-mini-v1")
+
+      setConfig({
+        ...loadedConfig,
+        rows: [...loadedConfig.rows, miniRow],
+      })
+    } else {
+      setConfig(loadedConfig)
+    }
+
     setLoaded(true)
   }, [])
 
