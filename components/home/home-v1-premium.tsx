@@ -163,6 +163,16 @@ export function HomeV1Premium() {
             }}
           >
             Regarde — Soutiens — Participe
+            <p
+  className="mt-4 text-sm md:text-base lg:text-lg font-medium tracking-wide bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent"
+  style={{
+    textShadow: "0 2px 14px rgba(168, 85, 247, 0.25)",
+  }}
+>
+  déposez vos films, vos sons, vos écrits
+  <br />
+  ou soutenez les projets des créateurs
+</p>
           </p>
 
           {/* CTA principal unique */}
