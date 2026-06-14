@@ -24,6 +24,7 @@ import { Footer } from "@/components/footer"
 import { V1_SECTIONS } from "@/lib/mock-data-v1"
 import { useEffect, useState } from "react"
 import { getHomepageConfig } from "@/lib/homepage-config"
+import { SavoirCultureV1 } from "./savoir-culture-v1"
 
 // 5 affiches temporaires du mini-carrousel V1.
 // Avant Bunny : images locales dans /public/uploads/homepage/v1-mini-carousel/
@@ -288,7 +289,9 @@ export function HomeV1Premium() {
       </section>
 
       {/* ═════════════════════════════════════════════════════════════ */}
-      {/* SECTION 4 — CTA FINAL                                             */}
+      <SavoirCultureV1 />
+
+      {/* SECTION 5 — CTA FINAL                                             */}
       {/* ═════════════════════════════════════════════════════════════ */}
       <section className="py-32 px-6 border-t border-white/[0.06] relative overflow-hidden">
         {/* Subtile aurore fuchsia en arriere-plan */}
