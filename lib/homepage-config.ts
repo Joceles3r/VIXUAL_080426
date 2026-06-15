@@ -69,7 +69,7 @@ export const DEFAULT_HOMEPAGE_CONFIG: HomepageConfigV1 = {
     title: V1_FEATURED.title,
     description:
       "Découvrez les créateurs indépendants autrement. Films, podcasts, écrits et contenus culturels à explorer dans un univers streaming participatif.",
-    image: "/images/hero-v1.jpg",
+    image: "/images/hero-v1-neon.jpg",
     category: V1_FEATURED.genres?.[0]?.toUpperCase() ?? "DOCUMENTAIRE EXCLUSIF",
     ctaLabel: "Commencer gratuitement",
     ctaHref: "/explore",
