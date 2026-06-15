@@ -293,16 +293,9 @@ export const V1_SAVOIR_CULTURE: V1SavoirCard[] = [
     iconKey: "lightbulb",
     duration: "6 min",
   },
+
   {
     id: "sav-005",
-    title: "Les Dangers des Réseaux Toxiques",
-    tagline: "Protéger les jeunes du scroll toxique",
-    thumbnail: U("photo-1611532736597-de2d4265fba3"), // silhouette devant écran nuit
-    iconKey: "users",
-    duration: "10 min",
-  },
-  {
-    id: "sav-006",
     title: "Histoire du Cinéma",
     tagline: "Des frères Lumière à l'ère numérique",
     thumbnail: U("photo-1485846234645-a62644f84728"), // projecteur cinéma vintage
@@ -310,7 +303,7 @@ export const V1_SAVOIR_CULTURE: V1SavoirCard[] = [
     duration: "9 min",
   },
   {
-    id: "sav-007",
+    id: "sav-006",
     title: "Grandes Idées qui ont Changé le Monde",
     tagline: "Philosophie & société en immersion",
     thumbnail: U("photo-1488646953014-85cb44e25828"), // bibliothèque ancienne pensée
