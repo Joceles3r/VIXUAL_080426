@@ -107,16 +107,20 @@ export function SavoirCultureV1() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.03] p-6 text-center">
-          <h3 className="text-xl md:text-2xl font-semibold mb-4">Créer une mini-série</h3>
-          <p className="text-white/50 max-w-4xl mx-auto">
-            Les créateurs peuvent proposer des séries composées de plusieurs mini-épisodes.
-            VIXUAL recommande des épisodes de 10 minutes maximum afin de faciliter la découverte.
-          </p>
-          <p className="text-white/35 text-sm mt-4 max-w-3xl mx-auto">
-            Ne cherchez pas à tout expliquer en une seule vidéo. Faites découvrir votre sujet étape par étape.
-          </p>
-        </div>
+       <div className="mt-10 rounded-3xl border border-fuchsia-400/20 bg-gradient-to-br from-fuchsia-500/10 via-purple-500/10 to-blue-500/10 p-6 text-center shadow-[0_0_40px_rgba(168,85,247,0.18)]">
+  <h3 className="text-xl md:text-2xl font-semibold mb-4 bg-gradient-to-r from-fuchsia-300 via-purple-300 to-blue-300 bg-clip-text text-transparent">
+    Créer une mini-série
+  </h3>
+
+  <p className="text-white/60 max-w-4xl mx-auto">
+    Les créateurs peuvent proposer des séries composées de plusieurs mini-épisodes.
+    VIXUAL recommande des épisodes de 10 minutes maximum afin de faciliter la découverte.
+  </p>
+
+  <p className="text-sm mt-4 max-w-3xl mx-auto font-medium bg-gradient-to-r from-fuchsia-300 via-purple-300 to-blue-300 bg-clip-text text-transparent">
+    Ne cherchez pas à tout expliquer en une seule vidéo. Faites découvrir votre sujet étape par étape.
+  </p>
+</div>
 
         <div className="mt-8 text-center">
           <p className="text-white/35 text-sm">Podcasts et Écrits seront disponibles à partir de VIXUAL V2.</p>
