@@ -120,6 +120,13 @@ export function SavoirCultureV1() {
   <p className="text-sm mt-4 max-w-3xl mx-auto font-medium bg-gradient-to-r from-fuchsia-300 via-purple-300 to-blue-300 bg-clip-text text-transparent">
     Ne cherchez pas à tout expliquer en une seule vidéo. Faites découvrir votre sujet étape par étape.
   </p>
+
+  <p
+    className="mt-8 text-lg md:text-xl font-semibold italic text-center bg-gradient-to-r from-fuchsia-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent tracking-wide"
+    style={{ textShadow: "0 0 18px rgba(168,85,247,0.20)" }}
+  >
+    Une idée à la fois. Un épisode à la fois.
+  </p>
 </div>
 
         <div className="mt-8 text-center">
