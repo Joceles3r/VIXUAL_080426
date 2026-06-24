@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
@@ -23,21 +23,21 @@ const FALLBACK_CARDS: SavoirCard[] = [
 ]
 
 const descriptions: Record<string, string> = {
-  "Histoire": "Explorer les grandes périodes, les personnages et les événements marquants.",
-  "Monde & Civilisations": "Découvrir les cultures, les peuples et les grandes civilisations.",
-  "Sciences & Découvertes": "Comprendre les innovations, l'espace et les grandes découvertes.",
-  "Comprendre le Monde": "Économie, société, citoyenneté et actualité expliquées simplement.",
-  "Orientation & Métiers": "Découvrir des parcours professionnels inspirants.",
-  "Arts & Culture": "Explorer les œuvres, les artistes et le patrimoine culturel.",
+  "sav-001": "Explorer les grandes périodes, les personnages et les événements marquants.",
+  "sav-002": "Découvrir les cultures, les peuples et les grandes civilisations.",
+  "sav-003": "Comprendre les innovations, l'espace et les grandes découvertes.",
+  "sav-004": "Économie, société, citoyenneté et actualité expliquées simplement.",
+  "sav-005": "Découvrir des parcours professionnels inspirants.",
+  "sav-006": "Explorer les œuvres, les artistes et le patrimoine culturel.",
 }
 
 const icons: Record<string, string> = {
-  "Histoire": "🏛",
-  "Monde & Civilisations": "🌍",
-  "Sciences & Découvertes": "🚀",
-  "Comprendre le Monde": "💡",
-  "Orientation & Métiers": "🎓",
-  "Arts & Culture": "🎨",
+  "sav-001": "🏛",
+  "sav-002": "🌍",
+  "sav-003": "🚀",
+  "sav-004": "💡",
+  "sav-005": "🎓",
+  "sav-006": "🎨",
 }
 
 function loadSavoirCards(): SavoirCard[] {
@@ -93,13 +93,13 @@ export function SavoirCultureV1() {
                 <div className="relative h-40 w-full overflow-hidden bg-white/[0.04]">
                   <img src={category.image} alt={category.title} className="h-full w-full object-cover opacity-85 transition-transform duration-500 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
-                  <div className="absolute bottom-3 left-4 text-4xl">{icons[category.title] ?? "🧠"}</div>
+                  <div className="absolute bottom-3 left-4 text-4xl">{icons[category.id] ?? "🧠"}</div>
                 </div>
 
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-3">{category.title}</h3>
                   <p className="text-white/45 text-sm leading-relaxed">
-                    {descriptions[category.title] ?? "Découvrir des contenus courts, utiles et inspirants."}
+                    {descriptions[category.id] ?? "Découvrir des contenus courts, utiles et inspirants."}
                   </p>
                 </div>
               </div>
@@ -136,3 +136,4 @@ export function SavoirCultureV1() {
     </section>
   )
 }
+
