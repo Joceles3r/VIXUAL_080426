@@ -182,6 +182,15 @@ function ProjectCard({ content, size = "normal" }: { content: Content; size?: "n
   const isLocked = !isAuthed && !content.isFree
   const isGold = isVerifiedCreator(content.creatorName)
 
+  // Croissance "du jour" deterministe derivee de l'id (evite mismatch d'hydratation)
+  const dailyGrowth = (() => {
+    let hash = 0
+    for (let i = 0; i < content.id.length; i++) {
+      hash = (hash * 31 + content.id.charCodeAt(i)) | 0
+    }
+    return (Math.abs(hash) % 20) + 5
+  })()
+
   const typeConfig = {
     video: { bg: "bg-red-600/90", icon: Film, label: "Video" },
     text: { bg: "bg-amber-600/90", icon: BookOpen, label: "Livre" },
@@ -234,7 +243,7 @@ function ProjectCard({ content, size = "normal" }: { content: Content; size?: "n
             {progressPercent >= 80 && (
               <div className="absolute bottom-2 left-2 flex items-center gap-1 text-emerald-400 text-[10px] bg-emerald-500/20 px-2 py-0.5 rounded backdrop-blur-sm border border-emerald-500/30">
                 <Rocket className="h-3 w-3" />
-                +{Math.round(Math.random() * 20 + 5)}% aujourd'hui
+                +{dailyGrowth}% aujourd'hui
               </div>
             )}
             
@@ -979,9 +988,15 @@ function ExplorerContent() {
   }, [filteredContents])
 
   const forYou = useMemo(() => {
-    // Randomize for "personalized" feel
+    // Ordre "personnalise" deterministe (tri par hash d'id) pour eviter
+    // tout mismatch d'hydratation SSR/client.
+    const hashId = (id: string) => {
+      let h = 0
+      for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0
+      return Math.abs(h)
+    }
     return [...filteredContents]
-      .sort(() => Math.random() - 0.5)
+      .sort((a, b) => hashId(a.id) - hashId(b.id))
       .slice(0, 12)
   }, [filteredContents])
 
