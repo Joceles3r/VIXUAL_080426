@@ -14,13 +14,23 @@ export interface ProjectDepositDraft {
   title?: string
   shortDescription?: string
   longDescription?: string
+
   techType?: ProjectTechType
   category?: string
+
+  language?: string
+  country?: string
+  year?: number
+  duration?: string
+  ageRating?: string
+
   fullContentUrl?: string
   excerptUrl?: string
   thumbnailUrl?: string
   coverUrl?: string
+
   supportAmounts?: number[]
+
   legalAccepted?: boolean
   previewConfirmed?: boolean
 }
