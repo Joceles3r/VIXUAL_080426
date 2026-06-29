@@ -72,6 +72,27 @@ export function ProjectDepositWizard() {
         </div>
 
         <div>
+        <div className="space-y-4">
+  <h3 className="text-lg font-semibold text-white">Médias du projet</h3>
+
+  <input
+    className="w-full rounded bg-slate-800 p-3 text-white"
+    placeholder="URL ou futur upload du contenu complet"
+    onChange={(e) => setDraft({ ...draft, fullContentUrl: e.target.value })}
+  />
+
+  <input
+    className="w-full rounded bg-slate-800 p-3 text-white"
+    placeholder="URL ou futur upload de l'extrait gratuit"
+    onChange={(e) => setDraft({ ...draft, excerptUrl: e.target.value })}
+  />
+
+  <input
+    className="w-full rounded bg-slate-800 p-3 text-white"
+    placeholder="URL de la miniature ou de la couverture"
+    onChange={(e) => setDraft({ ...draft, thumbnailUrl: e.target.value })}
+  />
+</div>
           <p className="text-white font-medium mb-3">Type de projet</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {PROJECT_TYPES.map((type) => (
