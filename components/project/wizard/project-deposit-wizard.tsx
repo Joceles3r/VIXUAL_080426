@@ -60,6 +60,28 @@ export function ProjectDepositWizard() {
 
   return (
     <div className="space-y-6">
+          <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+        <div className="flex flex-wrap gap-3 text-sm">
+          {[
+            "1. Informations",
+            "2. Médias",
+            "3. Participation",
+            "4. Prévisualisation",
+            "5. Validation",
+          ].map((step, index) => (
+            <div
+              key={step}
+              className={`rounded-full px-4 py-2 border ${
+                index === 0
+                  ? "border-emerald-400 bg-emerald-500/20 text-emerald-300"
+                  : "border-white/10 text-white/40"
+              }`}
+            >
+              {step}
+            </div>
+          ))}
+        </div>
+      </div>
       <ProjectDepositProgress draft={draft} />
 
       <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-6 space-y-6">
