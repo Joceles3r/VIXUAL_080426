@@ -116,7 +116,7 @@ async function simulateCategory(
       COALESCE(SUM(i.amount_cents), 0) as gross_cents,
       COUNT(DISTINCT i.user_id) as investor_count
     FROM contents c
-    LEFT JOIN investments i ON i.content_id = c.id AND i.status = 'completed'
+    LEFT JOIN payments i ON i.content_id = c.id AND i.status = 'completed'
     WHERE c.category = ${category}
       AND c.status = 'funded'
       AND TO_CHAR(c.created_at, 'YYYY-MM') <= ${month}
@@ -146,7 +146,7 @@ async function simulateCategory(
     // Get top investors for this content
     const investors = await sql`
       SELECT user_id, role, SUM(amount_cents) as total
-      FROM investments
+      FROM payments
       WHERE content_id = ${content.id} AND status = 'completed'
       GROUP BY user_id, role
       ORDER BY total DESC

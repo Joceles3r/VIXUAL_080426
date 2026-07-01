@@ -8,7 +8,7 @@ import { apiError, ErrorCodes, withErrorHandler } from "@/lib/api-errors";
  * POST /api/payout/execute
  * 
  * Executes a payout cycle for a given content:
- * 1. Reads all investments for the content
+ * 1. Reads all payments for the content
  * 2. Ranks investors by total amount invested
  * 3. Feeds the payout engine with TOP10 investors, TOP10 creators, and ranks 11-100
  * 4. Writes payout_cycles, ledger_entries, and credits wallets
@@ -43,21 +43,21 @@ export const POST = withErrorHandler(async (req: Request) => {
     const grossEligibleCents = content.current_investment_cents as number;
 
     if (grossEligibleCents <= 0) {
-      return NextResponse.json({ error: "No investments to distribute" }, { status: 400 });
+      return NextResponse.json({ error: "No payments to distribute" }, { status: 400 });
     }
 
-    // Get all completed investments for this content, ranked by amount
+    // Get all completed payments for this content, ranked by amount
     const investments = await sql`
       SELECT user_id, SUM(amount_cents) as total_cents, 
              COUNT(*) as investment_count
-      FROM investments 
+      FROM payments 
       WHERE content_id = ${contentId} AND status = 'completed'
       GROUP BY user_id
       ORDER BY total_cents DESC
     `;
 
     if (investments.length === 0) {
-      return NextResponse.json({ error: "No completed investments found" }, { status: 400 });
+      return NextResponse.json({ error: "No completed payments found" }, { status: 400 });
     }
 
     // Get the content creator(s) - for now, single creator
@@ -171,7 +171,7 @@ export const POST = withErrorHandler(async (req: Request) => {
     // Store payout cycle
     await sql`
       INSERT INTO payout_cycles (cycle_id, content_id, gross_eligible_cents, platform_take_cents, platform_fee_cents, platform_residual_cents, total_user_payout_cents, status, computed_at)
-      VALUES (${result.cycleId}, ${contentId}, ${result.grossEligibleCents}, ${result.platformTakeCents}, ${result.platformFeeCents}, ${result.platformResidualCents}, ${result.totalUserPayoutCents}, 'computed', now())
+      VALUES (${result.cycleId}, ${contentId}, ${result.grossEligibleCents}, ${result.platformTakeCents}, ${result.platformFeeCents}, ${result.platformResidualCents}, ${result.totalUserPayoutCent[...]  
     `;
 
     // Get payout cycle id
@@ -182,7 +182,7 @@ export const POST = withErrorHandler(async (req: Request) => {
     for (const entry of result.ledgerEntries) {
       await sql`
         INSERT INTO ledger_entries (entry_id, payout_cycle_id, user_id, type, amount_cents, currency, status, meta, occurred_at)
-        VALUES (${entry.entryId}, ${payoutCycleDbId}, ${entry.userId || null}, ${entry.type}, ${entry.amountCents}, ${entry.currency}, ${entry.status}, ${JSON.stringify(entry.meta)}, ${entry.occurredAt})
+        VALUES (${entry.entryId}, ${payoutCycleDbId}, ${entry.userId || null}, ${entry.type}, ${entry.amountCents}, ${entry.currency}, ${entry.status}, ${JSON.stringify(entry.meta)}, ${entry.occu[...]
       `;
 
       // Credit user wallets for wallet_credit_gain entries

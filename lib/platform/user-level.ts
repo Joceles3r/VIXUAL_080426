@@ -39,7 +39,7 @@ export async function markCelebrationSeen(userId: string): Promise<void> {
 export async function evaluateAutoPromotion(userId: string): Promise<UserLevel | null> {
   const rows = await sql`
     SELECT u.user_level, u.trust_score, u.created_at, u.is_creator,
-      (SELECT COUNT(*) FROM investments WHERE user_id = u.id AND status = 'completed') AS contributions,
+      (SELECT COUNT(*) FROM payments WHERE user_id = u.id AND status = 'completed') AS contributions,
       (SELECT COUNT(*) FROM contents WHERE creator_id = u.id) AS publications
     FROM users u WHERE u.id = ${userId}::uuid LIMIT 1
   `
@@ -49,7 +49,7 @@ export async function evaluateAutoPromotion(userId: string): Promise<UserLevel |
   const trust = (u.trust_score as number) ?? 0
   const daysActive = Math.floor((Date.now() - new Date(u.created_at as string).getTime()) / 86400000)
   const contribs = Number(u.contributions ?? 0)
-  const pubs = Number(u.publications ?? 0)
+  const pubs = Number(u.publication ?? 0)
 
   if (level === 1) {
     const r = PROMOTION_RULES.toLevel2
