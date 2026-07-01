@@ -137,9 +137,9 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
   const metadata = paymentIntent.metadata;
   
   if (metadata.type === "investment" && metadata.vixual_user_id) {
-    // Update investment status
+    // Update payment status
     await sql`
-      UPDATE investments 
+      UPDATE payments 
       SET status = 'completed', completed_at = NOW()
       WHERE stripe_payment_intent_id = ${paymentIntent.id}
     `;
@@ -192,7 +192,7 @@ async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
   });
   
   await sql`
-    UPDATE investments 
+    UPDATE payments 
     SET status = 'failed', error = ${paymentIntent.last_payment_error?.message || 'Payment failed'}
     WHERE stripe_payment_intent_id = ${paymentIntent.id}
   `;
@@ -211,7 +211,7 @@ async function handleChargeRefunded(charge: Stripe.Charge) {
     
   if (paymentIntentId) {
     await sql`
-      UPDATE investments 
+      UPDATE payments 
       SET status = 'refunded', refunded_at = NOW()
       WHERE stripe_payment_intent_id = ${paymentIntentId}
     `;
