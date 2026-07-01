@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { ProjectDepositProgress } from "@/components/project/project-deposit-progress"
+import { ProjectMediaFields } from "@/components/project/wizard/project-media-fields"
 import {
   PROJECT_SUPPORT_AMOUNTS,
   type ProjectDepositDraft,
@@ -188,32 +189,10 @@ export function ProjectDepositWizard() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                className="w-full rounded bg-slate-800 p-3 text-white"
-                placeholder="Langue — ex : français"
-                value={draft.language ?? ""}
-                onChange={(e) => setDraft({ ...draft, language: e.target.value })}
-              />
-
-              <input
-                className="w-full rounded bg-slate-800 p-3 text-white"
-                placeholder="Pays — ex : France"
-                value={draft.country ?? ""}
-                onChange={(e) => setDraft({ ...draft, country: e.target.value })}
-              />
-
-              <input
-                className="w-full rounded bg-slate-800 p-3 text-white"
-                placeholder="Année — ex : 2026"
-                type="number"
-                value={draft.year ?? ""}
-                onChange={(e) =>
-                  setDraft({
-                    ...draft,
-                    year: e.target.value ? Number(e.target.value) : undefined,
-                  })
-                }
-              />
+         <ProjectMediaFields
+  draft={draft}
+  setDraft={setDraft}
+/>
 
               <input
                 className="w-full rounded bg-slate-800 p-3 text-white"
