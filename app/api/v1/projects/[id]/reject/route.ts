@@ -5,29 +5,8 @@
  */
 
 import { NextRequest, NextResponse } from "next/server"
-import { jwtVerify } from "jose"
-import { JWT_SECRET } from "@/lib/auth/jwt"
 import * as projectService from "@/lib/projects/v1-project-service"
-import type { PermissionContext } from "@/lib/projects/v1-project"
-
-async function getAuthContext(req: NextRequest): Promise<PermissionContext | null> {
-  try {
-    const sessionCookie = req.cookies.get("vixual_session")
-    if (!sessionCookie?.value) return null
-
-    const { payload } = await jwtVerify(sessionCookie.value, JWT_SECRET)
-    const userId = payload.userId as string
-    const roles = (payload.roles as string[]) || []
-
-    return { userId, userRoles: roles, projectOwnerId: "" }
-  } catch {
-    return null
-  }
-}
-
-function errorResponse(message: string, status: number = 400) {
-  return NextResponse.json({ success: false, error: message }, { status })
-}
+import { getAuthContext, errorResponse } from "../../_lib/auth"
 
 export async function POST(
   req: NextRequest,
