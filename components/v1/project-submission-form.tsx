@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/components/ui/use-toast"
 import {
   buildProjectProgress,
   getProjectProgressPercent,
@@ -59,7 +59,7 @@ export default function ProjectSubmissionForm({ initialProject, isEditing = fals
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  const handleMediaUpload = async (mediaType: "excerptMedia" | "fullMedia", file: File) => {
+  const handleMediaUpload = async (mediaType: "coverImage" | "excerptMedia" | "fullMedia", file: File) => {
     try {
       const reader = new FileReader()
       reader.onload = (e) => {
@@ -85,7 +85,22 @@ export default function ProjectSubmissionForm({ initialProject, isEditing = fals
         body: JSON.stringify(formData),
       })
 
-      if (!res.ok) throw new Error("Save failed")
+      if (res.status === 401) {
+        toast({ title: "Non connecté", description: "Veuillez vous reconnecter", variant: "destructive" })
+        return
+      }
+      if (res.status === 403) {
+        toast({ title: "Accès refusé", description: "Vous n'avez pas les droits nécessaires", variant: "destructive" })
+        return
+      }
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => null)
+        const reason = body?.error || "Erreur inconnue"
+        console.error("[ProjectForm] handleSaveDraft failed:", reason)
+        toast({ title: "Erreur de sauvegarde", description: reason, variant: "destructive" })
+        return
+      }
 
       const result = await res.json()
       toast({ title: "✓ Brouillon sauvegardé" })
@@ -94,7 +109,8 @@ export default function ProjectSubmissionForm({ initialProject, isEditing = fals
         router.push(`/dashboard/v1-projects/${result.data.id}`)
       }
     } catch (error) {
-      toast({ title: "Erreur", description: "Impossible de sauvegarder", variant: "destructive" })
+      console.error("[ProjectForm] handleSaveDraft unexpected error:", error)
+      toast({ title: "Erreur", description: "Impossible de sauvegarder le brouillon", variant: "destructive" })
     } finally {
       setIsLoading(false)
     }
@@ -106,18 +122,39 @@ export default function ProjectSubmissionForm({ initialProject, isEditing = fals
       return
     }
 
+    if (!initialProject?.id) {
+      toast({ title: "Projet non enregistré", description: "Sauvegardez d'abord le brouillon avant de soumettre", variant: "destructive" })
+      return
+    }
+
     setIsLoading(true)
     try {
-      const res = await fetch(`/api/v1/projects/${initialProject?.id}/submit`, {
+      const res = await fetch(`/api/v1/projects/${initialProject.id}/submit`, {
         method: "POST",
       })
 
-      if (!res.ok) throw new Error("Submit failed")
+      if (res.status === 401) {
+        toast({ title: "Non connecté", description: "Veuillez vous reconnecter", variant: "destructive" })
+        return
+      }
+      if (res.status === 403) {
+        toast({ title: "Accès refusé", description: "Vous n'avez pas les droits nécessaires", variant: "destructive" })
+        return
+      }
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => null)
+        const reason = body?.error || "Erreur inconnue"
+        console.error("[ProjectForm] handleSubmitForReview failed:", reason)
+        toast({ title: "Erreur de soumission", description: reason, variant: "destructive" })
+        return
+      }
 
       toast({ title: "✓ Projet soumis pour validation", description: "Un admin le validera bientôt" })
       router.push("/dashboard/v1-projects")
     } catch (error) {
-      toast({ title: "Erreur", description: "Impossible de soumettre", variant: "destructive" })
+      console.error("[ProjectForm] handleSubmitForReview unexpected error:", error)
+      toast({ title: "Erreur", description: "Impossible de soumettre le projet", variant: "destructive" })
     } finally {
       setIsLoading(false)
     }
@@ -259,7 +296,7 @@ export default function ProjectSubmissionForm({ initialProject, isEditing = fals
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => e.target.files?.[0] && handleMediaUpload("excerptMedia", e.target.files[0])}
+                  onChange={(e) => e.target.files?.[0] && handleMediaUpload("coverImage", e.target.files[0])}
                   className="hidden"
                   id="cover-input"
                 />
@@ -362,7 +399,7 @@ export default function ProjectSubmissionForm({ initialProject, isEditing = fals
 
         <Button
           onClick={handleSubmitForReview}
-          disabled={isLoading || !isReady}
+          disabled={isLoading || !isReady || !initialProject?.id}
           className="bg-purple-600 hover:bg-purple-700"
         >
           <CheckCircle className="w-4 h-4 mr-2" />
