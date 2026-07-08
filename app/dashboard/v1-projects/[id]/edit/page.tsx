@@ -2,7 +2,7 @@
  * VIXUAL V1-001 — Edit Project Page
  */
 
-import { ProjectSubmissionForm } from "@/components/v1/project-submission-form"
+import ProjectSubmissionForm from "@/components/v1/project-submission-form"
 
 export default function EditProjectPage({ params }: { params: Promise<{ id: string }> }) {
   return (

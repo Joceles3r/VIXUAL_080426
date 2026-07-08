@@ -265,7 +265,7 @@ export async function updateProjectStatus(
       query = sql`
         UPDATE projects
         SET status = ${newStatus}, moderation_note = ${moderationNote || null}, updated_at = now()
-        ${newStatus === "published" ? sql``, published_at = now()`` : sql``}
+        ${newStatus === "published" ? sql`, published_at = now()` : sql``}
         WHERE id = ${projectId}::uuid
         RETURNING *
       `;

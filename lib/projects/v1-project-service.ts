@@ -200,60 +200,62 @@ export async function updateProject(
     throw new ProjectStatusTransitionError(current.status, data.status)
   }
 
-  // Build update query
-  const updateFields: Record<string, unknown> = {}
-  const updates: string[] = []
+  // Build update query with positional parameters
+  const values: unknown[] = []
+  const setClauses: string[] = []
 
   if (data.title) {
-    updateFields.title = data.title
-    updates.push("title = ${title}")
+    values.push(data.title)
+    setClauses.push(`title = $${values.length}`)
   }
   if (data.description) {
-    updateFields.description = data.description
-    updates.push("description = ${description}")
+    values.push(data.description)
+    setClauses.push(`description = $${values.length}`)
   }
   if (data.category) {
-    updateFields.category = data.category
-    updates.push("category = ${category}")
+    values.push(data.category)
+    setClauses.push(`category = $${values.length}`)
   }
   if (data.subCategory !== undefined) {
-    updateFields.subCategory = data.subCategory
-    updates.push("sub_category = ${subCategory}")
+    values.push(data.subCategory)
+    setClauses.push(`sub_category = $${values.length}`)
   }
   if (data.coverImage !== undefined) {
-    updateFields.coverImage = data.coverImage
-    updates.push("cover_image = ${coverImage}")
+    values.push(data.coverImage)
+    setClauses.push(`cover_image = $${values.length}`)
   }
   if (data.excerptMedia !== undefined) {
-    updateFields.excerptMedia = data.excerptMedia
-    updates.push("excerpt_media = ${excerptMedia}")
+    values.push(data.excerptMedia)
+    setClauses.push(`excerpt_media = $${values.length}`)
   }
   if (data.fullMedia !== undefined) {
-    updateFields.fullMedia = data.fullMedia
-    updates.push("full_media = ${fullMedia}")
+    values.push(data.fullMedia)
+    setClauses.push(`full_media = $${values.length}`)
   }
   if (data.participationPrice !== undefined) {
-    updateFields.participationPrice = data.participationPrice
-    updates.push("participation_price = ${participationPrice}")
+    values.push(data.participationPrice)
+    setClauses.push(`participation_price = $${values.length}`)
   }
   if (data.status) {
-    updateFields.status = data.status
-    updates.push("status = ${status}")
+    values.push(data.status)
+    setClauses.push(`status = $${values.length}`)
   }
   if (data.moderationNote !== undefined) {
-    updateFields.moderationNote = data.moderationNote
-    updates.push("moderation_note = ${moderationNote}")
+    values.push(data.moderationNote)
+    setClauses.push(`moderation_note = $${values.length}`)
   }
 
-  updates.push("updated_at = NOW()")
+  setClauses.push("updated_at = NOW()")
 
-  if (updates.length === 1) {
+  if (setClauses.length === 1) {
     // Only updated_at changed, return current
     return current
   }
 
-  const updateQuery = `UPDATE projects SET ${updates.join(", ")} WHERE id = ${projectId} RETURNING *`
-  const result = await sql.unsafe(updateQuery, updateFields)
+  values.push(projectId)
+  const updateQuery = `UPDATE projects SET ${setClauses.join(", ")} WHERE id = $${values.length}::uuid RETURNING *`
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const result = (await (sql as any)(updateQuery, ...values)) as any[]
 
   if (result.length === 0) {
     throw new ProjectNotFoundError(projectId)
