@@ -1,7 +1,5 @@
 import React from "react"
 import type { Metadata, Viewport } from "next"
-import { Inter } from "next/font/google"
-
 import "./globals.css"
 import "./cinematic.css"
 import "@/styles/premium-streaming.css"
@@ -18,9 +16,6 @@ import { EnglishModeBanner } from "@/components/i18n/english-mode-banner"
 import { MaintenanceBanner } from "@/components/maintenance-banner"
 import { ReportProblemButton } from "@/components/report-problem-button"
 import { APP_NAME, APP_DESCRIPTION } from "@/lib/branding"
-
-const inter = Inter({ subsets: ["latin"] })
-
 export const metadata: Metadata = {
   title: `${APP_NAME} - Contribution Participative Audiovisuel, Litteraire & Podcast`,
   description: APP_DESCRIPTION,
@@ -55,7 +50,7 @@ export default function RootLayout({
         <meta name="google" content="notranslate" />
       </head>
       <body
-        className={`${inter.className} notranslate antialiased bg-slate-950 text-white`}
+        className={`font-sans notranslate antialiased bg-slate-950 text-white`}
         suppressHydrationWarning
       >
         <VersionThemeProvider>

@@ -3,9 +3,7 @@
  *
  * Trace chaque upload (image / video) avec progression, retry, statut.
  */
-import { neon } from "@neondatabase/serverless"
-
-const sql = neon(process.env.DATABASE_URL!)
+import { sql } from "@/lib/db"
 
 export type UploadStatus = "pending" | "uploading" | "completed" | "error" | "cancelled"
 export type UploadProvider = "local" | "bunny" | "firebase" | "blob"
