@@ -200,60 +200,55 @@ export async function updateProject(
     throw new ProjectStatusTransitionError(current.status, data.status)
   }
 
-  // Build update query
-  const updateFields: Record<string, unknown> = {}
-  const updates: string[] = []
-
-  if (data.title) {
-    updateFields.title = data.title
-    updates.push("title = ${title}")
-  }
-  if (data.description) {
-    updateFields.description = data.description
-    updates.push("description = ${description}")
-  }
-  if (data.category) {
-    updateFields.category = data.category
-    updates.push("category = ${category}")
-  }
-  if (data.subCategory !== undefined) {
-    updateFields.subCategory = data.subCategory
-    updates.push("sub_category = ${subCategory}")
-  }
-  if (data.coverImage !== undefined) {
-    updateFields.coverImage = data.coverImage
-    updates.push("cover_image = ${coverImage}")
-  }
-  if (data.excerptMedia !== undefined) {
-    updateFields.excerptMedia = data.excerptMedia
-    updates.push("excerpt_media = ${excerptMedia}")
-  }
-  if (data.fullMedia !== undefined) {
-    updateFields.fullMedia = data.fullMedia
-    updates.push("full_media = ${fullMedia}")
-  }
-  if (data.participationPrice !== undefined) {
-    updateFields.participationPrice = data.participationPrice
-    updates.push("participation_price = ${participationPrice}")
-  }
-  if (data.status) {
-    updateFields.status = data.status
-    updates.push("status = ${status}")
-  }
-  if (data.moderationNote !== undefined) {
-    updateFields.moderationNote = data.moderationNote
-    updates.push("moderation_note = ${moderationNote}")
-  }
-
-  updates.push("updated_at = NOW()")
-
-  if (updates.length === 1) {
-    // Only updated_at changed, return current
-    return current
-  }
-
-  const updateQuery = `UPDATE projects SET ${updates.join(", ")} WHERE id = ${projectId} RETURNING *`
-  const result = await sql.unsafe(updateQuery, updateFields)
+  // Requête statique et paramétrée : évite sql.unsafe et les injections SQL.
+  // Les tests `!== undefined` permettent aussi d'enregistrer explicitement null.
+  const result = await sql`
+    UPDATE projects
+    SET
+      title = CASE
+        WHEN ${data.title !== undefined} THEN ${data.title ?? null}
+        ELSE title
+      END,
+      description = CASE
+        WHEN ${data.description !== undefined} THEN ${data.description ?? null}
+        ELSE description
+      END,
+      category = CASE
+        WHEN ${data.category !== undefined} THEN ${data.category ?? null}
+        ELSE category
+      END,
+      sub_category = CASE
+        WHEN ${data.subCategory !== undefined} THEN ${data.subCategory ?? null}
+        ELSE sub_category
+      END,
+      cover_image = CASE
+        WHEN ${data.coverImage !== undefined} THEN ${data.coverImage ?? null}
+        ELSE cover_image
+      END,
+      excerpt_media = CASE
+        WHEN ${data.excerptMedia !== undefined} THEN ${data.excerptMedia ?? null}
+        ELSE excerpt_media
+      END,
+      full_media = CASE
+        WHEN ${data.fullMedia !== undefined} THEN ${data.fullMedia ?? null}
+        ELSE full_media
+      END,
+      participation_price = CASE
+        WHEN ${data.participationPrice !== undefined} THEN ${data.participationPrice ?? null}
+        ELSE participation_price
+      END,
+      status = CASE
+        WHEN ${data.status !== undefined} THEN ${data.status ?? null}
+        ELSE status
+      END,
+      moderation_note = CASE
+        WHEN ${data.moderationNote !== undefined} THEN ${data.moderationNote ?? null}
+        ELSE moderation_note
+      END,
+      updated_at = NOW()
+    WHERE id = ${projectId}::uuid
+    RETURNING *
+  `
 
   if (result.length === 0) {
     throw new ProjectNotFoundError(projectId)

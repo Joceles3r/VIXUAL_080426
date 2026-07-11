@@ -15,6 +15,30 @@ import {
   isProjectEditable,
 } from "@/lib/project/types";
 
+/**
+ * Convert database row to Project entity
+ */
+function mapRowToProject(row: any): Project {
+  return {
+    id: row.id,
+    ownerId: row.owner_id,
+    title: row.title,
+    slug: row.slug,
+    description: row.description,
+    category: row.category,
+    subCategory: row.sub_category,
+    coverImage: row.cover_image,
+    participationPrice: parseFloat(row.participation_price || 0),
+    status: row.status,
+    moderationNote: row.moderation_note,
+    isFeatured: row.is_featured || false,
+    createdAt: row.created_at?.toISOString() || new Date().toISOString(),
+    updatedAt: row.updated_at?.toISOString() || new Date().toISOString(),
+    publishedAt: row.published_at?.toISOString(),
+  };
+}
+
+
 // ════════════════════════════════════════════════════════════════════════════
 // CREATE
 // ════════════════════════════════════════════════════════════════════════════
@@ -262,13 +286,21 @@ export async function updateProjectStatus(
       `;
     } else {
       // Admin action
-      query = sql`
-        UPDATE projects
-        SET status = ${newStatus}, moderation_note = ${moderationNote || null}, updated_at = now()
-        ${newStatus === "published" ? sql``, published_at = now()`` : sql``}
-        WHERE id = ${projectId}::uuid
-        RETURNING *
-      `;
+      if (newStatus === "published") {
+        query = sql`
+          UPDATE projects
+          SET status = ${newStatus}, moderation_note = ${moderationNote || null}, updated_at = now(), published_at = now()
+          WHERE id = ${projectId}::uuid
+          RETURNING *
+        `;
+      } else {
+        query = sql`
+          UPDATE projects
+          SET status = ${newStatus}, moderation_note = ${moderationNote || null}, updated_at = now()
+          WHERE id = ${projectId}::uuid
+          RETURNING *
+        `;
+      }
     }
 
     const rows = await query;
@@ -349,28 +381,6 @@ async function logProjectAudit(
 // HELPERS
 // ════════════════════════════════════════════════════════════════════════════
 
-/**
- * Convert database row to Project entity
- */
-function mapRowToProject(row: any): Project {
-  return {
-    id: row.id,
-    ownerId: row.owner_id,
-    title: row.title,
-    slug: row.slug,
-    description: row.description,
-    category: row.category,
-    subCategory: row.sub_category,
-    coverImage: row.cover_image,
-    participationPrice: parseFloat(row.participation_price || 0),
-    status: row.status,
-    moderationNote: row.moderation_note,
-    isFeatured: row.is_featured || false,
-    createdAt: row.created_at?.toISOString() || new Date().toISOString(),
-    updatedAt: row.updated_at?.toISOString() || new Date().toISOString(),
-    publishedAt: row.published_at?.toISOString(),
-  };
-}
 
 /**
  * Check if user can manage this project

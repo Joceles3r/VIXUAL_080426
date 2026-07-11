@@ -4,9 +4,8 @@
  * Au lieu de DELETE definitif, on copie la ligne dans `archives` puis on supprime/marque.
  * Permet de restaurer plus tard via /admin/archives.
  */
-import { neon } from "@neondatabase/serverless"
+import { sql } from "@/lib/db"
 
-const sql = neon(process.env.DATABASE_URL!)
 
 export interface ArchiveRow {
   id: string

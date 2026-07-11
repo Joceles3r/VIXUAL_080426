@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/components/ui/use-toast"
 import {
   buildProjectProgress,
   getProjectProgressPercent,
@@ -352,7 +352,7 @@ export default function ProjectSubmissionForm({ initialProject, isEditing = fals
       <div className="flex gap-3 justify-between">
         <Button
           onClick={handleSaveDraft}
-          disabled={isLoading}
+          disabled={false}
           variant="outline"
           className="border-white/20"
         >
