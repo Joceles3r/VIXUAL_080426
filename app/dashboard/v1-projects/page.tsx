@@ -60,7 +60,7 @@ export default function PorteurDashboard() {
 
   useEffect(() => {
     if (!isAuthed || !user) {
-      router.push("/auth/login")
+      router.push("/login")
       return
     }
 
