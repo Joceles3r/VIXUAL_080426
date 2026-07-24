@@ -46,6 +46,8 @@ export default function ProjectSubmissionForm({ initialProject, isEditing = fals
 
   const [isLoading, setIsLoading] = useState(false)
   const [activeTab, setActiveTab] = useState<"info" | "media" | "review">("info")
+  // Persists the ID of a newly created project so subsequent saves/submits work correctly
+  const [savedProjectId, setSavedProjectId] = useState<string | undefined>(undefined)
 
   const progress = buildProjectProgress(formData)
   const progressPercent = getProjectProgressPercent(formData)
@@ -59,7 +61,7 @@ export default function ProjectSubmissionForm({ initialProject, isEditing = fals
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  const handleMediaUpload = async (mediaType: "excerptMedia" | "fullMedia", file: File) => {
+  const handleMediaUpload = async (mediaType: "coverImage" | "excerptMedia" | "fullMedia", file: File) => {
     try {
       const reader = new FileReader()
       reader.onload = (e) => {
@@ -76,8 +78,18 @@ export default function ProjectSubmissionForm({ initialProject, isEditing = fals
   const handleSaveDraft = async () => {
     setIsLoading(true)
     try {
-      const url = isEditing ? `/api/v1/projects/${initialProject?.id}` : "/api/v1/projects"
-      const method = isEditing ? "PUT" : "POST"
+      // Resolve the current project ID: provided via props or persisted after first save
+      const currentId = initialProject?.id || savedProjectId
+      const isUpdate = isEditing || !!currentId
+
+      if (isUpdate && !currentId) {
+        // Should not happen, but guard against undefined URL
+        toast({ title: "Erreur", description: "Identifiant du projet manquant", variant: "destructive" })
+        return
+      }
+
+      const url = isUpdate ? `/api/v1/projects/${currentId}` : "/api/v1/projects"
+      const method = isUpdate ? "PUT" : "POST"
 
       const res = await fetch(url, {
         method,
@@ -85,16 +97,27 @@ export default function ProjectSubmissionForm({ initialProject, isEditing = fals
         body: JSON.stringify(formData),
       })
 
-      if (!res.ok) throw new Error("Save failed")
+      let result: any = {}
+      try {
+        result = await res.json()
+      } catch {
+        // Ignore JSON parse errors; rely on res.ok below
+      }
 
-      const result = await res.json()
+      if (!res.ok) {
+        const errMsg = result?.error || result?.message || "Impossible de sauvegarder"
+        throw new Error(errMsg)
+      }
+
       toast({ title: "✓ Brouillon sauvegardé" })
 
-      if (!isEditing) {
-        router.push(`/dashboard/v1-projects/${result.data.id}`)
+      if (!isUpdate && result?.data?.id) {
+        // Persist the new project ID for subsequent saves/submits
+        setSavedProjectId(result.data.id)
+        router.push(`/dashboard/v1-projects/${result.data.id}/edit`)
       }
-    } catch (error) {
-      toast({ title: "Erreur", description: "Impossible de sauvegarder", variant: "destructive" })
+    } catch (error: any) {
+      toast({ title: "Erreur", description: error?.message || "Impossible de sauvegarder", variant: "destructive" })
     } finally {
       setIsLoading(false)
     }
@@ -106,18 +129,35 @@ export default function ProjectSubmissionForm({ initialProject, isEditing = fals
       return
     }
 
+    // Resolve the project ID; must have been saved at least once
+    const currentId = initialProject?.id || savedProjectId
+    if (!currentId) {
+      toast({ title: "Erreur", description: "Enregistrez d'abord le projet avant de le soumettre", variant: "destructive" })
+      return
+    }
+
     setIsLoading(true)
     try {
-      const res = await fetch(`/api/v1/projects/${initialProject?.id}/submit`, {
+      const res = await fetch(`/api/v1/projects/${currentId}/submit`, {
         method: "POST",
       })
 
-      if (!res.ok) throw new Error("Submit failed")
+      let result: any = {}
+      try {
+        result = await res.json()
+      } catch {
+        // Ignore JSON parse errors
+      }
+
+      if (!res.ok) {
+        const errMsg = result?.error || result?.message || "Impossible de soumettre"
+        throw new Error(errMsg)
+      }
 
       toast({ title: "✓ Projet soumis pour validation", description: "Un admin le validera bientôt" })
       router.push("/dashboard/v1-projects")
-    } catch (error) {
-      toast({ title: "Erreur", description: "Impossible de soumettre", variant: "destructive" })
+    } catch (error: any) {
+      toast({ title: "Erreur", description: error?.message || "Impossible de soumettre", variant: "destructive" })
     } finally {
       setIsLoading(false)
     }
@@ -259,7 +299,7 @@ export default function ProjectSubmissionForm({ initialProject, isEditing = fals
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => e.target.files?.[0] && handleMediaUpload("excerptMedia", e.target.files[0])}
+                  onChange={(e) => e.target.files?.[0] && handleMediaUpload("coverImage", e.target.files[0])}
                   className="hidden"
                   id="cover-input"
                 />

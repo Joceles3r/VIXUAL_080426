@@ -4,7 +4,7 @@
  * Page to create a new project
  */
 
-import { ProjectSubmissionForm } from "@/components/v1/project-submission-form"
+import ProjectSubmissionForm from "@/components/v1/project-submission-form"
 
 export default function NewProjectPage() {
   return (

@@ -262,13 +262,21 @@ export async function updateProjectStatus(
       `;
     } else {
       // Admin action
-      query = sql`
-        UPDATE projects
-        SET status = ${newStatus}, moderation_note = ${moderationNote || null}, updated_at = now()
-        ${newStatus === "published" ? sql``, published_at = now()`` : sql``}
-        WHERE id = ${projectId}::uuid
-        RETURNING *
-      `;
+      if (newStatus === "published") {
+        query = sql`
+          UPDATE projects
+          SET status = ${newStatus}, moderation_note = ${moderationNote || null}, updated_at = now(), published_at = now()
+          WHERE id = ${projectId}::uuid
+          RETURNING *
+        `;
+      } else {
+        query = sql`
+          UPDATE projects
+          SET status = ${newStatus}, moderation_note = ${moderationNote || null}, updated_at = now()
+          WHERE id = ${projectId}::uuid
+          RETURNING *
+        `;
+      }
     }
 
     const rows = await query;

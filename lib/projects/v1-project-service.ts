@@ -201,59 +201,27 @@ export async function updateProject(
   }
 
   // Build update query
-  const updateFields: Record<string, unknown> = {}
-  const updates: string[] = []
-
-  if (data.title) {
-    updateFields.title = data.title
-    updates.push("title = ${title}")
-  }
-  if (data.description) {
-    updateFields.description = data.description
-    updates.push("description = ${description}")
-  }
-  if (data.category) {
-    updateFields.category = data.category
-    updates.push("category = ${category}")
-  }
-  if (data.subCategory !== undefined) {
-    updateFields.subCategory = data.subCategory
-    updates.push("sub_category = ${subCategory}")
-  }
-  if (data.coverImage !== undefined) {
-    updateFields.coverImage = data.coverImage
-    updates.push("cover_image = ${coverImage}")
-  }
-  if (data.excerptMedia !== undefined) {
-    updateFields.excerptMedia = data.excerptMedia
-    updates.push("excerpt_media = ${excerptMedia}")
-  }
-  if (data.fullMedia !== undefined) {
-    updateFields.fullMedia = data.fullMedia
-    updates.push("full_media = ${fullMedia}")
-  }
-  if (data.participationPrice !== undefined) {
-    updateFields.participationPrice = data.participationPrice
-    updates.push("participation_price = ${participationPrice}")
-  }
-  if (data.status) {
-    updateFields.status = data.status
-    updates.push("status = ${status}")
-  }
-  if (data.moderationNote !== undefined) {
-    updateFields.moderationNote = data.moderationNote
-    updates.push("moderation_note = ${moderationNote}")
-  }
-
-  updates.push("updated_at = NOW()")
-
-  if (updates.length === 1) {
-    // Only updated_at changed, return current
+  if (Object.keys(data).length === 0) {
     return current
   }
 
-  const updateQuery = `UPDATE projects SET ${updates.join(", ")} WHERE id = ${projectId} RETURNING *`
-  const result = await sql.unsafe(updateQuery, updateFields)
+  // Merge data with current values so the query always updates all mutable fields
+  const result = await sql`
+    UPDATE projects SET
+      title              = ${data.title              ?? current.title},
+      description        = ${data.description        ?? current.description},
+      category           = ${data.category           ?? current.category},
+      sub_category       = ${data.subCategory        !== undefined ? data.subCategory : (current.subCategory ?? null)},
+      cover_image        = ${data.coverImage         !== undefined ? data.coverImage  : (current.coverImage ?? null)},
+      excerpt_media      = ${data.excerptMedia       !== undefined ? data.excerptMedia : (current.excerptMedia ?? null)},
+      full_media         = ${data.fullMedia          !== undefined ? data.fullMedia    : (current.fullMedia ?? null)},
+      participation_price = ${data.participationPrice ?? current.participationPrice},
+      status             = ${data.status             ?? current.status},
+      moderation_note    = ${data.moderationNote     !== undefined ? data.moderationNote : (current.moderationNote ?? null)},
+      updated_at         = NOW()
+    WHERE id = ${projectId}
+    RETURNING *
+  `
 
   if (result.length === 0) {
     throw new ProjectNotFoundError(projectId)
