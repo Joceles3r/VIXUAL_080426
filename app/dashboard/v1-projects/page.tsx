@@ -53,10 +53,7 @@ export default function PorteurDashboard() {
   const [projects, setProjects] = useState<ProjectV1[]>([])
   const [loading, setLoading] = useState(true)
   const [deleting, setDeleting] = useState<string | null>(null)
-
-  // ────────────────────────────────────────────────────────────────────────────
-  // EFFECTS
-  // ────────────────────────────────────────────────────────────────────────────
+  const [submittingProjectId, setSubmittingProjectId] = useState<string | null>(null)
 
   useEffect(() => {
     if (!isAuthed || !user) {
@@ -81,6 +78,51 @@ export default function PorteurDashboard() {
     }
   }
 
+  const handleSubmitProject = async (projectId: string) => {
+    if (!projectId?.trim()) {
+      toast({ title: "Erreur", description: "Identifiant projet invalide", variant: "destructive" })
+      return
+    }
+
+    setSubmittingProjectId(projectId)
+    try {
+      const res = await fetch(`/api/v1/projects/${projectId}/submit`, { method: "POST" })
+      let result: any = null
+      try {
+        result = await res.json()
+      } catch {
+        result = null
+      }
+
+      if (!res.ok) {
+        const message = result?.message || result?.error || "Impossible de soumettre le projet"
+        throw new Error(message)
+      }
+
+      setProjects((prev) =>
+        prev.map((project) =>
+          project.id === projectId
+            ? {
+                ...project,
+                ...(result?.data || {}),
+                status: (result?.data?.status || "pending") as ProjectStatus,
+              }
+            : project
+        )
+      )
+
+      toast({ title: "✓ Projet soumis", description: result?.message || "Le projet est en attente de validation" })
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: error instanceof Error ? error.message : "Impossible de soumettre le projet",
+        variant: "destructive",
+      })
+    } finally {
+      setSubmittingProjectId(null)
+    }
+  }
+
   const handleDelete = async (projectId: string) => {
     if (!confirm("Êtes-vous sûr de vouloir supprimer ce projet ?")) return
 
@@ -98,10 +140,6 @@ export default function PorteurDashboard() {
     }
   }
 
-  // ────────────────────────────────────────────────────────────────────────────
-  // RENDER
-  // ────────────────────────────────────────────────────────────────────────────
-
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-950 text-white p-6">
@@ -113,7 +151,6 @@ export default function PorteurDashboard() {
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">Mes projets</h1>
@@ -127,7 +164,6 @@ export default function PorteurDashboard() {
           </Link>
         </div>
 
-        {/* Empty State */}
         {projects.length === 0 && (
           <Card className="bg-slate-800/50 border-slate-700 text-center py-12">
             <Film className="w-12 h-12 mx-auto text-white/40 mb-3" />
@@ -136,7 +172,6 @@ export default function PorteurDashboard() {
           </Card>
         )}
 
-        {/* Projects Grid */}
         <div className="grid grid-cols-1 gap-4">
           {projects.map((project) => {
             const StatusIcon = STATUS_ICONS[project.status]
@@ -147,7 +182,6 @@ export default function PorteurDashboard() {
               <Card key={project.id} className="bg-slate-800/50 border-slate-700 overflow-hidden">
                 <CardContent className="p-0">
                   <div className="flex gap-4 p-4">
-                    {/* Cover Image */}
                     {project.coverImage && (
                       <div className="w-24 h-24 rounded flex-shrink-0 bg-slate-700 overflow-hidden">
                         <img
@@ -158,7 +192,6 @@ export default function PorteurDashboard() {
                       </div>
                     )}
 
-                    {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2 mb-2">
                         <h3 className="text-white font-semibold truncate">{project.title}</h3>
@@ -181,7 +214,6 @@ export default function PorteurDashboard() {
                       </div>
                     </div>
 
-                    {/* Actions */}
                     <div className="flex gap-2 flex-shrink-0">
                       {canEdit && (
                         <Link href={`/dashboard/v1-projects/${project.id}/edit`}>
@@ -201,10 +233,8 @@ export default function PorteurDashboard() {
                         <Button
                           size="sm"
                           variant="ghost"
-                          onClick={() => {
-                            // Would call submit endpoint
-                            toast({ title: "À implémenter: soumettre projet" })
-                          }}
+                          onClick={() => handleSubmitProject(project.id)}
+                          disabled={submittingProjectId === project.id}
                         >
                           <SendHorizontal className="w-4 h-4" />
                         </Button>
