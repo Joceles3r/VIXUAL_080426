@@ -54,16 +54,28 @@ export async function GET(req: NextRequest) {
     if (!ctx) {
       return errorResponse("Unauthorized", 401)
     }
-
     const url = new URL(req.url)
     const limit = Math.min(parseInt(url.searchParams.get("limit") || "50"), 100)
     const offset = Math.max(parseInt(url.searchParams.get("offset") || "0"), 0)
+    const statusFilter = url.searchParams.get("status")
+
+    // Mode admin : file de moderation (tous les projets en attente, tous createurs)
+    if (statusFilter === "pending" && ctx.userRoles.includes("admin")) {
+      const { projects, total } = await projectService.getPendingProjects(limit, offset)
+      return NextResponse.json({
+        success: true,
+        data: projects,
+        pagination: { limit, offset, total },
+      })
+    }
 
     const { projects, total } = await projectService.getProjectsByOwner(
       ctx.userId,
       limit,
       offset
     )
+
+
 
     return NextResponse.json({
       success: true,
