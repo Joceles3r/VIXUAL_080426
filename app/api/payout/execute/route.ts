@@ -50,7 +50,7 @@ export const POST = withErrorHandler(async (req: Request) => {
     const investments = await sql`
       SELECT user_id, SUM(amount_cents) as total_cents, 
              COUNT(*) as investment_count
-      FROM investments 
+       FROM payments
       WHERE content_id = ${contentId} AND status = 'completed'
       GROUP BY user_id
       ORDER BY total_cents DESC
