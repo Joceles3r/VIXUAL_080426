@@ -141,7 +141,7 @@ export async function POST(request: NextRequest) {
       userId: user.id,
       email: user.email,
       name: user.display_name,
-      role: user.role,
+      role: user.role,roles: [user.role],
       isAdmin: false,
     })
       .setProtectedHeader({ alg: "HS256" })
