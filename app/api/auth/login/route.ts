@@ -65,7 +65,16 @@ export async function POST(request: NextRequest) {
 
     // Check if user has admin role (patron)
     const userRole = user.role || "visitor"
-    const isAdmin = userRole === "admin"
+    const isAdmin = userRole === "admin" || userRole === "patron"
+
+    // Roles array (les routes v1-projects lisent payload.roles)
+    const rolesList: string[] = [userRole]
+    if (isAdmin && !rolesList.includes("admin")) {
+      rolesList.push("admin")
+    }
+    if (user.is_creator && !rolesList.includes("creator")) {
+      rolesList.push("creator")
+    }
 
     // Create JWT token
     const token = await new SignJWT({
@@ -73,6 +82,7 @@ export async function POST(request: NextRequest) {
       email: user.email,
       name: user.display_name,
       role: userRole,
+      roles: rolesList,
       isAdmin: isAdmin,
       isCreator: user.is_creator || false,
     })
