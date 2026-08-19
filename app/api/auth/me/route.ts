@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
 
     const user = users[0]
     const userRole = user.role || "visitor"
-    const isAdmin = userRole === "admin"
+    const isAdmin = userRole === "admin" || userRole === "patron"
 
     return NextResponse.json({
       user: {
