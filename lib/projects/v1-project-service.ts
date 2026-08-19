@@ -259,7 +259,7 @@ export async function submitProjectForReview(
   }
 
   // Can only submit from ready or rejected
-  if (!["ready", "rejected"].includes(current.status)) {
+  if (!["draft", "ready", "rejected"].includes(current.status)) {
     throw new ProjectStatusTransitionError(current.status, "pending")
   }
 

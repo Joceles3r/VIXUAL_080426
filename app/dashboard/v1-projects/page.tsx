@@ -176,7 +176,7 @@ export default function PorteurDashboard() {
           {projects.map((project) => {
             const StatusIcon = STATUS_ICONS[project.status]
             const canEdit = ["draft", "ready", "rejected"].includes(project.status)
-            const canSubmit = ["ready", "rejected"].includes(project.status)
+            const canSubmit = ["draft", "ready", "rejected"].includes(project.status)
 
             return (
               <Card key={project.id} className="bg-slate-800/50 border-slate-700 overflow-hidden">
