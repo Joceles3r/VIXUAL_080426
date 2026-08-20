@@ -6,6 +6,7 @@ import "./globals.css"
 import "./cinematic.css"
 import "@/styles/premium-streaming.css"
 import { AuthProvider } from "@/lib/auth-context"
+import { Toaster } from "@/components/ui/toaster"
 import { StripeModeBanner } from "@/components/stripe-mode-banner"
 import { CookieConsentBanner } from "@/components/cookie-consent"
 import { MinorClientGuard } from "@/components/minors/minor-client-guard"
@@ -77,6 +78,7 @@ export default function RootLayout({
           </ErrorBoundaryClient>
         
         </VersionThemeProvider>
+              <Toaster />
       </body>
     </html>
   )
