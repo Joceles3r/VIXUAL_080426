@@ -284,10 +284,15 @@ export async function approveProject(
     throw new ProjectStatusTransitionError(current.status, "published")
   }
 
-  return updateProject(projectId, ctx, {
+  const published = await updateProject(projectId, ctx, {
     status: "published",
     moderationNote,
   })
+
+  // Horodatage de la publication
+  await sql`UPDATE projects SET published_at = now() WHERE id = ${projectId}::uuid AND published_at IS NULL`
+
+  return { ...published, publishedAt: new Date().toISOString() }
 }
 
 /**
